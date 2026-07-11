@@ -1,315 +1,21 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>السلة - مجمع حمزه الشطري</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-
-body{
-background:#111;
-color:white;
-}
-
-
-header{
-
-background:#000;
-padding:20px;
-text-align:center;
-border-bottom:3px solid gold;
-
-}
-
-
-header h1{
-
-color:gold;
-
-}
-
-
-
-.menu{
-
-background:#222;
-padding:15px;
-text-align:center;
-
-}
-
-
-.menu a{
-
-color:white;
-text-decoration:none;
-margin:10px;
-padding:10px 20px;
-background:#111;
-border-radius:25px;
-display:inline-block;
-
-}
-
-
-
-.container{
-
-width:95%;
-margin:auto;
-padding:20px;
-
-}
-
-
-
-.cart-item{
-
-background:#222;
-padding:15px;
-border-radius:15px;
-margin-bottom:15px;
-display:flex;
-align-items:center;
-gap:15px;
-
-}
-
-
-
-.cart-item img{
-
-width:100px;
-height:100px;
-object-fit:cover;
-border-radius:10px;
-
-}
-
-
-
-.info{
-
-flex:1;
-
-}
-
-
-
-.info h3{
-
-color:gold;
-
-}
-
-
-
-.price{
-
-color:#00ff99;
-font-weight:bold;
-
-}
-
-
-
-.delete{
-
-background:#e91e63;
-color:white;
-border:none;
-padding:10px;
-border-radius:20px;
-cursor:pointer;
-
-}
-
-
-
-.total{
-
-background:#000;
-padding:20px;
-border-radius:15px;
-text-align:center;
-margin-top:20px;
-
-}
-
-
-
-.total h2{
-
-color:gold;
-
-}
-
-
-
-.order{
-
-display:block;
-background:#25D366;
-color:white;
-padding:15px;
-text-align:center;
-border-radius:30px;
-text-decoration:none;
-margin-top:15px;
-font-weight:bold;
-
-}
-
-
-
-footer{
-
-background:#000;
-text-align:center;
-padding:25px;
-margin-top:40px;
-
-}
-
-
-
-
-@media(max-width:600px){
-
-.cart-item{
-
-flex-direction:column;
-text-align:center;
-
-}
-
-
-.cart-item img{
-
-width:150px;
-height:150px;
-
-}
-
-}
-
-</style>
-
-</head>
-
-
-<body>
-
-
-
-<header>
-
-<h1>مجمع حمزه الشطري</h1>
-
-<p>سلة المشتريات</p>
-
-</header>
-
-
-
-
-<div class="menu">
-
-<a href="index.html">🏠 الرئيسية</a>
-
-<a href="products.html">🛒 المنتجات</a>
-
-<a href="favorites.html">❤️ المفضلة</a>
-
-</div>
-
-
-
-
-<div class="container">
-
-
-<div id="cartList"></div>
-
-
-
-<div class="total">
-
-<h2 id="total">
-المجموع: 0 د.ع
-</h2>
-
-
-<a class="order" id="whatsappOrder" href="#" target="_blank">
-
-💬 إرسال الطلب عبر واتساب
-
-</a>
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-<footer>
-
-<h3>مجمع حمزه الشطري</h3>
-
-<p>📍 ذي قار - الشطرة</p>
-
-<p>📞 07813555538</p>
-
-</footer>
-
-
-
-
-
-<script>
-
-
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
 
 let cartList = document.getElementById("cartList");
 
 let total = 0;
 
 
-
 function showCart(){
-
 
 cartList.innerHTML="";
 
-total=0;
+total = 0;
 
 
+if(cart.length === 0){
 
-if(cart.length===0){
-
-cartList.innerHTML="<h2 style='text-align:center;color:gold'>السلة فارغة</h2>";
+cartList.innerHTML =
+"<h2 style='text-align:center;color:gold'>السلة فارغة</h2>";
 
 }
 
@@ -318,10 +24,15 @@ cartList.innerHTML="<h2 style='text-align:center;color:gold'>السلة فارغ
 cart.forEach((item,index)=>{
 
 
-let price = Number(item.price) || 0;
+let price = Number(item.price.replace(/[^\d]/g,'')) || 0;
+
+let quantity = item.quantity || 1;
 
 
-total += price;
+let itemTotal = price * quantity;
+
+
+total += itemTotal;
 
 
 
@@ -337,15 +48,26 @@ cartList.innerHTML += `
 
 <h3>${item.name}</h3>
 
-<p class="price">${price.toLocaleString()} د.ع</p>
+<p class="price">
+السعر: ${price.toLocaleString()} د.ع
+</p>
+
+
+<p>
+الكمية: ${quantity}
+</p>
+
+
+<p class="price">
+المجموع: ${itemTotal.toLocaleString()} د.ع
+</p>
+
 
 </div>
 
 
 <button class="delete" onclick="removeItem(${index})">
-
 حذف
-
 </button>
 
 
@@ -356,19 +78,19 @@ cartList.innerHTML += `
 });
 
 
-document.getElementById("total").innerHTML=
 
+document.getElementById("total").innerHTML =
 "المجموع: "+total.toLocaleString()+" د.ع";
 
 
 
-document.getElementById("whatsappOrder").href=
+document.getElementById("whatsappOrder").href =
 
 "https://wa.me/9647813555538?text="+
 
 encodeURIComponent(
 
-"السلام عليكم، أريد طلب المنتجات الموجودة في السلة. المجموع: "+total+" د.ع"
+"السلام عليكم، أريد طلب المنتجات الموجودة في السلة. المجموع: "+total.toLocaleString()+" د.ع"
 
 );
 
@@ -390,12 +112,3 @@ showCart();
 
 
 showCart();
-
-
-</script>
-
-
-
-</body>
-
-</html>
