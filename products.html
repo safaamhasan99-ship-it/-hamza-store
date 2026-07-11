@@ -168,7 +168,60 @@ border-top:2px solid gold;
 }
 
 </style>
+/* تحسين العرض على الموبايل */
+@media (max-width:768px){
 
+.top-header{
+flex-direction:column;
+text-align:center;
+gap:10px;
+}
+
+.navbar{
+flex-direction:column;
+text-align:center;
+}
+
+.navbar ul{
+flex-direction:column;
+padding:0;
+margin-top:15px;
+}
+
+.hero-text{
+width:90%;
+padding:15px;
+}
+
+.hero-text h2{
+font-size:24px;
+}
+
+.cards,
+.products{
+grid-template-columns:1fr;
+}
+
+.product img,
+.card img{
+height:220px;
+}
+
+.search-box input{
+width:95%;
+font-size:16px;
+}
+
+.btn{
+font-size:15px;
+padding:12px;
+}
+
+footer{
+padding:20px 10px;
+}
+
+}
 </head>
 
 <body>
