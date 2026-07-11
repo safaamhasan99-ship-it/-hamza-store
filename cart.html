@@ -1,204 +1,205 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سلة المشتريات | مجمع حمزه الشطري</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سلة التسوق | مجمع حمزة الشطري</title>
 
-    <link rel="stylesheet" href="cart.css">
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
 
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Tahoma, sans-serif;
-        }
+body{
+background:#f5f5f5;
+}
 
-        body{
-            background:#f5f5f5;
-        }
+header{
+background:#000;
+color:#fff;
+padding:20px;
+text-align:center;
+font-size:26px;
+font-weight:bold;
+}
 
-        header{
-            background:#000;
-            color:#fff;
-            padding:20px;
-            text-align:center;
-        }
+.container{
+max-width:1000px;
+margin:auto;
+padding:20px;
+}
 
-        header h1{
-            font-size:28px;
-        }
+.cart-item{
+background:#fff;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:15px;
+margin-bottom:15px;
+border-radius:12px;
+box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
 
-        .container{
-            width:95%;
-            max-width:1200px;
-            margin:30px auto;
-        }
+.cart-item img{
+width:90px;
+height:90px;
+object-fit:cover;
+border-radius:10px;
+}
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:#fff;
-            border-radius:10px;
-            overflow:hidden;
-        }
+.info{
+flex:1;
+margin-right:15px;
+}
 
-        th{
-            background:#111;
-            color:#fff;
-            padding:15px;
-        }
+.info h3{
+margin-bottom:8px;
+}
 
-        td{
-            padding:15px;
-            text-align:center;
-            border-bottom:1px solid #eee;
-        }
+.price{
+color:#009688;
+font-size:18px;
+font-weight:bold;
+}
 
-        img{
-            width:80px;
-            border-radius:8px;
-        }
+.remove{
+background:red;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:8px;
+cursor:pointer;
+}
 
-        button{
-            cursor:pointer;
-            padding:8px 14px;
-            border:none;
-            border-radius:6px;
-            background:#000;
-            color:#fff;
-        }
+.total{
+background:white;
+padding:20px;
+border-radius:12px;
+margin-top:20px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+}
 
-        button:hover{
-            background:#444;
-        }
+.checkout{
+display:block;
+width:100%;
+background:#000;
+color:white;
+text-align:center;
+padding:16px;
+margin-top:20px;
+text-decoration:none;
+font-size:20px;
+border-radius:10px;
+}
 
-        .total{
-            margin-top:25px;
-            background:#fff;
-            padding:20px;
-            border-radius:10px;
-            font-size:22px;
-            font-weight:bold;
-            text-align:left;
-        }
+.empty{
+text-align:center;
+padding:60px;
+font-size:24px;
+color:#777;
+}
+</style>
 
-        .checkout{
-            background:#fff;
-            margin-top:25px;
-            padding:25px;
-            border-radius:10px;
-        }
-
-        .checkout h2{
-            margin-bottom:20px;
-        }
-
-        .checkout input,
-        .checkout textarea{
-            width:100%;
-            padding:12px;
-            margin-bottom:15px;
-            border:1px solid #ccc;
-            border-radius:8px;
-        }
-
-        .send{
-            width:100%;
-            background:#25D366;
-            color:#fff;
-            font-size:20px;
-            padding:15px;
-        }
-
-        .send:hover{
-            background:#1ebc57;
-        }
-    </style>
 </head>
 
 <body>
 
 <header>
-    <h1>🛒 سلة المشتريات</h1>
+🛒 سلة التسوق
 </header>
 
 <div class="container">
 
-<table>
-
-<thead>
-
-<tr>
-
-<th>الصورة</th>
-<th>المنتج</th>
-<th>السعر</th>
-<th>الكمية</th>
-<th>الإجمالي</th>
-<th>حذف</th>
-
-</tr>
-
-</thead>
-
-<tbody id="cartItems">
-
-</tbody>
-
-</table>
+<div id="cartItems"></div>
 
 <div class="total">
-
-الإجمالي الكلي :
-<span id="grandTotal">
-0
-</span>
+الإجمالي:
+<span id="totalPrice">0</span>
 د.ع
+</div>
+
+<a href="checkout.html" class="checkout">
+إتمام الطلب
+</a>
 
 </div>
-<div class="checkout">
 
-<h2>بيانات العميل</h2>
+<script>
 
-<input
-type="text"
-id="customerName"
-placeholder="الاسم الكامل">
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-<input
-type="tel"
-id="customerPhone"
-placeholder="رقم الهاتف">
+const cartItems=document.getElementById("cartItems");
 
-<input
-type="text"
-id="customerCity"
-placeholder="المحافظة">
+const totalPrice=document.getElementById("totalPrice");
 
-<textarea
-id="customerAddress"
-rows="4"
-placeholder="العنوان بالتفصيل"></textarea>
+function loadCart(){
 
-<textarea
-id="customerNotes"
-rows="3"
-placeholder="ملاحظات (اختياري)"></textarea>
+cartItems.innerHTML="";
 
-<button
-class="send"
-onclick="sendOrder()">
-إرسال الطلب عبر واتساب
+let total=0;
+
+if(cart.length==0){
+
+cartItems.innerHTML='<div class="empty">السلة فارغة</div>';
+
+document.querySelector(".checkout").style.display="none";
+
+return;
+
+}
+
+cart.forEach((item,index)=>{
+
+total+=Number(item.price);
+
+cartItems.innerHTML+=`
+
+<div class="cart-item">
+
+<img src="${item.image}" alt="">
+
+<div class="info">
+
+<h3>${item.name}</h3>
+
+<div class="price">${item.price} د.ع</div>
+
+</div>
+
+<button class="remove" onclick="removeItem(${index})">
+
+حذف
+
 </button>
 
 </div>
 
-</div>
+`;
 
-<script src="cart.js"></script>
+});
+
+totalPrice.innerHTML=total;
+
+}
+
+function removeItem(index){
+
+cart.splice(index,1);
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+loadCart();
+
+}
+
+loadCart();
+
+</script>
 
 </body>
 </html>
