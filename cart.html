@@ -7,92 +7,79 @@ let total = 0;
 
 function showCart(){
 
-cartList.innerHTML="";
+    cartList.innerHTML = "";
 
-total = 0;
-
-
-if(cart.length === 0){
-
-cartList.innerHTML =
-"<h2 style='text-align:center;color:gold'>السلة فارغة</h2>";
-
-}
+    total = 0;
 
 
+    if(cart.length === 0){
 
-cart.forEach((item,index)=>{
+        cartList.innerHTML = `
+        <h3>السلة فارغة</h3>
+        `;
 
-
-let price = Number(item.price.replace(/[^\d]/g,'')) || 0;
-
-let quantity = item.quantity || 1;
-
-
-let itemTotal = price * quantity;
+    }
 
 
-total += itemTotal;
+    cart.forEach((item,index)=>{
 
 
+        let price = Number(item.price) || 0;
 
-cartList.innerHTML += `
+        let quantity = item.quantity || 1;
 
-<div class="cart-item">
-
-
-<img src="${item.image}">
+        let itemTotal = price * quantity;
 
 
-<div class="info">
-
-<h3>${item.name}</h3>
-
-<p class="price">
-السعر: ${price.toLocaleString()} د.ع
-</p>
+        total += itemTotal;
 
 
-<p>
-الكمية: ${quantity}
-</p>
+        cartList.innerHTML += `
+
+        <div class="cart-box">
+
+        <img src="${item.image}" width="80">
+
+        <h3>${item.name}</h3>
+
+        <p>
+        السعر: ${price.toLocaleString()} د.ع
+        </p>
+
+        <p>
+        الكمية: ${quantity}
+        </p>
+
+        <p>
+        المجموع: ${itemTotal.toLocaleString()} د.ع
+        </p>
+
+        <button onclick="removeItem(${index})">
+        حذف
+        </button>
+
+        </div>
+
+        <hr>
+
+        `;
 
 
-<p class="price">
-المجموع: ${itemTotal.toLocaleString()} د.ع
-</p>
-
-
-</div>
-
-
-<button class="delete" onclick="removeItem(${index})">
-حذف
-</button>
-
-
-</div>
-
-`;
-
-});
+    });
 
 
 
-document.getElementById("total").innerHTML =
-"المجموع: "+total.toLocaleString()+" د.ع";
+    document.getElementById("total").innerHTML =
+    "المجموع: " + total.toLocaleString() + " د.ع";
 
 
 
-document.getElementById("whatsappOrder").href =
-
-"https://wa.me/9647813555538?text="+
-
-encodeURIComponent(
-
-"السلام عليكم، أريد طلب المنتجات الموجودة في السلة. المجموع: "+total.toLocaleString()+" د.ع"
-
-);
+    document.getElementById("whatsappOrder").href =
+    "https://wa.me/9647813555538?text=" +
+    encodeURIComponent(
+    "السلام عليكم، أريد طلب المنتجات الموجودة في السلة. المجموع: "
+    + total.toLocaleString() + " د.ع"
+    );
 
 
 }
@@ -101,11 +88,14 @@ encodeURIComponent(
 
 function removeItem(index){
 
-cart.splice(index,1);
+    cart.splice(index,1);
 
-localStorage.setItem("cart",JSON.stringify(cart));
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
 
-showCart();
+    showCart();
 
 }
 
