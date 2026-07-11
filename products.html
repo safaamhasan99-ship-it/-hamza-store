@@ -10,129 +10,168 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-
 <style>
 
-body{
-font-family:'Cairo',sans-serif;
-background:#111;
-color:white;
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
 }
 
+body{
+background:#111;
+color:#fff;
+}
 
 header{
 background:#000;
+padding:20px;
 text-align:center;
-padding:25px;
-border-bottom:2px solid gold;
+border-bottom:3px solid gold;
 }
 
-
-h1,h2{
+header h1{
 color:gold;
+margin-bottom:10px;
 }
 
+.top-menu{
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+padding:15px;
+background:#1b1b1b;
+}
+
+.top-menu a{
+text-decoration:none;
+color:white;
+background:#222;
+padding:10px 18px;
+border-radius:30px;
+transition:.3s;
+}
+
+.top-menu a:hover{
+background:gold;
+color:#000;
+}
 
 .search-box{
+padding:25px;
 text-align:center;
-padding:20px;
 }
-
 
 .search-box input{
-
-width:80%;
+width:90%;
+max-width:500px;
 padding:15px;
-border-radius:30px;
 border:none;
+border-radius:30px;
 font-size:18px;
-
+outline:none;
 }
-
-
 
 .container{
-padding:20px;
+width:95%;
+margin:auto;
+padding-bottom:40px;
 }
-
 
 .products{
-
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
 }
-
-
 
 .product{
-
 background:#222;
 border-radius:15px;
-padding:15px;
-text-align:center;
-border:1px solid #444;
-
+overflow:hidden;
+box-shadow:0 0 15px rgba(0,0,0,.4);
+transition:.3s;
 }
 
-
+.product:hover{
+transform:translateY(-5px);
+}
 
 .product img{
-
 width:100%;
-height:250px;
+height:260px;
 object-fit:cover;
-border-radius:12px;
-
 }
 
+.product-content{
+padding:15px;
+text-align:center;
+}
 
+.product h2{
+color:gold;
+font-size:22px;
+margin-bottom:10px;
+}
+
+.product p{
+margin:8px 0;
+}
 
 .price{
-
 color:#00ff99;
 font-size:20px;
 font-weight:bold;
-
 }
 
-
+.buttons{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-top:15px;
+}
 
 .btn{
-
-display:inline-block;
-background:gold;
-color:#000;
-padding:10px 25px;
-border-radius:25px;
+display:block;
+padding:12px;
+border-radius:30px;
 text-decoration:none;
 font-weight:bold;
-
+text-align:center;
+cursor:pointer;
+border:none;
+font-size:16px;
 }
 
+.whatsapp{
+background:#25D366;
+color:white;
+}
 
+.cart{
+background:gold;
+color:#000;
+}
+
+.favorite{
+background:#e91e63;
+color:white;
+}
 
 footer{
-
 background:#000;
 text-align:center;
-padding:20px;
-margin-top:30px;
-
+padding:25px;
+margin-top:40px;
+border-top:2px solid gold;
 }
-
 
 </style>
 
 </head>
 
-
-
 <body>
-
-
 
 <header>
 
@@ -144,168 +183,146 @@ margin-top:30px;
 
 </header>
 
+<nav class="top-menu">
 
+<a href="index.html">🏠 الرئيسية</a>
 
+<a href="cart.html">🛒 السلة</a>
+
+<a href="favorites.html">❤️ المفضلة</a>
+
+<a href="about.html">ℹ️ من نحن</a>
+
+</nav>
 
 <div class="search-box">
 
-<input 
-type="text" 
+<input
+type="text"
 id="search"
 placeholder="🔍 ابحث عن المنتج">
 
 </div>
 
-
-
-
-
 <div class="container">
 
-
-<div class="products">
-
-
+<div class="products" id="products">
 
 <div class="product">
 
 <img src="IMG_5661.jpeg">
 
-<h2>ملابس رجالية</h2>
+<div class="product-content">
+
+<h2>القسم الرجالي</h2>
 
 <p>موديلات تركية حديثة</p>
 
-<p class="price">سعر الجملة حسب الموديل</p>
+<p class="price">حسب الموديل</p>
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+<div class="buttons">
+
+<button class="btn cart"
+onclick="addToCart('القسم الرجالي','حسب الموديل','IMG_5661.jpeg')">
+🛒 أضف إلى السلة
+</button>
+
+<button class="btn favorite"
+onclick="addToFavorites('القسم الرجالي','حسب الموديل','IMG_5661.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+<a class="btn whatsapp"
+href="https://wa.me/9647813555538">
+💬 اطلب عبر واتساب
 </a>
 
 </div>
 
+</div>
 
-
+</div>
 
 <div class="product">
 
 <img src="IMG_5662.jpeg">
 
-<h2>ملابس نسائية</h2>
+<div class="product-content">
 
-<p>خامات وموديلات متنوعة</p>
+<h2>القسم النسائي</h2>
 
-<p class="price">بيع جملة فقط</p>
+<p>موديلات نسائية متنوعة</p>
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+<p class="price">حسب الموديل</p>
+
+<div class="buttons">
+
+<button class="btn cart"
+onclick="addToCart('القسم النسائي','حسب الموديل','IMG_5662.jpeg')">
+🛒 أضف إلى السلة
+</button>
+
+<button class="btn favorite"
+onclick="addToFavorites('القسم النسائي','حسب الموديل','IMG_5662.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+<a class="btn whatsapp"
+href="https://wa.me/9647813555538">
+💬 اطلب عبر واتساب
 </a>
 
 </div>
 
+</div>
 
-
+</div>
 
 <div class="product">
 
 <img src="IMG_5663.jpeg">
 
-<h2>ملابس ولادي</h2>
+<div class="product-content">
 
-<p>قياسات متنوعة للأطفال</p>
+<h2>القسم الولادي</h2>
 
-<p class="price">أسعار منافسة</p>
+<p>قياسات متعددة</p>
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+<p class="price">حسب الموديل</p>
+
+<div class="buttons">
+
+<button class="btn cart"
+onclick="addToCart('القسم الولادي','حسب الموديل','IMG_5663.jpeg')">
+🛒 أضف إلى السلة
+</button>
+
+<button class="btn favorite"
+onclick="addToFavorites('القسم الولادي','حسب الموديل','IMG_5663.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+<a class="btn whatsapp"
+href="https://wa.me/9647813555538">
+💬 اطلب عبر واتساب
 </a>
 
 </div>
 
-
-
-
-<div class="product">
-
-<img src="IMG_5664.jpeg">
-
-<h2>ملابس بناتي</h2>
-
-<p>موديلات حديثة</p>
-
-<p class="price">جملة فقط</p>
-
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
-</a>
-
-</div>
-
-
-
-
-<div class="product">
-
-<img src="IMG_5665.jpeg">
-
-<h2>الجواريب</h2>
-
-<p>رجالي ونسائي وأطفال</p>
-
-<p class="price">متوفر كميات</p>
-
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
-</a>
-
-</div>
-
-
-
-
-<div class="product">
-
-<img src="IMG_5666.jpeg">
-
-<h2>البنطرون</h2>
-
-<p>جميع الأعمار</p>
-
-<p class="price">أسعار جملة</p>
-
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
-</a>
-
-</div>
-
-
-
-
-<div class="product">
-
-<img src="IMG_5667.jpeg">
-
-<h2>الداخليات الرجالية</h2>
-
-<p>خامات درجة أولى</p>
-
-<p class="price">جملة فقط</p>
-
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
-</a>
-
-</div>
-
-
-
 </div>
 
 </div>
 
+<!-- كرر نفس النموذج للأقسام:
+IMG_5664.jpeg البناتي
+IMG_5665.jpeg الجواريب
+IMG_5666.jpeg البنطرون
+IMG_5667.jpeg الداخليات الرجالية
+-->
 
+</div>
 
-
+</div>
 
 <footer>
 
@@ -313,55 +330,66 @@ placeholder="🔍 ابحث عن المنتج">
 
 <p>ذي قار - الشطرة</p>
 
-<p>واتساب: 07813555538</p>
+<p>📞 07813555538</p>
 
 </footer>
 
-
-
-
-
 <script>
 
-let search = document.getElementById("search");
-
-let products = document.querySelectorAll(".product");
-
+let search=document.getElementById("search");
+let products=document.querySelectorAll(".product");
 
 search.addEventListener("keyup",function(){
 
-let value = search.value.toLowerCase();
-
+let value=search.value.toLowerCase();
 
 products.forEach(function(product){
 
-
-let text = product.innerText.toLowerCase();
-
+let text=product.innerText.toLowerCase();
 
 if(text.includes(value)){
-
 product.style.display="block";
-
-}
-
-else{
-
+}else{
 product.style.display="none";
+}
+
+});
+
+});
+
+function addToCart(name,price,image){
+
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+
+cart.push({
+name:name,
+price:price,
+image:image
+});
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+alert("تمت إضافة المنتج إلى السلة");
 
 }
 
+function addToFavorites(name,price,image){
 
+let favorites=JSON.parse(localStorage.getItem("favorites"))||[];
+
+favorites.push({
+name:name,
+price:price,
+image:image
 });
 
+localStorage.setItem("favorites",JSON.stringify(favorites));
 
-});
+alert("تمت إضافة المنتج إلى المفضلة");
 
+}
 
 </script>
-
-
-
 
 </body>
 
