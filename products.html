@@ -2,12 +2,14 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>منتجات مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+
 
 <style>
 
@@ -18,6 +20,7 @@ color:white;
 margin:0;
 }
 
+
 header{
 background:#000;
 text-align:center;
@@ -25,42 +28,80 @@ padding:25px;
 border-bottom:2px solid gold;
 }
 
+
 h1,h2{
 color:gold;
 }
+
+
+.search-box{
+text-align:center;
+padding:20px;
+}
+
+
+.search-box input{
+
+width:80%;
+padding:15px;
+border-radius:30px;
+border:none;
+font-size:18px;
+
+}
+
+
 
 .container{
 padding:20px;
 }
 
+
 .products{
+
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
+
 }
 
+
+
 .product{
+
 background:#222;
 border-radius:15px;
 padding:15px;
 text-align:center;
 border:1px solid #444;
+
 }
 
+
+
 .product img{
+
 width:100%;
 height:250px;
 object-fit:cover;
 border-radius:12px;
+
 }
 
+
+
 .price{
+
 color:#00ff99;
 font-size:20px;
 font-weight:bold;
+
 }
 
+
+
 .btn{
+
 display:inline-block;
 background:gold;
 color:#000;
@@ -68,30 +109,54 @@ padding:10px 25px;
 border-radius:25px;
 text-decoration:none;
 font-weight:bold;
+
 }
 
+
+
 footer{
+
 background:#000;
 text-align:center;
 padding:20px;
 margin-top:30px;
+
 }
+
 
 </style>
 
 </head>
 
 
+
 <body>
+
 
 
 <header>
 
 <h1>مجمع حمزه الشطري</h1>
 
-<p>الملابس الجاهزة - البيع جملة فقط</p>
+<p>للملابس الجاهزة والجملة</p>
+
+<p>البيع جملة فقط</p>
 
 </header>
+
+
+
+
+<div class="search-box">
+
+<input 
+type="text" 
+id="search"
+placeholder="🔍 ابحث عن المنتج">
+
+</div>
+
+
 
 
 
@@ -101,78 +166,144 @@ margin-top:30px;
 <div class="products">
 
 
+
 <div class="product">
+
 <img src="IMG_5661.jpeg">
+
 <h2>ملابس رجالية</h2>
+
 <p>موديلات تركية حديثة</p>
+
 <p class="price">سعر الجملة حسب الموديل</p>
-<a class="btn" href="https://wa.me/9647813555538">اطلب الآن</a>
+
+<a class="btn" href="https://wa.me/9647813555538">
+اطلب الآن
+</a>
+
 </div>
 
 
 
+
 <div class="product">
+
 <img src="IMG_5662.jpeg">
+
 <h2>ملابس نسائية</h2>
-<p>خامات ممتازة وموديلات متنوعة</p>
-<p class="price">متوفر جملة</p>
-<a class="btn" href="https://wa.me/9647813555538">اطلب الآن</a>
-</div>
 
+<p>خامات وموديلات متنوعة</p>
 
-
-<div class="product">
-<img src="IMG_5663.jpeg">
-<h2>ملابس ولادي</h2>
-<p>قياسات متنوعة للأطفال</p>
-<p class="price">أسعار منافسة</p>
-<a class="btn" href="https://wa.me/9647813555538">اطلب الآن</a>
-</div>
-
-
-
-<div class="product">
-<img src="IMG_5664.jpeg">
-<h2>ملابس بناتي</h2>
-<p>أحدث الموديلات</p>
 <p class="price">بيع جملة فقط</p>
-<a class="btn" href="https://wa.me/9647813555538">اطلب الآن</a>
+
+<a class="btn" href="https://wa.me/9647813555538">
+اطلب الآن
+</a>
+
 </div>
 
 
 
+
 <div class="product">
-<img src="IMG_5665.jpeg">
-<h2>جواريب</h2>
-<p>رجالي - نسائي - أطفال</p>
-<p class="price">متوفر كميات</p>
-<a class="btn" href="https://wa.me/9647813555538">اطلب الآن</a>
+
+<img src="IMG_5663.jpeg">
+
+<h2>ملابس ولادي</h2>
+
+<p>قياسات متنوعة للأطفال</p>
+
+<p class="price">أسعار منافسة</p>
+
+<a class="btn" href="https://wa.me/9647813555538">
+اطلب الآن
+</a>
+
 </div>
 
 
 
-<div class="product">
-<img src="IMG_5666.jpeg">
-<h2>بنطرون</h2>
-<p>تشكيلة لجميع الأعمار</p>
-<p class="price">أسعار جملة</p>
-<a class="btn" href="https://wa.me/9647813555538">اطلب الآن</a>
-</div>
-
-
 
 <div class="product">
-<img src="IMG_5667.jpeg">
-<h2>داخليات رجالي</h2>
-<p>خامات درجة أولى</p>
+
+<img src="IMG_5664.jpeg">
+
+<h2>ملابس بناتي</h2>
+
+<p>موديلات حديثة</p>
+
 <p class="price">جملة فقط</p>
-<a class="btn" href="https://wa.me/9647813555538">اطلب الآن</a>
+
+<a class="btn" href="https://wa.me/9647813555538">
+اطلب الآن
+</a>
+
 </div>
 
 
+
+
+<div class="product">
+
+<img src="IMG_5665.jpeg">
+
+<h2>الجواريب</h2>
+
+<p>رجالي ونسائي وأطفال</p>
+
+<p class="price">متوفر كميات</p>
+
+<a class="btn" href="https://wa.me/9647813555538">
+اطلب الآن
+</a>
+
+</div>
+
+
+
+
+<div class="product">
+
+<img src="IMG_5666.jpeg">
+
+<h2>البنطرون</h2>
+
+<p>جميع الأعمار</p>
+
+<p class="price">أسعار جملة</p>
+
+<a class="btn" href="https://wa.me/9647813555538">
+اطلب الآن
+</a>
+
+</div>
+
+
+
+
+<div class="product">
+
+<img src="IMG_5667.jpeg">
+
+<h2>الداخليات الرجالية</h2>
+
+<p>خامات درجة أولى</p>
+
+<p class="price">جملة فقط</p>
+
+<a class="btn" href="https://wa.me/9647813555538">
+اطلب الآن
+</a>
+
+</div>
+
+
+
 </div>
 
 </div>
+
+
 
 
 
@@ -185,6 +316,51 @@ margin-top:30px;
 <p>واتساب: 07813555538</p>
 
 </footer>
+
+
+
+
+
+<script>
+
+let search = document.getElementById("search");
+
+let products = document.querySelectorAll(".product");
+
+
+search.addEventListener("keyup",function(){
+
+let value = search.value.toLowerCase();
+
+
+products.forEach(function(product){
+
+
+let text = product.innerText.toLowerCase();
+
+
+if(text.includes(value)){
+
+product.style.display="block";
+
+}
+
+else{
+
+product.style.display="none";
+
+}
+
+
+});
+
+
+});
+
+
+</script>
+
+
 
 
 </body>
