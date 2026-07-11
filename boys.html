@@ -55,6 +55,7 @@ margin:10px;
 }
 
 
+
 .products{
 
 padding:20px;
@@ -63,6 +64,7 @@ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 
 }
+
 
 
 .product{
@@ -75,6 +77,7 @@ text-align:center;
 }
 
 
+
 .product img{
 
 width:100%;
@@ -85,11 +88,13 @@ border-radius:10px;
 }
 
 
+
 .product h2{
 
 color:gold;
 
 }
+
 
 
 .price{
@@ -101,29 +106,74 @@ font-weight:bold;
 }
 
 
+
 .btn{
 
 display:block;
-background:gold;
-color:#000;
 padding:12px;
 border-radius:25px;
-text-decoration:none;
 margin-top:10px;
 font-weight:bold;
+text-decoration:none;
+border:none;
+cursor:pointer;
+width:100%;
 
 }
+
+
+
+.cart{
+
+background:gold;
+color:#000;
+
+}
+
+
+
+.favorite{
+
+background:#e91e63;
+color:white;
+
+}
+
+
+
+.whatsapp{
+
+background:#25D366;
+color:white;
+
+}
+
+
+
+footer{
+
+background:#000;
+text-align:center;
+padding:25px;
+margin-top:30px;
+
+}
+
 
 
 @media(max-width:768px){
 
 .products{
+
 grid-template-columns:1fr;
+
 }
 
 
 .product img{
+
 height:220px;
+
 }
 
 }
@@ -132,7 +182,10 @@ height:220px;
 </style>
 
 </head>
+
+
 <body>
+
 
 
 <header>
@@ -151,9 +204,9 @@ height:220px;
 
 <a href="products.html">🛒 المنتجات</a>
 
-<a href="https://wa.me/9647813555538">
-💬 واتساب
-</a>
+<a href="cart.html">🛒 السلة</a>
+
+<a href="favorites.html">❤️ المفضلة</a>
 
 </div>
 
@@ -175,11 +228,22 @@ height:220px;
 <p class="price">25000 د.ع</p>
 
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+<button class="btn cart" onclick="addToCart('ملابس ولادي','25000 د.ع','IMG_5663.jpeg')">
+🛒 أضف للسلة
+</button>
+
+
+<button class="btn favorite" onclick="addToFavorites('ملابس ولادي','25000 د.ع','IMG_5663.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
+
 
 
 
@@ -195,11 +259,22 @@ height:220px;
 <p class="price">30000 د.ع</p>
 
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+<button class="btn cart" onclick="addToCart('تراكات ولادي','30000 د.ع','IMG_5663.jpeg')">
+🛒 أضف للسلة
+</button>
+
+
+<button class="btn favorite" onclick="addToFavorites('تراكات ولادي','30000 د.ع','IMG_5663.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
+
 
 
 
@@ -215,11 +290,26 @@ height:220px;
 <p class="price">15000 د.ع</p>
 
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+<button class="btn cart" onclick="addToCart('تيشيرتات ولادي','15000 د.ع','IMG_5663.jpeg')">
+🛒 أضف للسلة
+</button>
+
+
+<button class="btn favorite" onclick="addToFavorites('تيشيرتات ولادي','15000 د.ع','IMG_5663.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
+
+
+
+
+
 <div class="product">
 
 <img src="IMG_5663.jpeg">
@@ -230,11 +320,24 @@ height:220px;
 
 <p class="price">20000 د.ع</p>
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+
+<button class="btn cart" onclick="addToCart('دشاديش ولادي','20000 د.ع','IMG_5663.jpeg')">
+🛒 أضف للسلة
+</button>
+
+
+<button class="btn favorite" onclick="addToFavorites('دشاديش ولادي','20000 د.ع','IMG_5663.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
+
+
 
 
 
@@ -248,8 +351,19 @@ height:220px;
 
 <p class="price">18000 د.ع</p>
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+
+<button class="btn cart" onclick="addToCart('ملابس بيبي','18000 د.ع','IMG_5663.jpeg')">
+🛒 أضف للسلة
+</button>
+
+
+<button class="btn favorite" onclick="addToFavorites('ملابس بيبي','18000 د.ع','IMG_5663.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
@@ -259,15 +373,45 @@ height:220px;
 </div>
 
 
-<footer style="background:#000;text-align:center;padding:25px;margin-top:30px;">
+
+
+<footer>
 
 <h3>مجمع حمزه الشطري</h3>
 
-<p>ذي قار - الشطرة</p>
+<p>📍 ذي قار - الشطرة</p>
 
 <p>📞 07813555538</p>
 
 </footer>
+
+
+
+
+<script src="cart-functions.js"></script>
+
+
+<script>
+
+function addToFavorites(name,price,image){
+
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+favorites.push({
+name:name,
+price:price,
+image:image
+});
+
+
+localStorage.setItem("favorites",JSON.stringify(favorites));
+
+
+alert("❤️ تمت الإضافة للمفضلة");
+
+}
+
+</script>
 
 
 
