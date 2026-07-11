@@ -21,6 +21,7 @@ box-sizing:border-box;
 font-family:'Cairo',sans-serif;
 }
 
+
 body{
 background:#111;
 color:white;
@@ -40,6 +41,7 @@ color:gold;
 }
 
 
+
 .menu{
 background:#222;
 padding:15px;
@@ -54,6 +56,7 @@ margin:10px;
 }
 
 
+
 .products{
 
 padding:20px;
@@ -62,6 +65,7 @@ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
 
 }
+
 
 
 .product{
@@ -74,6 +78,7 @@ text-align:center;
 }
 
 
+
 .product img{
 
 width:100%;
@@ -84,18 +89,13 @@ border-radius:10px;
 }
 
 
+
 .product h2{
 
 color:gold;
 
 }
 
-
-.product p{
-
-margin:8px;
-
-}
 
 
 .price{
@@ -107,18 +107,48 @@ font-weight:bold;
 }
 
 
+
 .btn{
 
 display:block;
-background:gold;
-color:#000;
 padding:12px;
 border-radius:25px;
-text-decoration:none;
 margin-top:10px;
 font-weight:bold;
+text-decoration:none;
+border:none;
+cursor:pointer;
+width:100%;
 
 }
+
+
+
+.cart{
+
+background:gold;
+color:#000;
+
+}
+
+
+
+.favorite{
+
+background:#e91e63;
+color:white;
+
+}
+
+
+
+.whatsapp{
+
+background:#25D366;
+color:white;
+
+}
+
 
 
 footer{
@@ -147,13 +177,6 @@ height:220px;
 
 }
 
-
-.btn{
-
-font-size:15px;
-
-}
-
 }
 
 
@@ -175,15 +198,16 @@ font-size:15px;
 
 
 
+
 <div class="menu">
 
 <a href="index.html">🏠 الرئيسية</a>
 
 <a href="products.html">🛒 المنتجات</a>
 
-<a href="https://wa.me/9647813555538">
-💬 واتساب
-</a>
+<a href="cart.html">🛒 السلة</a>
+
+<a href="favorites.html">❤️ المفضلة</a>
 
 </div>
 
@@ -204,11 +228,23 @@ font-size:15px;
 
 <p class="price">30000 د.ع</p>
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+
+<button class="btn cart" onclick="addToCart('ملابس بناتي','30000 د.ع','IMG_5664.jpeg')">
+🛒 أضف للسلة
+</button>
+
+
+<button class="btn favorite" onclick="addToFavorites('ملابس بناتي','30000 د.ع','IMG_5664.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
+
 
 
 
@@ -222,8 +258,19 @@ font-size:15px;
 
 <p class="price">35000 د.ع</p>
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+
+<button class="btn cart" onclick="addToCart('تراكات بناتي','35000 د.ع','IMG_5664.jpeg')">
+🛒 أضف للسلة
+</button>
+
+
+<button class="btn favorite" onclick="addToFavorites('تراكات بناتي','35000 د.ع','IMG_5664.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
@@ -241,8 +288,19 @@ font-size:15px;
 
 <p class="price">45000 د.ع</p>
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+
+<button class="btn cart" onclick="addToCart('فساتين بناتي','45000 د.ع','IMG_5664.jpeg')">
+🛒 أضف للسلة
+</button>
+
+
+<button class="btn favorite" onclick="addToFavorites('فساتين بناتي','45000 د.ع','IMG_5664.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
@@ -260,8 +318,19 @@ font-size:15px;
 
 <p class="price">20000 د.ع</p>
 
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
+
+<button class="btn cart" onclick="addToCart('ملابس بنات أطفال','20000 د.ع','IMG_5664.jpeg')">
+🛒 أضف للسلة
+</button>
+
+
+<button class="btn favorite" onclick="addToFavorites('ملابس بنات أطفال','20000 د.ع','IMG_5664.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
@@ -277,12 +346,39 @@ font-size:15px;
 
 <h3>مجمع حمزه الشطري</h3>
 
-<p>ذي قار - الشطرة</p>
+<p>📍 ذي قار - الشطرة</p>
 
 <p>📞 07813555538</p>
 
 </footer>
 
+
+
+
+<script src="cart-functions.js"></script>
+
+
+<script>
+
+function addToFavorites(name,price,image){
+
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+favorites.push({
+name:name,
+price:price,
+image:image
+});
+
+
+localStorage.setItem("favorites",JSON.stringify(favorites));
+
+
+alert("❤️ تمت الإضافة للمفضلة");
+
+}
+
+</script>
 
 
 </body>
