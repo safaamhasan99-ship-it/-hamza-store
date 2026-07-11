@@ -4,17 +4,18 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <title>مجمع حمزه الشطري</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
 
 <style>
+
 
 *{
 margin:0;
@@ -23,68 +24,57 @@ box-sizing:border-box;
 font-family:'Cairo',sans-serif;
 }
 
+
 body{
+
 background:#111;
 color:white;
-overflow-x:hidden;
+
 }
 
 
-.top-header{
+header{
 
 background:#000;
-padding:15px;
-display:flex;
-justify-content:space-around;
-flex-wrap:wrap;
+padding:20px;
+text-align:center;
+border-bottom:3px solid gold;
 
 }
 
 
-.top-header a{
-
-color:white;
-text-decoration:none;
-
-}
-
-
-
-.navbar{
-
-background:#050505;
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-border-bottom:2px solid gold;
-
-}
-
-
-.logo h1{
+header h1{
 
 color:gold;
+font-size:32px;
 
 }
 
 
-.navbar ul{
 
+.top-menu{
+
+background:#222;
+padding:15px;
 display:flex;
+justify-content:center;
 gap:15px;
-list-style:none;
+flex-wrap:wrap;
 
 }
 
 
-.navbar a{
+
+.top-menu a{
 
 color:white;
 text-decoration:none;
+background:#111;
+padding:10px 20px;
+border-radius:25px;
 
 }
+
 
 
 .hero{
@@ -95,16 +85,18 @@ text-align:center;
 }
 
 
-.banner{
+
+.hero img{
 
 width:100%;
-height:400px;
+height:420px;
 object-fit:cover;
 
 }
 
 
-.hero-text{
+
+.hero-box{
 
 position:absolute;
 top:50%;
@@ -113,65 +105,64 @@ transform:translate(-50%,-50%);
 background:#000b;
 padding:25px;
 border-radius:15px;
-width:80%;
+width:85%;
 
 }
 
 
-.hero-text h2{
+
+.hero-box h2{
 
 color:gold;
+font-size:30px;
 
 }
 
 
 .btn{
 
+display:inline-block;
 background:gold;
 color:#000;
-padding:10px 25px;
-border-radius:25px;
+padding:12px 25px;
+border-radius:30px;
 text-decoration:none;
 font-weight:bold;
-display:inline-block;
+margin-top:15px;
 
 }
 
 
+
+.section-title{
+
+text-align:center;
+color:gold;
+margin:30px 0;
+font-size:28px;
+
+}
+
+
+
 .categories{
 
-padding:25px;
+width:95%;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+.category{
+
+background:#222;
+padding:15px;
+border-radius:15px;
 text-align:center;
 
 }
 
 
-.categories h2{
-
-color:gold;
-
-}
-
-
-.cards{
-
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-
-}
-
-
-.card{
-
-background:#222;
-padding:15px;
-border-radius:15px;
-
-}
-
-
-.card img{
+.category img{
 
 width:100%;
 height:220px;
@@ -181,7 +172,8 @@ border-radius:10px;
 }
 
 
-.card h3{
+
+.category h3{
 
 color:gold;
 margin:10px;
@@ -189,176 +181,32 @@ margin:10px;
 }
 
 
-footer{
 
-background:#000;
-text-align:center;
-padding:25px;
-margin-top:30px;
+.products-box{
 
-}
+width:95%;
+margin:auto;
+display
+  <section class="hero">
 
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
-/* الموبايل */
 
-@media(max-width:768px){
-
-.top-header{
-
-flex-direction:column;
-text-align:center;
-gap:10px;
-
-}
-
-
-.navbar{
-
-flex-direction:column;
-text-align:center;
-
-}
-
-
-.navbar ul{
-
-flex-direction:column;
-padding:0;
-margin-top:15px;
-
-}
-
-
-.banner{
-
-height:250px;
-
-}
-
-
-.hero-text{
-
-width:90%;
-padding:15px;
-
-}
-
-
-.cards{
-
-grid-template-columns:1fr;
-
-}
-
-
-.card img{
-
-height:220px;
-
-}
-
-
-.btn{
-
-width:90%;
-
-}
-
-
-}
-
-</style>
-
-</head>
-<body>
-
-
-<header class="top-header">
-
-<div>🚚 توصيل لجميع محافظات العراق</div>
-
-<div>📍 ذي قار - الشطرة</div>
-
-<div>
-
-<a href="tel:07813555538">
-📞 07813555538
-</a>
-
-<a href="https://wa.me/9647813555538">
-💬 واتساب
-</a>
-
-</div>
-
-</header>
-
-
-
-<nav class="navbar">
-
-
-<div class="logo">
-
-<h1>مجمع حمزه الشطري</h1>
-
-<p>للملابس الجاهزة والجملة</p>
-
-</div>
-
-
-
-<ul>
-
-<li>
-<a href="index.html">الرئيسية</a>
-</li>
-
-
-<li>
-<a href="products.html">المنتجات</a>
-</li>
-
-
-<li>
-<a href="about.html">من نحن</a>
-</li>
-
-
-</ul>
-
-
-</nav>
-
-
-
-
-<section class="hero">
-
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" class="banner">
-
-
-
-<div class="hero-text">
-
+<div class="hero-box">
 
 <h2>مجمع حمزه الشطري</h2>
 
-<p>للملابس الجاهزة والجملة</p>
+<p>أحدث موديلات الملابس التركية</p>
 
 <p>البيع جملة فقط</p>
 
 
 <a class="btn" href="products.html">
-
 تسوق الآن
-
 </a>
 
 
 </div>
-
 
 </section>
 
@@ -366,18 +214,16 @@ width:90%;
 
 
 
+<h2 class="section-title">
+⭐ أقسام المنتجات
+</h2>
+
+
+
 <section class="categories">
 
 
-<h2>أقسام المنتجات</h2>
-
-
-
-<div class="cards">
-
-
-
-<div class="card">
+<div class="category">
 
 <img src="IMG_5661.jpeg">
 
@@ -392,7 +238,7 @@ width:90%;
 
 
 
-<div class="card">
+<div class="category">
 
 <img src="IMG_5662.jpeg">
 
@@ -407,7 +253,7 @@ width:90%;
 
 
 
-<div class="card">
+<div class="category">
 
 <img src="IMG_5663.jpeg">
 
@@ -422,7 +268,7 @@ width:90%;
 
 
 
-<div class="card">
+<div class="category">
 
 <img src="IMG_5664.jpeg">
 
@@ -433,11 +279,15 @@ width:90%;
 </a>
 
 </div>
-<div class="card">
+
+
+
+
+<div class="category">
 
 <img src="IMG_5665.jpeg">
 
-<h3>قسم الجواريب</h3>
+<h3>الجواريب</h3>
 
 <a class="btn" href="socks.html">
 عرض القسم
@@ -447,11 +297,12 @@ width:90%;
 
 
 
-<div class="card">
+
+<div class="category">
 
 <img src="IMG_5666.jpeg">
 
-<h3>قسم البنطرون</h3>
+<h3>البنطرون</h3>
 
 <a class="btn" href="pants.html">
 عرض القسم
@@ -461,7 +312,8 @@ width:90%;
 
 
 
-<div class="card">
+
+<div class="category">
 
 <img src="IMG_5667.jpeg">
 
@@ -475,22 +327,90 @@ width:90%;
 
 
 
+</section>
+
+
+
+
+
+<h2 class="section-title">
+🔥 عروض مميزة
+</h2>
+
+
+
+<section class="products-box">
+
+
+
+<div class="product">
+
+<img src="IMG_5668.jpeg">
+
+<h3>عروض خاصة للتجار</h3>
+
+<p class="price">
+أسعار جملة منافسة
+</p>
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+
+💬 اطلب الآن
+
+</a>
+
 </div>
+
+
+
+
+<div class="product">
+
+<img src="IMG_5663.jpeg">
+
+<h3>موديلات تركية حديثة</h3>
+
+<p class="price">
+متوفر الآن
+</p>
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+
+💬 واتساب
+
+</a>
+
+</div>
+
+
 
 </section>
 
 
 
 
+
 <footer>
 
-<h3>مجمع حمزه الشطري</h3>
+<h3>
+مجمع حمزه الشطري
+</h3>
 
-<p>ذي قار - الشطرة</p>
 
-<p>📞 واتساب: 07813555538</p>
+<p>
+📍 ذي قار - الشطرة
+</p>
 
-<p>🚚 توصيل لجميع محافظات العراق</p>
+
+<p>
+📞 07813555538
+</p>
+
+
+<p>
+🚚 توصيل لجميع محافظات العراق
+</p>
+
 
 </footer>
 
@@ -499,3 +419,5 @@ width:90%;
 </body>
 
 </html>
+}
+  
