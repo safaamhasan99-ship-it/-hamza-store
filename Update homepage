@@ -1,5 +1,3 @@
-# -hamza-store
-بيع ملابس 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -8,48 +6,103 @@
 <title>مجمع حمزه الشطري</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
 body{
-margin:0;
-font-family:Tahoma,Arial;
+font-family:Tahoma,Arial,sans-serif;
 background:#111;
-color:white;
-text-align:center;
+color:#fff;
 }
+
 header{
 background:#000;
-padding:20px;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
 }
-header img{
-width:180px;
-}
-h1{
+
+.logo{
+font-size:26px;
+font-weight:bold;
 color:#d4af37;
 }
+
+nav a{
+color:#fff;
+text-decoration:none;
+margin:0 10px;
+font-size:15px;
+}
+
+.hero{
+background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200");
+background-size:cover;
+background-position:center;
+padding:90px 20px;
+text-align:center;
+}
+
+.hero h1{
+font-size:34px;
+color:#d4af37;
+margin-bottom:15px;
+}
+
+.hero p{
+font-size:18px;
+margin-bottom:25px;
+}
+
 .btn{
-display:inline-block;
-margin:20px;
-padding:15px 30px;
 background:#d4af37;
 color:#000;
-text-decoration:none;
+padding:14px 30px;
 border-radius:8px;
+text-decoration:none;
 font-weight:bold;
 }
-.products{
+
+.section{
+padding:40px 20px;
+}
+
+.section h2{
+text-align:center;
+margin-bottom:25px;
+color:#d4af37;
+}
+
+.grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:15px;
-padding:20px;
+gap:20px;
 }
+
 .card{
-background:#1d1d1d;
-padding:20px;
+background:#1b1b1b;
 border-radius:12px;
+overflow:hidden;
 }
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.card h3{
+padding:15px;
+text-align:center;
+}
+
 footer{
 background:#000;
 padding:20px;
-margin-top:30px;
+text-align:center;
+margin-top:40px;
+color:#aaa;
 }
 </style>
 </head>
@@ -57,135 +110,55 @@ margin-top:30px;
 <body>
 
 <header>
-<h1>مجمع حمزه الشطري</h1>
-<p>للملابس الجاهزة والجملة</p>
+<div class="logo">مجمع حمزه الشطري</div>
+
+<nav>
+<a href="#">الرئيسية</a>
+<a href="#">المنتجات</a>
+<a href="#">تواصل</a>
+</nav>
 </header>
 
-<a class="btn" href="https://wa.me/9647813555538">
-تواصل عبر واتساب
-</a>
+<section class="hero">
+<h1>أهلاً بكم في مجمع حمزه الشطري</h1>
+<p>أحدث الموديلات التركية والملابس المدرسية والجنط بأسعار الجملة</p>
 
-<div class="products">
+<a class="btn" href="https://wa.me/9647813555538">
+اطلب عبر واتساب
+</a>
+</section>
+
+<section class="section">
+<h2>أقسام المتجر</h2>
+
+<div class="grid">
 
 <div class="card">
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500">
 <h3>الجنط المدرسية</h3>
 </div>
 
 <div class="card">
-<h3>الملابس المدرسية</h3>
-</div>
-
-<div class="card">
-<h3>الملابس الرجالية</h3>
-</div>
-
-<div class="card">
+<img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=500">
 <h3>الملابس النسائية</h3>
 </div>
 
 <div class="card">
-<h3>ملابس الأطفال</h3>
-</div>
-
-</div>
-
-<footer>
-جميع الحقوق محفوظة © مجمع حمزه الشطري
-</footer>
-
-</body><!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مجمع حمزه الشطري</title>
-
-<style>
-body{
-margin:0;
-font-family:Tahoma,Arial;
-background:#111;
-color:white;
-text-align:center;
-}
-header{
-background:#000;
-padding:20px;
-}
-header img{
-width:180px;
-}
-h1{
-color:#d4af37;
-}
-.btn{
-display:inline-block;
-margin:20px;
-padding:15px 30px;
-background:#d4af37;
-color:#000;
-text-decoration:none;
-border-radius:8px;
-font-weight:bold;
-}
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:15px;
-padding:20px;
-}
-.card{
-background:#1d1d1d;
-padding:20px;
-border-radius:12px;
-}
-footer{
-background:#000;
-padding:20px;
-margin-top:30px;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-<h1>مجمع حمزه الشطري</h1>
-<p>للملابس الجاهزة والجملة</p>
-</header>
-
-<a class="btn" href="https://wa.me/9647813555538">
-تواصل عبر واتساب
-</a>
-
-<div class="products">
-
-<div class="card">
-<h3>الجنط المدرسية</h3>
-</div>
-
-<div class="card">
-<h3>الملابس المدرسية</h3>
-</div>
-
-<div class="card">
+<img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500">
 <h3>الملابس الرجالية</h3>
 </div>
 
 <div class="card">
-<h3>الملابس النسائية</h3>
-</div>
-
-<div class="card">
-<h3>ملابس الأطفال</h3>
+<img src="https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500">
+<h3>الملابس المدرسية</h3>
 </div>
 
 </div>
+</section>
 
 <footer>
-جميع الحقوق محفوظة © مجمع حمزه الشطري
+© 2026 جميع الحقوق محفوظة | مجمع حمزه الشطري
 </footer>
 
 </body>
-</html>
 </html>
