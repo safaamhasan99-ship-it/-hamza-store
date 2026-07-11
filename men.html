@@ -21,123 +21,109 @@ box-sizing:border-box;
 font-family:'Cairo',sans-serif;
 }
 
-
 body{
-
 background:#111;
 color:white;
-
 }
 
 
 header{
-
 background:#000;
 padding:20px;
 text-align:center;
 border-bottom:2px solid gold;
-
 }
 
 
 header h1{
-
 color:gold;
-
 }
 
 
 .menu{
-
 background:#222;
 padding:15px;
 text-align:center;
-
 }
 
 
 .menu a{
-
 color:white;
 text-decoration:none;
 margin:10px;
+}
 
+
+.container{
+padding:20px;
 }
 
 
 .products{
-
-padding:20px;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
-
 }
 
 
 .product{
-
 background:#222;
-border-radius:15px;
 padding:15px;
+border-radius:15px;
 text-align:center;
-
 }
 
 
 .product img{
-
 width:100%;
 height:250px;
 object-fit:cover;
 border-radius:10px;
-
 }
 
 
-.product h2{
-
+h2{
 color:gold;
-
+margin:10px;
 }
 
 
 .price{
-
 color:#00ff99;
-font-size:20px;
 font-weight:bold;
-
 }
 
 
 .btn{
-
 display:block;
 background:gold;
 color:#000;
-padding:12px;
+padding:10px;
 border-radius:25px;
 text-decoration:none;
 margin-top:10px;
 font-weight:bold;
-
 }
 
 
-@media(max-width:768px){
+
+footer{
+background:#000;
+text-align:center;
+padding:20px;
+margin-top:30px;
+}
+
+
+
+@media(max-width:600px){
 
 .products{
-
 grid-template-columns:1fr;
-
 }
 
-
 .product img{
-
 height:220px;
-
 }
 
 }
@@ -146,6 +132,8 @@ height:220px;
 </style>
 
 </head>
+
+
 <body>
 
 
@@ -153,7 +141,7 @@ height:220px;
 
 <h1>مجمع حمزه الشطري</h1>
 
-<p>القسم الرجالي - ملابس جاهزة بالجملة</p>
+<p>القسم الرجالي</p>
 
 </header>
 
@@ -165,17 +153,14 @@ height:220px;
 
 <a href="products.html">🛒 المنتجات</a>
 
-<a href="https://wa.me/9647813555538">
-💬 واتساب
-</a>
-
 </div>
 
 
 
+<div class="container">
+
 
 <div class="products">
-
 
 
 <div class="product">
@@ -186,66 +171,7 @@ height:220px;
 
 <p>موديلات تركية حديثة</p>
 
-<p class="price">35000 د.ع</p>
-
-
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
-</a>
-
-
-</div>
-
-
-
-
-<div class="product">
-
-<img src="IMG_5661.jpeg">
-
-<h2>تيشيرتات رجالية</h2>
-
-<p>خامات ممتازة</p>
-
-<p class="price">20000 د.ع</p>
-
-
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
-</a>
-
-
-</div>
-
-
-
-
-<div class="product">
-
-<img src="IMG_5661.jpeg">
-
-<h2>بناطيل رجالية</h2>
-
-<p>موديلات متنوعة</p>
-
-<p class="price">30000 د.ع</p>
-
-
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
-</a>
-
-
-</div>
-<div class="product">
-
-<img src="IMG_5661.jpeg">
-
-<h2>قمصان رجالية</h2>
-
-<p>موديلات حديثة وجملة</p>
-
-<p class="price">25000 د.ع</p>
+<p class="price">أسعار جملة</p>
 
 <a class="btn" href="https://wa.me/9647813555538">
 اطلب الآن
@@ -259,11 +185,11 @@ height:220px;
 
 <img src="IMG_5661.jpeg">
 
-<h2>ملابس داخلية رجالية</h2>
+<h2>تشكيلات رجالية</h2>
 
-<p>خامات درجة أولى</p>
+<p>خامات ممتازة وموديلات جديدة</p>
 
-<p class="price">15000 د.ع</p>
+<p class="price">حسب الموديل</p>
 
 <a class="btn" href="https://wa.me/9647813555538">
 اطلب الآن
@@ -275,12 +201,13 @@ height:220px;
 
 </div>
 
+</div>
 
-<footer style="background:#000;text-align:center;padding:25px;margin-top:30px;">
 
-<h3>مجمع حمزه الشطري</h3>
 
-<p>ذي قار - الشطرة</p>
+<footer>
+
+<p>📍 ذي قار - الشطرة</p>
 
 <p>📞 07813555538</p>
 
