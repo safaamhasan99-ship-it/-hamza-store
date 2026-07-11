@@ -9,9 +9,7 @@
 
 <title>القسم النسائي - مجمع حمزه الشطري</title>
 
-
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-
 
 <style>
 
@@ -22,131 +20,103 @@ box-sizing:border-box;
 font-family:'Cairo',sans-serif;
 }
 
-
 body{
-
 background:#111;
 color:white;
-
 }
 
-
 header{
-
 background:#000;
 padding:20px;
 text-align:center;
 border-bottom:2px solid gold;
-
 }
-
 
 header h1{
-
 color:gold;
-
 }
 
-
 .menu{
-
 background:#222;
 padding:15px;
 text-align:center;
-
 }
 
-
 .menu a{
-
 color:white;
 text-decoration:none;
 margin:10px;
-
 }
 
+.container{
+padding:20px;
+}
 
 .products{
-
-padding:20px;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
-
 }
-
 
 .product{
-
 background:#222;
-border-radius:15px;
 padding:15px;
+border-radius:15px;
 text-align:center;
-
 }
 
-
 .product img{
-
 width:100%;
 height:250px;
 object-fit:cover;
 border-radius:10px;
-
 }
 
-
-.product h2{
-
+h2{
 color:gold;
-
+margin:10px;
 }
-
 
 .price{
-
 color:#00ff99;
-font-size:20px;
 font-weight:bold;
-
 }
 
-
 .btn{
-
 display:block;
 background:gold;
 color:#000;
-padding:12px;
+padding:10px;
 border-radius:25px;
 text-decoration:none;
 margin-top:10px;
 font-weight:bold;
+}
 
+footer{
+background:#000;
+text-align:center;
+padding:20px;
+margin-top:30px;
 }
 
 
-@media(max-width:768px){
+@media(max-width:600px){
 
 .products{
-
 grid-template-columns:1fr;
-
 }
-
 
 .product img{
-
 height:220px;
-
 }
 
 }
-
 
 </style>
 
 </head>
+
 <body>
 
 
@@ -154,7 +124,7 @@ height:220px;
 
 <h1>مجمع حمزه الشطري</h1>
 
-<p>القسم النسائي - ملابس جاهزة بالجملة</p>
+<p>القسم النسائي</p>
 
 </header>
 
@@ -166,17 +136,13 @@ height:220px;
 
 <a href="products.html">🛒 المنتجات</a>
 
-<a href="https://wa.me/9647813555538">
-💬 واتساب
-</a>
-
 </div>
 
 
 
+<div class="container">
 
 <div class="products">
-
 
 
 <div class="product">
@@ -185,65 +151,9 @@ height:220px;
 
 <h2>ملابس نسائية</h2>
 
-<p>موديلات تركية حديثة</p>
+<p>موديلات نسائية حديثة</p>
 
-<p class="price">40000 د.ع</p>
-
-
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
-</a>
-
-</div>
-
-
-
-
-<div class="product">
-
-<img src="IMG_5662.jpeg">
-
-<h2>حجابات وشالات</h2>
-
-<p>خامات راقية وألوان متعددة</p>
-
-<p class="price">15000 د.ع</p>
-
-
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
-</a>
-
-</div>
-
-
-
-
-<div class="product">
-
-<img src="IMG_5662.jpeg">
-
-<h2>فساتين نسائية</h2>
-
-<p>موديلات جديدة</p>
-
-<p class="price">50000 د.ع</p>
-
-
-<a class="btn" href="https://wa.me/9647813555538">
-اطلب الآن
-</a>
-
-</div>
-<div class="product">
-
-<img src="IMG_5662.jpeg">
-
-<h2>عبايات نسائية</h2>
-
-<p>موديلات حديثة للجملة</p>
-
-<p class="price">45000 د.ع</p>
+<p class="price">أسعار جملة</p>
 
 <a class="btn" href="https://wa.me/9647813555538">
 اطلب الآن
@@ -257,11 +167,11 @@ height:220px;
 
 <img src="IMG_5662.jpeg">
 
-<h2>ربطات نسائية</h2>
+<h2>تشكيلات نسائية</h2>
 
-<p>ألوان وموديلات متنوعة</p>
+<p>خامات وموديلات متنوعة</p>
 
-<p class="price">10000 د.ع</p>
+<p class="price">حسب الموديل</p>
 
 <a class="btn" href="https://wa.me/9647813555538">
 اطلب الآن
@@ -270,20 +180,19 @@ height:220px;
 </div>
 
 
+</div>
 
 </div>
 
 
-<footer style="background:#000;text-align:center;padding:25px;margin-top:30px;">
 
-<h3>مجمع حمزه الشطري</h3>
+<footer>
 
-<p>ذي قار - الشطرة</p>
+<p>📍 ذي قار - الشطرة</p>
 
 <p>📞 07813555538</p>
 
 </footer>
-
 
 
 </body>
