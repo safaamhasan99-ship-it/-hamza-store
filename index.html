@@ -2,47 +2,165 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>مجمع حمزه الشطري</title>
 
-<link rel="stylesheet" href="style.css">
-
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
+<style>
+
+body{
+font-family:'Cairo',sans-serif;
+margin:0;
+background:#111;
+color:white;
+}
+
+.top-header{
+background:#000;
+padding:15px;
+display:flex;
+justify-content:space-around;
+flex-wrap:wrap;
+}
+
+.top-header a{
+color:white;
+text-decoration:none;
+margin:5px;
+}
+
+.navbar{
+background:#050505;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+border-bottom:2px solid gold;
+}
+
+.logo h1{
+color:gold;
+margin:0;
+}
+
+.navbar ul{
+display:flex;
+gap:15px;
+list-style:none;
+}
+
+.navbar a{
+color:white;
+text-decoration:none;
+}
+
+.hero{
+position:relative;
+text-align:center;
+}
+
+.banner{
+width:100%;
+height:400px;
+object-fit:cover;
+}
+
+.hero-text{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#000b;
+padding:25px;
+border-radius:15px;
+}
+
+.hero-text h2{
+color:gold;
+}
+
+.btn{
+background:gold;
+color:#000;
+padding:10px 25px;
+border-radius:25px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.categories{
+padding:25px;
+text-align:center;
+}
+
+.categories h2{
+color:gold;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:#222;
+padding:15px;
+border-radius:15px;
+}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.card h3{
+color:gold;
+}
+
+
+footer{
+background:#000;
+text-align:center;
+padding:25px;
+}
+
+
+</style>
+
 </head>
+
+
 
 <body>
 
 
+
 <header class="top-header">
 
-<div>
-🚚 توصيل لجميع محافظات العراق
-</div>
+<div>🚚 توصيل لجميع محافظات العراق</div>
+
+<div>📍 ذي قار - الشطرة</div>
 
 <div>
-📍 ذي قار - الشطرة
-</div>
-
-<div>
-
-<a href="tel:07813555538">
-📞 07813555538
-</a>
-
-<a href="https://wa.me/9647813555538">
-💬 واتساب
-</a>
-
+<a href="tel:07813555538">📞 07813555538</a>
+<a href="https://wa.me/9647813555538">💬 واتساب</a>
 </div>
 
 </header>
 
 
 
+
 <nav class="navbar">
+
 
 <div class="logo">
 
@@ -59,15 +177,18 @@
 
 <li><a href="products.html">المنتجات</a></li>
 
-<li><a href="details.html">الأقسام</a></li>
+<li><a href="about.html">من نحن</a></li>
 
 </ul>
+
 
 </nav>
 
 
 
+
 <section class="hero">
+
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" class="banner">
 
@@ -76,16 +197,18 @@
 
 <h2>مجمع حمزه الشطري</h2>
 
-<h3>للملابس الجاهزة والجملة</h3>
+<p>للملابس الجاهزة والجملة</p>
 
 <p>البيع جملة فقط</p>
 
 
-<a href="products.html" class="btn">
+<a class="btn" href="products.html">
 تسوق الآن
 </a>
 
+
 </div>
+
 
 </section>
 
@@ -94,17 +217,19 @@
 
 <section class="categories">
 
+
 <h2>أقسام المنتجات</h2>
+
 
 
 <div class="cards">
 
 
+
 <div class="card">
 <img src="IMG_5661.jpeg">
 <h3>القسم الرجالي</h3>
-<p>أحدث الموديلات الرجالية</p>
-<a href="details.html" class="btn">عرض القسم</a>
+<a class="btn" href="details.html">عرض القسم</a>
 </div>
 
 
@@ -112,8 +237,7 @@
 <div class="card">
 <img src="IMG_5662.jpeg">
 <h3>القسم النسائي</h3>
-<p>موديلات نسائية تركية</p>
-<a href="details.html" class="btn">عرض القسم</a>
+<a class="btn" href="details.html">عرض القسم</a>
 </div>
 
 
@@ -121,8 +245,7 @@
 <div class="card">
 <img src="IMG_5663.jpeg">
 <h3>القسم الولادي</h3>
-<p>ملابس أطفال ولادي</p>
-<a href="details.html" class="btn">عرض القسم</a>
+<a class="btn" href="details.html">عرض القسم</a>
 </div>
 
 
@@ -130,8 +253,7 @@
 <div class="card">
 <img src="IMG_5664.jpeg">
 <h3>القسم البناتي</h3>
-<p>موديلات بناتية حديثة</p>
-<a href="details.html" class="btn">عرض القسم</a>
+<a class="btn" href="details.html">عرض القسم</a>
 </div>
 
 
@@ -139,8 +261,7 @@
 <div class="card">
 <img src="IMG_5665.jpeg">
 <h3>قسم الجواريب</h3>
-<p>جوارب رجالي ونسائي وأطفال</p>
-<a href="details.html" class="btn">عرض القسم</a>
+<a class="btn" href="details.html">عرض القسم</a>
 </div>
 
 
@@ -148,17 +269,15 @@
 <div class="card">
 <img src="IMG_5666.jpeg">
 <h3>قسم البنطرون</h3>
-<p>بناطيل لجميع الأعمار</p>
-<a href="details.html" class="btn">عرض القسم</a>
+<a class="btn" href="details.html">عرض القسم</a>
 </div>
 
 
 
 <div class="card">
 <img src="IMG_5667.jpeg">
-<h3>قسم الداخليات الرجالية</h3>
-<p>خامات درجة أولى</p>
-<a href="details.html" class="btn">عرض القسم</a>
+<h3>الداخليات الرجالية</h3>
+<a class="btn" href="details.html">عرض القسم</a>
 </div>
 
 
@@ -166,7 +285,6 @@
 </div>
 
 </section>
-
 
 
 
@@ -178,9 +296,8 @@
 
 <p>واتساب: 07813555538</p>
 
-<p>© 2026 جميع الحقوق محفوظة</p>
-
 </footer>
+
 
 
 </body>
