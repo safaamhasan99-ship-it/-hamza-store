@@ -3,116 +3,210 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 const cartItems = document.getElementById("cartItems");
 const grandTotal = document.getElementById("grandTotal");
 
-function renderCart() {
 
-cartItems.innerHTML = "";
+function renderCart(){
 
-let total = 0;
+    if(!cartItems) return;
 
-cart.forEach((item,index)=>{
+    cartItems.innerHTML = "";
 
-let subtotal = item.price * item.quantity;
+    let total = 0;
 
-total += subtotal;
 
-cartItems.innerHTML += `
+    if(cart.length === 0){
 
-<tr>
+        cartItems.innerHTML = `
+        <tr>
+        <td colspan="6">
+        السلة فارغة
+        </td>
+        </tr>
+        `;
 
-<td>
-<img src="${item.image}" width="70">
-</td>
+    }
 
-<td>${item.name}</td>
 
-<td>${item.price} د.ع</td>
+    cart.forEach((item,index)=>{
 
-<td>
 
-<button onclick="changeQty(${index},-1)">-</button>
+        let price = Number(item.price) || 0;
 
-${item.quantity}
+        let quantity = item.quantity || 1;
 
-<button onclick="changeQty(${index},1)">+</button>
+        let subtotal = price * quantity;
 
-</td>
 
-<td>${subtotal} د.ع</td>
+        total += subtotal;
 
-<td>
 
-<button onclick="removeItem(${index})">
+        cartItems.innerHTML += `
 
-حذف
+        <tr>
 
-</button>
+        <td>
+        <img src="${item.image}" width="70">
+        </td>
 
-</td>
 
-</tr>
+        <td>
+        ${item.name}
+        </td>
 
-`;
 
-});
+        <td>
+        ${price.toLocaleString()} د.ع
+        </td>
 
-grandTotal.innerText = total;
 
-localStorage.setItem("cart",JSON.stringify(cart));
+        <td>
+
+        <button onclick="changeQty(${index},-1)">
+        -
+        </button>
+
+        ${quantity}
+
+        <button onclick="changeQty(${index},1)">
+        +
+        </button>
+
+        </td>
+
+
+        <td>
+        ${subtotal.toLocaleString()} د.ع
+        </td>
+
+
+        <td>
+
+        <button onclick="removeItem(${index})">
+        حذف
+        </button>
+
+        </td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    if(grandTotal){
+        grandTotal.innerText =
+        total.toLocaleString() + " د.ع";
+    }
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
 
 }
-function changeQty(index, value) {
+
+
+
+
+function changeQty(index,value){
 
     cart[index].quantity += value;
 
-    if (cart[index].quantity <= 0) {
-        cart.splice(index, 1);
+
+    if(cart[index].quantity <= 0){
+
+        cart.splice(index,1);
+
     }
 
-    renderCart();
-
-}
-
-function removeItem(index) {
-
-    cart.splice(index, 1);
 
     renderCart();
 
 }
 
-function sendOrder() {
+
+
+function removeItem(index){
+
+    cart.splice(index,1);
+
+    renderCart();
+
+}
+
+
+
+function sendOrder(){
+
+
+    if(cart.length === 0){
+
+        alert("السلة فارغة");
+
+        return;
+
+    }
+
 
     let name = document.getElementById("customerName").value;
+
     let phone = document.getElementById("customerPhone").value;
+
     let city = document.getElementById("customerCity").value;
+
     let address = document.getElementById("customerAddress").value;
+
     let notes = document.getElementById("customerNotes").value;
 
-    if (name == "" || phone == "") {
+
+
+    if(name==="" || phone===""){
+
         alert("يرجى إدخال الاسم ورقم الهاتف");
+
         return;
+
     }
 
-    let message = "🛒 طلب جديد من موقع مجمع حمزه الشطري\n\n";
 
-    cart.forEach(item => {
-        message += `• ${item.name} × ${item.quantity}\n`;
+
+    let message =
+    "🛒 طلب جديد من موقع مجمع حمزه الشطري\n\n";
+
+
+    cart.forEach(item=>{
+
+        message += 
+        "• " + item.name +
+        " × " + item.quantity +
+        "\n";
+
     });
 
-    message += "\n";
-    message += "الاسم: " + name + "\n";
-    message += "الهاتف: " + phone + "\n";
-    message += "المحافظة: " + city + "\n";
-    message += "العنوان: " + address + "\n";
 
-    if (notes !== "") {
-        message += "ملاحظات: " + notes + "\n";
+
+    message += "\nالاسم: "+name;
+    message += "\nالهاتف: "+phone;
+    message += "\nالمحافظة: "+city;
+    message += "\nالعنوان: "+address;
+
+
+    if(notes!==""){
+
+        message += "\nملاحظات: "+notes;
+
     }
 
+
+
     window.open(
-        "https://wa.me/9647813555538?text=" + encodeURIComponent(message),
-        "_blank"
+    "https://wa.me/9647813555538?text="+encodeURIComponent(message),
+    "_blank"
     );
+
 }
+
+
 
 renderCart();
