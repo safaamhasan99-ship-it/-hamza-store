@@ -8,6 +8,9 @@
 
 <title>منتجات مجمع حمزه الشطري</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -22,6 +25,7 @@ font-family:'Cairo',sans-serif;
 body{
 background:#111;
 color:#fff;
+overflow-x:hidden;
 }
 
 header{
@@ -33,7 +37,7 @@ border-bottom:3px solid gold;
 
 header h1{
 color:gold;
-margin-bottom:10px;
+font-size:28px;
 }
 
 .top-menu{
@@ -46,17 +50,11 @@ background:#1b1b1b;
 }
 
 .top-menu a{
-text-decoration:none;
 color:white;
+text-decoration:none;
 background:#222;
-padding:10px 18px;
+padding:10px 20px;
 border-radius:30px;
-transition:.3s;
-}
-
-.top-menu a:hover{
-background:gold;
-color:#000;
 }
 
 .search-box{
@@ -68,34 +66,26 @@ text-align:center;
 width:90%;
 max-width:500px;
 padding:15px;
-border:none;
 border-radius:30px;
+border:none;
 font-size:18px;
-outline:none;
 }
 
 .container{
 width:95%;
 margin:auto;
-padding-bottom:40px;
 }
 
 .products{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
+gap:20px;
 }
 
 .product{
 background:#222;
 border-radius:15px;
 overflow:hidden;
-box-shadow:0 0 15px rgba(0,0,0,.4);
-transition:.3s;
-}
-
-.product:hover{
-transform:translateY(-5px);
 }
 
 .product img{
@@ -111,12 +101,6 @@ text-align:center;
 
 .product h2{
 color:gold;
-font-size:22px;
-margin-bottom:10px;
-}
-
-.product p{
-margin:8px 0;
 }
 
 .price{
@@ -133,20 +117,13 @@ margin-top:15px;
 }
 
 .btn{
-display:block;
 padding:12px;
 border-radius:30px;
-text-decoration:none;
-font-weight:bold;
-text-align:center;
-cursor:pointer;
 border:none;
-font-size:16px;
-}
-
-.whatsapp{
-background:#25D366;
-color:white;
+font-weight:bold;
+cursor:pointer;
+text-align:center;
+text-decoration:none;
 }
 
 .cart{
@@ -159,71 +136,52 @@ background:#e91e63;
 color:white;
 }
 
+.whatsapp{
+background:#25D366;
+color:white;
+}
+
 footer{
 background:#000;
 text-align:center;
 padding:25px;
 margin-top:40px;
-border-top:2px solid gold;
 }
 
-</style>
-/* تحسين العرض على الموبايل */
-@media (max-width:768px){
 
-.top-header{
+@media(max-width:768px){
+
+.top-menu{
 flex-direction:column;
-text-align:center;
-gap:10px;
+align-items:center;
 }
 
-.navbar{
-flex-direction:column;
-text-align:center;
-}
-
-.navbar ul{
-flex-direction:column;
-padding:0;
-margin-top:15px;
-}
-
-.hero-text{
+.top-menu a{
 width:90%;
-padding:15px;
+text-align:center;
 }
 
-.hero-text h2{
-font-size:24px;
-}
-
-.cards,
 .products{
 grid-template-columns:1fr;
 }
 
-.product img,
-.card img{
+.product img{
 height:220px;
-}
-
-.search-box input{
-width:95%;
-font-size:16px;
 }
 
 .btn{
 font-size:15px;
-padding:12px;
 }
 
-footer{
-padding:20px 10px;
+.search-box input{
+width:95%;
 }
 
 }
+
+</style>
+
 </head>
-
 <body>
 
 <header>
@@ -235,6 +193,7 @@ padding:20px 10px;
 <p>البيع جملة فقط</p>
 
 </header>
+
 
 <nav class="top-menu">
 
@@ -248,22 +207,22 @@ padding:20px 10px;
 
 </nav>
 
+
 <div class="search-box">
 
-<input
-type="text"
-id="search"
-placeholder="🔍 ابحث عن المنتج">
+<input type="text" id="search" placeholder="🔍 ابحث عن المنتج">
 
 </div>
 
+
 <div class="container">
 
-<div class="products" id="products">
+<div class="products">
+
 
 <div class="product">
 
-<img src="IMG_5661.jpeg">
+<img src="IMG_5661.jpeg" loading="lazy">
 
 <div class="product-content">
 
@@ -271,23 +230,22 @@ placeholder="🔍 ابحث عن المنتج">
 
 <p>موديلات تركية حديثة</p>
 
-<p class="price">حسب الموديل</p>
+<p class="price">35000 د.ع</p>
 
 <div class="buttons">
 
 <button class="btn cart"
-onclick="addToCart('القسم الرجالي','حسب الموديل','IMG_5661.jpeg')">
+onclick="addToCart('القسم الرجالي','35000','IMG_5661.jpeg')">
 🛒 أضف إلى السلة
 </button>
 
 <button class="btn favorite"
-onclick="addToFavorites('القسم الرجالي','حسب الموديل','IMG_5661.jpeg')">
+onclick="addToFavorites('القسم الرجالي','35000','IMG_5661.jpeg')">
 ❤️ إضافة للمفضلة
 </button>
 
-<a class="btn whatsapp"
-href="https://wa.me/9647813555538">
-💬 اطلب عبر واتساب
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
@@ -296,33 +254,34 @@ href="https://wa.me/9647813555538">
 
 </div>
 
+
+
 <div class="product">
 
-<img src="IMG_5662.jpeg">
+<img src="IMG_5662.jpeg" loading="lazy">
 
 <div class="product-content">
 
 <h2>القسم النسائي</h2>
 
-<p>موديلات نسائية متنوعة</p>
+<p>خامات وموديلات متنوعة</p>
 
-<p class="price">حسب الموديل</p>
+<p class="price">40000 د.ع</p>
 
 <div class="buttons">
 
 <button class="btn cart"
-onclick="addToCart('القسم النسائي','حسب الموديل','IMG_5662.jpeg')">
+onclick="addToCart('القسم النسائي','40000','IMG_5662.jpeg')">
 🛒 أضف إلى السلة
 </button>
 
 <button class="btn favorite"
-onclick="addToFavorites('القسم النسائي','حسب الموديل','IMG_5662.jpeg')">
+onclick="addToFavorites('القسم النسائي','40000','IMG_5662.jpeg')">
 ❤️ إضافة للمفضلة
 </button>
 
-<a class="btn whatsapp"
-href="https://wa.me/9647813555538">
-💬 اطلب عبر واتساب
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
@@ -331,33 +290,105 @@ href="https://wa.me/9647813555538">
 
 </div>
 
+
+
 <div class="product">
 
-<img src="IMG_5663.jpeg">
+<img src="IMG_5663.jpeg" loading="lazy">
 
 <div class="product-content">
 
 <h2>القسم الولادي</h2>
 
-<p>قياسات متعددة</p>
+<p>ملابس أطفال قياسات متنوعة</p>
 
-<p class="price">حسب الموديل</p>
+<p class="price">25000 د.ع</p>
 
 <div class="buttons">
 
 <button class="btn cart"
-onclick="addToCart('القسم الولادي','حسب الموديل','IMG_5663.jpeg')">
+onclick="addToCart('القسم الولادي','25000','IMG_5663.jpeg')">
 🛒 أضف إلى السلة
 </button>
 
 <button class="btn favorite"
-onclick="addToFavorites('القسم الولادي','حسب الموديل','IMG_5663.jpeg')">
+onclick="addToFavorites('القسم الولادي','25000','IMG_5663.jpeg')">
 ❤️ إضافة للمفضلة
 </button>
 
-<a class="btn whatsapp"
-href="https://wa.me/9647813555538">
-💬 اطلب عبر واتساب
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
+</a>
+
+</div>
+
+</div>
+
+</div>
+<body>
+
+<header>
+
+<h1>مجمع حمزه الشطري</h1>
+
+<p>للملابس الجاهزة والجملة</p>
+
+<p>البيع جملة فقط</p>
+
+</header>
+
+
+<nav class="top-menu">
+
+<a href="index.html">🏠 الرئيسية</a>
+
+<a href="cart.html">🛒 السلة</a>
+
+<a href="favorites.html">❤️ المفضلة</a>
+
+<a href="about.html">ℹ️ من نحن</a>
+
+</nav>
+
+
+<div class="search-box">
+
+<input type="text" id="search" placeholder="🔍 ابحث عن المنتج">
+
+</div>
+
+
+<div class="container">
+
+<div class="products">
+
+
+<div class="product">
+
+<img src="IMG_5661.jpeg" loading="lazy">
+
+<div class="product-content">
+
+<h2>القسم الرجالي</h2>
+
+<p>موديلات تركية حديثة</p>
+
+<p class="price">35000 د.ع</p>
+
+<div class="buttons">
+
+<button class="btn cart"
+onclick="addToCart('القسم الرجالي','35000','IMG_5661.jpeg')">
+🛒 أضف إلى السلة
+</button>
+
+<button class="btn favorite"
+onclick="addToFavorites('القسم الرجالي','35000','IMG_5661.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
 </a>
 
 </div>
@@ -366,83 +397,165 @@ href="https://wa.me/9647813555538">
 
 </div>
 
-<!-- كرر نفس النموذج للأقسام:
-IMG_5664.jpeg البناتي
-IMG_5665.jpeg الجواريب
-IMG_5666.jpeg البنطرون
-IMG_5667.jpeg الداخليات الرجالية
--->
+
+
+<div class="product">
+
+<img src="IMG_5662.jpeg" loading="lazy">
+
+<div class="product-content">
+
+<h2>القسم النسائي</h2>
+
+<p>خامات وموديلات متنوعة</p>
+
+<p class="price">40000 د.ع</p>
+
+<div class="buttons">
+
+<button class="btn cart"
+onclick="addToCart('القسم النسائي','40000','IMG_5662.jpeg')">
+🛒 أضف إلى السلة
+</button>
+
+<button class="btn favorite"
+onclick="addToFavorites('القسم النسائي','40000','IMG_5662.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
+</a>
 
 </div>
 
 </div>
 
-<footer>
+</div>
 
-<h3>مجمع حمزه الشطري</h3>
 
-<p>ذي قار - الشطرة</p>
 
-<p>📞 07813555538</p>
+<div class="product">
 
-</footer>
+<img src="IMG_5663.jpeg" loading="lazy">
 
+<div class="product-content">
+
+<h2>القسم الولادي</h2>
+
+<p>ملابس أطفال قياسات متنوعة</p>
+
+<p class="price">25000 د.ع</p>
+
+<div class="buttons">
+
+<button class="btn cart"
+onclick="addToCart('القسم الولادي','25000','IMG_5663.jpeg')">
+🛒 أضف إلى السلة
+</button>
+
+<button class="btn favorite"
+onclick="addToFavorites('القسم الولادي','25000','IMG_5663.jpeg')">
+❤️ إضافة للمفضلة
+</button>
+
+<a class="btn whatsapp" href="https://wa.me/9647813555538">
+💬 اطلب واتساب
+</a>
+
+</div>
+
+</div>
+
+</div>
 <script>
 
-let search=document.getElementById("search");
-let products=document.querySelectorAll(".product");
+let search = document.getElementById("search");
 
-search.addEventListener("keyup",function(){
+let products = document.querySelectorAll(".product");
 
-let value=search.value.toLowerCase();
+
+search.addEventListener("keyup", function(){
+
+let value = search.value.toLowerCase();
+
 
 products.forEach(function(product){
 
-let text=product.innerText.toLowerCase();
+let text = product.innerText.toLowerCase();
+
 
 if(text.includes(value)){
+
 product.style.display="block";
+
 }else{
+
 product.style.display="none";
+
 }
 
 });
 
 });
+
+
+
+// السلة
 
 function addToCart(name,price,image){
 
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
 
 cart.push({
+
 name:name,
+
 price:price,
+
 image:image
+
 });
 
-localStorage.setItem("cart",JSON.stringify(cart));
 
-alert("تمت إضافة المنتج إلى السلة");
+localStorage.setItem("cart", JSON.stringify(cart));
+
+
+alert("🛒 تمت إضافة المنتج إلى السلة");
 
 }
+
+
+
+// المفضلة
 
 function addToFavorites(name,price,image){
 
-let favorites=JSON.parse(localStorage.getItem("favorites"))||[];
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
 
 favorites.push({
+
 name:name,
+
 price:price,
+
 image:image
+
 });
 
-localStorage.setItem("favorites",JSON.stringify(favorites));
 
-alert("تمت إضافة المنتج إلى المفضلة");
+localStorage.setItem("favorites", JSON.stringify(favorites));
+
+
+alert("❤️ تمت إضافة المنتج إلى المفضلة");
 
 }
 
+
 </script>
+
 
 </body>
 
