@@ -2,82 +2,160 @@
 <html lang="ar" dir="rtl">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سلة المشتريات | مجمع حمزه الشطري</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cart.css">
 
-<title>سلة الطلبات | مجمع حمزه الشطري</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Tahoma, sans-serif;
+        }
 
-<link rel="stylesheet" href="style.css">
+        body{
+            background:#f5f5f5;
+        }
 
+        header{
+            background:#000;
+            color:#fff;
+            padding:20px;
+            text-align:center;
+        }
+
+        header h1{
+            font-size:28px;
+        }
+
+        .container{
+            width:95%;
+            max-width:1200px;
+            margin:30px auto;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:#fff;
+            border-radius:10px;
+            overflow:hidden;
+        }
+
+        th{
+            background:#111;
+            color:#fff;
+            padding:15px;
+        }
+
+        td{
+            padding:15px;
+            text-align:center;
+            border-bottom:1px solid #eee;
+        }
+
+        img{
+            width:80px;
+            border-radius:8px;
+        }
+
+        button{
+            cursor:pointer;
+            padding:8px 14px;
+            border:none;
+            border-radius:6px;
+            background:#000;
+            color:#fff;
+        }
+
+        button:hover{
+            background:#444;
+        }
+
+        .total{
+            margin-top:25px;
+            background:#fff;
+            padding:20px;
+            border-radius:10px;
+            font-size:22px;
+            font-weight:bold;
+            text-align:left;
+        }
+
+        .checkout{
+            background:#fff;
+            margin-top:25px;
+            padding:25px;
+            border-radius:10px;
+        }
+
+        .checkout h2{
+            margin-bottom:20px;
+        }
+
+        .checkout input,
+        .checkout textarea{
+            width:100%;
+            padding:12px;
+            margin-bottom:15px;
+            border:1px solid #ccc;
+            border-radius:8px;
+        }
+
+        .send{
+            width:100%;
+            background:#25D366;
+            color:#fff;
+            font-size:20px;
+            padding:15px;
+        }
+
+        .send:hover{
+            background:#1ebc57;
+        }
+    </style>
 </head>
-
 
 <body>
 
-
 <header>
-
-<div class="logo">
-مجمع حمزه الشطري
-</div>
-
-<nav>
-
-<a href="index.html">الرئيسية</a>
-
-<a href="products.html">المنتجات</a>
-
-<a href="cart.html">السلة 🛒</a>
-
-</nav>
-
+    <h1>🛒 سلة المشتريات</h1>
 </header>
 
+<div class="container">
 
+<table>
 
-<h1 class="title">
-سلة الطلبات
-</h1>
+<thead>
 
+<tr>
 
+<th>الصورة</th>
+<th>المنتج</th>
+<th>السعر</th>
+<th>الكمية</th>
+<th>الإجمالي</th>
+<th>حذف</th>
 
-<section class="products" id="cartItems">
+</tr>
 
-</section>
+</thead>
 
+<tbody id="cartItems">
 
+</tbody>
 
-<div style="text-align:center; padding:30px;">
+</table>
 
-<button onclick="sendWhatsApp()">
-إرسال الطلب عبر واتساب
-</button>
+<div class="total">
+
+الإجمالي الكلي :
+<span id="grandTotal">
+0
+</span>
+د.ع
 
 </div>
-
-
-
-<footer>
-
-ذي قار - الشطرة<br>
-
-واتساب: 07813555538
-
-</footer>
-
-
-
-<script src="script.js"></script>
-
-
-<script>
-
-showCart();
-
-</script>
-
-
-</body>
-
-</html>
