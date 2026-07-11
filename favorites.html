@@ -21,7 +21,6 @@ box-sizing:border-box;
 font-family:'Cairo',sans-serif;
 }
 
-
 body{
 background:#111;
 color:white;
@@ -29,114 +28,110 @@ color:white;
 
 
 header{
-
 background:#000;
 padding:20px;
 text-align:center;
-border-bottom:2px solid gold;
-
+border-bottom:3px solid gold;
 }
 
-
 header h1{
-
 color:gold;
-
 }
 
 
 .menu{
-
 background:#222;
 padding:15px;
 text-align:center;
-
 }
 
-
 .menu a{
-
 color:white;
 text-decoration:none;
 margin:10px;
-
 }
 
 
-
-#favorites{
-
+.container{
+width:95%;
+margin:auto;
 padding:20px;
-
 }
 
 
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:20px;
+}
 
-.item{
 
+.card{
 background:#222;
-border-radius:15px;
 padding:15px;
-margin-bottom:15px;
-display:flex;
-align-items:center;
-gap:15px;
-
+border-radius:15px;
+text-align:center;
 }
 
 
-
-.item img{
-
-width:100px;
-height:100px;
+.card img{
+width:100%;
+height:230px;
 object-fit:cover;
 border-radius:10px;
-
 }
 
+
+.card h2{
+color:gold;
+margin:10px;
+}
 
 
 .price{
-
 color:#00ff99;
 font-weight:bold;
-
 }
 
 
+.btn{
+display:block;
+padding:12px;
+margin-top:10px;
+border-radius:25px;
+text-decoration:none;
+font-weight:bold;
+}
 
-button{
 
+.order{
+background:#25D366;
+color:white;
+}
+
+
+.delete{
 background:#e91e63;
 color:white;
 border:none;
-padding:10px;
-border-radius:20px;
+width:100%;
 cursor:pointer;
-
 }
 
 
 
 footer{
-
 background:#000;
+padding:25px;
 text-align:center;
-padding:20px;
 margin-top:30px;
-
 }
-
 
 
 @media(max-width:600px){
 
-.item{
-
-flex-direction:column;
-text-align:center;
-
+.products{
+grid-template-columns:1fr;
 }
 
 }
@@ -151,9 +146,9 @@ text-align:center;
 
 <header>
 
-<h1>❤️ المنتجات المفضلة</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-<p>مجمع حمزه الشطري</p>
+<p>❤️ المنتجات المفضلة</p>
 
 </header>
 
@@ -163,19 +158,27 @@ text-align:center;
 
 <a href="index.html">🏠 الرئيسية</a>
 
+<a href="products.html">🛒 المنتجات</a>
+
 <a href="cart.html">🛒 السلة</a>
 
 </div>
 
 
 
-<div id="favorites"></div>
+
+<div class="container">
+
+<div class="products" id="favoritesList"></div>
+
+</div>
+
 
 
 
 <footer>
 
-<p>ذي قار - الشطرة</p>
+<p>📍 ذي قار - الشطرة</p>
 
 <p>📞 07813555538</p>
 
@@ -184,44 +187,60 @@ text-align:center;
 
 
 
+
 <script>
 
 
-let box=document.getElementById("favorites");
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 
-let favorites=JSON.parse(localStorage.getItem("favorites")) || [];
+let list=document.getElementById("favoritesList");
 
 
 
-if(favorites.length==0){
+function showFavorites(){
 
-box.innerHTML="<h2 style='text-align:center;color:gold'>لا توجد منتجات مفضلة</h2>";
+
+list.innerHTML="";
+
+
+if(favorites.length===0){
+
+list.innerHTML="<h2 style='color:gold;text-align:center'>لا توجد منتجات مفضلة</h2>";
+
+return;
 
 }
 
 
 
-favorites.forEach(function(item,index){
+favorites.forEach((item,index)=>{
 
 
-box.innerHTML += `
+list.innerHTML += `
 
-<div class="item">
+<div class="card">
 
 <img src="${item.image}">
 
-<div>
-
 <h2>${item.name}</h2>
 
-<p class="price">${item.price}</p>
+<p class="price">${Number(item.price).toLocaleString()} د.ع</p>
 
-<button onclick="removeFavorite(${index})">
-حذف
+
+<a class="btn order" href="https://wa.me/9647813555538">
+
+💬 اطلب الآن
+
+</a>
+
+
+<button class="btn delete" onclick="removeFavorite(${index})">
+
+حذف من المفضلة
+
 </button>
 
-</div>
 
 </div>
 
@@ -229,6 +248,8 @@ box.innerHTML += `
 
 });
 
+
+}
 
 
 
@@ -238,13 +259,15 @@ favorites.splice(index,1);
 
 localStorage.setItem("favorites",JSON.stringify(favorites));
 
-location.reload();
+showFavorites();
 
 }
 
 
-</script>
+showFavorites();
 
+
+</script>
 
 
 </body>
