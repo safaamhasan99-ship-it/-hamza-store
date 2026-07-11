@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>إتمام الطلب - مجمع حمزه الشطري</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
+
+body{
+background:#111;
+color:white;
+}
+
+
+header{
+background:#000;
+padding:20px;
+text-align:center;
+border-bottom:3px solid gold;
+}
+
+
+header h1{
+color:gold;
+}
+
+
+
+.container{
+
+width:90%;
+max-width:600px;
+margin:30px auto;
+background:#222;
+padding:25px;
+border-radius:15px;
+
+}
+
+
+
+h2{
+
+color:gold;
+text-align:center;
+margin-bottom:20px;
+
+}
+
+
+
+input,select,textarea{
+
+width:100%;
+padding:14px;
+margin-bottom:15px;
+border:none;
+border-radius:10px;
+font-size:16px;
+
+}
+
+
+
+textarea{
+
+height:100px;
+resize:none;
+
+}
+
+
+
+.btn{
+
+width:100%;
+padding:15px;
+border:none;
+border-radius:30px;
+background:#25D366;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+
+
+.menu{
+
+text-align:center;
+padding:15px;
+background:#222;
+
+}
+
+
+
+.menu a{
+
+color:white;
+text-decoration:none;
+margin:10px;
+
+}
+
+
+
+footer{
+
+background:#000;
+text-align:center;
+padding:20px;
+margin-top:30px;
+
+}
+
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+
+<header>
+
+<h1>مجمع حمزه الشطري</h1>
+
+<p>إتمام الطلب</p>
+
+</header>
+
+
+
+<div class="menu">
+
+<a href="index.html">🏠 الرئيسية</a>
+
+<a href="cart.html">🛒 السلة</a>
+
+</div>
+
+
+
+
+<div class="container">
+
+
+<h2>بيانات الزبون</h2>
+
+
+
+<input id="name" type="text" placeholder="الاسم الكامل">
+
+
+<input id="phone" type="text" placeholder="رقم الهاتف">
+
+
+<select id="city">
+
+<option>اختر المحافظة</option>
+
+<option>ذي قار</option>
+
+<option>بغداد</option>
+
+<option>البصرة</option>
+
+<option>النجف</option>
+
+<option>كربلاء</option>
+
+<option>ميسان</option>
+
+<option>واسط</option>
+
+<option>باقي المحافظات</option>
+
+</select>
+
+
+
+<textarea id="address" placeholder="العنوان بالتفصيل"></textarea>
+
+
+
+<button class="btn" onclick="sendOrder()">
+
+💬 إرسال الطلب عبر واتساب
+
+</button>
+
+
+</div>
+
+
+
+
+
+<footer>
+
+<p>📍 ذي قار - الشطرة</p>
+
+<p>📞 07813555538</p>
+
+</footer>
+
+
+
+
+
+
+<script>
+
+
+function sendOrder(){
+
+
+let name=document.getElementById("name").value;
+
+let phone=document.getElementById("phone").value;
+
+let city=document.getElementById("city").value;
+
+let address=document.getElementById("address").value;
+
+
+
+if(name==="" || phone===""){
+
+alert("يرجى إدخال الاسم ورقم الهاتف");
+
+return;
+
+}
+
+
+
+let message=
+
+"طلب جديد من متجر مجمع حمزه الشطري%0A%0A"+
+
+"الاسم: "+name+"%0A"+
+
+"الهاتف: "+phone+"%0A"+
+
+"المحافظة: "+city+"%0A"+
+
+"العنوان: "+address;
+
+
+
+window.open(
+
+"https://wa.me/9647813555538?text="+message,
+
+"_blank"
+
+);
+
+
+
+}
+
+
+</script>
+
+
+
+</body>
+
+</html>
