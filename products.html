@@ -1,653 +1,3 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>منتجات مجمع حمزه الشطري</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-
-body{
-background:#111;
-color:white;
-}
-
-
-header{
-background:#000;
-padding:20px;
-text-align:center;
-border-bottom:3px solid gold;
-}
-
-
-header h1{
-color:gold;
-}
-
-
-.top-menu{
-
-display:flex;
-justify-content:center;
-gap:15px;
-flex-wrap:wrap;
-padding:15px;
-background:#222;
-
-}
-
-
-.top-menu a{
-
-color:white;
-text-decoration:none;
-background:#111;
-padding:10px 20px;
-border-radius:25px;
-
-}
-
-
-
-.search-box{
-
-text-align:center;
-padding:20px;
-
-}
-
-
-.search-box input{
-
-width:90%;
-max-width:500px;
-padding:15px;
-border-radius:30px;
-border:none;
-font-size:17px;
-
-}
-
-
-
-.container{
-
-width:95%;
-margin:auto;
-
-}
-
-
-.products{
-
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:20px;
-padding:20px;
-
-}
-
-
-
-.product{
-
-background:#222;
-border-radius:15px;
-overflow:hidden;
-padding-bottom:15px;
-
-}
-
-
-
-.product img{
-
-width:100%;
-height:250px;
-object-fit:cover;
-
-}
-
-
-
-.product-content{
-
-padding:15px;
-text-align:center;
-
-}
-
-
-
-.product h2{
-
-color:gold;
-font-size:22px;
-
-}
-
-
-
-.price{
-
-color:#00ff99;
-font-size:19px;
-font-weight:bold;
-
-}
-
-
-
-.buttons{
-
-display:flex;
-flex-direction:column;
-gap:10px;
-margin-top:15px;
-
-}
-
-
-
-.btn{
-
-padding:12px;
-border-radius:25px;
-border:none;
-text-decoration:none;
-text-align:center;
-font-weight:bold;
-cursor:pointer;
-
-}
-
-
-
-.cart{
-
-background:gold;
-color:#000;
-
-}
-
-
-
-.favorite{
-
-background:#e91e63;
-color:white;
-
-}
-
-
-
-.whatsapp{
-
-background:#25D366;
-color:white;
-
-}
-  footer{
-
-background:#000;
-text-align:center;
-padding:25px;
-margin-top:40px;
-border-top:2px solid gold;
-
-}
-
-
-@media(max-width:600px){
-
-.products{
-
-grid-template-columns:1fr;
-
-}
-
-
-.product img{
-
-height:220px;
-
-}
-
-
-.btn{
-
-font-size:15px;
-
-}
-
-}
-
-
-</style>
-
-</head>
-
-
-<body>
-
-
-<header>
-
-<h1>مجمع حمزه الشطري</h1>
-
-<p>للملابس الجاهزة والجملة</p>
-
-<p>البيع جملة فقط</p>
-
-</header>
-
-
-
-<nav class="top-menu">
-
-<a href="index.html">🏠 الرئيسية</a>
-
-<a href="cart.html">🛒 السلة</a>
-
-<a href="favorites.html">❤️ المفضلة</a>
-
-<a href="about.html">ℹ️ من نحن</a>
-
-</nav>
-
-
-
-
-<div class="search-box">
-
-<input 
-type="text"
-id="search"
-placeholder="🔍 ابحث عن المنتج">
-
-</div>
-
-
-
-
-<div class="container">
-
-
-<div class="products" id="products">
-
-
-
-<div class="product">
-
-<img src="IMG_5661.jpeg">
-
-<div class="product-content">
-
-<h2>القسم الرجالي</h2>
-
-<p>موديلات تركية حديثة</p>
-
-<p class="price">درزن يبدأ من 90,000 د.ع</p>
-
-
-<div class="buttons">
-
-<button class="btn cart"
-onclick="addToCart('القسم الرجالي','90000','IMG_5661.jpeg')">
-
-🛒 أضف إلى السلة
-
-</button>
-
-
-<button class="btn favorite"
-onclick="addToFavorites('القسم الرجالي','90000','IMG_5661.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<a class="btn whatsapp"
-href="https://wa.me/9647813555538">
-
-💬 اطلب عبر واتساب
-
-</a>
-
-
-</div>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="product">
-
-<img src="IMG_5662.jpeg">
-
-<div class="product-content">
-
-<h2>القسم النسائي</h2>
-
-<p>موديلات نسائية متنوعة</p>
-
-<p class="price">درزن يبدأ من 70,000 د.ع</p>
-
-
-<div class="buttons">
-
-<button class="btn cart"
-onclick="addToCart('القسم النسائي','70000','IMG_5662.jpeg')">
-
-🛒 أضف إلى السلة
-
-</button>
-
-
-<button class="btn favorite"
-onclick="addToFavorites('القسم النسائي','70000','IMG_5662.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<a class="btn whatsapp"
-href="https://wa.me/9647813555538">
-
-💬 اطلب عبر واتساب
-
-</a>
-
-
-</div>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="product">
-
-<img src="IMG_5663.jpeg">
-
-<div class="product-content">
-
-<h2>القسم الولادي</h2>
-
-<p>ملابس أطفال قياسات متعددة</p>
-
-<p class="price">درزن يبدأ من 60,000 د.ع</p>
-
-
-<div class="buttons">
-
-<button class="btn cart"
-onclick="addToCart('القسم الولادي','60000','IMG_5663.jpeg')">
-
-🛒 أضف إلى السلة
-
-</button>
-
-
-<button class="btn favorite"
-onclick="addToFavorites('القسم الولادي','60000','IMG_5663.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<a class="btn whatsapp"
-href="https://wa.me/9647813555538">
-
-💬 اطلب عبر واتساب
-
-</a>
-
-
-</div>
-
-</div>
-
-</div>
-<div class="product">
-
-<img src="IMG_5664.jpeg">
-
-<div class="product-content">
-
-<h2>القسم البناتي</h2>
-
-<p>موديلات بناتية حديثة</p>
-
-<p class="price">درزن يبدأ من 65,000 د.ع</p>
-
-
-<div class="buttons">
-
-<button class="btn cart"
-onclick="addToCart('القسم البناتي','65000','IMG_5664.jpeg')">
-
-🛒 أضف إلى السلة
-
-</button>
-
-
-<button class="btn favorite"
-onclick="addToFavorites('القسم البناتي','65000','IMG_5664.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<a class="btn whatsapp"
-href="https://wa.me/9647813555538">
-
-💬 اطلب عبر واتساب
-
-</a>
-
-
-</div>
-
-</div>
-
-</div>
-
-
-
-
-<div class="product">
-
-<img src="IMG_5665.jpeg">
-
-<div class="product-content">
-
-<h2>قسم الجواريب</h2>
-
-<p>رجالي - نسائي - أطفال</p>
-
-<p class="price">درزن يبدأ من 10,000 د.ع</p>
-
-
-<div class="buttons">
-
-<button class="btn cart"
-onclick="addToCart('الجواريب','10000','IMG_5665.jpeg')">
-
-🛒 أضف إلى السلة
-
-</button>
-
-
-<button class="btn favorite"
-onclick="addToFavorites('الجواريب','10000','IMG_5665.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<a class="btn whatsapp"
-href="https://wa.me/9647813555538">
-
-💬 اطلب عبر واتساب
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="product">
-
-<img src="IMG_5666.jpeg">
-
-<div class="product-content">
-
-<h2>قسم البنطرون</h2>
-
-<p>موديلات رجالية وولادية</p>
-
-<p class="price">درزن يبدأ من 80,000 د.ع</p>
-
-
-<div class="buttons">
-
-<button class="btn cart"
-onclick="addToCart('البنطرون','80000','IMG_5666.jpeg')">
-
-🛒 أضف إلى السلة
-
-</button>
-
-
-<button class="btn favorite"
-onclick="addToFavorites('البنطرون','80000','IMG_5666.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<a class="btn whatsapp"
-href="https://wa.me/9647813555538">
-
-💬 اطلب عبر واتساب
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="product">
-
-<img src="IMG_5667.jpeg">
-
-<div class="product-content">
-
-<h2>الداخليات الرجالية</h2>
-
-<p>خامات درجة أولى</p>
-
-<p class="price">درزن يبدأ من 45,000 د.ع</p>
-
-
-<div class="buttons">
-
-<button class="btn cart"
-onclick="addToCart('الداخليات الرجالية','45000','IMG_5667.jpeg')">
-
-🛒 أضف إلى السلة
-
-</button>
-
-
-<button class="btn favorite"
-onclick="addToFavorites('الداخليات الرجالية','45000','IMG_5667.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<a class="btn whatsapp"
-href="https://wa.me/9647813555538">
-
-💬 اطلب عبر واتساب
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-</div>
-
-</div>
-
-
-
-<footer>
-
-<h3>مجمع حمزه الشطري</h3>
-
-<p>📍 ذي قار - الشطرة</p>
-
-<p>📞 07813555538</p>
-
-<p>🚚 توصيل لجميع محافظات العراق</p>
-
-</footer>
-
-
-
-
-<script>
-
 let search=document.getElementById("search");
 
 let products=document.querySelectorAll(".product");
@@ -680,28 +30,51 @@ product.style.display="none";
 
 
 
+
+
 function addToCart(name,price,image){
 
 
 let cart=JSON.parse(localStorage.getItem("cart")) || [];
 
 
+let existing=cart.find(item=>item.name===name);
+
+
+
+if(existing){
+
+existing.quantity=(existing.quantity || 1)+1;
+
+}else{
+
+
 cart.push({
 
 name:name,
+
 price:price,
-image:image
+
+image:image,
+
+quantity:1
 
 });
+
+
+}
+
 
 
 localStorage.setItem("cart",JSON.stringify(cart));
 
 
-alert("✅ تمت إضافة المنتج إلى السلة");
+alert("🛒 تمت إضافة المنتج إلى السلة");
+
 
 
 }
+
 
 
 
@@ -712,13 +85,30 @@ function addToFavorites(name,price,image){
 let favorites=JSON.parse(localStorage.getItem("favorites")) || [];
 
 
+let exists=favorites.find(item=>item.name===name);
+
+
+
+if(exists){
+
+alert("❤️ المنتج موجود في المفضلة");
+
+return;
+
+}
+
+
+
 favorites.push({
 
 name:name,
+
 price:price,
+
 image:image
 
 });
+
 
 
 localStorage.setItem("favorites",JSON.stringify(favorites));
@@ -728,12 +118,3 @@ alert("❤️ تمت إضافة المنتج للمفضلة");
 
 
 }
-
-
-</script>
-
-
-
-</body>
-
-</html>
