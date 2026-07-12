@@ -1,120 +1,79 @@
-let search=document.getElementById("search");
+// ==================== البحث ====================
 
-let products=document.querySelectorAll(".product");
+const search = document.getElementById("search");
 
+if (search) {
 
-search.addEventListener("keyup",function(){
+    search.addEventListener("keyup", function () {
 
-let value=search.value.toLowerCase();
+        const value = this.value.toLowerCase();
 
+        const products = document.querySelectorAll(".product");
 
-products.forEach(function(product){
+        products.forEach(product => {
 
-let text=product.innerText.toLowerCase();
+            const text = product.innerText.toLowerCase();
 
+            product.style.display = text.includes(value) ? "" : "none";
 
-if(text.includes(value)){
+        });
 
-product.style.display="block";
-
-}else{
-
-product.style.display="none";
-
-}
-
-});
-
-
-});
-
-
-
-
-
-function addToCart(name,price,image){
-
-
-let cart=JSON.parse(localStorage.getItem("cart")) || [];
-
-
-let existing=cart.find(item=>item.name===name);
-
-
-
-if(existing){
-
-existing.quantity=(existing.quantity || 1)+1;
-
-}else{
-
-
-cart.push({
-
-name:name,
-
-price:price,
-
-image:image,
-
-quantity:1
-
-});
-
+    });
 
 }
 
+// ==================== إضافة إلى السلة ====================
 
+function addToCart(name, price, image) {
 
-localStorage.setItem("cart",JSON.stringify(cart));
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+    let existing = cart.find(item => item.name === name);
 
-alert("🛒 تمت إضافة المنتج إلى السلة");
+    if (existing) {
 
+        existing.quantity++;
 
+    } else {
 
-}
+        cart.push({
+            name,
+            price,
+            image,
+            quantity: 1
+        });
 
+    }
 
+    localStorage.setItem("cart", JSON.stringify(cart));
 
-
-
-function addToFavorites(name,price,image){
-
-
-let favorites=JSON.parse(localStorage.getItem("favorites")) || [];
-
-
-let exists=favorites.find(item=>item.name===name);
-
-
-
-if(exists){
-
-alert("❤️ المنتج موجود في المفضلة");
-
-return;
+    alert("🛒 تمت إضافة المنتج إلى السلة");
 
 }
 
+// ==================== إضافة إلى المفضلة ====================
 
+function addToFavorites(name, price, image) {
 
-favorites.push({
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-name:name,
+    let exists = favorites.find(item => item.name === name);
 
-price:price,
+    if (exists) {
 
-image:image
+        alert("❤️ المنتج موجود مسبقًا في المفضلة");
+        return;
 
-});
+    }
 
+    favorites.push({
+        name,
+        price,
+        image
+    });
 
+    localStorage.setItem("favorites", JSON.stringify(favorites));
 
-localStorage.setItem("favorites",JSON.stringify(favorites));
-
-
-alert("❤️ تمت إضافة المنتج للمفضلة");
-
+    alert("❤️ تمت إضافة المنتج إلى المفضلة");
 
 }
