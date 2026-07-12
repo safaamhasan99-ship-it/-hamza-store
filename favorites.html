@@ -13,6 +13,8 @@
 
 <link rel="stylesheet" href="style.css">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 </head>
 
 
@@ -21,6 +23,9 @@
 
 
 <header class="header">
+
+
+<div class="top-header">
 
 
 <div class="brand">
@@ -35,9 +40,28 @@
 مجمع حمزه الشطري
 </h1>
 
+
 <p>
-المنتجات المفضلة
+المنتجات المفضلة ❤️
 </p>
+
+
+</div>
+
+
+</div>
+
+
+<div class="header-actions">
+
+
+<a href="cart.html">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span id="cartCount">0</span>
+
+</a>
 
 
 </div>
@@ -60,6 +84,7 @@
 </h2>
 
 
+
 <div class="products-grid" id="favoritesBox">
 
 
@@ -72,26 +97,43 @@
 
 
 
+
 <nav class="bottom-nav">
 
 
 <a href="index.html">
-🏠 الرئيسية
+
+<i class="fa-solid fa-house"></i>
+
+<span>الرئيسية</span>
+
 </a>
 
 
 <a href="products.html">
-🛍 المنتجات
+
+<i class="fa-solid fa-shop"></i>
+
+<span>المنتجات</span>
+
 </a>
 
 
 <a href="cart.html">
-🛒 السلة
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span>السلة</span>
+
 </a>
 
 
-<a href="favorites.html">
-❤️ المفضلة
+<a href="favorites.html" class="active">
+
+<i class="fa-solid fa-heart"></i>
+
+<span>المفضلة</span>
+
 </a>
 
 
@@ -101,7 +143,41 @@
 
 
 
+
+
+<footer class="footer">
+
+
+<h3>
+مجمع حمزه الشطري
+</h3>
+
+
+<p>
+ذي قار - الشطرة
+</p>
+
+
+<p>
+📞 07813555538
+</p>
+
+
+<p>
+🚚 توصيل لجميع محافظات العراق
+</p>
+
+
+</footer>
+
+
+
+
+
+
+
 <script src="script.js"></script>
+
 
 
 <script>
@@ -114,30 +190,54 @@ let box = document.getElementById("favoritesBox");
 
 
 
+function showFavorites(){
+
+
+box.innerHTML="";
+
+
+
 if(favorites.length === 0){
 
 
 box.innerHTML = `
 
+
 <div class="about-box">
+
 
 <h2>
 لا توجد منتجات مفضلة ❤️
 </h2>
 
+
+<a href="products.html" class="wholesale">
+
+تصفح المنتجات
+
+</a>
+
+
 </div>
+
 
 `;
 
 
-}else{
+return;
+
+
+}
 
 
 
-favorites.forEach(item=>{
+
+favorites.forEach((item,index)=>{
+
 
 
 box.innerHTML += `
+
 
 
 <div class="product-card">
@@ -146,15 +246,25 @@ box.innerHTML += `
 <img src="${item.image}">
 
 
+
 <div class="product-info">
 
 
-<h3>${item.name}</h3>
+
+<h3>
+
+${item.name}
+
+</h3>
+
 
 
 <p class="price">
+
 ${item.price} د.ع
+
 </p>
+
 
 
 
@@ -163,6 +273,28 @@ ${item.price} د.ع
 onclick="addToCart('${item.name}',${item.price},'${item.image}')">
 
 🛒 إضافة للسلة
+
+</button>
+
+
+
+
+<button class="details-btn"
+
+onclick="openProduct('${item.name}',${item.price},'${item.image}')">
+
+👁 عرض التفاصيل
+
+</button>
+
+
+
+
+<button class="favorite"
+
+onclick="removeFavorite(${index})">
+
+❌ حذف من المفضلة
 
 </button>
 
@@ -182,8 +314,32 @@ onclick="addToCart('${item.name}',${item.price},'${item.image}')">
 });
 
 
+}
+
+
+
+
+function removeFavorite(index){
+
+
+favorites.splice(index,1);
+
+
+localStorage.setItem("favorites",JSON.stringify(favorites));
+
+
+showFavorites();
+
 
 }
+
+
+
+showFavorites();
+
+
+updateCartCount();
+
 
 
 </script>
