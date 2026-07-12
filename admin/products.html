@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>إدارة المنتجات</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+body{background:#f5f5f5;padding:30px}
+.container{max-width:1000px;margin:auto}
+h1{margin-bottom:20px;color:#222}
+.form{
+background:#fff;
+padding:20px;
+border-radius:12px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+margin-bottom:30px;
+}
+input,select{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ddd;
+border-radius:8px;
+font-size:16px;
+}
+button{
+background:#FFC107;
+border:none;
+padding:12px 20px;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+font-weight:bold;
+}
+table{
+width:100%;
+background:#fff;
+border-collapse:collapse;
+border-radius:12px;
+overflow:hidden;
+}
+th,td{
+padding:15px;
+border-bottom:1px solid #eee;
+text-align:center;
+}
+th{
+background:#111;
+color:#fff;
+}
+.delete{
+background:#e53935;
+color:#fff;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>إدارة المنتجات</h1>
+
+<div class="form">
+
+<input id="name" placeholder="اسم المنتج">
+
+<input id="price" type="number" placeholder="السعر">
+
+<input id="image" placeholder="رابط الصورة">
+
+<select id="category">
+<option>رجالي</option>
+<option>نسائي</option>
+<option>ولادي</option>
+<option>بناتي</option>
+<option>جوارب</option>
+</select>
+
+<button onclick="addProduct()">إضافة المنتج</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>الاسم</th>
+<th>السعر</th>
+<th>القسم</th>
+<th>حذف</th>
+</tr>
+
+</thead>
+
+<tbody id="list"></tbody>
+
+</table>
+
+</div>
+
+<script>
+
+let products=JSON.parse(localStorage.getItem("products"))||[];
+
+function render(){
+
+let list=document.getElementById("list");
+
+list.innerHTML="";
+
+products.forEach((p,i)=>{
+
+list.innerHTML+=`
+<tr>
+<td>${p.name}</td>
+<td>${p.price}</td>
+<td>${p.category}</td>
+<td><button class="delete" onclick="removeProduct(${i})">حذف</button></td>
+</tr>
+`;
+
+});
+
+localStorage.setItem("products",JSON.stringify(products));
+
+}
+
+function addProduct(){
+
+products.push({
+
+name:document.getElementById("name").value,
+price:document.getElementById("price").value,
+image:document.getElementById("image").value,
+category:document.getElementById("category").value
+
+});
+
+render();
+
+}
+
+function removeProduct(i){
+
+products.splice(i,1);
+
+render();
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>
