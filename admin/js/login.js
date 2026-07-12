@@ -1,19 +1,183 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { db } from "./firebase.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCcaOIwNodH5IESCShyYQkpHBFiywzIi-4",
-  authDomain: "hamza-shatri-store.firebaseapp.com",
-  projectId: "hamza-shatri-store",
-  storageBucket: "hamza-shatri-store.firebasestorage.app",
-  messagingSenderId: "372483512160",
-  appId: "1:372483512160:web:b594dd13f4774db6d13005"
+import {
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc,
+updateDoc,
+getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const productsRef = collection(db,"products");
+
+let editId = null;
+
+export async function loadProducts(){
+
+const container=document.getElementById("products");
+
+if(!container) return;
+
+container.innerHTML="";
+
+const snapshot=await getDocs(productsRef);
+
+snapshot.forEach((item)=>{
+
+const p=item.data();
+
+container.innerHTML+=`
+
+<div class="card">
+
+<img src="${p.image}" alt="${p.name}">
+
+<div class="card-body">
+
+<h3>${p.name}</h3>
+
+<div class="price">${p.price} د.ع</div>
+
+<div class="category">${p.category}</div>
+
+<p>${p.description}</p>
+
+<div class="actions">
+
+<button class="edit" onclick="editProduct('${item.id}')">
+تعديل
+</button>
+
+<button class="delete" onclick="removeProduct('${item.id}')">
+حذف
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+window.removeProduct=async(id)=>{
+
+if(!confirm("هل تريد حذف المنتج؟")) return;
+
+await deleteDoc(doc(db,"products",id));
+
+loadProducts();
+
 };
 
-const app = initializeApp(firebaseConfig);
+window.editProduct=async(id)=>{
 
-export const db = getFirestore(app);
-export const auth = getAuth(app);
-export const storage = getStorage(app);
+const snap=await getDoc(doc(db,"products",id));
+
+const p=snap.data();
+
+editId=id;
+
+document.getElementById("name").value=p.name;
+document.getElementById("price").value=p.price;
+document.getElementById("category").value=p.category;
+document.getElementById("description").value=p.description;
+document.getElementById("image").value=p.image;
+
+document.getElementById("saveBtn").innerText="حفظ التعديلات";
+// حفظ منتج جديد أو تحديث منتج
+
+window.saveProduct = async function () {
+
+    const name = document.getElementById("name").value.trim();
+    const price = document.getElementById("price").value.trim();
+    const category = document.getElementById("category").value;
+    const description = document.getElementById("description").value.trim();
+    const image = document.getElementById("image").value.trim();
+
+    if (!name || !price || !image) {
+        alert("يرجى ملء جميع الحقول المطلوبة");
+        return;
+    }
+
+    const product = {
+        name,
+        price: Number(price),
+        category,
+        description,
+        image,
+        updatedAt: new Date()
+    };
+
+    try {
+
+        if (editId) {
+
+            await updateDoc(doc(db, "products", editId), product);
+
+            editId = null;
+
+            document.getElementById("saveBtn").innerText = "إضافة المنتج";
+
+            alert("تم تحديث المنتج بنجاح");
+
+        } else {
+
+            product.createdAt = new Date();
+
+            await addDoc(productsRef, product);
+
+            alert("تمت إضافة المنتج بنجاح");
+
+        }
+
+        clearForm();
+
+        loadProducts();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("حدث خطأ أثناء حفظ البيانات");
+
+    }
+
+};
+
+
+// تنظيف الحقول
+
+function clearForm() {
+
+    document.getElementById("name").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("image").value = "";
+    document.getElementById("category").selectedIndex = 0;
+
+}
+
+
+// زر الحفظ
+
+const saveBtn = document.getElementById("saveBtn");
+
+if (saveBtn) {
+
+    saveBtn.addEventListener("click", saveProduct);
+
+}
+
+
+// تحميل المنتجات عند فتح الصفحة
+
+loadProducts();
+  
+};
