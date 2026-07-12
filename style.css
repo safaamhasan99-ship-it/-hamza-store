@@ -820,6 +820,242 @@ height:40px;
 height:190px;
 
 }
+/*========================
+ أزرار التفاصيل والمفضلة
+========================*/
 
+
+.details-btn{
+
+width:100%;
+border:none;
+background:#f59e0b;
+color:white;
+padding:13px;
+border-radius:12px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+transition:.3s;
+
+}
+
+
+.details-btn:hover{
+
+background:#d97706;
+
+}
+
+
+
+
+.product-info .favorite,
+.favorite{
+
+width:100%;
+border:none;
+background:#e11d48;
+color:white;
+padding:13px;
+border-radius:12px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+
+}
+
+
+
+
+/*========================
+ صفحة تفاصيل المنتج
+========================*/
+
+
+.product-details{
+
+padding:25px;
+text-align:center;
+
+}
+
+
+
+.product-details img{
+
+width:100%;
+max-width:450px;
+height:400px;
+object-fit:cover;
+border-radius:20px;
+margin:20px auto;
+
+}
+
+
+
+.product-details h2{
+
+font-size:28px;
+font-weight:800;
+margin:15px;
+
+}
+
+
+
+.view-btn{
+
+display:block;
+width:100%;
+background:#25D366;
+color:white;
+padding:13px;
+border-radius:12px;
+border:none;
+font-size:16px;
+font-weight:bold;
+margin-top:10px;
+
+}
+
+
+
+
+/*========================
+ صفحة المفضلة
+========================*/
+
+
+.favorite-card{
+
+background:white;
+border-radius:20px;
+padding:15px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+text-align:center;
+
+}
+
+
+.favorite-card img{
+
+height:230px;
+object-fit:cover;
+border-radius:15px;
+
+}
+
+
+
+
+
+/*========================
+ عروض المنتجات
+========================*/
+
+
+.offer-card{
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px;
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+}
+
+
+.offer-image img{
+
+width:180px;
+border-radius:15px;
+
+}
+
+
+.offer-btn{
+
+display:inline-block;
+background:#0ea5e9;
+color:white;
+padding:12px 25px;
+border-radius:30px;
+font-weight:bold;
+margin-top:15px;
+
+}
+
+
+
+
+
+/*========================
+ تحسين الوضع الليلي
+========================*/
+
+
+body.dark .title,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark p{
+
+color:white;
+
+}
+
+
+
+body.dark .search{
+
+background:#374151;
+
+}
+
+
+
+body.dark .offer-card,
+body.dark .favorite-card{
+
+background:#1f2937;
+
+}
+
+
+
+
+
+@media(max-width:600px){
+
+
+.product-details img{
+
+height:280px;
+
+}
+
+
+.offer-card{
+
+flex-direction:column;
+
+}
+
+
+.offer-image img{
+
+width:100%;
+
+}
+
+
+}
 
 }
