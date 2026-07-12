@@ -7,180 +7,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>القسم البناتي - مجمع حمزه الشطري</title>
+<title>القسم البناتي | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-
-body{
-background:#111;
-color:white;
-}
-
-
-header{
-background:#000;
-padding:20px;
-text-align:center;
-border-bottom:2px solid gold;
-}
-
-
-header h1{
-color:gold;
-}
-
-
-
-.menu{
-background:#222;
-padding:15px;
-text-align:center;
-}
-
-
-.menu a{
-color:white;
-text-decoration:none;
-margin:10px;
-}
-
-
-
-.products{
-
-padding:20px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-
-}
-
-
-
-.product{
-
-background:#222;
-border-radius:15px;
-padding:15px;
-text-align:center;
-
-}
-
-
-
-.product img{
-
-width:100%;
-height:250px;
-object-fit:cover;
-border-radius:10px;
-
-}
-
-
-
-.product h2{
-
-color:gold;
-
-}
-
-
-
-.price{
-
-color:#00ff99;
-font-size:20px;
-font-weight:bold;
-
-}
-
-
-
-.btn{
-
-display:block;
-padding:12px;
-border-radius:25px;
-margin-top:10px;
-font-weight:bold;
-text-decoration:none;
-border:none;
-cursor:pointer;
-width:100%;
-
-}
-
-
-
-.cart{
-
-background:gold;
-color:#000;
-
-}
-
-
-
-.favorite{
-
-background:#e91e63;
-color:white;
-
-}
-
-
-
-.whatsapp{
-
-background:#25D366;
-color:white;
-
-}
-
-
-
-footer{
-
-background:#000;
-text-align:center;
-padding:25px;
-margin-top:30px;
-
-}
-
-
-
-@media(max-width:768px){
-
-.products{
-
-grid-template-columns:1fr;
-
-}
-
-
-.product img{
-
-height:220px;
-
-}
-
-}
-
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -188,197 +19,175 @@ height:220px;
 <body>
 
 
-<header>
+<header class="header">
 
-<h1>مجمع حمزه الشطري</h1>
 
-<p>القسم البناتي - ملابس جاهزة بالجملة</p>
+<div class="brand">
+
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+
+<div>
+
+<h1>
+مجمع حمزه الشطري
+</h1>
+
+<p>
+القسم البناتي
+</p>
+
+</div>
+
+
+</div>
+
 
 </header>
 
 
 
 
-<div class="menu">
 
-<a href="index.html">🏠 الرئيسية</a>
+<section class="products">
 
-<a href="products.html">🛒 المنتجات</a>
 
-<a href="cart.html">🛒 السلة</a>
+<h2 class="title">
 
-<a href="favorites.html">❤️ المفضلة</a>
+👧 ملابس بناتية
 
-</div>
+</h2>
 
 
 
-
-<div class="products">
-
+<div class="products-grid">
 
 
-<div class="product">
+
+<div class="product-card">
+
 
 <img src="IMG_5664.jpeg">
 
-<h2>ملابس بناتي</h2>
 
-<p>موديلات تركية حديثة</p>
-
-<p class="price">30000 د.ع</p>
+<div class="product-info">
 
 
-<button class="btn cart" onclick="addToCart('ملابس بناتي','30000 د.ع','IMG_5664.jpeg')">
-🛒 أضف للسلة
+<h3>
+تراك بناتي تركي
+</h3>
+
+
+<p>
+موديلات عصرية للبنات
+</p>
+
+
+<p class="price">
+20,000 د.ع
+</p>
+
+
+
+<button class="cart-btn"
+onclick="addToCart('تراك بناتي تركي',20000,'IMG_5664.jpeg')">
+
+🛒 إضافة للسلة
+
 </button>
 
 
-<button class="btn favorite" onclick="addToFavorites('ملابس بناتي','30000 د.ع','IMG_5664.jpeg')">
-❤️ إضافة للمفضلة
-</button>
+</div>
 
-
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 اطلب واتساب
-</a>
 
 </div>
 
 
 
 
-<div class="product">
+
+<div class="product-card">
+
 
 <img src="IMG_5664.jpeg">
 
-<h2>تراكات بناتي</h2>
 
-<p>خامات ممتازة وألوان متنوعة</p>
-
-<p class="price">35000 د.ع</p>
+<div class="product-info">
 
 
-<button class="btn cart" onclick="addToCart('تراكات بناتي','35000 د.ع','IMG_5664.jpeg')">
-🛒 أضف للسلة
+<h3>
+ملابس بناتية
+</h3>
+
+
+<p>
+تشكيلات جديدة بالجملة
+</p>
+
+
+<p class="price">
+أسعار جملة
+
+</p>
+
+
+
+<button class="cart-btn"
+onclick="addToCart('ملابس بناتية',16000,'IMG_5664.jpeg')">
+
+🛒 إضافة للسلة
+
 </button>
 
 
-<button class="btn favorite" onclick="addToFavorites('تراكات بناتي','35000 د.ع','IMG_5664.jpeg')">
-❤️ إضافة للمفضلة
-</button>
+</div>
 
 
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 اطلب واتساب
+</div>
+
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<nav class="bottom-nav">
+
+
+<a href="index.html">
+
+🏠 الرئيسية
+
 </a>
 
-</div>
 
+<a href="cart.html">
 
+🛒 السلة
 
-
-<div class="product">
-
-<img src="IMG_5664.jpeg">
-
-<h2>فساتين بناتي</h2>
-
-<p>موديلات جديدة</p>
-
-<p class="price">45000 د.ع</p>
-
-
-<button class="btn cart" onclick="addToCart('فساتين بناتي','45000 د.ع','IMG_5664.jpeg')">
-🛒 أضف للسلة
-</button>
-
-
-<button class="btn favorite" onclick="addToFavorites('فساتين بناتي','45000 د.ع','IMG_5664.jpeg')">
-❤️ إضافة للمفضلة
-</button>
-
-
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 اطلب واتساب
 </a>
 
-</div>
 
+<a href="about.html">
 
+ℹ️ من نحن
 
-
-<div class="product">
-
-<img src="IMG_5664.jpeg">
-
-<h2>ملابس بنات أطفال</h2>
-
-<p>قياسات متنوعة</p>
-
-<p class="price">20000 د.ع</p>
-
-
-<button class="btn cart" onclick="addToCart('ملابس بنات أطفال','20000 د.ع','IMG_5664.jpeg')">
-🛒 أضف للسلة
-</button>
-
-
-<button class="btn favorite" onclick="addToFavorites('ملابس بنات أطفال','20000 د.ع','IMG_5664.jpeg')">
-❤️ إضافة للمفضلة
-</button>
-
-
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 اطلب واتساب
 </a>
 
-</div>
 
-
-
-</div>
-
-
-
-
-<footer>
-
-<h3>مجمع حمزه الشطري</h3>
-
-<p>📍 ذي قار - الشطرة</p>
-
-<p>📞 07813555538</p>
-
-</footer>
+</nav>
 
 
 
 
-<script src="cart-functions.js"></script>
-
-
-<script>
-
-function addToFavorites(name,price,image){
-
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-favorites.push({
-name:name,
-price:price,
-image:image
-});
-
-
-localStorage.setItem("favorites",JSON.stringify(favorites));
-
-
-alert("❤️ تمت الإضافة للمفضلة");
-
-}
-
-</script>
+<script src="script.js"></script>
 
 
 </body>
