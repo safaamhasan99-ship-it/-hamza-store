@@ -40,7 +40,7 @@ margin:auto;
 
 
 
-h1{
+.header{
 
 background:#111;
 color:white;
@@ -93,7 +93,7 @@ button{
 
 background:#c79b3b;
 color:white;
-border:none;
+border:0;
 padding:12px 25px;
 border-radius:10px;
 cursor:pointer;
@@ -104,9 +104,10 @@ font-weight:bold;
 
 
 
-button:hover{
+.logout{
 
-opacity:.85;
+background:#e53935;
+margin-bottom:20px;
 
 }
 
@@ -151,28 +152,10 @@ padding:15px;
 
 
 
-.card h3{
-
-margin-bottom:10px;
-
-}
-
-
-
 .price{
 
 color:#c79b3b;
-font-size:18px;
 font-weight:bold;
-
-}
-
-
-
-.category{
-
-margin:8px 0;
-color:#555;
 
 }
 
@@ -204,23 +187,6 @@ background:#e53935;
 
 
 
-@media(max-width:600px){
-
-body{
-
-padding:10px;
-
-}
-
-
-.card img{
-
-height:180px;
-
-}
-
-}
-
 </style>
 
 
@@ -233,32 +199,40 @@ height:180px;
 <div class="container">
 
 
+
+<div class="header">
+
 <h1>
 إدارة منتجات مجمع حمزه الشطري
 </h1>
+
+</div>
+
+
+
+
+<button class="logout" id="logoutBtn">
+
+تسجيل الخروج
+
+</button>
+
+
 
 
 
 <div class="form">
 
 
-<input 
-id="name"
-placeholder="اسم المنتج">
+<input id="name" placeholder="اسم المنتج">
 
 
 
-<input 
-id="price"
-type="number"
-placeholder="السعر">
+<input id="price" type="number" placeholder="السعر">
 
 
 
-<input 
-id="imageFile"
-type="file"
-accept="image/*">
+<input id="imageFile" type="file" accept="image/*">
 
 
 
@@ -268,26 +242,21 @@ accept="image/*">
 القسم الرجالي
 </option>
 
-
 <option value="نسائي">
 القسم النسائي
 </option>
-
 
 <option value="ولادي">
 القسم الولادي
 </option>
 
-
 <option value="بناتي">
 القسم البناتي
 </option>
 
-
 <option value="جوارب">
-قسم الجوارب
+الجوارب
 </option>
-
 
 <option value="داخليات">
 الداخليات
@@ -298,10 +267,7 @@ accept="image/*">
 
 
 
-<textarea
-id="description"
-placeholder="وصف المنتج">
-</textarea>
+<textarea id="description" placeholder="وصف المنتج"></textarea>
 
 
 
@@ -312,7 +278,9 @@ placeholder="وصف المنتج">
 </button>
 
 
+
 </div>
+
 
 
 
@@ -323,9 +291,7 @@ placeholder="وصف المنتج">
 
 
 
-<div 
-id="products"
-class="products">
+<div id="products" class="products">
 
 </div>
 
@@ -335,8 +301,12 @@ class="products">
 
 
 
+
+<script type="module" src="admin-guard.js"></script>
 
 <script type="module" src="admin-products.js"></script>
+
+<script type="module" src="admin-logout.js"></script>
 
 
 
