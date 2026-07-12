@@ -37,9 +37,9 @@ function addToCart(name, price, image) {
     } else {
 
         cart.push({
-            name,
-            price,
-            image,
+            name: name,
+            price: price,
+            image: image,
             quantity: 1
         });
 
@@ -67,13 +67,29 @@ function addToFavorites(name, price, image) {
     }
 
     favorites.push({
-        name,
-        price,
-        image
+        name: name,
+        price: price,
+        image: image
     });
 
     localStorage.setItem("favorites", JSON.stringify(favorites));
 
     alert("❤️ تمت إضافة المنتج إلى المفضلة");
+
+}
+
+// ==================== فتح صفحة المنتج ====================
+
+function openProduct(name, price, image) {
+
+    const product = {
+        name: name,
+        price: price,
+        image: image
+    };
+
+    localStorage.setItem("selectedProduct", JSON.stringify(product));
+
+    window.location.href = "product.html";
 
 }
