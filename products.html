@@ -1,3 +1,8 @@
+// ===================================
+// مجمع حمزه الشطري
+// script.js
+// ===================================
+
 // ==================== البحث ====================
 
 const search = document.getElementById("search");
@@ -14,7 +19,9 @@ if (search) {
 
             const text = product.innerText.toLowerCase();
 
-            product.style.display = text.includes(value) ? "" : "none";
+            product.style.display = text.includes(value)
+                ? ""
+                : "none";
 
         });
 
@@ -51,7 +58,19 @@ function addToCart(name, price, image) {
 
 }
 
-// ==================== إضافة إلى المفضلة ====================
+// ==================== إزالة من السلة ====================
+
+function removeFromCart(name) {
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart = cart.filter(item => item.name !== name);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    location.reload();
+
+}// ==================== المفضلة ====================
 
 function addToFavorites(name, price, image) {
 
@@ -60,10 +79,8 @@ function addToFavorites(name, price, image) {
     let exists = favorites.find(item => item.name === name);
 
     if (exists) {
-
         alert("❤️ المنتج موجود مسبقًا في المفضلة");
         return;
-
     }
 
     favorites.push({
@@ -75,6 +92,18 @@ function addToFavorites(name, price, image) {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 
     alert("❤️ تمت إضافة المنتج إلى المفضلة");
+
+}
+
+function removeFromFavorites(name){
+
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    favorites = favorites.filter(item => item.name !== name);
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+
+    location.reload();
 
 }
 
@@ -93,3 +122,87 @@ function openProduct(name, price, image) {
     window.location.href = "product.html";
 
 }
+
+// ==================== تحميل بيانات المنتج ====================
+
+function loadProduct() {
+
+    const product = JSON.parse(localStorage.getItem("selectedProduct"));
+
+    if (!product) return;
+
+    const img = document.getElementById("productImage");
+    const title = document.getElementById("productName");
+    const price = document.getElementById("productPrice");
+
+    if (img) img.src = product.image;
+    if (title) title.innerText = product.name;
+    if (price) price.innerText = product.price + " د.ع";
+
+}// ==================== إضافة المنتج الحالي إلى السلة ====================
+
+function addCurrentProduct() {
+
+    const product = JSON.parse(localStorage.getItem("selectedProduct"));
+
+    if (!product) return;
+
+    addToCart(product.name, product.price, product.image);
+
+}
+
+// ==================== الطلب عبر واتساب ====================
+
+function orderWhatsApp() {
+
+    const product = JSON.parse(localStorage.getItem("selectedProduct"));
+
+    if (!product) return;
+
+    const message =
+`السلام عليكم
+أرغب بطلب المنتج:
+
+${product.name}
+
+السعر: ${product.price} د.ع
+
+من موقع مجمع حمزه الشطري.`;
+
+    window.open(
+        "https://wa.me/9647813555538?text=" +
+        encodeURIComponent(message),
+        "_blank"
+    );
+
+}
+
+// ==================== عداد السلة ====================
+
+function updateCartCount() {
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const counter = document.getElementById("cartCount");
+
+    if (!counter) return;
+
+    let total = 0;
+
+    cart.forEach(item => {
+        total += item.quantity || 1;
+    });
+
+    counter.textContent = total;
+
+}
+
+// ==================== تشغيل الوظائف ====================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    loadProduct();
+
+    updateCartCount();
+
+});
