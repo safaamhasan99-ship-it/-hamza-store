@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>لوحة التحكم | تسجيل الدخول</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <img src="../images/logo.png" class="logo" alt="logo">
+
+    <h2>مجمع حمزه الشطري</h2>
+
+    <p>تسجيل دخول الإدارة</p>
+
+    <input type="email" id="email" placeholder="البريد الإلكتروني">
+
+    <input type="password" id="password" placeholder="كلمة المرور">
+
+    <button onclick="login()">دخول</button>
+
+</div>
+
+<script src="js/login.js"></script>
+
+</body>
+
+</html>
