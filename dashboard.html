@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>لوحة التحكم | مجمع حمزه الشطري</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
+
+body{
+background:#f5f5f5;
+display:flex;
+}
+
+.sidebar{
+width:260px;
+height:100vh;
+background:#111;
+color:#fff;
+position:fixed;
+right:0;
+padding:25px;
+}
+
+.sidebar h2{
+color:#FFC107;
+margin-bottom:30px;
+text-align:center;
+}
+
+.sidebar a{
+display:block;
+padding:14px;
+margin-bottom:10px;
+border-radius:8px;
+text-decoration:none;
+color:#fff;
+transition:.3s;
+}
+
+.sidebar a:hover{
+background:#FFC107;
+color:#111;
+}
+
+.main{
+margin-right:260px;
+width:100%;
+padding:30px;
+}
+
+.title{
+font-size:30px;
+font-weight:bold;
+margin-bottom:30px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:#fff;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.card h3{
+color:#666;
+margin-bottom:10px;
+}
+
+.card span{
+font-size:35px;
+font-weight:bold;
+color:#FFC107;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>مجمع حمزه الشطري</h2>
+
+<a href="#">🏠 الرئيسية</a>
+<a href="products.html">📦 المنتجات</a>
+<a href="orders.html">🛒 الطلبات</a>
+<a href="customers.html">👥 العملاء</a>
+<a href="offers.html">🎁 العروض</a>
+<a href="settings.html">⚙️ الإعدادات</a>
+
+</div>
+
+<div class="main">
+
+<div class="title">
+لوحة التحكم
+</div>
+
+<div class="cards">
+
+<div class="card">
+<h3>عدد المنتجات</h3>
+<span>0</span>
+</div>
+
+<div class="card">
+<h3>الطلبات</h3>
+<span>0</span>
+</div>
+
+<div class="card">
+<h3>العملاء</h3>
+<span>0</span>
+</div>
+
+<div class="card">
+<h3>العروض</h3>
+<span>0</span>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
