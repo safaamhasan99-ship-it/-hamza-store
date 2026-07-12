@@ -1,83 +1,180 @@
-// =============================
-// مجمع حمزه الشطري
-// SCRIPT.JS
-// =============================
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>السلة | مجمع حمزه الشطري</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
 
 
-// السلة والمفضلة
+<body>
+
+
+
+<header class="header">
+
+
+<div class="brand">
+
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+
+<div>
+
+<h1>
+مجمع حمزه الشطري
+</h1>
+
+<p>
+سلة المشتريات
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+<section class="products">
+
+
+<h2 class="title">
+🛒 سلة المشتريات
+</h2>
+
+
+
+<div id="cartList" class="products-grid">
+
+
+</div>
+
+
+
+<div class="about-box">
+
+
+<h2>
+المجموع
+</h2>
+
+
+<h2 id="total">
+0 د.ع
+</h2>
+
+
+
+<a class="wholesale"
+href="https://wa.me/9647813555538">
+
+إتمام الطلب عبر واتساب
+
+</a>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<nav class="bottom-nav">
+
+
+<a href="index.html">
+🏠 الرئيسية
+</a>
+
+
+<a href="products.html">
+🛍 المنتجات
+</a>
+
+
+<a href="cart.html">
+🛒 السلة
+</a>
+
+
+<a href="favorites.html">
+❤️ المفضلة
+</a>
+
+
+</nav>
+
+
+
+
+
+<script src="script.js"></script>
+
+
+<script>
+
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+let cartList=document.getElementById("cartList");
+
+let totalBox=document.getElementById("total");
+
+let total=0;
 
 
 
-// تحديث عداد السلة
-
-function updateCartCount(){
-
-let count = 0;
-
-cart.forEach(item=>{
-count += item.quantity;
-});
+function showCart(){
 
 
-let cartCount = document.getElementById("cartCount");
-
-if(cartCount){
-
-cartCount.textContent = count;
-
-}
-
-}
+cartList.innerHTML="";
 
 
-updateCartCount();
+total=0;
 
 
 
-
-// إضافة للسلة
-
-function addToCart(name,price,image){
+if(cart.length===0){
 
 
-let product = cart.find(item=>item.name === name);
+cartList.innerHTML=`
+
+<div class="about-box">
+
+<h2>
+السلة فارغة 🛒
+</h2>
+
+</div>
+
+`;
 
 
-
-if(product){
-
-product.quantity++;
-
-}else{
+totalBox.innerHTML="0 د.ع";
 
 
-cart.push({
-
-name:name,
-price:price,
-image:image,
-quantity:1
-
-});
-
-
-}
-
-
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
-
-
-updateCartCount();
-
-
-alert("✅ تمت إضافة المنتج إلى السلة");
+return;
 
 
 }
@@ -85,157 +182,74 @@ alert("✅ تمت إضافة المنتج إلى السلة");
 
 
 
+cart.forEach((item,index)=>{
 
-// المفضلة
 
-function addToFavorites(name,price,image){
+let price=Number(item.price)||0;
 
 
-favorites.push({
+let quantity=item.quantity||1;
 
-name:name,
-price:price,
-image:image
 
-});
+let itemTotal=price*quantity;
 
 
-localStorage.setItem(
-"favorites",
-JSON.stringify(favorites)
-);
+total+=itemTotal;
 
 
-alert("❤️ تمت الإضافة إلى المفضلة");
 
+cartList.innerHTML+=`
 
-}
 
+<div class="product-card">
 
 
+<img src="${item.image}">
 
 
-// تفاصيل المنتج
+<div class="product-info">
 
-function openProduct(name,price,image){
 
+<h3>
+${item.name}
+</h3>
 
-localStorage.setItem(
-"product",
-JSON.stringify({
 
-name:name,
-price:price,
-image:image
+<p class="price">
+${price} د.ع
+</p>
 
-})
 
-);
+<p>
+الكمية: ${quantity}
+</p>
 
 
-window.location.href="details.html";
 
+<button class="cart-btn"
 
-}
+onclick="removeCart(${index})">
 
+❌ حذف
 
+</button>
 
 
 
-// =============================
-// السلايدر
-// =============================
+</div>
 
 
-const slides = document.querySelectorAll(".hero-slide");
+</div>
 
-let currentSlide = 0;
 
-
-
-function showSlide(index){
-
-
-slides.forEach(slide=>{
-
-slide.classList.remove("active");
-
-});
-
-
-if(slides[index]){
-
-slides[index].classList.add("active");
-
-}
-
-
-}
-
-
-
-if(slides.length > 0){
-
-
-setInterval(()=>{
-
-
-currentSlide++;
-
-
-if(currentSlide >= slides.length){
-
-currentSlide = 0;
-
-}
-
-
-showSlide(currentSlide);
-
-
-},4000);
-
-
-}
-
-
-
-
-
-
-// =============================
-// البحث
-// =============================
-
-
-const searchInput = document.getElementById("searchInput");
-
-
-if(searchInput){
-
-
-searchInput.addEventListener("keyup",function(){
-
-
-let value = this.value.toLowerCase();
-
-
-
-document.querySelectorAll(".product-card").forEach(card=>{
-
-
-let title = card.querySelector("h3").textContent.toLowerCase();
-
-
-
-card.style.display = 
-title.includes(value) ? "block" : "none";
+`;
 
 
 });
 
 
-});
+
+totalBox.innerHTML=total+" د.ع";
 
 
 }
@@ -243,46 +257,29 @@ title.includes(value) ? "block" : "none";
 
 
 
-
-// =============================
-// الوضع الليلي
-// =============================
+function removeCart(index){
 
 
-const darkBtn = document.getElementById("darkBtn");
+cart.splice(index,1);
 
 
-
-if(localStorage.getItem("theme")=="dark"){
-
-document.body.classList.add("dark");
-
-}
+localStorage.setItem("cart",JSON.stringify(cart));
 
 
-
-if(darkBtn){
-
-
-darkBtn.onclick=function(){
-
-
-document.body.classList.toggle("dark");
-
-
-
-localStorage.setItem(
-
-"theme",
-
-document.body.classList.contains("dark")
-?"dark"
-:"light"
-
-);
-
-
-};
+showCart();
 
 
 }
+
+
+
+showCart();
+
+
+</script>
+
+
+
+</body>
+
+</html>
