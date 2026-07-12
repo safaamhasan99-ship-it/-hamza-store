@@ -7,203 +7,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>عروض مجمع حمزه الشطري</title>
-
+<title>العروض | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-
-body{
-
-background:#111;
-color:white;
-
-}
-
-
-
-header{
-
-background:#000;
-padding:20px;
-text-align:center;
-border-bottom:3px solid gold;
-
-}
-
-
-
-header h1{
-
-color:gold;
-margin-bottom:10px;
-
-}
-
-
-
-.menu{
-
-background:#222;
-padding:15px;
-text-align:center;
-
-}
-
-
-
-.menu a{
-
-color:white;
-text-decoration:none;
-margin:8px;
-padding:10px 20px;
-background:#111;
-border-radius:25px;
-display:inline-block;
-
-}
-
-
-
-.title{
-
-text-align:center;
-color:gold;
-padding:25px;
-font-size:30px;
-
-}
-
-
-
-.offers{
-
-width:95%;
-margin:auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-
-}
-
-
-
-.offer-card{
-
-background:#222;
-border-radius:15px;
-overflow:hidden;
-text-align:center;
-padding-bottom:20px;
-box-shadow:0 0 15px #000;
-
-}
-
-
-
-.offer-card img{
-
-width:100%;
-height:230px;
-object-fit:cover;
-
-}
-
-
-
-.offer-card h2{
-
-color:gold;
-padding:15px;
-
-}
-
-
-
-.offer-card p{
-
-padding:5px;
-
-}
-
-
-
-.price{
-
-color:#00ff99;
-font-size:20px;
-font-weight:bold;
-
-}
-
-
-
-.btn{
-
-display:block;
-margin:15px;
-padding:12px;
-background:#25D366;
-color:white;
-text-decoration:none;
-border-radius:30px;
-font-weight:bold;
-
-}
-
-
-
-footer{
-
-background:#000;
-text-align:center;
-padding:25px;
-margin-top:40px;
-border-top:2px solid gold;
-
-}
-
-
-
-@media(max-width:600px){
-
-.title{
-
-font-size:24px;
-
-}
-
-
-.offer-card img{
-
-height:200px;
-
-}
-
-
-.menu a{
-
-display:block;
-margin:8px;
-
-}
-
-}
-
-
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -212,62 +20,77 @@ margin:8px;
 
 
 
-<header>
+<header class="header">
 
-<h1>مجمع حمزه الشطري</h1>
 
-<p>عروض الجملة الخاصة</p>
+<div class="brand">
+
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+
+<div>
+
+
+<h1>
+مجمع حمزه الشطري
+</h1>
+
+
+<p>
+عروض الجملة
+</p>
+
+
+</div>
+
+
+</div>
+
 
 </header>
 
 
 
-<div class="menu">
-
-<a href="index.html">🏠 الرئيسية</a>
-
-<a href="products.html">🛒 المنتجات</a>
-
-<a href="offers.html">🔥 العروض</a>
-
-<a href="cart.html">🛒 السلة</a>
-
-</div>
 
 
 
-
-<h1 class="title">
-🔥 عروض الجملة 🔥
-</h1>
+<section class="offers-section">
 
 
+<h2 class="title">
+🎁 عروض اليوم
+</h2>
 
 
-<section class="offers">
 
 
 
 <div class="offer-card">
 
-<img src="IMG_5668.jpeg">
 
 
-<h2>🎒 عرض الجنط المدرسية</h2>
+<div class="offer-info">
+
+
+<h3>
+خصومات خاصة لتجار الجملة
+</h3>
 
 
 <p>
-موديلات جديدة لموسم المدارس 2026
+
+اطلب كميات أكبر واحصل على أفضل الأسعار.
+
 </p>
 
 
-<p class="price">
-أسعار خاصة للتجار
-</p>
+<a class="offer-btn"
+href="https://wa.me/9647813555538"
+target="_blank">
 
+اطلب العرض
 
-<a class="btn" href="https://wa.me/9647813555538">
-💬 اطلب عبر واتساب
 </a>
 
 
@@ -276,28 +99,14 @@ margin:8px;
 
 
 
-
-<div class="offer-card">
-
-<img src="IMG_5663.jpeg">
+<div class="offer-image">
 
 
-<h2>👕 عرض التراكات التركية</h2>
+<img src="IMG_5661.jpeg">
 
 
-<p>
-ولادي - بناتي - شبابي
-</p>
+</div>
 
-
-<p class="price">
-أسعار جملة مميزة
-</p>
-
-
-<a class="btn" href="https://wa.me/9647813555538">
-💬 اطلب عبر واتساب
-</a>
 
 
 </div>
@@ -306,59 +115,54 @@ margin:8px;
 
 
 
+
+
 <div class="offer-card">
+
+
+
+<div class="offer-info">
+
+
+<h3>
+موديلات تركية جديدة
+</h3>
+
+
+<p>
+
+وصلت تشكيلات جديدة للرجالي والنسائي والأطفال.
+
+</p>
+
+
+<a class="offer-btn"
+href="products.html">
+
+مشاهدة المنتجات
+
+</a>
+
+
+</div>
+
+
+
+
+<div class="offer-image">
+
 
 <img src="IMG_5662.jpeg">
 
 
-<h2>🧕 عرض الحجابات والنسائي</h2>
+</div>
 
-
-<p>
-خامات درجة أولى وموديلات حديثة
-</p>
-
-
-<p class="price">
-أفضل سعر للجملة
-</p>
-
-
-<a class="btn" href="https://wa.me/9647813555538">
-💬 اطلب عبر واتساب
-</a>
 
 
 </div>
 
 
 
-
-
-<div class="offer-card">
-
-<img src="IMG_5665.jpeg">
-
-
-<h2>🧦 عرض الجواريب</h2>
-
-
-<p>
-تشكيلات متنوعة لجميع الأعمار
-</p>
-
-
-<p class="price">
-درزن بأسعار خاصة
-</p>
-
-
-<a class="btn" href="https://wa.me/9647813555538">
-💬 اطلب عبر واتساب
-</a>
-
-
-</div>
 
 
 
@@ -367,19 +171,47 @@ margin:8px;
 
 
 
-<footer>
-
-<h3>مجمع حمزه الشطري</h3>
-
-<p>📍 ذي قار - الشطرة</p>
-
-<p>📞 07813555538</p>
-
-<p>🚚 توصيل لجميع محافظات العراق</p>
 
 
-</footer>
+<nav class="bottom-nav">
 
+
+<a href="index.html">
+
+🏠 الرئيسية
+
+</a>
+
+
+<a href="products.html">
+
+🛍 المنتجات
+
+</a>
+
+
+<a href="cart.html">
+
+🛒 السلة
+
+</a>
+
+
+<a href="about.html">
+
+ℹ️ من نحن
+
+</a>
+
+
+</nav>
+
+
+
+
+
+
+<script src="script.js"></script>
 
 
 </body>
