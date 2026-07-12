@@ -1,143 +1,257 @@
 // =============================
 // مجمع حمزه الشطري
+// SCRIPT.JS
 // =============================
 
-// السلة
+
+// السلة والمفضلة
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// المفضلة
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
+
+
 // تحديث عداد السلة
-function updateCartCount() {
-    const cartCount = document.getElementById("cartCount");
-    if (cartCount) {
-        cartCount.textContent = cart.length;
-    }
+
+function updateCartCount(){
+
+let count = 0;
+
+cart.forEach(item=>{
+count += item.quantity;
+});
+
+
+let cartCount = document.getElementById("cartCount");
+
+if(cartCount){
+
+cartCount.textContent = count;
+
 }
+
+}
+
 
 updateCartCount();
 
-// =============================
+
+
+
 // إضافة للسلة
-// =============================
 
-function addToCart(name, price, image) {
+function addToCart(name,price,image){
 
-    cart.push({
-        name,
-        price,
-        image,
-        quantity: 1
-    });
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+let product = cart.find(item=>item.name === name);
 
-    updateCartCount();
 
-    alert("✅ تمت إضافة المنتج إلى السلة");
+
+if(product){
+
+product.quantity++;
+
+}else{
+
+
+cart.push({
+
+name:name,
+price:price,
+image:image,
+quantity:1
+
+});
+
 
 }
 
-// =============================
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
+
+updateCartCount();
+
+
+alert("✅ تمت إضافة المنتج إلى السلة");
+
+
+}
+
+
+
+
+
 // المفضلة
-// =============================
 
-function addToFavorites(name, price, image) {
+function addToFavorites(name,price,image){
 
-    favorites.push({
-        name,
-        price,
-        image
-    });
 
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+favorites.push({
 
-    alert("❤️ تمت الإضافة إلى المفضلة");
+name:name,
+price:price,
+image:image
+
+});
+
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(favorites)
+);
+
+
+alert("❤️ تمت الإضافة إلى المفضلة");
+
+
+}
+
+
+
+
+
+// تفاصيل المنتج
+
+function openProduct(name,price,image){
+
+
+localStorage.setItem(
+"product",
+JSON.stringify({
+
+name:name,
+price:price,
+image:image
+
+})
+
+);
+
+
+window.location.href="details.html";
+
 
 }
 
+
+
+
+
 // =============================
-// صفحة التفاصيل
-// =============================
-
-function openProduct(name, price, image){
-
-    localStorage.setItem("product",
-    JSON.stringify({
-        name,
-        price,
-        image
-    }));
-
-    window.location.href="details.html";
-
-}
-// =============================
-// السلايدر التلقائي
+// السلايدر
 // =============================
 
-const slides = document.querySelectorAll(".slide");
-const dots = document.querySelectorAll(".dot");
+
+const slides = document.querySelectorAll(".hero-slide");
 
 let currentSlide = 0;
 
+
+
 function showSlide(index){
 
-    slides.forEach(slide => slide.classList.remove("active"));
-    dots.forEach(dot => dot.classList.remove("active"));
 
-    slides[index].classList.add("active");
-    dots[index].classList.add("active");
+slides.forEach(slide=>{
+
+slide.classList.remove("active");
+
+});
+
+
+if(slides[index]){
+
+slides[index].classList.add("active");
 
 }
+
+
+}
+
+
 
 if(slides.length > 0){
 
-    setInterval(()=>{
 
-        currentSlide++;
+setInterval(()=>{
 
-        if(currentSlide >= slides.length){
-            currentSlide = 0;
-        }
 
-        showSlide(currentSlide);
+currentSlide++;
 
-    },4000);
+
+if(currentSlide >= slides.length){
+
+currentSlide = 0;
 
 }
+
+
+showSlide(currentSlide);
+
+
+},4000);
+
+
+}
+
+
+
+
+
 
 // =============================
 // البحث
 // =============================
 
-const search = document.getElementById("search");
 
-if(search){
+const searchInput = document.getElementById("searchInput");
 
-search.addEventListener("keyup",function(){
+
+if(searchInput){
+
+
+searchInput.addEventListener("keyup",function(){
+
 
 let value = this.value.toLowerCase();
 
+
+
 document.querySelectorAll(".product-card").forEach(card=>{
+
 
 let title = card.querySelector("h3").textContent.toLowerCase();
 
-card.style.display =
+
+
+card.style.display = 
 title.includes(value) ? "block" : "none";
 
-});
 
 });
+
+
+});
+
 
 }
+
+
+
+
 
 // =============================
 // الوضع الليلي
 // =============================
 
+
 const darkBtn = document.getElementById("darkBtn");
+
+
 
 if(localStorage.getItem("theme")=="dark"){
 
@@ -145,22 +259,30 @@ document.body.classList.add("dark");
 
 }
 
+
+
 if(darkBtn){
+
 
 darkBtn.onclick=function(){
 
+
 document.body.classList.toggle("dark");
 
-if(document.body.classList.contains("dark")){
 
-localStorage.setItem("theme","dark");
 
-}else{
+localStorage.setItem(
 
-localStorage.setItem("theme","light");
+"theme",
 
-}
+document.body.classList.contains("dark")
+?"dark"
+:"light"
 
-}
+);
+
+
+};
+
 
 }
