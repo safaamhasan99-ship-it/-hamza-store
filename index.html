@@ -4,13 +4,11 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-
 
 <style>
 
@@ -21,504 +19,436 @@ box-sizing:border-box;
 font-family:'Cairo',sans-serif;
 }
 
-
 body{
 background:#111;
-color:white;
+color:#fff;
 }
-
-
 
 header{
 background:#000;
 padding:20px;
 text-align:center;
 border-bottom:3px solid gold;
+position:sticky;
+top:0;
+z-index:999;
 }
-
-
 
 header h1{
 color:gold;
+font-size:34px;
 }
 
-
+header p{
+margin-top:8px;
+color:#ddd;
+}
 
 .top-menu{
 background:#222;
-padding:15px;
 display:flex;
 justify-content:center;
-gap:10px;
+align-items:center;
 flex-wrap:wrap;
+gap:10px;
+padding:15px;
 }
-
-
 
 .top-menu a{
-color:white;
+color:#fff;
 text-decoration:none;
-background:#111;
 padding:10px 18px;
+background:#111;
 border-radius:25px;
+transition:.3s;
+font-weight:bold;
 }
 
+.top-menu a:hover{
+background:gold;
+color:#000;
+}
 
+.search-box{
+padding:20px;
+text-align:center;
+background:#181818;
+}
+
+.search-box input{
+width:90%;
+max-width:550px;
+padding:15px;
+border:none;
+border-radius:30px;
+font-size:18px;
+outline:none;
+}
 
 .hero{
 position:relative;
-text-align:center;
+overflow:hidden;
 }
-
-
 
 .hero img{
 width:100%;
-height:420px;
+height:430px;
 object-fit:cover;
+display:block;
 }
-
-
 
 .hero-box{
 position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-background:#000b;
-padding:25px;
-border-radius:15px;
+background:rgba(0,0,0,.65);
+padding:30px;
+border-radius:20px;
+text-align:center;
 width:85%;
+max-width:650px;
 }
-
-
 
 .hero-box h2{
 color:gold;
-font-size:30px;
+font-size:34px;
+margin-bottom:15px;
 }
 
-
+.hero-box p{
+font-size:20px;
+margin:10px 0;
+}
 
 .btn{
 display:inline-block;
+margin-top:15px;
+padding:14px 28px;
 background:gold;
 color:#000;
-padding:12px 25px;
-border-radius:30px;
 text-decoration:none;
+border-radius:30px;
 font-weight:bold;
-margin-top:15px;
+transition:.3s;
 }
 
-
+.btn:hover{
+transform:scale(1.05);
+}
 
 .section-title{
 text-align:center;
 color:gold;
-margin:30px 0;
+margin:40px 0 20px;
+font-size:30px;
 }
-
-
-
-.categories{
-
+  .categories,
+.products-box{
 width:95%;
 margin:auto;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
 gap:20px;
-
+padding-bottom:30px;
 }
 
-
-.category{
-
-background:#222;
-padding:15px;
-border-radius:15px;
-text-align:center;
-
-}
-
-
-.category img{
-
-width:100%;
-height:220px;
-object-fit:cover;
-border-radius:10px;
-
-}
-
-
-.category h3{
-
-color:gold;
-margin:10px;
-
-}
-  .products-box{
-
-width:95%;
-margin:auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-
-}
-
-
-
+.category,
 .product{
-
 background:#222;
-padding:15px;
-border-radius:15px;
+border-radius:18px;
+overflow:hidden;
 text-align:center;
-
+box-shadow:0 5px 15px rgba(0,0,0,.3);
+transition:.3s;
 }
 
+.category:hover,
+.product:hover{
+transform:translateY(-6px);
+}
 
-
+.category img,
 .product img{
-
 width:100%;
-height:220px;
+height:230px;
 object-fit:cover;
-border-radius:10px;
-
+cursor:pointer;
 }
 
-
-
+.category h3,
 .product h3{
-
 color:gold;
-margin:10px;
-
+margin:15px 10px;
 }
-
-
 
 .price{
-
 color:#00ff99;
+font-size:20px;
 font-weight:bold;
-
+margin-bottom:15px;
 }
 
+.product button{
+width:90%;
+margin:6px auto;
+padding:12px;
+border:none;
+border-radius:30px;
+font-size:16px;
+cursor:pointer;
+font-weight:bold;
+display:block;
+}
 
+.cart-btn{
+background:gold;
+color:#000;
+}
 
-.whatsapp{
+.fav-btn{
+background:#e91e63;
+color:#fff;
+}
 
+.view-btn{
 background:#25D366;
-color:white;
-
+color:#fff;
 }
-
-
 
 footer{
-
 background:#000;
-padding:25px;
+padding:30px;
 text-align:center;
+border-top:3px solid gold;
 margin-top:40px;
-border-top:2px solid gold;
-
 }
 
+footer h3{
+color:gold;
+margin-bottom:10px;
+}
 
+footer p{
+margin:8px 0;
+}
 
-@media(max-width:600px){
+@media(max-width:768px){
 
 .hero img{
-
-height:250px;
-
+height:260px;
 }
-
 
 .hero-box{
-
-width:90%;
-padding:15px;
-
+width:92%;
+padding:20px;
 }
-
 
 .hero-box h2{
-
-font-size:22px;
-
+font-size:24px;
 }
 
+.hero-box p{
+font-size:16px;
+}
 
 .categories,
 .products-box{
-
 grid-template-columns:1fr;
-
 }
 
-
+.top-menu{
+padding:10px;
 }
 
-
+}
 
 </style>
 
 </head>
 
-
 <body>
-
-
-<header>
+  <header>
 
 <h1>مجمع حمزه الشطري</h1>
 
 <p>للملابس الجاهزة والجملة</p>
 
-<p>🚚 توصيل لجميع محافظات العراق</p>
+<p>🚚 توصيل إلى جميع محافظات العراق</p>
 
 </header>
-
-
 
 <nav class="top-menu">
 
 <a href="index.html">🏠 الرئيسية</a>
 
-<a href="products.html">🛒 المنتجات</a>
+<a href="products.html">🛍 المنتجات</a>
 
 <a href="offers.html">🔥 العروض</a>
 
 <a href="cart.html">🛒 السلة</a>
 
+<a href="favorites.html">❤️ المفضلة</a>
+
 <a href="about.html">ℹ️ من نحن</a>
 
 </nav>
 
+<div class="search-box">
 
-
-<section class="hero">
-
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-
-
-<div class="hero-box">
-
-
-<h2>مجمع حمزه الشطري</h2>
-
-
-<p>أحدث موديلات الملابس التركية</p>
-
-
-<p>البيع جملة فقط</p>
-
-
-<a class="btn" href="products.html">
-تسوق الآن
-</a>
-
+<input
+type="text"
+id="search"
+placeholder="🔍 ابحث عن منتج...">
 
 </div>
 
+<section class="hero">
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" alt="مجمع حمزه الشطري">
+
+<div class="hero-box">
+
+<h2>أهلاً بكم في مجمع حمزه الشطري</h2>
+
+<p>أحدث موديلات الملابس التركية</p>
+
+<p>البيع بالجملة فقط</p>
+
+<a class="btn" href="products.html">
+ابدأ التسوق
+</a>
+
+</div>
 
 </section>
+
 <h2 class="section-title">
 ⭐ أقسام المنتجات
 </h2>
 
-
-
 <section class="categories">
-
-
-<div class="category">
-
-<img src="IMG_5661.jpeg">
-
+  <div class="category">
+<img src="IMG_5661.jpeg" alt="القسم الرجالي">
 <h3>القسم الرجالي</h3>
-
-<a class="btn" href="men.html">
-عرض القسم
-</a>
-
+<a class="btn" href="men.html">عرض القسم</a>
 </div>
 
-
-
 <div class="category">
-
-<img src="IMG_5662.jpeg">
-
+<img src="IMG_5662.jpeg" alt="القسم النسائي">
 <h3>القسم النسائي</h3>
-
-<a class="btn" href="women.html">
-عرض القسم
-</a>
-
+<a class="btn" href="women.html">عرض القسم</a>
 </div>
 
-
-
 <div class="category">
-
-<img src="IMG_5663.jpeg">
-
+<img src="IMG_5663.jpeg" alt="القسم الولادي">
 <h3>القسم الولادي</h3>
-
-<a class="btn" href="boys.html">
-عرض القسم
-</a>
-
+<a class="btn" href="boys.html">عرض القسم</a>
 </div>
 
-
-
 <div class="category">
-
-<img src="IMG_5664.jpeg">
-
+<img src="IMG_5664.jpeg" alt="القسم البناتي">
 <h3>القسم البناتي</h3>
-
-<a class="btn" href="girls.html">
-عرض القسم
-</a>
-
+<a class="btn" href="girls.html">عرض القسم</a>
 </div>
 
-
-
 <div class="category">
-
-<img src="IMG_5665.jpeg">
-
-<h3>قسم الجواريب</h3>
-
-<a class="btn" href="socks.html">
-عرض القسم
-</a>
-
+<img src="IMG_5665.jpeg" alt="قسم الجوارب">
+<h3>قسم الجوارب</h3>
+<a class="btn" href="socks.html">عرض القسم</a>
 </div>
 
-
-
 <div class="category">
-
-<img src="IMG_5666.jpeg">
-
-<h3>قسم البنطرون</h3>
-
-<a class="btn" href="pants.html">
-عرض القسم
-</a>
-
+<img src="IMG_5666.jpeg" alt="قسم البنطرونات">
+<h3>قسم البنطرونات</h3>
+<a class="btn" href="pants.html">عرض القسم</a>
 </div>
 
-
-
 <div class="category">
-
-<img src="IMG_5667.jpeg">
-
+<img src="IMG_5667.jpeg" alt="الداخليات الرجالية">
 <h3>الداخليات الرجالية</h3>
-
-<a class="btn" href="underwear.html">
-عرض القسم
-</a>
-
+<a class="btn" href="underwear.html">عرض القسم</a>
 </div>
-
 
 </section>
 
-
-
-
 <h2 class="section-title">
-🔥 عروض مميزة
+🔥 أحدث العروض
 </h2>
 
-
-
 <section class="products-box">
+  <div class="product">
 
-
-<div class="product">
-
-<img src="IMG_5668.jpeg">
+<img src="IMG_5668.jpeg"
+onclick="openProduct('عروض خاصة للتجار',0,'IMG_5668.jpeg')">
 
 <h3>عروض خاصة للتجار</h3>
 
-<p class="price">
-أسعار جملة منافسة
-</p>
+<p class="price">أسعار جملة منافسة</p>
 
+<button class="cart-btn"
+onclick="addToCart('عروض خاصة للتجار',0,'IMG_5668.jpeg')">
+🛒 إضافة إلى السلة
+</button>
 
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 اطلب الآن
-</a>
+<button class="fav-btn"
+onclick="addToFavorites('عروض خاصة للتجار',0,'IMG_5668.jpeg')">
+❤️ إضافة إلى المفضلة
+</button>
 
+<button class="view-btn"
+onclick="openProduct('عروض خاصة للتجار',0,'IMG_5668.jpeg')">
+👁️ عرض المنتج
+</button>
 
 </div>
-
-
-
 
 <div class="product">
 
-<img src="IMG_5663.jpeg">
+<img src="IMG_5663.jpeg"
+onclick="openProduct('موديلات تركية حديثة',0,'IMG_5663.jpeg')">
 
 <h3>موديلات تركية حديثة</h3>
 
-<p class="price">
-متوفر الآن
-</p>
+<p class="price">متوفر الآن</p>
 
+<button class="cart-btn"
+onclick="addToCart('موديلات تركية حديثة',0,'IMG_5663.jpeg')">
+🛒 إضافة إلى السلة
+</button>
 
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 واتساب
-</a>
+<button class="fav-btn"
+onclick="addToFavorites('موديلات تركية حديثة',0,'IMG_5663.jpeg')">
+❤️ إضافة إلى المفضلة
+</button>
 
+<button class="view-btn"
+onclick="openProduct('موديلات تركية حديثة',0,'IMG_5663.jpeg')">
+👁️ عرض المنتج
+</button>
 
 </div>
 
-
 </section>
-
-
-
-
 <footer>
 
-<h3>
-مجمع حمزه الشطري
-</h3>
+<h3>مجمع حمزه الشطري</h3>
 
-<p>
-📍 ذي قار - الشطرة
+<p>📍 ذي قار - الشطرة</p>
+
+<p>📞 07813555538</p>
+
+<p>🚚 توصيل إلى جميع محافظات العراق</p>
+
+<p>🕒 ساعات العمل: يوميًا من 9:00 صباحًا إلى 10:00 مساءً</p>
+
+<p style="margin-top:15px;">
+© 2026 جميع الحقوق محفوظة - مجمع حمزه الشطري
 </p>
-
-<p>
-📞 07813555538
-</p>
-
-<p>
-🚚 توصيل لجميع محافظات العراق
-</p>
-
 
 </footer>
 
-
+<script src="script.js"></script>
 
 </body>
-
 </html>
