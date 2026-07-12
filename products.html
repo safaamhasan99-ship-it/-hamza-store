@@ -4,250 +4,392 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>المنتجات | مجمع حمزه الشطري</title>
+<title>إدارة المنتجات | مجمع حمزه الشطري</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css">
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
+
+body{
+background:#f4f6f9;
+}
+
+header{
+background:#111;
+color:#FFC107;
+padding:18px;
+text-align:center;
+font-size:26px;
+font-weight:bold;
+}
+
+.container{
+max-width:1200px;
+margin:30px auto;
+padding:20px;
+}
+
+.form-box{
+
+background:#fff;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+margin-bottom:35px;
+
+}
+
+.form-box h2{
+
+margin-bottom:20px;
+color:#222;
+
+}
+
+.form-group{
+
+margin-bottom:15px;
+
+}
+
+.form-group label{
+
+display:block;
+margin-bottom:8px;
+font-weight:bold;
+
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+
+width:100%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:10px;
+font-size:15px;
+
+}
+
+textarea{
+
+height:110px;
+resize:none;
+
+}
+
+button{
+
+background:#FFC107;
+border:none;
+padding:14px 30px;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#e0a800;
+
+}
+
+.products{
+
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:20px;
+
+}
+
+.card{
+
+background:#fff;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+
+}
+
+.card img{
+
+width:100%;
+height:240px;
+object-fit:cover;
+
+}
+
+.card-body{
+
+padding:18px;
+
+}
+
+.card-body h3{
+
+margin-bottom:10px;
+
+}
+
+.price{
+
+color:#FFC107;
+font-size:22px;
+font-weight:bold;
+
+}
+
+.category{
+
+margin-top:8px;
+color:#666;
+
+}
+
+.actions{
+
+display:flex;
+gap:10px;
+margin-top:15px;
+
+}
+
+.delete{
+
+background:#e53935;
+color:#fff;
+
+}
+
+.edit{
+
+background:#2196F3;
+color:#fff;
+
+}
+
+</style>
 
 </head>
 
-
 <body>
 
+<header>
 
-
-<header class="header">
-
-
-<div class="brand">
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-
-<div>
-
-<h1>
-مجمع حمزه الشطري
-</h1>
-
-<p>
-جميع المنتجات
-</p>
-
-
-</div>
-
-
-</div>
-
+إدارة منتجات مجمع حمزه الشطري
 
 </header>
 
+<div class="container">
 
+<div class="form-box">
 
+<h2>إضافة منتج جديد</h2>
 
+<div class="form-group">
 
-<section class="products">
+<label>اسم المنتج</label>
 
+<input type="text" id="name">
 
-<h2 class="title">
+</div>
 
-🛍 جميع المنتجات
+<div class="form-group">
 
-</h2>
+<label>السعر</label>
 
+<input type="number" id="price">
 
+</div>
 
-<div class="products-grid">
+<div class="form-group">
 
+<label>القسم</label>
 
+<select id="category">
 
-<div class="product-card">
+<option>رجالي</option>
+<option>نسائي</option>
+<option>ولادي</option>
+<option>بناتي</option>
+<option>جوارب</option>
+<option>بنطرونات</option>
+<option>داخليات رجالي</option>
 
+</select>
 
-<img src="IMG_5661.jpeg">
+</div>
 
+<div class="form-group">
 
-<div class="product-info">
+<label>وصف المنتج</label>
 
+<textarea id="description"></textarea>
 
-<h3>
-ملابس رجالية
-</h3>
+</div>
 
+<div class="form-group">
 
-<p class="price">
-20,000 د.ع
-</p>
+<label>رابط الصورة</label>
 
+<input type="text" id="image">
 
-<button class="cart-btn"
-onclick="addToCart('ملابس رجالية',20000,'IMG_5661.jpeg')">
+</div>
 
-🛒 إضافة للسلة
+<button id="saveBtn">
+
+إضافة المنتج
 
 </button>
 
+</div>
+
+<div id="products" class="products">
 
 </div>
 
-
 </div>
+<script type="module">
 
+import { db } from "./js/firebase.js";
 
+import {
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc,
+updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+const productsRef = collection(db,"products");
 
+const productsContainer = document.getElementById("products");
 
-<div class="product-card">
+async function loadProducts(){
 
+productsContainer.innerHTML="";
 
-<img src="IMG_5662.jpeg">
+const snapshot = await getDocs(productsRef);
 
+snapshot.forEach((item)=>{
 
-<div class="product-info">
+const product=item.data();
 
+productsContainer.innerHTML += `
 
-<h3>
-ملابس نسائية
-</h3>
+<div class="card">
 
+<img src="${product.image}" alt="">
 
-<p class="price">
-25,000 د.ع
-</p>
+<div class="card-body">
 
+<h3>${product.name}</h3>
 
-<button class="cart-btn"
-onclick="addToCart('ملابس نسائية',25000,'IMG_5662.jpeg')">
+<div class="price">${product.price} د.ع</div>
 
-🛒 إضافة للسلة
+<div class="category">${product.category}</div>
+
+<p>${product.description}</p>
+
+<div class="actions">
+
+<button class="edit">تعديل</button>
+
+<button class="delete" onclick="removeProduct('${item.id}')">
+
+حذف
 
 </button>
 
+</div>
 
 </div>
 
-
 </div>
 
+`;
 
+});
 
+}
 
+window.removeProduct = async(id)=>{
 
-<div class="product-card">
+await deleteDoc(doc(db,"products",id));
 
+loadProducts();
 
-<img src="IMG_5663.jpeg">
+};
 
+loadProducts();
+  // إضافة منتج جديد إلى Firebase
 
-<div class="product-info">
+document.getElementById("saveBtn").addEventListener("click", async () => {
 
+    const name = document.getElementById("name").value.trim();
+    const price = document.getElementById("price").value.trim();
+    const category = document.getElementById("category").value;
+    const description = document.getElementById("description").value.trim();
+    const image = document.getElementById("image").value.trim();
 
-<h3>
-ملابس ولادية
-</h3>
+    if (!name || !price || !image) {
+        alert("يرجى ملء جميع الحقول المطلوبة");
+        return;
+    }
 
+    try {
 
-<p class="price">
-18,000 د.ع
-</p>
+        await addDoc(productsRef, {
+            name,
+            price: Number(price),
+            category,
+            description,
+            image,
+            createdAt: new Date()
+        });
 
+        document.getElementById("name").value = "";
+        document.getElementById("price").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("image").value = "";
+        document.getElementById("category").selectedIndex = 0;
 
-<button class="cart-btn"
-onclick="addToCart('ملابس ولادية',18000,'IMG_5663.jpeg')">
+        alert("تمت إضافة المنتج بنجاح");
 
-🛒 إضافة للسلة
+        loadProducts();
 
+    } catch (error) {
+
+        console.error(error);
+        alert("حدث خطأ أثناء حفظ المنتج");
+
+    }
+
+});
+  <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+
+<input
+id="search"
+type="text"
+placeholder="ابحث عن منتج..."
+style="flex:1;padding:12px;border:1px solid #ddd;border-radius:10px;">
+
+<button id="refreshBtn">
+تحديث
 </button>
 
-
 </div>
-
-
-</div>
-
-
-
-
-
-<div class="product-card">
-
-
-<img src="IMG_5664.jpeg">
-
-
-<div class="product-info">
-
-
-<h3>
-ملابس بناتية
-</h3>
-
-
-<p class="price">
-20,000 د.ع
-</p>
-
-
-<button class="cart-btn"
-onclick="addToCart('ملابس بناتية',20000,'IMG_5664.jpeg')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<nav class="bottom-nav">
-
-
-<a href="index.html">
-🏠 الرئيسية
-</a>
-
-
-<a href="products.html">
-🛍 المنتجات
-</a>
-
-
-<a href="cart.html">
-🛒 السلة
-</a>
-
-
-<a href="about.html">
-ℹ️ من نحن
-</a>
-
-
-</nav>
-
-
-
-
-<script src="script.js"></script>
-
-
-</body>
-
-</html>
+  
