@@ -1,208 +1,370 @@
-// ===================================
-// مجمع حمزه الشطري
-// script.js
-// ===================================
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-// ==================== البحث ====================
+<head>
 
-const search = document.getElementById("search");
+<meta charset="UTF-8">
 
-if (search) {
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    search.addEventListener("keyup", function () {
+<title>المنتجات | مجمع حمزه الشطري</title>
 
-        const value = this.value.toLowerCase();
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-        const products = document.querySelectorAll(".product");
+<link rel="stylesheet" href="style.css">
 
-        products.forEach(product => {
+</head>
 
-            const text = product.innerText.toLowerCase();
 
-            product.style.display = text.includes(value)
-                ? ""
-                : "none";
+<body>
 
-        });
 
-    });
+<header>
 
-}
+<div class="top-header">
 
-// ==================== إضافة إلى السلة ====================
+<p>🚚 توصيل لجميع محافظات العراق</p>
 
-function addToCart(name, price, image) {
+<p>📞 07813555538</p>
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+</div>
 
-    let existing = cart.find(item => item.name === name);
 
-    if (existing) {
+<div class="logo">
 
-        existing.quantity++;
+<h1>مجمع حمزه الشطري</h1>
 
-    } else {
+<p>قسم المنتجات - البيع بالجملة فقط</p>
 
-        cart.push({
-            name: name,
-            price: price,
-            image: image,
-            quantity: 1
-        });
+</div>
 
-    }
+</header>
 
-    localStorage.setItem("cart", JSON.stringify(cart));
 
-    alert("🛒 تمت إضافة المنتج إلى السلة");
 
-}
+<nav class="navbar">
 
-// ==================== إزالة من السلة ====================
+<ul>
 
-function removeFromCart(name) {
+<li>
+<a href="index.html">🏠 الرئيسية</a>
+</li>
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+<li>
+<a href="products.html">🛒 المنتجات</a>
+</li>
 
-    cart = cart.filter(item => item.name !== name);
+<li>
+<a href="cart.html">🛍 السلة</a>
+</li>
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+<li>
+<a href="favorites.html">❤️ المفضلة</a>
+</li>
 
-    location.reload();
+<li>
+<a href="about.html">ℹ️ من نحن</a>
+</li>
 
-}// ==================== المفضلة ====================
+</ul>
 
-function addToFavorites(name, price, image) {
+</nav>
 
-    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-    let exists = favorites.find(item => item.name === name);
 
-    if (exists) {
-        alert("❤️ المنتج موجود مسبقًا في المفضلة");
-        return;
-    }
+<div class="search-box">
 
-    favorites.push({
-        name: name,
-        price: price,
-        image: image
-    });
+<input 
+type="text"
+id="search"
+placeholder="🔍 ابحث عن منتج...">
 
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+</div>
 
-    alert("❤️ تمت إضافة المنتج إلى المفضلة");
 
-}
 
-function removeFromFavorites(name){
+<h2 class="section-title">
+🛒 جميع المنتجات
+</h2>
 
-    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-    favorites = favorites.filter(item => item.name !== name);
 
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+<section class="products-box">
 
-    location.reload();
 
-}
+<div class="cards">
+    <div class="product">
 
-// ==================== فتح صفحة المنتج ====================
 
-function openProduct(name, price, image) {
+<img src="IMG_5668.jpeg"
+onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 
-    const product = {
-        name: name,
-        price: price,
-        image: image
-    };
 
-    localStorage.setItem("selectedProduct", JSON.stringify(product));
+<h3>
+تشيرت رجالي تركي
+</h3>
 
-    window.location.href = "product.html";
 
-}
+<div class="stars">
+★★★★★
+</div>
 
-// ==================== تحميل بيانات المنتج ====================
 
-function loadProduct() {
+<p class="price">
+20,000 د.ع
+</p>
 
-    const product = JSON.parse(localStorage.getItem("selectedProduct"));
 
-    if (!product) return;
+<p>
+خامة تركية ممتازة وجودة عالية
+</p>
 
-    const img = document.getElementById("productImage");
-    const title = document.getElementById("productName");
-    const price = document.getElementById("productPrice");
 
-    if (img) img.src = product.image;
-    if (title) title.innerText = product.name;
-    if (price) price.innerText = product.price + " د.ع";
+<button class="cart-btn"
+onclick="addToCart('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 
-}// ==================== إضافة المنتج الحالي إلى السلة ====================
+🛒 إضافة للسلة
 
-function addCurrentProduct() {
+</button>
 
-    const product = JSON.parse(localStorage.getItem("selectedProduct"));
 
-    if (!product) return;
+<button class="fav-btn"
+onclick="addToFavorites('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 
-    addToCart(product.name, product.price, product.image);
+❤️ المفضلة
 
-}
+</button>
 
-// ==================== الطلب عبر واتساب ====================
 
-function orderWhatsApp() {
+<button class="view-btn"
+onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 
-    const product = JSON.parse(localStorage.getItem("selectedProduct"));
+👁️ التفاصيل
 
-    if (!product) return;
+</button>
 
-    const message =
-`السلام عليكم
-أرغب بطلب المنتج:
 
-${product.name}
+</div>
 
-السعر: ${product.price} د.ع
 
-من موقع مجمع حمزه الشطري.`;
 
-    window.open(
-        "https://wa.me/9647813555538?text=" +
-        encodeURIComponent(message),
-        "_blank"
-    );
 
-}
 
-// ==================== عداد السلة ====================
+<div class="product">
 
-function updateCartCount() {
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+<img src="IMG_5662.jpeg"
+onclick="openProduct('طقم نسائي تركي',30000,'IMG_5662.jpeg')">
 
-    const counter = document.getElementById("cartCount");
 
-    if (!counter) return;
+<h3>
+طقم نسائي تركي
+</h3>
 
-    let total = 0;
 
-    cart.forEach(item => {
-        total += item.quantity || 1;
-    });
+<div class="stars">
+★★★★★
+</div>
 
-    counter.textContent = total;
 
-}
+<p class="price">
+30,000 د.ع
+</p>
 
-// ==================== تشغيل الوظائف ====================
 
-document.addEventListener("DOMContentLoaded", function () {
+<p>
+موديلات نسائية حديثة
+</p>
 
-    loadProduct();
 
-    updateCartCount();
+<button class="cart-btn"
+onclick="addToCart('طقم نسائي تركي',30000,'IMG_5662.jpeg')">
 
-});
+🛒 إضافة للسلة
+
+</button>
+
+
+<button class="fav-btn"
+onclick="addToFavorites('طقم نسائي تركي',30000,'IMG_5662.jpeg')">
+
+❤️ المفضلة
+
+</button>
+
+
+<button class="view-btn"
+onclick="openProduct('طقم نسائي تركي',30000,'IMG_5662.jpeg')">
+
+👁️ التفاصيل
+
+</button>
+
+
+</div>
+<div class="product">
+
+
+<img src="IMG_5663.jpeg"
+onclick="openProduct('ملابس ولادية',25000,'IMG_5663.jpeg')">
+
+
+<h3>
+ملابس ولادية
+</h3>
+
+
+<div class="stars">
+★★★★★
+</div>
+
+
+<p class="price">
+25,000 د.ع
+</p>
+
+
+<p>
+موديلات أطفال حديثة
+</p>
+
+
+<button class="cart-btn"
+onclick="addToCart('ملابس ولادية',25000,'IMG_5663.jpeg')">
+
+🛒 إضافة للسلة
+
+</button>
+
+
+<button class="fav-btn"
+onclick="addToFavorites('ملابس ولادية',25000,'IMG_5663.jpeg')">
+
+❤️ المفضلة
+
+</button>
+
+
+<button class="view-btn"
+onclick="openProduct('ملابس ولادية',25000,'IMG_5663.jpeg')">
+
+👁️ التفاصيل
+
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="product">
+
+
+<img src="IMG_5664.jpeg"
+onclick="openProduct('ملابس بناتية',25000,'IMG_5664.jpeg')">
+
+
+<h3>
+ملابس بناتية
+</h3>
+
+
+<div class="stars">
+★★★★★
+</div>
+
+
+<p class="price">
+25,000 د.ع
+</p>
+
+
+<p>
+أحدث موديلات البنات
+</p>
+
+
+<button class="cart-btn"
+onclick="addToCart('ملابس بناتية',25000,'IMG_5664.jpeg')">
+
+🛒 إضافة للسلة
+
+</button>
+
+
+<button class="fav-btn"
+onclick="addToFavorites('ملابس بناتية',25000,'IMG_5664.jpeg')">
+
+❤️ المفضلة
+
+</button>
+
+
+<button class="view-btn"
+onclick="openProduct('ملابس بناتية',25000,'IMG_5664.jpeg')">
+
+👁️ التفاصيل
+
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="product">
+
+
+<img src="IMG_5665.jpeg"
+onclick="openProduct('جوارب متنوعة',10000,'IMG_5665.jpeg')">
+
+
+<h3>
+قسم الجوارب
+</h3>
+
+
+<div class="stars">
+★★★★★
+</div>
+
+
+<p class="price">
+10,000 د.ع
+</p>
+
+
+<p>
+جوارب بالجملة
+</p>
+
+
+<button class="cart-btn"
+onclick="addToCart('جوارب متنوعة',10000,'IMG_5665.jpeg')">
+
+🛒 إضافة للسلة
+
+</button>
+
+
+<button class="fav-btn"
+onclick="addToFavorites('جوارب متنوعة',10000,'IMG_5665.jpeg')">
+
+❤️ المفضلة
+
+</button>
+
+
+<button class="view-btn"
+onclick="openProduct('جوارب متنوعة',10000,'IMG_5665.jpeg')">
+
+👁️ التفاصيل
+
+</button>
+
+
+</div>
