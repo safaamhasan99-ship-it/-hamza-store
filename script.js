@@ -220,3 +220,22 @@ document.addEventListener("DOMContentLoaded", function () {
     updateCartCount();
 
 });
+// =============================
+// شاشة التحميل
+// =============================
+
+window.addEventListener("load", function () {
+
+const loader = document.getElementById("loader");
+
+if(loader){
+
+setTimeout(function(){
+
+loader.classList.add("hide");
+
+},1200);
+
+}
+
+});
