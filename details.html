@@ -4,114 +4,14 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>تفاصيل المنتج - مجمع حمزه الشطري</title>
+<title>تفاصيل المنتج | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-body{
-background:#111;
-color:white;
-}
-
-header{
-background:#000;
-padding:20px;
-text-align:center;
-border-bottom:3px solid gold;
-}
-
-header h1{
-color:gold;
-}
-
-.menu{
-background:#222;
-padding:15px;
-text-align:center;
-}
-
-.menu a{
-color:white;
-text-decoration:none;
-margin:10px;
-}
-
-.container{
-padding:20px;
-}
-
-.product{
-background:#222;
-padding:20px;
-border-radius:15px;
-text-align:center;
-max-width:500px;
-margin:auto;
-}
-
-.product img{
-width:100%;
-border-radius:15px;
-}
-
-h2{
-color:gold;
-margin:15px;
-}
-
-.price{
-color:#00ff99;
-font-size:22px;
-font-weight:bold;
-}
-
-.btn{
-display:block;
-padding:12px;
-margin-top:10px;
-border-radius:25px;
-text-decoration:none;
-font-weight:bold;
-border:none;
-width:100%;
-cursor:pointer;
-}
-
-.cart{
-background:gold;
-color:#000;
-}
-
-.favorite{
-background:#e91e63;
-color:white;
-}
-
-.whatsapp{
-background:#25D366;
-color:white;
-}
-
-
-footer{
-background:#000;
-text-align:center;
-padding:25px;
-margin-top:30px;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -119,141 +19,173 @@ margin-top:30px;
 <body>
 
 
-<header>
+<header class="header">
 
-<h1>مجمع حمزه الشطري</h1>
 
-<p>تفاصيل المنتج</p>
+<div class="brand">
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+
+<div>
+
+<h1>
+مجمع حمزه الشطري
+</h1>
+
+<p>
+تفاصيل المنتج
+</p>
+
+
+</div>
+
+
+</div>
+
 
 </header>
 
 
 
-<div class="menu">
 
-<a href="index.html">🏠 الرئيسية</a>
 
-<a href="products.html">🛒 المنتجات</a>
+<section class="products">
 
-<a href="cart.html">🛒 السلة</a>
+
+<div class="product-card" id="productDetails">
+
 
 </div>
 
 
-
-<div class="container">
-
-
-<div class="product">
-
-
-<img id="productImage" src="IMG_5661.jpeg">
-
-
-<h2 id="productName">
-منتج جديد
-</h2>
-
-
-<p class="price" id="productPrice">
-90000 د.ع
-</p>
+</section>
 
 
 
-<button class="btn cart" onclick="addCart()">
-🛒 أضف للسلة
-</button>
 
 
-
-<button class="btn favorite" onclick="addFav()">
-❤️ إضافة للمفضلة
-</button>
+<nav class="bottom-nav">
 
 
-
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 اطلب واتساب
+<a href="index.html">
+🏠 الرئيسية
 </a>
 
 
-
-</div>
-
-
-</div>
+<a href="products.html">
+🛍 المنتجات
+</a>
 
 
+<a href="cart.html">
+🛒 السلة
+</a>
 
 
-<footer>
+<a href="about.html">
+ℹ️ من نحن
+</a>
 
-<h3>مجمع حمزه الشطري</h3>
 
-<p>📍 ذي قار - الشطرة</p>
+</nav>
 
-<p>📞 07813555538</p>
 
-</footer>
 
+
+
+<script src="script.js"></script>
 
 
 <script>
 
 
-let product={
+let product = JSON.parse(localStorage.getItem("product"));
 
-name:"القسم الرجالي",
 
-price:"90000",
-
-image:"IMG_5661.jpeg"
-
-};
+let box = document.getElementById("productDetails");
 
 
 
-function addCart(){
-
-let cart=JSON.parse(localStorage.getItem("cart")) || [];
+if(product){
 
 
-cart.push({
-
-name:product.name,
-
-price:product.price,
-
-image:product.image,
-
-quantity:1
-
-});
+box.innerHTML = `
 
 
-localStorage.setItem("cart",JSON.stringify(cart));
-
-
-alert("🛒 تمت إضافة المنتج للسلة");
-
-}
+<img src="${product.image}">
 
 
 
-
-function addFav(){
-
-let favorites=JSON.parse(localStorage.getItem("favorites")) || [];
+<div class="product-info">
 
 
-favorites.push(product);
+<h2>
+
+${product.name}
+
+</h2>
 
 
-localStorage.setItem("favorites",JSON.stringify(favorites));
+
+<p class="price">
+
+${product.price} د.ع
+
+</p>
 
 
-alert("❤️ تمت الإضافة للمفضلة");
+
+<p>
+
+متوفر الآن - بيع بالجملة فقط
+
+</p>
+
+
+
+<button class="cart-btn"
+
+onclick="addToCart('${product.name}',${product.price},'${product.image}')">
+
+🛒 إضافة للسلة
+
+</button>
+
+
+
+<a class="wholesale"
+
+href="https://wa.me/9647813555538">
+
+💬 طلب عبر واتساب
+
+</a>
+
+
+</div>
+
+
+`;
+
+
+
+}else{
+
+
+box.innerHTML = `
+
+<div class="about-box">
+
+<h2>
+لم يتم اختيار منتج
+</h2>
+
+</div>
+
+`;
+
+
 
 }
 
