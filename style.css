@@ -1027,3 +1027,21 @@ body.dark .loader-content p{
 color:#d1d5db;
 
 }
+/*==================================
+ظهور العناصر عند التمرير
+==================================*/
+
+.reveal{
+
+opacity:0;
+transform:translateY(40px);
+transition:all .7s ease;
+
+}
+
+.reveal.active{
+
+opacity:1;
+transform:translateY(0);
+
+}
