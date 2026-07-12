@@ -1,121 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>المفضلة | مجمع حمزه الشطري</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+
+<header class="header">
+
+
+<div class="brand">
+
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+
+<div>
+
+<h1>
+مجمع حمزه الشطري
+</h1>
+
+<p>
+المنتجات المفضلة
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+<section class="products">
+
+
+<h2 class="title">
+❤️ المفضلة
+</h2>
+
+
+<div class="products-grid" id="favoritesBox">
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<nav class="bottom-nav">
+
+
+<a href="index.html">
+🏠 الرئيسية
+</a>
+
+
+<a href="products.html">
+🛍 المنتجات
+</a>
+
+
+<a href="cart.html">
+🛒 السلة
+</a>
+
+
+<a href="favorites.html">
+❤️ المفضلة
+</a>
+
+
+</nav>
+
+
+
+
+
+<script src="script.js"></script>
+
+
+<script>
+
+
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-let list = document.getElementById("favoritesList");
 
-
-function showFavorites(){
-
-list.innerHTML="";
-
-
-if(favorites.length===0){
-
-list.innerHTML="<h2 style='color:gold;text-align:center'>لا توجد منتجات مفضلة</h2>";
-
-return;
-
-}
+let box = document.getElementById("favoritesBox");
 
 
 
-favorites.forEach((item,index)=>{
+if(favorites.length === 0){
 
 
-list.innerHTML += `
+box.innerHTML = `
 
-<div class="card">
+<div class="about-box">
+
+<h2>
+لا توجد منتجات مفضلة ❤️
+</h2>
+
+</div>
+
+`;
+
+
+}else{
+
+
+
+favorites.forEach(item=>{
+
+
+box.innerHTML += `
+
+
+<div class="product-card">
+
 
 <img src="${item.image}">
 
-<h2>${item.name}</h2>
 
-<p class="price">${item.price}</p>
+<div class="product-info">
 
 
-<button class="btn order" onclick="addFavoriteToCart(${index})">
+<h3>${item.name}</h3>
+
+
+<p class="price">
+${item.price} د.ع
+</p>
+
+
+
+<button class="cart-btn"
+
+onclick="addToCart('${item.name}',${item.price},'${item.image}')">
 
 🛒 إضافة للسلة
 
 </button>
 
 
-<a class="btn order" href="https://wa.me/9647813555538">
 
-💬 اطلب الآن
-
-</a>
-
-
-<button class="btn delete" onclick="removeFavorite(${index})">
-
-❌ حذف من المفضلة
-
-</button>
+</div>
 
 
 </div>
 
+
+
 `;
 
-});
 
-
-}
-
-
-
-function addFavoriteToCart(index){
-
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-let item = favorites[index];
-
-
-let existing = cart.find(product => product.name === item.name);
-
-
-if(existing){
-
-existing.quantity += 1;
-
-}else{
-
-
-cart.push({
-
-name:item.name,
-
-price:item.price,
-
-image:item.image,
-
-quantity:1
 
 });
 
 
-}
-
-
-localStorage.setItem("cart",JSON.stringify(cart));
-
-
-alert("🛒 تمت إضافة المنتج إلى السلة");
 
 }
 
 
-
-function removeFavorite(index){
-
-favorites.splice(index,1);
-
-localStorage.setItem("favorites",JSON.stringify(favorites));
-
-showFavorites();
-
-}
+</script>
 
 
+</body>
 
-showFavorites();
+</html>
