@@ -1,0 +1,18 @@
+images
+│
+├── men
+│   ├── product1.jpg
+│   ├── product2.jpg
+│
+├── women
+│   ├── product1.jpg
+│   ├── product2.jpg
+│
+├── boys
+│   ├── product1.jpg
+│
+├── girls
+│   ├── product1.jpg
+│
+└── socks
+    ├── product1.jpg
