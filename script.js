@@ -14,7 +14,6 @@ let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 
 
-
 // تحديث عداد السلة
 
 function updateCartCount(){
@@ -23,15 +22,13 @@ let count = document.getElementById("cartCount");
 
 if(count){
 
-count.textContent = cart.length;
+count.innerHTML = cart.length;
 
 }
 
 }
-
 
 updateCartCount();
-
 
 
 
@@ -69,7 +66,6 @@ alert("✅ تمت إضافة المنتج إلى السلة");
 
 
 
-
 // إضافة للمفضلة
 
 function addToFavorites(name,price,image){
@@ -79,7 +75,7 @@ favorites.push({
 
 name:name,
 
-price:price,
+price:Number(price),
 
 image:image
 
@@ -89,7 +85,7 @@ image:image
 localStorage.setItem("favorites",JSON.stringify(favorites));
 
 
-alert("❤️ تمت الإضافة للمفضلة");
+alert("❤️ تمت الإضافة إلى المفضلة");
 
 
 }
@@ -98,14 +94,12 @@ alert("❤️ تمت الإضافة للمفضلة");
 
 
 
-
-
-// تفاصيل المنتج
+// صفحة التفاصيل
 
 function openProduct(name,price,image){
 
 
-localStorage.setItem("product",JSON.stringify({
+let product={
 
 name:name,
 
@@ -113,7 +107,10 @@ price:price,
 
 image:image
 
-}));
+};
+
+
+localStorage.setItem("product",JSON.stringify(product));
 
 
 window.location.href="details.html";
@@ -126,18 +123,15 @@ window.location.href="details.html";
 
 
 
-// =============================
 // السلايدر
-// =============================
 
+let slides=document.querySelectorAll(".hero-slide");
 
-const slides=document.querySelectorAll(".hero-slide");
-
-let slideIndex=0;
+let current=0;
 
 
 
-function changeSlide(){
+function slider(){
 
 
 slides.forEach(item=>{
@@ -150,15 +144,15 @@ item.classList.remove("active");
 
 if(slides.length){
 
-slides[slideIndex].classList.add("active");
+slides[current].classList.add("active");
 
 
-slideIndex++;
+current++;
 
 
-if(slideIndex>=slides.length){
+if(current>=slides.length){
 
-slideIndex=0;
+current=0;
 
 }
 
@@ -171,7 +165,7 @@ slideIndex=0;
 
 if(slides.length){
 
-setInterval(changeSlide,4000);
+setInterval(slider,4000);
 
 }
 
@@ -180,14 +174,9 @@ setInterval(changeSlide,4000);
 
 
 
-
-// =============================
 // البحث
-// =============================
 
-
-const searchInput=document.getElementById("searchInput");
-
+let searchInput=document.getElementById("searchInput");
 
 
 if(searchInput){
@@ -200,21 +189,23 @@ let value=this.value.toLowerCase();
 
 
 
-document.querySelectorAll(".product-card").forEach(card=>{
+document.querySelectorAll(".product-card").forEach(product=>{
 
 
-let title=card.querySelector("h3");
+let name=product.querySelector("h3").innerText.toLowerCase();
 
 
 
-if(title){
+if(name.includes(value)){
 
 
-card.style.display = title.textContent.toLowerCase().includes(value)
-?
-"block"
-:
-"none";
+product.style.display="block";
+
+
+}else{
+
+
+product.style.display="none";
 
 
 }
@@ -233,12 +224,11 @@ card.style.display = title.textContent.toLowerCase().includes(value)
 
 
 
-// =============================
+
 // الوضع الليلي
-// =============================
 
 
-const darkBtn=document.getElementById("darkBtn");
+let darkBtn=document.getElementById("darkBtn");
 
 
 
@@ -247,7 +237,6 @@ if(localStorage.getItem("theme")=="dark"){
 document.body.classList.add("dark");
 
 }
-
 
 
 
@@ -276,7 +265,7 @@ localStorage.setItem("theme","light");
 }
 
 
-};
+}
 
 
 }
