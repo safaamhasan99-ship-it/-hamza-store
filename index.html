@@ -23,10 +23,12 @@
 
 <header class="header">
 
+
 <div class="top-header">
 
 
 <div class="brand">
+
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" alt="مجمع حمزه الشطري">
 
@@ -37,14 +39,17 @@
 مجمع حمزه الشطري
 </h1>
 
+
 <p>
 للملابس الجاهزة والجملة
 </p>
 
+
 </div>
 
 
 </div>
+
 
 
 
@@ -55,9 +60,13 @@
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-<span id="cartCount">0</span>
+<span id="cartCount">
+0
+</span>
 
 </a>
+
+
 
 
 <button id="darkBtn">
@@ -67,10 +76,13 @@
 </button>
 
 
+
 </div>
 
 
 </div>
+
+
 
 
 
@@ -78,15 +90,25 @@
 
 <i class="fa-solid fa-search"></i>
 
+
 <input type="text" id="searchInput" placeholder="ابحث عن المنتج...">
+
 
 </div>
 
 
 </header>
+
+
+
+
+
+
 <!-- السلايدر -->
 
+
 <section class="hero-slider">
+
 
 
 <div class="hero-slide active">
@@ -95,16 +117,21 @@
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
 
+
 <div class="hero-text">
+
 
 <h2>
 أحدث موديلات الملابس التركية
 </h2>
 
 
+
 <p>
 بيع جملة فقط - أفضل الأسعار للتجار
 </p>
+
+
 
 
 <a href="products.html">
@@ -114,10 +141,12 @@
 </a>
 
 
+
 </div>
 
 
 </div>
+
 
 
 
@@ -129,11 +158,14 @@
 <img src="IMG_5661.jpeg">
 
 
+
 <div class="hero-text">
+
 
 <h2>
 القسم الرجالي
 </h2>
+
 
 
 <p>
@@ -141,10 +173,12 @@
 </p>
 
 
+
 </div>
 
 
 </div>
+
 
 
 
@@ -156,11 +190,14 @@
 <img src="IMG_5662.jpeg">
 
 
+
 <div class="hero-text">
+
 
 <h2>
 القسم النسائي
 </h2>
+
 
 
 <p>
@@ -168,34 +205,26 @@
 </p>
 
 
+
 </div>
 
 
 </div>
+
+
 
 
 </section>
-
-
-
-
-
 <!-- الأقسام -->
-
 
 <section class="categories">
 
-
 <h2 class="title">
-
 أقسام المتجر
-
 </h2>
 
 
-
 <div class="category-list">
-
 
 
 <a href="sections/men.html">
@@ -267,12 +296,17 @@
 </a>
 
 
-
 </div>
 
-
 </section>
+
+
+
+
+
+
 <!-- المنتجات المميزة -->
+
 
 <section class="products">
 
@@ -283,14 +317,21 @@
 
 
 
+
 <div class="products-grid">
 
+
+
+
+
+<!-- المنتج الأول -->
 
 
 <div class="product-card">
 
 
 <img src="IMG_5668.jpeg">
+
 
 
 <div class="product-info">
@@ -301,8 +342,9 @@
 </h3>
 
 
+
 <p class="price">
-20,000 د.ع
+20000 د.ع
 </p>
 
 
@@ -315,6 +357,26 @@ onclick="addToCart('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 </button>
 
 
+
+
+<button class="details-btn"
+onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
+
+👁 عرض التفاصيل
+
+</button>
+
+
+
+<button class="favorite"
+onclick="addToFavorites('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
+
+❤️ المفضلة
+
+</button>
+
+
+
 </div>
 
 
@@ -322,12 +384,18 @@ onclick="addToCart('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 
 
 
+
+
+
+
+<!-- المنتج الثاني -->
 
 
 <div class="product-card">
 
 
 <img src="IMG_5662.jpeg">
+
 
 
 <div class="product-info">
@@ -338,8 +406,9 @@ onclick="addToCart('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 </h3>
 
 
+
 <p class="price">
-25,000 د.ع
+25000 د.ع
 </p>
 
 
@@ -352,6 +421,27 @@ onclick="addToCart('موديلات نسائية',25000,'IMG_5662.jpeg')">
 </button>
 
 
+
+
+<button class="details-btn"
+onclick="openProduct('موديلات نسائية',25000,'IMG_5662.jpeg')">
+
+👁 عرض التفاصيل
+
+</button>
+
+
+
+
+<button class="favorite"
+onclick="addToFavorites('موديلات نسائية',25000,'IMG_5662.jpeg')">
+
+❤️ المفضلة
+
+</button>
+
+
+
 </div>
 
 
@@ -359,12 +449,18 @@ onclick="addToCart('موديلات نسائية',25000,'IMG_5662.jpeg')">
 
 
 
+
+
+
+
+<!-- المنتج الثالث -->
 
 
 <div class="product-card">
 
 
 <img src="IMG_5663.jpeg">
+
 
 
 <div class="product-info">
@@ -375,9 +471,11 @@ onclick="addToCart('موديلات نسائية',25000,'IMG_5662.jpeg')">
 </h3>
 
 
+
 <p class="price">
-18,000 د.ع
+18000 د.ع
 </p>
+
 
 
 
@@ -389,10 +487,32 @@ onclick="addToCart('موديلات ولادي',18000,'IMG_5663.jpeg')">
 </button>
 
 
+
+
+<button class="details-btn"
+onclick="openProduct('موديلات ولادي',18000,'IMG_5663.jpeg')">
+
+👁 عرض التفاصيل
+
+</button>
+
+
+
+
+<button class="favorite"
+onclick="addToFavorites('موديلات ولادي',18000,'IMG_5663.jpeg')">
+
+❤️ المفضلة
+
+</button>
+
+
+
 </div>
 
 
 </div>
+
 
 
 
@@ -400,12 +520,6 @@ onclick="addToCart('موديلات ولادي',18000,'IMG_5663.jpeg')">
 
 
 </section>
-
-
-
-
-
-
 <!-- قسم الجملة -->
 
 
@@ -427,14 +541,52 @@ onclick="addToCart('موديلات ولادي',18000,'IMG_5663.jpeg')">
 
 
 
-<a href="https://wa.me/9647813555538">
+<a href="https://wa.me/9647813555538" target="_blank">
 
-اطلب عبر واتساب
+💬 اطلب عبر واتساب
+
+</a>
+
+
+
+</section>
+
+
+
+
+
+
+
+<!-- العروض -->
+
+
+<section class="about-box">
+
+
+<h2>
+🎁 عروض اليوم
+</h2>
+
+
+<p>
+
+خصومات خاصة لتجار الجملة
+وموديلات جديدة تصل بشكل مستمر.
+
+</p>
+
+
+<a href="offers.html">
+
+مشاهدة العروض
 
 </a>
 
 
 </section>
+
+
+
 
 
 
@@ -451,6 +603,7 @@ onclick="addToCart('موديلات ولادي',18000,'IMG_5663.jpeg')">
 </h2>
 
 
+
 <p>
 
 متخصصون ببيع الملابس الجاهزة بالجملة،
@@ -460,15 +613,29 @@ onclick="addToCart('موديلات ولادي',18000,'IMG_5663.jpeg')">
 
 
 </section>
+
+
+
+
+
+
+
+
 <!-- واتساب -->
+
 
 <a class="whatsapp"
 href="https://wa.me/9647813555538"
 target="_blank">
 
+
 <i class="fa-brands fa-whatsapp"></i>
 
+
 </a>
+
+
+
 
 
 
@@ -480,6 +647,7 @@ target="_blank">
 <nav class="bottom-nav">
 
 
+
 <a href="index.html">
 
 <i class="fa-solid fa-house"></i>
@@ -488,7 +656,9 @@ target="_blank">
 الرئيسية
 </span>
 
+
 </a>
+
 
 
 
@@ -500,7 +670,10 @@ target="_blank">
 المنتجات
 </span>
 
+
 </a>
+
+
 
 
 
@@ -512,7 +685,10 @@ target="_blank">
 السلة
 </span>
 
+
 </a>
+
+
 
 
 
@@ -524,7 +700,10 @@ target="_blank">
 المفضلة
 </span>
 
+
 </a>
+
+
 
 
 
@@ -536,11 +715,14 @@ target="_blank">
 من نحن
 </span>
 
+
 </a>
 
 
 
 </nav>
+
+
 
 
 
@@ -558,9 +740,11 @@ target="_blank">
 </h3>
 
 
+
 <p>
-ذي قار - الشطرة
+📍 ذي قار - الشطرة
 </p>
+
 
 
 <p>
@@ -568,9 +752,11 @@ target="_blank">
 </p>
 
 
+
 <p>
 🚚 توصيل لجميع محافظات العراق
 </p>
+
 
 
 <p>
@@ -578,7 +764,11 @@ target="_blank">
 </p>
 
 
+
 </footer>
+
+
+
 
 
 
