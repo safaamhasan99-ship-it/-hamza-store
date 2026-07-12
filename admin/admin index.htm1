@@ -5,31 +5,126 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>لوحة التحكم | تسجيل الدخول</title>
+<title>إدارة الطلبات | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/admin.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
+
+body{
+background:#f5f5f5;
+}
+
+header{
+background:#111;
+color:#FFC107;
+padding:20px;
+font-size:25px;
+font-weight:bold;
+text-align:center;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:#fff;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+th{
+background:#111;
+color:#fff;
+padding:15px;
+}
+
+td{
+padding:15px;
+text-align:center;
+border-bottom:1px solid #eee;
+}
+
+select{
+
+padding:8px;
+border-radius:8px;
+
+}
+
+button{
+
+background:#FFC107;
+border:none;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+
+}
+
+button:hover{
+
+background:#dca300;
+
+}
+
+</style>
+
 </head>
 
 <body>
 
-<div class="login-box">
+<header>
 
-    <img src="../images/logo.png" class="logo" alt="logo">
+إدارة الطلبات
 
-    <h2>مجمع حمزه الشطري</h2>
+</header>
 
-    <p>تسجيل دخول الإدارة</p>
+<div class="container">
 
-    <input type="email" id="email" placeholder="البريد الإلكتروني">
+<table>
 
-    <input type="password" id="password" placeholder="كلمة المرور">
+<thead>
 
-    <button onclick="login()">دخول</button>
+<tr>
+
+<th>رقم الطلب</th>
+
+<th>اسم العميل</th>
+
+<th>المبلغ</th>
+
+<th>الحالة</th>
+
+<th>حفظ</th>
+
+</tr>
+
+</thead>
+
+<tbody id="ordersTable">
+
+</tbody>
+
+</table>
 
 </div>
 
-<script src="js/login.js"></script>
+<script type="module" src="js/orders.js"></script>
 
 </body>
 
