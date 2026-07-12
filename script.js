@@ -1,14 +1,17 @@
 // =============================
 // مجمع حمزه الشطري
-// SCRIPT.JS
 // =============================
 
 
-// السلة والمفضلة
+// السلة
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+
+// المفضلة
+
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
 
 
 
@@ -16,18 +19,11 @@ let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 function updateCartCount(){
 
-let count = 0;
+let count = document.getElementById("cartCount");
 
-cart.forEach(item=>{
-count += item.quantity;
-});
+if(count){
 
-
-let cartCount = document.getElementById("cartCount");
-
-if(cartCount){
-
-cartCount.textContent = count;
+count.textContent = cart.length;
 
 }
 
@@ -39,39 +35,26 @@ updateCartCount();
 
 
 
+
 // إضافة للسلة
 
 function addToCart(name,price,image){
 
 
-let product = cart.find(item=>item.name === name);
-
-
-
-if(product){
-
-product.quantity++;
-
-}else{
-
-
 cart.push({
 
 name:name,
-price:price,
+
+price:Number(price),
+
 image:image,
+
 quantity:1
 
 });
 
 
-}
-
-
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
+localStorage.setItem("cart",JSON.stringify(cart));
 
 
 updateCartCount();
@@ -86,7 +69,8 @@ alert("✅ تمت إضافة المنتج إلى السلة");
 
 
 
-// المفضلة
+
+// إضافة للمفضلة
 
 function addToFavorites(name,price,image){
 
@@ -94,22 +78,23 @@ function addToFavorites(name,price,image){
 favorites.push({
 
 name:name,
+
 price:price,
+
 image:image
 
 });
 
 
-localStorage.setItem(
-"favorites",
-JSON.stringify(favorites)
-);
+localStorage.setItem("favorites",JSON.stringify(favorites));
 
 
-alert("❤️ تمت الإضافة إلى المفضلة");
+alert("❤️ تمت الإضافة للمفضلة");
 
 
 }
+
+
 
 
 
@@ -120,17 +105,15 @@ alert("❤️ تمت الإضافة إلى المفضلة");
 function openProduct(name,price,image){
 
 
-localStorage.setItem(
-"product",
-JSON.stringify({
+localStorage.setItem("product",JSON.stringify({
 
 name:name,
+
 price:price,
+
 image:image
 
-})
-
-);
+}));
 
 
 window.location.href="details.html";
@@ -142,30 +125,42 @@ window.location.href="details.html";
 
 
 
+
 // =============================
 // السلايدر
 // =============================
 
 
-const slides = document.querySelectorAll(".hero-slide");
+const slides=document.querySelectorAll(".hero-slide");
 
-let currentSlide = 0;
-
-
-
-function showSlide(index){
+let slideIndex=0;
 
 
-slides.forEach(slide=>{
 
-slide.classList.remove("active");
+function changeSlide(){
+
+
+slides.forEach(item=>{
+
+item.classList.remove("active");
 
 });
 
 
-if(slides[index]){
 
-slides[index].classList.add("active");
+if(slides.length){
+
+slides[slideIndex].classList.add("active");
+
+
+slideIndex++;
+
+
+if(slideIndex>=slides.length){
+
+slideIndex=0;
+
+}
 
 }
 
@@ -174,29 +169,12 @@ slides[index].classList.add("active");
 
 
 
-if(slides.length > 0){
+if(slides.length){
 
-
-setInterval(()=>{
-
-
-currentSlide++;
-
-
-if(currentSlide >= slides.length){
-
-currentSlide = 0;
+setInterval(changeSlide,4000);
 
 }
 
-
-showSlide(currentSlide);
-
-
-},4000);
-
-
-}
 
 
 
@@ -208,7 +186,8 @@ showSlide(currentSlide);
 // =============================
 
 
-const searchInput = document.getElementById("searchInput");
+const searchInput=document.getElementById("searchInput");
+
 
 
 if(searchInput){
@@ -217,19 +196,28 @@ if(searchInput){
 searchInput.addEventListener("keyup",function(){
 
 
-let value = this.value.toLowerCase();
+let value=this.value.toLowerCase();
 
 
 
 document.querySelectorAll(".product-card").forEach(card=>{
 
 
-let title = card.querySelector("h3").textContent.toLowerCase();
+let title=card.querySelector("h3");
 
 
 
-card.style.display = 
-title.includes(value) ? "block" : "none";
+if(title){
+
+
+card.style.display = title.textContent.toLowerCase().includes(value)
+?
+"block"
+:
+"none";
+
+
+}
 
 
 });
@@ -239,6 +227,7 @@ title.includes(value) ? "block" : "none";
 
 
 }
+
 
 
 
@@ -249,7 +238,7 @@ title.includes(value) ? "block" : "none";
 // =============================
 
 
-const darkBtn = document.getElementById("darkBtn");
+const darkBtn=document.getElementById("darkBtn");
 
 
 
@@ -258,6 +247,7 @@ if(localStorage.getItem("theme")=="dark"){
 document.body.classList.add("dark");
 
 }
+
 
 
 
@@ -271,15 +261,19 @@ document.body.classList.toggle("dark");
 
 
 
-localStorage.setItem(
+if(document.body.classList.contains("dark")){
 
-"theme",
 
-document.body.classList.contains("dark")
-?"dark"
-:"light"
+localStorage.setItem("theme","dark");
 
-);
+
+}else{
+
+
+localStorage.setItem("theme","light");
+
+
+}
 
 
 };
