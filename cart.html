@@ -1,104 +1,121 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-let cartList = document.getElementById("cartList");
+const cartList = document.getElementById("cartList");
 
 let total = 0;
 
-
-function showCart(){
+function showCart() {
 
     cartList.innerHTML = "";
 
     total = 0;
 
+    if (cart.length === 0) {
 
-    if(cart.length === 0){
+        cartList.innerHTML = "<h3>🛒 السلة فارغة</h3>";
 
-        cartList.innerHTML = `
-        <h3>السلة فارغة</h3>
-        `;
+        document.getElementById("total").innerHTML = "";
+
+        return;
 
     }
 
+    cart.forEach((item, index) => {
 
-    cart.forEach((item,index)=>{
+        const price = Number(item.price) || 0;
 
+        const quantity = item.quantity || 1;
 
-        let price = Number(item.price) || 0;
-
-        let quantity = item.quantity || 1;
-
-        let itemTotal = price * quantity;
-
+        const itemTotal = price * quantity;
 
         total += itemTotal;
 
-
         cartList.innerHTML += `
-
         <div class="cart-box">
 
-        <img src="${item.image}" width="80">
+            <img src="${item.image}" width="90">
 
-        <h3>${item.name}</h3>
+            <h3>${item.name}</h3>
 
-        <p>
-        السعر: ${price.toLocaleString()} د.ع
-        </p>
+            <p>السعر: ${price.toLocaleString()} د.ع</p>
 
-        <p>
-        الكمية: ${quantity}
-        </p>
+            <p>الكمية: ${quantity}</p>
 
-        <p>
-        المجموع: ${itemTotal.toLocaleString()} د.ع
-        </p>
+            <p>المجموع: ${itemTotal.toLocaleString()} د.ع</p>
 
-        <button onclick="removeItem(${index})">
-        حذف
-        </button>
+            <button onclick="increase(${index})">➕</button>
+
+            <button onclick="decrease(${index})">➖</button>
+
+            <button onclick="removeItem(${index})">🗑️ حذف</button>
 
         </div>
 
         <hr>
-
         `;
-
 
     });
 
-
-
     document.getElementById("total").innerHTML =
-    "المجموع: " + total.toLocaleString() + " د.ع";
+        "💰 المجموع الكلي: " + total.toLocaleString() + " د.ع";
 
+    let message = "السلام عليكم، أريد طلب المنتجات التالية:%0A%0A";
 
+    cart.forEach(item => {
+
+        message +=
+        "• " + item.name +
+        " × " + item.quantity +
+        "%0A";
+
+    });
+
+    message +=
+    "%0Aالمجموع الكلي: " +
+    total.toLocaleString() +
+    " د.ع";
 
     document.getElementById("whatsappOrder").href =
-    "https://wa.me/9647813555538?text=" +
-    encodeURIComponent(
-    "السلام عليكم، أريد طلب المنتجات الموجودة في السلة. المجموع: "
-    + total.toLocaleString() + " د.ع"
-    );
-
+    "https://wa.me/9647813555538?text=" + message;
 
 }
 
+function increase(index) {
 
+    cart[index].quantity++;
 
-function removeItem(index){
-
-    cart.splice(index,1);
-
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
+    localStorage.setItem("cart", JSON.stringify(cart));
 
     showCart();
 
 }
 
+function decrease(index) {
 
+    if (cart[index].quantity > 1) {
+
+        cart[index].quantity--;
+
+    } else {
+
+        cart.splice(index, 1);
+
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    showCart();
+
+}
+
+function removeItem(index) {
+
+    cart.splice(index, 1);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    showCart();
+
+}
 
 showCart();
