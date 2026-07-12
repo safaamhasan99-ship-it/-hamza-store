@@ -8,45 +8,48 @@
 
 <title>تفاصيل المنتج | مجمع حمزه الشطري</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=stylesheet">
 
 <link rel="stylesheet" href="style.css">
 
 </head>
 
+
 <body>
 
-<header>
 
-<h1>مجمع حمزه الشطري</h1>
+<header class="header">
 
-<p>تفاصيل المنتج</p>
+<div class="brand">
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+
+<div>
+
+<h1>
+مجمع حمزه الشطري
+</h1>
+
+<p>
+تفاصيل المنتج
+</p>
+
+</div>
+
+</div>
 
 </header>
 
 
-<nav class="navbar">
-
-<ul>
-
-<li><a href="index.html">🏠 الرئيسية</a></li>
-
-<li><a href="products.html">🛒 المنتجات</a></li>
-
-<li><a href="cart.html">🛍 السلة</a></li>
-
-<li><a href="favorites.html">❤️ المفضلة</a></li>
-
-</ul>
-
-</nav>
 
 
 
 <section class="product-details">
 
 
-<img id="productImage" src="" alt="المنتج">
+<img id="productImage" src="">
+
 
 
 <h2 id="productName">
@@ -54,9 +57,11 @@
 </h2>
 
 
+
 <p id="productPrice" class="price">
 السعر
 </p>
+
 
 
 <p>
@@ -64,8 +69,8 @@
 </p>
 
 
-<button class="cart-btn"
-onclick="addCurrentProduct()">
+
+<button class="cart-btn" onclick="addCurrentProduct()">
 
 🛒 إضافة إلى السلة
 
@@ -73,12 +78,13 @@ onclick="addCurrentProduct()">
 
 
 
-<button class="view-btn"
-onclick="orderWhatsApp()">
+<a class="whatsapp"
+id="whatsappOrder"
+target="_blank">
 
 💬 طلب عبر واتساب
 
-</button>
+</a>
 
 
 
@@ -89,29 +95,108 @@ onclick="orderWhatsApp()">
 </a>
 
 
+
 </section>
 
 
 
-<footer>
+
+
+
+<footer class="footer">
+
 
 <h3>
 مجمع حمزه الشطري
 </h3>
 
+
+<p>
+📍 ذي قار - الشطرة
+</p>
+
+
 <p>
 📞 07813555538
 </p>
+
 
 <p>
 🚚 توصيل لجميع محافظات العراق
 </p>
 
+
 </footer>
 
 
 
+
+
+
 <script src="script.js"></script>
+
+
+<script>
+
+
+let product = JSON.parse(localStorage.getItem("product"));
+
+
+
+if(product){
+
+
+document.getElementById("productImage").src = product.image;
+
+
+document.getElementById("productName").innerHTML = product.name;
+
+
+document.getElementById("productPrice").innerHTML =
+product.price + " د.ع";
+
+
+
+document.getElementById("whatsappOrder").href =
+
+"https://wa.me/9647813555538?text=" +
+
+"أريد طلب المنتج: " + product.name;
+
+
+
+
+}
+
+
+
+
+function addCurrentProduct(){
+
+
+if(product){
+
+
+addToCart(
+
+product.name,
+
+product.price,
+
+product.image
+
+);
+
+
+}
+
+
+}
+
+
+</script>
+
+
 
 </body>
 
