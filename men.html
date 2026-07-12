@@ -7,185 +7,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>القسم الرجالي - مجمع حمزه الشطري</title>
+<title>القسم الرجالي | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-
-body{
-background:#111;
-color:white;
-}
-
-
-header{
-background:#000;
-padding:20px;
-text-align:center;
-border-bottom:2px solid gold;
-}
-
-
-header h1{
-color:gold;
-}
-
-
-.menu{
-background:#222;
-padding:15px;
-text-align:center;
-}
-
-
-.menu a{
-color:white;
-text-decoration:none;
-margin:10px;
-}
-
-
-
-.container{
-padding:20px;
-}
-
-
-
-.products{
-
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-
-}
-
-
-
-.product{
-
-background:#222;
-padding:15px;
-border-radius:15px;
-text-align:center;
-
-}
-
-
-
-.product img{
-
-width:100%;
-height:250px;
-object-fit:cover;
-border-radius:10px;
-
-}
-
-
-
-h2{
-
-color:gold;
-margin:10px;
-
-}
-
-
-
-.price{
-
-color:#00ff99;
-font-weight:bold;
-font-size:18px;
-
-}
-
-
-
-.btn{
-
-display:block;
-padding:12px;
-border-radius:25px;
-text-decoration:none;
-margin-top:10px;
-font-weight:bold;
-border:none;
-cursor:pointer;
-width:100%;
-
-}
-
-
-
-.cart{
-
-background:gold;
-color:#000;
-
-}
-
-
-
-.favorite{
-
-background:#e91e63;
-color:white;
-
-}
-
-
-
-.whatsapp{
-
-background:#25D366;
-color:white;
-
-}
-
-
-
-footer{
-
-background:#000;
-text-align:center;
-padding:20px;
-margin-top:30px;
-
-}
-
-
-
-@media(max-width:600px){
-
-.products{
-
-grid-template-columns:1fr;
-
-}
-
-
-.product img{
-
-height:220px;
-
-}
-
-}
-
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -193,53 +19,56 @@ height:220px;
 <body>
 
 
-<header>
+<header class="header">
+
+<div class="brand">
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+<div>
 
 <h1>مجمع حمزه الشطري</h1>
 
 <p>القسم الرجالي</p>
 
-<p>للملابس الجاهزة والجملة</p>
+</div>
+
+</div>
 
 </header>
 
 
 
 
-<div class="menu">
+<section class="products">
 
-<a href="index.html">🏠 الرئيسية</a>
 
-<a href="products.html">🛒 المنتجات</a>
-
-<a href="cart.html">🛒 السلة</a>
-
-<a href="favorites.html">❤️ المفضلة</a>
-
-</div>
+<h2 class="title">
+👔 الملابس الرجالية
+</h2>
 
 
 
-
-
-<div class="container">
-
-
-<div class="products">
+<div class="products-grid">
 
 
 
-<div class="product">
+<div class="product-card">
 
 
 <img src="IMG_5661.jpeg">
 
 
-<h2>ملابس رجالية</h2>
+<div class="product-info">
+
+
+<h3>
+ملابس رجالية تركية
+</h3>
 
 
 <p>
-موديلات تركية حديثة
+موديلات حديثة وخامات ممتازة
 </p>
 
 
@@ -249,30 +78,16 @@ height:220px;
 
 
 
-<button class="btn cart"
-onclick="addToCart('ملابس رجالية','أسعار جملة','IMG_5661.jpeg')">
+<button class="cart-btn"
+onclick="addToCart('ملابس رجالية تركية',20000,'IMG_5661.jpeg')">
 
-🛒 أضف للسلة
-
-</button>
-
-
-
-<button class="btn favorite"
-onclick="addToFavorites('ملابس رجالية','أسعار جملة','IMG_5661.jpeg')">
-
-❤️ إضافة للمفضلة
+🛒 إضافة للسلة
 
 </button>
 
 
 
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-
-💬 اطلب واتساب
-
-</a>
-
+</div>
 
 
 </div>
@@ -281,119 +96,84 @@ onclick="addToFavorites('ملابس رجالية','أسعار جملة','IMG_566
 
 
 
-<div class="product">
+<div class="product-card">
 
 
-<img src="IMG_5661.jpeg">
+<img src="IMG_5668.jpeg">
 
 
-<h2>تشكيلات رجالية</h2>
+<div class="product-info">
+
+
+<h3>
+تشيرتات رجالية
+</h3>
 
 
 <p>
-خامات ممتازة وموديلات جديدة
+تشكيلات جديدة للتجار
 </p>
 
 
 <p class="price">
-حسب الموديل
+20,000 د.ع
 </p>
 
 
 
-<button class="btn cart"
-onclick="addToCart('تشكيلات رجالية','حسب الموديل','IMG_5661.jpeg')">
+<button class="cart-btn"
+onclick="addToCart('تشيرتات رجالية',20000,'IMG_5668.jpeg')">
 
-🛒 أضف للسلة
-
-</button>
-
-
-
-<button class="btn favorite"
-onclick="addToFavorites('تشكيلات رجالية','حسب الموديل','IMG_5661.jpeg')">
-
-❤️ إضافة للمفضلة
+🛒 إضافة للسلة
 
 </button>
 
 
 
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
+</div>
 
-💬 اطلب واتساب
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+<nav class="bottom-nav">
+
+
+<a href="index.html">
+
+🏠 الرئيسية
 
 </a>
 
 
+<a href="cart.html">
 
-</div>
+🛒 السلة
 
-
-
-</div>
-
-</div>
+</a>
 
 
+<a href="about.html">
+
+ℹ️ من نحن
+
+</a>
 
 
-
-<footer>
-
-<p>
-📍 ذي قار - الشطرة
-</p>
-
-
-<p>
-📞 07813555538
-</p>
-
-
-<p>
-🚚 توصيل لجميع محافظات العراق
-</p>
-
-
-</footer>
+</nav>
 
 
 
-
-
-<script src="cart-functions.js"></script>
-
-
-<script>
-
-
-function addToFavorites(name,price,image){
-
-
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-
-favorites.push({
-
-name:name,
-price:price,
-image:image
-
-});
-
-
-localStorage.setItem("favorites",JSON.stringify(favorites));
-
-
-alert("❤️ تمت الإضافة للمفضلة");
-
-
-}
-
-
-</script>
-
+<script src="script.js"></script>
 
 
 </body>
