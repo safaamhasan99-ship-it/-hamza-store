@@ -1,0 +1,23 @@
+admin/
+│
+├── index.html          ← تسجيل دخول الإدارة
+├── dashboard.html      ← الصفحة الرئيسية
+├── products.html       ← إدارة المنتجات
+├── orders.html         ← إدارة الطلبات
+├── categories.html     ← إدارة الأقسام
+├── offers.html         ← إدارة العروض
+├── customers.html      ← العملاء
+├── reports.html        ← التقارير
+├── settings.html       ← إعدادات المتجر
+│
+├── css/
+│   └── admin.css
+│
+├── js/
+│   ├── login.js
+│   ├── dashboard.js
+│   ├── products.js
+│   ├── orders.js
+│   └── firebase.js
+│
+└── images/
