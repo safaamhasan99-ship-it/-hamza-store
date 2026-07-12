@@ -7,179 +7,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>القسم الولادي - مجمع حمزه الشطري</title>
+<title>القسم الولادي | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-
-body{
-background:#111;
-color:white;
-}
-
-
-header{
-background:#000;
-padding:20px;
-text-align:center;
-border-bottom:2px solid gold;
-}
-
-
-header h1{
-color:gold;
-}
-
-
-.menu{
-background:#222;
-padding:15px;
-text-align:center;
-}
-
-
-.menu a{
-color:white;
-text-decoration:none;
-margin:10px;
-}
-
-
-
-.products{
-
-padding:20px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-
-}
-
-
-
-.product{
-
-background:#222;
-border-radius:15px;
-padding:15px;
-text-align:center;
-
-}
-
-
-
-.product img{
-
-width:100%;
-height:250px;
-object-fit:cover;
-border-radius:10px;
-
-}
-
-
-
-.product h2{
-
-color:gold;
-
-}
-
-
-
-.price{
-
-color:#00ff99;
-font-size:20px;
-font-weight:bold;
-
-}
-
-
-
-.btn{
-
-display:block;
-padding:12px;
-border-radius:25px;
-margin-top:10px;
-font-weight:bold;
-text-decoration:none;
-border:none;
-cursor:pointer;
-width:100%;
-
-}
-
-
-
-.cart{
-
-background:gold;
-color:#000;
-
-}
-
-
-
-.favorite{
-
-background:#e91e63;
-color:white;
-
-}
-
-
-
-.whatsapp{
-
-background:#25D366;
-color:white;
-
-}
-
-
-
-footer{
-
-background:#000;
-text-align:center;
-padding:25px;
-margin-top:30px;
-
-}
-
-
-
-@media(max-width:768px){
-
-.products{
-
-grid-template-columns:1fr;
-
-}
-
-
-.product img{
-
-height:220px;
-
-}
-
-}
-
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -187,60 +19,87 @@ height:220px;
 <body>
 
 
+<header class="header">
 
-<header>
 
-<h1>مجمع حمزه الشطري</h1>
+<div class="brand">
 
-<p>القسم الولادي - ملابس أطفال بالجملة</p>
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+
+<div>
+
+<h1>
+مجمع حمزه الشطري
+</h1>
+
+<p>
+القسم الولادي
+</p>
+
+</div>
+
+
+</div>
+
 
 </header>
 
 
 
-<div class="menu">
 
-<a href="index.html">🏠 الرئيسية</a>
 
-<a href="products.html">🛒 المنتجات</a>
+<section class="products">
 
-<a href="cart.html">🛒 السلة</a>
 
-<a href="favorites.html">❤️ المفضلة</a>
+<h2 class="title">
 
-</div>
+👦 ملابس ولادية
 
+</h2>
 
 
 
-<div class="products">
+<div class="products-grid">
 
 
 
-<div class="product">
+<div class="product-card">
+
 
 <img src="IMG_5663.jpeg">
 
-<h2>ملابس ولادي</h2>
 
-<p>موديلات أطفال حديثة</p>
-
-<p class="price">25000 د.ع</p>
+<div class="product-info">
 
 
-<button class="btn cart" onclick="addToCart('ملابس ولادي','25000 د.ع','IMG_5663.jpeg')">
-🛒 أضف للسلة
+<h3>
+تراك ولادي تركي
+</h3>
+
+
+<p>
+موديلات جديدة للأطفال
+</p>
+
+
+<p class="price">
+18,000 د.ع
+</p>
+
+
+
+<button class="cart-btn"
+onclick="addToCart('تراك ولادي تركي',18000,'IMG_5663.jpeg')">
+
+🛒 إضافة للسلة
+
 </button>
 
 
-<button class="btn favorite" onclick="addToFavorites('ملابس ولادي','25000 د.ع','IMG_5663.jpeg')">
-❤️ إضافة للمفضلة
-</button>
+</div>
 
-
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 اطلب واتساب
-</a>
 
 </div>
 
@@ -248,171 +107,87 @@ height:220px;
 
 
 
-<div class="product">
+<div class="product-card">
+
 
 <img src="IMG_5663.jpeg">
 
-<h2>تراكات ولادي</h2>
 
-<p>خامات تركية ممتازة</p>
-
-<p class="price">30000 د.ع</p>
+<div class="product-info">
 
 
-<button class="btn cart" onclick="addToCart('تراكات ولادي','30000 د.ع','IMG_5663.jpeg')">
-🛒 أضف للسلة
+<h3>
+ملابس أطفال ولادي
+</h3>
+
+
+<p>
+خامات مريحة وجودة عالية
+</p>
+
+
+<p class="price">
+أسعار جملة
+
+</p>
+
+
+
+<button class="cart-btn"
+onclick="addToCart('ملابس أطفال ولادي',15000,'IMG_5663.jpeg')">
+
+🛒 إضافة للسلة
+
 </button>
 
 
-<button class="btn favorite" onclick="addToFavorites('تراكات ولادي','30000 د.ع','IMG_5663.jpeg')">
-❤️ إضافة للمفضلة
-</button>
+</div>
 
 
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 اطلب واتساب
+</div>
+
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<nav class="bottom-nav">
+
+
+<a href="index.html">
+
+🏠 الرئيسية
+
 </a>
 
-</div>
 
+<a href="cart.html">
 
+🛒 السلة
 
-
-
-<div class="product">
-
-<img src="IMG_5663.jpeg">
-
-<h2>تيشيرتات ولادي</h2>
-
-<p>قياسات متعددة</p>
-
-<p class="price">15000 د.ع</p>
-
-
-<button class="btn cart" onclick="addToCart('تيشيرتات ولادي','15000 د.ع','IMG_5663.jpeg')">
-🛒 أضف للسلة
-</button>
-
-
-<button class="btn favorite" onclick="addToFavorites('تيشيرتات ولادي','15000 د.ع','IMG_5663.jpeg')">
-❤️ إضافة للمفضلة
-</button>
-
-
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 اطلب واتساب
 </a>
 
-</div>
 
+<a href="about.html">
 
+ℹ️ من نحن
 
-
-
-<div class="product">
-
-<img src="IMG_5663.jpeg">
-
-<h2>دشاديش ولادي</h2>
-
-<p>موديلات أنيقة للأطفال</p>
-
-<p class="price">20000 د.ع</p>
-
-
-<button class="btn cart" onclick="addToCart('دشاديش ولادي','20000 د.ع','IMG_5663.jpeg')">
-🛒 أضف للسلة
-</button>
-
-
-<button class="btn favorite" onclick="addToFavorites('دشاديش ولادي','20000 د.ع','IMG_5663.jpeg')">
-❤️ إضافة للمفضلة
-</button>
-
-
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 اطلب واتساب
 </a>
 
-</div>
+
+</nav>
 
 
 
 
-
-<div class="product">
-
-<img src="IMG_5663.jpeg">
-
-<h2>ملابس بيبي</h2>
-
-<p>قياسات متنوعة</p>
-
-<p class="price">18000 د.ع</p>
-
-
-<button class="btn cart" onclick="addToCart('ملابس بيبي','18000 د.ع','IMG_5663.jpeg')">
-🛒 أضف للسلة
-</button>
-
-
-<button class="btn favorite" onclick="addToFavorites('ملابس بيبي','18000 د.ع','IMG_5663.jpeg')">
-❤️ إضافة للمفضلة
-</button>
-
-
-<a class="btn whatsapp" href="https://wa.me/9647813555538">
-💬 اطلب واتساب
-</a>
-
-</div>
-
-
-
-</div>
-
-
-
-
-<footer>
-
-<h3>مجمع حمزه الشطري</h3>
-
-<p>📍 ذي قار - الشطرة</p>
-
-<p>📞 07813555538</p>
-
-</footer>
-
-
-
-
-<script src="cart-functions.js"></script>
-
-
-<script>
-
-function addToFavorites(name,price,image){
-
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-favorites.push({
-name:name,
-price:price,
-image:image
-});
-
-
-localStorage.setItem("favorites",JSON.stringify(favorites));
-
-
-alert("❤️ تمت الإضافة للمفضلة");
-
-}
-
-</script>
-
+<script src="script.js"></script>
 
 
 </body>
