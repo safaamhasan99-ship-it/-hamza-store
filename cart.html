@@ -4,38 +4,51 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>السلة | مجمع حمزه الشطري</title>
+<title>سلة المشتريات | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="style.css">
 
-</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+</head>
 
 <body>
 
-
-
 <header class="header">
+
+<div class="top-header">
 
 <div class="brand">
 
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" alt="الشعار">
 
 <div>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-<p>
-سلة المشتريات
-</p>
+<p>سلة المشتريات</p>
+
+</div>
+
+</div>
+
+<div class="header-actions">
+
+<a href="index.html">
+
+<i class="fa-solid fa-house"></i>
+
+</a>
+
+<a href="favorites.html">
+
+<i class="fa-solid fa-heart"></i>
+
+</a>
 
 </div>
 
@@ -43,188 +56,149 @@
 
 </header>
 
-
-
-
-
 <section class="products">
-
 
 <h2 class="title">
 🛒 سلة المشتريات
 </h2>
 
-
-
 <div id="cartList" class="products-grid">
 
 </div>
 
-
-
 <div class="about-box">
 
-
 <h2>
-المجموع
+إجمالي الطلب
 </h2>
-
 
 <h2 id="total">
 0 د.ع
 </h2>
 
-
-
-<a class="wholesale"
-href="https://wa.me/9647813555538"
+<a
+id="orderWhatsapp"
+href="#"
 target="_blank">
 
-إتمام الطلب عبر واتساب
+إرسال الطلب عبر واتساب
 
 </a>
 
-
 </div>
 
-
 </section>
-
-
-
-
-
+<!-- القائمة السفلية -->
 
 <nav class="bottom-nav">
 
-
 <a href="index.html">
-🏠 الرئيسية
+<i class="fa-solid fa-house"></i>
+<span>الرئيسية</span>
 </a>
-
 
 <a href="products.html">
-🛍 المنتجات
+<i class="fa-solid fa-shop"></i>
+<span>المنتجات</span>
 </a>
 
-
-<a href="cart.html">
-🛒 السلة
+<a href="cart.html" class="active">
+<i class="fa-solid fa-cart-shopping"></i>
+<span>السلة</span>
 </a>
-
 
 <a href="favorites.html">
-❤️ المفضلة
+<i class="fa-solid fa-heart"></i>
+<span>المفضلة</span>
 </a>
-
 
 <a href="about.html">
-ℹ️ من نحن
+<i class="fa-solid fa-circle-info"></i>
+<span>من نحن</span>
 </a>
-
 
 </nav>
 
+<footer class="footer">
 
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
+class="footer-logo"
+alt="الشعار">
 
+<h3>مجمع حمزه الشطري</h3>
 
+<p>للملابس الجاهزة والجملة</p>
 
+<p>📍 ذي قار - الشطرة</p>
+
+<p>📞 07813555538</p>
+
+<p>🚚 توصيل لجميع محافظات العراق</p>
+
+<p>© 2026 جميع الحقوق محفوظة</p>
+
+</footer>
 
 <script src="script.js"></script>
 
-
 <script>
-
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-
-let cartList = document.getElementById("cartList");
-
-let totalBox = document.getElementById("total");
-
-
+const cartList = document.getElementById("cartList");
+const totalBox = document.getElementById("total");
+const orderBtn = document.getElementById("orderWhatsapp");
 
 function showCart(){
 
+cartList.innerHTML = "";
 
-cartList.innerHTML="";
-
-
-let total=0;
-
-
+let total = 0;
+let message = "السلام عليكم، أريد طلب:%0A%0A";
 
 if(cart.length===0){
 
-
 cartList.innerHTML=`
-
 <div class="about-box">
-
-<h2>
-السلة فارغة 🛒
-</h2>
-
+<h2>🛒 السلة فارغة</h2>
 </div>
-
 `;
-
 
 totalBox.innerHTML="0 د.ع";
 
+orderBtn.href="#";
 
 return;
 
-
 }
-
-
-
-cart.forEach((item,index)=>{
-
+  cart.forEach((item,index)=>{
 
 let price = Number(item.price) || 0;
-
 let quantity = item.quantity || 1;
-
 let itemTotal = price * quantity;
-
 
 total += itemTotal;
 
-
+message +=
+`• ${item.name}
+الكمية: ${quantity}
+السعر: ${price} د.ع
+--------------------
+`;
 
 cartList.innerHTML += `
 
-
 <div class="product-card">
 
-
-<img src="${item.image}">
-
-
+<img src="${item.image}" alt="${item.name}">
 
 <div class="product-info">
 
+<h3>${item.name}</h3>
 
-<h3>
-${item.name}
-</h3>
-
-
-
-<p class="price">
-
-${price} د.ع
-
-</p>
-
-
-
+<p class="price">${price} د.ع</p>
 
 <div style="display:flex;justify-content:center;align-items:center;gap:12px;margin:15px 0;">
-
 
 <button class="cart-btn"
 onclick="changeQuantity(${index},-1)">
@@ -233,15 +207,9 @@ onclick="changeQuantity(${index},-1)">
 
 </button>
 
-
-
 <span style="font-size:20px;font-weight:bold;">
-
 ${quantity}
-
 </span>
-
-
 
 <button class="cart-btn"
 onclick="changeQuantity(${index},1)">
@@ -250,108 +218,69 @@ onclick="changeQuantity(${index},1)">
 
 </button>
 
-
 </div>
 
-
-
-
-
-<p>
-المجموع:
-${itemTotal} د.ع
+<p style="margin-bottom:15px;font-weight:bold;">
+المجموع: ${itemTotal} د.ع
 </p>
 
-
-
-
-<button class="cart-btn"
+<button class="favorite"
 onclick="removeCart(${index})">
 
-❌ حذف المنتج
+🗑 حذف المنتج
 
 </button>
 
-
-
 </div>
 
-
 </div>
-
 
 `;
 
-
-
 });
+  totalBox.innerHTML = total + " د.ع";
 
+message += "%0A💰 المجموع الكلي: " + total + " د.ع";
 
-
-totalBox.innerHTML = total + " د.ع";
-
+orderBtn.href =
+"https://wa.me/9647813555538?text=" + message;
 
 }
-
-
-
-
-
 
 function changeQuantity(index,value){
 
+cart[index].quantity =
+(cart[index].quantity || 1) + value;
 
-cart[index].quantity = (cart[index].quantity || 1) + value;
-
-
-
-if(cart[index].quantity <=0){
-
+if(cart[index].quantity <= 0){
 
 cart.splice(index,1);
 
-
 }
-
-
 
 localStorage.setItem("cart",JSON.stringify(cart));
 
+updateCartCount();
 
 showCart();
 
-
 }
-
-
-
-
-
 
 function removeCart(index){
 
-
 cart.splice(index,1);
-
 
 localStorage.setItem("cart",JSON.stringify(cart));
 
+updateCartCount();
 
 showCart();
-
 
 }
 
-
-
-
-
 showCart();
 
-
-
 </script>
-
 
 </body>
 
