@@ -4,491 +4,431 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-body{
-background:#111;
-color:#fff;
-}
-
-header{
-background:#000;
-padding:20px;
-text-align:center;
-border-bottom:3px solid gold;
-position:sticky;
-top:0;
-z-index:999;
-}
-
-header h1{
-color:gold;
-font-size:34px;
-}
-
-header p{
-margin-top:8px;
-color:#ddd;
-}
-
-.top-menu{
-background:#222;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-wrap:wrap;
-gap:10px;
-padding:15px;
-}
-
-.top-menu a{
-color:#fff;
-text-decoration:none;
-padding:10px 18px;
-background:#111;
-border-radius:25px;
-transition:.3s;
-font-weight:bold;
-}
-
-.top-menu a:hover{
-background:gold;
-color:#000;
-}
-
-.search-box{
-padding:20px;
-text-align:center;
-background:#181818;
-}
-
-.search-box input{
-width:90%;
-max-width:550px;
-padding:15px;
-border:none;
-border-radius:30px;
-font-size:18px;
-outline:none;
-}
-
-.hero{
-position:relative;
-overflow:hidden;
-}
-
-.hero img{
-width:100%;
-height:430px;
-object-fit:cover;
-display:block;
-}
-
-.hero-box{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-background:rgba(0,0,0,.65);
-padding:30px;
-border-radius:20px;
-text-align:center;
-width:85%;
-max-width:650px;
-}
-
-.hero-box h2{
-color:gold;
-font-size:34px;
-margin-bottom:15px;
-}
-
-.hero-box p{
-font-size:20px;
-margin:10px 0;
-}
-
-.btn{
-display:inline-block;
-margin-top:15px;
-padding:14px 28px;
-background:gold;
-color:#000;
-text-decoration:none;
-border-radius:30px;
-font-weight:bold;
-transition:.3s;
-}
-
-.btn:hover{
-transform:scale(1.05);
-}
-
-.section-title{
-text-align:center;
-color:gold;
-margin:40px 0 20px;
-font-size:30px;
-}
-  .categories,
-.products-box{
-width:95%;
-margin:auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:20px;
-padding-bottom:30px;
-}
-
-.category,
-.product{
-background:#222;
-border-radius:18px;
-overflow:hidden;
-text-align:center;
-box-shadow:0 5px 15px rgba(0,0,0,.3);
-transition:.3s;
-}
-
-.category:hover,
-.product:hover{
-transform:translateY(-6px);
-}
-
-.category img,
-.product img{
-width:100%;
-height:230px;
-object-fit:cover;
-cursor:pointer;
-}
-
-.category h3,
-.product h3{
-color:gold;
-margin:15px 10px;
-}
-
-.price{
-color:#00ff99;
-font-size:20px;
-font-weight:bold;
-margin-bottom:15px;
-}
-
-.product button{
-width:90%;
-margin:6px auto;
-padding:12px;
-border:none;
-border-radius:30px;
-font-size:16px;
-cursor:pointer;
-font-weight:bold;
-display:block;
-}
-
-.cart-btn{
-background:gold;
-color:#000;
-}
-
-.fav-btn{
-background:#e91e63;
-color:#fff;
-}
-
-.view-btn{
-background:#25D366;
-color:#fff;
-}
-
-footer{
-background:#000;
-padding:30px;
-text-align:center;
-border-top:3px solid gold;
-margin-top:40px;
-}
-
-footer h3{
-color:gold;
-margin-bottom:10px;
-}
-
-footer p{
-margin:8px 0;
-}
-
-@media(max-width:768px){
-
-.hero img{
-height:260px;
-}
-
-.hero-box{
-width:92%;
-padding:20px;
-}
-
-.hero-box h2{
-font-size:24px;
-}
-
-.hero-box p{
-font-size:16px;
-}
-
-.categories,
-.products-box{
-grid-template-columns:1fr;
-}
-
-.top-menu{
-padding:10px;
-}
-
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
+
 <body>
-  <header>
+
+
+<header>
+
+<div class="top-header">
+
+<p>🚚 توصيل إلى جميع محافظات العراق</p>
+
+<p>📞 07813555538</p>
+
+</div>
+
+
+<div class="logo">
 
 <h1>مجمع حمزه الشطري</h1>
 
 <p>للملابس الجاهزة والجملة</p>
 
-<p>🚚 توصيل إلى جميع محافظات العراق</p>
+</div>
 
 </header>
 
-<nav class="top-menu">
 
+<nav class="navbar">
+
+<ul>
+
+<li>
 <a href="index.html">🏠 الرئيسية</a>
+</li>
 
-<a href="products.html">🛍 المنتجات</a>
+<li>
+<a href="products.html">🛒 المنتجات</a>
+</li>
 
+<li>
 <a href="offers.html">🔥 العروض</a>
+</li>
 
-<a href="cart.html">🛒 السلة</a>
+<li>
+<a href="cart.html">🛍 السلة</a>
+</li>
 
+<li>
 <a href="favorites.html">❤️ المفضلة</a>
+</li>
 
+<li>
 <a href="about.html">ℹ️ من نحن</a>
+</li>
+
+</ul>
 
 </nav>
 
+
 <div class="search-box">
 
-<input
+<input 
 type="text"
 id="search"
 placeholder="🔍 ابحث عن منتج...">
 
 </div>
 
+
 <section class="hero">
 
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" alt="مجمع حمزه الشطري">
 
-<div class="hero-box">
+<img 
+class="banner"
+src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
+alt="مجمع حمزه الشطري">
 
-<h2>أهلاً بكم في مجمع حمزه الشطري</h2>
 
-<p>أحدث موديلات الملابس التركية</p>
+<div class="hero-text">
 
-<p>البيع بالجملة فقط</p>
+<h2>
+أحدث موديلات الملابس التركية
+</h2>
+
+<h3>
+البيع بالجملة فقط
+</h3>
+
 
 <a class="btn" href="products.html">
 ابدأ التسوق
 </a>
 
+
 </div>
 
+
 </section>
+<section class="categories">
 
 <h2 class="section-title">
 ⭐ أقسام المنتجات
 </h2>
 
-<section class="categories">
-  <div class="category">
+
+<div class="cards">
+
+
+<div class="card">
+
 <img src="IMG_5661.jpeg" alt="القسم الرجالي">
+
 <h3>القسم الرجالي</h3>
-<a class="btn" href="men.html">عرض القسم</a>
+
+<p>
+ملابس رجالية حديثة بالجملة
+</p>
+
+<a class="btn" href="men.html">
+عرض القسم
+</a>
+
 </div>
 
-<div class="category">
+
+
+<div class="card">
+
 <img src="IMG_5662.jpeg" alt="القسم النسائي">
+
 <h3>القسم النسائي</h3>
-<a class="btn" href="women.html">عرض القسم</a>
+
+<p>
+موديلات نسائية تركية
+</p>
+
+<a class="btn" href="women.html">
+عرض القسم
+</a>
+
 </div>
 
-<div class="category">
+
+
+<div class="card">
+
 <img src="IMG_5663.jpeg" alt="القسم الولادي">
+
 <h3>القسم الولادي</h3>
-<a class="btn" href="boys.html">عرض القسم</a>
+
+<p>
+ملابس أطفال بجودة عالية
+</p>
+
+<a class="btn" href="boys.html">
+عرض القسم
+</a>
+
 </div>
 
-<div class="category">
+
+
+<div class="card">
+
 <img src="IMG_5664.jpeg" alt="القسم البناتي">
+
 <h3>القسم البناتي</h3>
-<a class="btn" href="girls.html">عرض القسم</a>
+
+<p>
+أحدث موديلات البنات
+</p>
+
+<a class="btn" href="girls.html">
+عرض القسم
+</a>
+
 </div>
 
-<div class="category">
-<img src="IMG_5665.jpeg" alt="قسم الجوارب">
+
+
+<div class="card">
+
+<img src="IMG_5665.jpeg" alt="الجوارب">
+
 <h3>قسم الجوارب</h3>
-<a class="btn" href="socks.html">عرض القسم</a>
+
+<p>
+جوارب متنوعة بالجملة
+</p>
+
+<a class="btn" href="socks.html">
+عرض القسم
+</a>
+
 </div>
 
-<div class="category">
-<img src="IMG_5666.jpeg" alt="قسم البنطرونات">
+
+
+<div class="card">
+
+<img src="IMG_5666.jpeg" alt="البنطرونات">
+
 <h3>قسم البنطرونات</h3>
-<a class="btn" href="pants.html">عرض القسم</a>
+
+<p>
+بنطرونات لجميع الأعمار
+</p>
+
+<a class="btn" href="pants.html">
+عرض القسم
+</a>
+
 </div>
 
-<div class="category">
-<img src="IMG_5667.jpeg" alt="الداخليات الرجالية">
+
+
+<div class="card">
+
+<img src="IMG_5667.jpeg" alt="الداخليات">
+
 <h3>الداخليات الرجالية</h3>
-<a class="btn" href="underwear.html">عرض القسم</a>
+
+<p>
+أفضل الخامات والأسعار
+</p>
+
+<a class="btn" href="underwear.html">
+عرض القسم
+</a>
+
+</div>
+
+
 </div>
 
 </section>
+<section class="products-box">
 
 <h2 class="section-title">
 🔥 أحدث العروض
 </h2>
 
-<section class="products-box">
-  <div class="product">
 
-<img src="IMG_5668.jpeg"
-onclick="openProduct('عروض خاصة للتجار',0,'IMG_5668.jpeg')">
-
-<h3>عروض خاصة للتجار</h3>
-
-<p class="price">أسعار جملة منافسة</p>
-
-<button class="cart-btn"
-onclick="addToCart('عروض خاصة للتجار',0,'IMG_5668.jpeg')">
-🛒 إضافة إلى السلة
-</button>
-
-<button class="fav-btn"
-onclick="addToFavorites('عروض خاصة للتجار',0,'IMG_5668.jpeg')">
-❤️ إضافة إلى المفضلة
-</button>
-
-<button class="view-btn"
-onclick="openProduct('عروض خاصة للتجار',0,'IMG_5668.jpeg')">
-👁️ عرض المنتج
+<div class="cards">
 
 
-<img src="IMG_5663.jpeg"
-onclick="openProduct('موديلات تركية حديثة',0,'IMG_5663.jpeg')">
 <div class="product">
 
-<div class="badge">جديد</div>
-
 <img src="IMG_5668.jpeg"
+alt="منتج جديد"
 onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 
-<h3>تشيرت رجالي تركي</h3>
+
+<h3>
+تشيرت رجالي تركي
+</h3>
+
 
 <div class="stars">
 ★★★★★
 </div>
 
+
 <p class="price">
 20,000 د.ع
 </p>
 
-<p class="old-price">
-25,000 د.ع
+
+<p>
+خامة تركية ممتازة
 </p>
 
-<p class="desc">
-خامة تركية ممتازة وجودة عالية.
-</p>
-
-<div class="buttons">
 
 <button class="cart-btn"
 onclick="addToCart('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
-🛒 السلة
+
+🛒 إضافة للسلة
+
 </button>
+
+
 
 <button class="fav-btn"
 onclick="addToFavorites('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
-❤️
+
+❤️ المفضلة
+
 </button>
 
-</div>
+
 
 <button class="view-btn"
 onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
-عرض التفاصيل
+
+👁️ عرض التفاصيل
+
 </button>
+
 
 </div>
-<h3>موديلات تركية حديثة</h3>
 
-<p class="price">متوفر الآن</p>
+
+
+
+
+<div class="product">
+
+<img src="IMG_5663.jpeg"
+alt="موديلات تركية"
+onclick="openProduct('موديلات تركية حديثة',18000,'IMG_5663.jpeg')">
+
+
+<h3>
+موديلات تركية حديثة
+</h3>
+
+
+<div class="stars">
+★★★★★
+</div>
+
+
+<p class="price">
+18,000 د.ع
+</p>
+
+
+<p>
+أحدث الموديلات المتوفرة
+</p>
+
+
 
 <button class="cart-btn"
-onclick="addToCart('موديلات تركية حديثة',0,'IMG_5663.jpeg')">
-🛒 إضافة إلى السلة
+onclick="addToCart('موديلات تركية حديثة',18000,'IMG_5663.jpeg')">
+
+🛒 إضافة للسلة
+
 </button>
+
+
 
 <button class="fav-btn"
-onclick="addToFavorites('موديلات تركية حديثة',0,'IMG_5663.jpeg')">
-❤️ إضافة إلى المفضلة
+onclick="addToFavorites('موديلات تركية حديثة',18000,'IMG_5663.jpeg')">
+
+❤️ المفضلة
+
 </button>
 
+
+
 <button class="view-btn"
-onclick="openProduct('موديلات تركية حديثة',0,'IMG_5663.jpeg')">
-👁️ عرض المنتج
+onclick="openProduct('موديلات تركية حديثة',18000,'IMG_5663.jpeg')">
+
+👁️ عرض التفاصيل
+
 </button>
+
+
+</div>
+
 
 </div>
 
 </section>
+<a class="whatsapp"
+href="https://wa.me/9647813555538"
+target="_blank">
+
+💬
+
+</a>
+
+
+
 <footer>
 
-<h3>مجمع حمزه الشطري</h3>
+<h3>
+مجمع حمزه الشطري
+</h3>
 
-<p>📍 ذي قار - الشطرة</p>
 
-<p>📞 07813555538</p>
+<p>
+📍 ذي قار - الشطرة
+</p>
 
-<p>🚚 توصيل إلى جميع محافظات العراق</p>
 
-<p>🕒 ساعات العمل: يوميًا من 9:00 صباحًا إلى 10:00 مساءً</p>
+<p>
+📞 07813555538
+</p>
 
-<p style="margin-top:15px;">
+
+<p>
+🚚 توصيل إلى جميع محافظات العراق
+</p>
+
+
+<p>
+🕒 ساعات العمل: يوميًا من 9 صباحًا إلى 10 مساءً
+</p>
+
+
+<p>
 © 2026 جميع الحقوق محفوظة - مجمع حمزه الشطري
 </p>
 
+
 </footer>
+
+
 
 <script src="script.js"></script>
 
+
 </body>
+
 </html>
