@@ -19,95 +19,65 @@
 <body>
 
 
-<header>
 
-<div class="top-header">
+<header class="header">
 
-<p>🚚 توصيل لجميع محافظات العراق</p>
 
-<p>📞 07813555538</p>
+<div class="brand">
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+
+<div>
+
+<h1>
+مجمع حمزه الشطري
+</h1>
+
+<p>
+جميع المنتجات
+</p>
+
 
 </div>
 
 
-<div class="logo">
-
-<h1>مجمع حمزه الشطري</h1>
-
-<p>قسم المنتجات - البيع بالجملة فقط</p>
-
 </div>
+
 
 </header>
 
 
 
-<nav class="navbar">
-
-<ul>
-
-<li>
-<a href="index.html">🏠 الرئيسية</a>
-</li>
-
-<li>
-<a href="products.html">🛒 المنتجات</a>
-</li>
-
-<li>
-<a href="cart.html">🛍 السلة</a>
-</li>
-
-<li>
-<a href="favorites.html">❤️ المفضلة</a>
-</li>
-
-<li>
-<a href="about.html">ℹ️ من نحن</a>
-</li>
-
-</ul>
-
-</nav>
 
 
-
-<div class="search-box">
-
-<input 
-type="text"
-id="search"
-placeholder="🔍 ابحث عن منتج...">
-
-</div>
+<section class="products">
 
 
+<h2 class="title">
 
-<h2 class="section-title">
-🛒 جميع المنتجات
+🛍 جميع المنتجات
+
 </h2>
 
 
 
-<section class="products-box">
+<div class="products-grid">
 
 
-<div class="cards">
-    <div class="product">
+
+<div class="product-card">
 
 
-<img src="IMG_5668.jpeg"
-onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
+<img src="IMG_5661.jpeg">
+
+
+<div class="product-info">
 
 
 <h3>
-تشيرت رجالي تركي
+ملابس رجالية
 </h3>
-
-
-<div class="stars">
-★★★★★
-</div>
 
 
 <p class="price">
@@ -115,33 +85,15 @@ onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 </p>
 
 
-<p>
-خامة تركية ممتازة وجودة عالية
-</p>
-
-
 <button class="cart-btn"
-onclick="addToCart('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
+onclick="addToCart('ملابس رجالية',20000,'IMG_5661.jpeg')">
 
 🛒 إضافة للسلة
 
 </button>
 
 
-<button class="fav-btn"
-onclick="addToFavorites('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<button class="view-btn"
-onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
-
-👁️ التفاصيل
-
-</button>
+</div>
 
 
 </div>
@@ -150,63 +102,49 @@ onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 
 
 
-<div class="product">
+<div class="product-card">
 
 
-<img src="IMG_5662.jpeg"
-onclick="openProduct('طقم نسائي تركي',30000,'IMG_5662.jpeg')">
+<img src="IMG_5662.jpeg">
+
+
+<div class="product-info">
 
 
 <h3>
-طقم نسائي تركي
+ملابس نسائية
 </h3>
 
 
-<div class="stars">
-★★★★★
-</div>
-
-
 <p class="price">
-30,000 د.ع
-</p>
-
-
-<p>
-موديلات نسائية حديثة
+25,000 د.ع
 </p>
 
 
 <button class="cart-btn"
-onclick="addToCart('طقم نسائي تركي',30000,'IMG_5662.jpeg')">
+onclick="addToCart('ملابس نسائية',25000,'IMG_5662.jpeg')">
 
 🛒 إضافة للسلة
 
 </button>
 
 
-<button class="fav-btn"
-onclick="addToFavorites('طقم نسائي تركي',30000,'IMG_5662.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<button class="view-btn"
-onclick="openProduct('طقم نسائي تركي',30000,'IMG_5662.jpeg')">
-
-👁️ التفاصيل
-
-</button>
+</div>
 
 
 </div>
-<div class="product">
 
 
-<img src="IMG_5663.jpeg"
-onclick="openProduct('ملابس ولادية',25000,'IMG_5663.jpeg')">
+
+
+
+<div class="product-card">
+
+
+<img src="IMG_5663.jpeg">
+
+
+<div class="product-info">
 
 
 <h3>
@@ -214,43 +152,20 @@ onclick="openProduct('ملابس ولادية',25000,'IMG_5663.jpeg')">
 </h3>
 
 
-<div class="stars">
-★★★★★
-</div>
-
-
 <p class="price">
-25,000 د.ع
-</p>
-
-
-<p>
-موديلات أطفال حديثة
+18,000 د.ع
 </p>
 
 
 <button class="cart-btn"
-onclick="addToCart('ملابس ولادية',25000,'IMG_5663.jpeg')">
+onclick="addToCart('ملابس ولادية',18000,'IMG_5663.jpeg')">
 
 🛒 إضافة للسلة
 
 </button>
 
 
-<button class="fav-btn"
-onclick="addToFavorites('ملابس ولادية',25000,'IMG_5663.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<button class="view-btn"
-onclick="openProduct('ملابس ولادية',25000,'IMG_5663.jpeg')">
-
-👁️ التفاصيل
-
-</button>
+</div>
 
 
 </div>
@@ -259,11 +174,13 @@ onclick="openProduct('ملابس ولادية',25000,'IMG_5663.jpeg')">
 
 
 
-<div class="product">
+<div class="product-card">
 
 
-<img src="IMG_5664.jpeg"
-onclick="openProduct('ملابس بناتية',25000,'IMG_5664.jpeg')">
+<img src="IMG_5664.jpeg">
+
+
+<div class="product-info">
 
 
 <h3>
@@ -271,259 +188,60 @@ onclick="openProduct('ملابس بناتية',25000,'IMG_5664.jpeg')">
 </h3>
 
 
-<div class="stars">
-★★★★★
-</div>
-
-
 <p class="price">
-25,000 د.ع
-</p>
-
-
-<p>
-أحدث موديلات البنات
+20,000 د.ع
 </p>
 
 
 <button class="cart-btn"
-onclick="addToCart('ملابس بناتية',25000,'IMG_5664.jpeg')">
+onclick="addToCart('ملابس بناتية',20000,'IMG_5664.jpeg')">
 
 🛒 إضافة للسلة
 
 </button>
 
 
-<button class="fav-btn"
-onclick="addToFavorites('ملابس بناتية',25000,'IMG_5664.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<button class="view-btn"
-onclick="openProduct('ملابس بناتية',25000,'IMG_5664.jpeg')">
-
-👁️ التفاصيل
-
-</button>
-
-
-</div>
-
-
-
-
-
-<div class="product">
-
-
-<img src="IMG_5665.jpeg"
-onclick="openProduct('جوارب متنوعة',10000,'IMG_5665.jpeg')">
-
-
-<h3>
-قسم الجوارب
-</h3>
-
-
-<div class="stars">
-★★★★★
-</div>
-
-
-<p class="price">
-10,000 د.ع
-</p>
-
-
-<p>
-جوارب بالجملة
-</p>
-
-
-<button class="cart-btn"
-onclick="addToCart('جوارب متنوعة',10000,'IMG_5665.jpeg')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-<button class="fav-btn"
-onclick="addToFavorites('جوارب متنوعة',10000,'IMG_5665.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<button class="view-btn"
-onclick="openProduct('جوارب متنوعة',10000,'IMG_5665.jpeg')">
-
-👁️ التفاصيل
-
-</button>
-
-
-</div>
-<div class="product">
-
-
-<img src="IMG_5666.jpeg"
-onclick="openProduct('بنطرونات متنوعة',30000,'IMG_5666.jpeg')">
-
-
-<h3>
-قسم البنطرونات
-</h3>
-
-
-<div class="stars">
-★★★★★
-</div>
-
-
-<p class="price">
-30,000 د.ع
-</p>
-
-
-<p>
-بنطرونات لجميع الأعمار
-</p>
-
-
-<button class="cart-btn"
-onclick="addToCart('بنطرونات متنوعة',30000,'IMG_5666.jpeg')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-<button class="fav-btn"
-onclick="addToFavorites('بنطرونات متنوعة',30000,'IMG_5666.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<button class="view-btn"
-onclick="openProduct('بنطرونات متنوعة',30000,'IMG_5666.jpeg')">
-
-👁️ التفاصيل
-
-</button>
-
-
-</div>
-
-
-
-
-<div class="product">
-
-
-<img src="IMG_5667.jpeg"
-onclick="openProduct('داخليات رجالية',15000,'IMG_5667.jpeg')">
-
-
-<h3>
-الداخليات الرجالية
-</h3>
-
-
-<div class="stars">
-★★★★★
-</div>
-
-
-<p class="price">
-15,000 د.ع
-</p>
-
-
-<p>
-خامات ممتازة وأسعار جملة
-</p>
-
-
-<button class="cart-btn"
-onclick="addToCart('داخليات رجالية',15000,'IMG_5667.jpeg')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-<button class="fav-btn"
-onclick="addToFavorites('داخليات رجالية',15000,'IMG_5667.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-<button class="view-btn"
-onclick="openProduct('داخليات رجالية',15000,'IMG_5667.jpeg')">
-
-👁️ التفاصيل
-
-</button>
-
-
 </div>
 
 
 </div>
+
+
+
+</div>
+
 
 </section>
-<a class="whatsapp"
-href="https://wa.me/9647813555538"
-target="_blank">
 
-💬
 
+
+
+
+<nav class="bottom-nav">
+
+
+<a href="index.html">
+🏠 الرئيسية
 </a>
 
 
-
-<footer>
-
-<h3>
-مجمع حمزه الشطري
-</h3>
+<a href="products.html">
+🛍 المنتجات
+</a>
 
 
-<p>
-📍 ذي قار - الشطرة
-</p>
+<a href="cart.html">
+🛒 السلة
+</a>
 
 
-<p>
-📞 07813555538
-</p>
+<a href="about.html">
+ℹ️ من نحن
+</a>
 
 
-<p>
-🚚 توصيل إلى جميع محافظات العراق
-</p>
+</nav>
 
-
-<p>
-🕒 ساعات العمل: يوميًا من 9 صباحًا إلى 10 مساءً
-</p>
-
-
-<p>
-© 2026 جميع الحقوق محفوظة - مجمع حمزه الشطري
-</p>
-
-
-</footer>
 
 
 
