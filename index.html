@@ -2,292 +2,270 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>مجمع حمزه الشطري</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="style.css">
 
-</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+</head>
 
 <body>
 
+<header class="header">
 
-<header>
+<div class="header-top">
 
-<div class="top-header">
+<div class="logo-box">
 
-<p>🚚 توصيل إلى جميع محافظات العراق</p>
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" class="logo" alt="شعار">
 
-<p>📞 07813555538</p>
+<div>
 
-</div>
-
-
-<div class="logo">
-
-<h1>مجمع حمزه الشطري</h1>
+<h2>مجمع حمزه الشطري</h2>
 
 <p>للملابس الجاهزة والجملة</p>
 
 </div>
 
-</header>
+</div>
 
+<div class="header-icons">
 
-<nav class="navbar">
+<button id="darkBtn" class="icon-btn">
 
-<ul>
+<i class="fa-solid fa-moon"></i>
 
-<li>
-<a href="index.html">🏠 الرئيسية</a>
-</li>
+</button>
 
-<li>
-<a href="products.html">🛒 المنتجات</a>
-</li>
+<a href="cart.html" class="cart-icon">
 
-<li>
-<a href="offers.html">🔥 العروض</a>
-</li>
+<i class="fa-solid fa-cart-shopping"></i>
 
-<li></a>
-</li>
-<a href="cart.html">
-🛍 السلة (<span id="cartCount">0</span>)
+<span id="cartCount">0</span>
+
 </a>
-<li>
-<a href="favorites.html">❤️ المفضلة</a>
-</li>
 
-<li>
-<a href="about.html">ℹ️ من نحن</a>
-</li>
+</div>
 
-</ul>
-
-</nav>
-
+</div>
 
 <div class="search-box">
 
-<input 
-type="text"
-id="search"
-placeholder="🔍 ابحث عن منتج...">
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input type="text" id="search" placeholder="ابحث عن منتج...">
 
 </div>
 
+</header>
+<!-- ===== بداية السلايدر ===== -->
 
-<section class="hero">
+<section class="slider">
 
+<div class="slides">
 
-<img 
-class="banner"
-src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
-alt="مجمع حمزه الشطري">
+<div class="slide active">
 
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" alt="إعلان">
 
-<div class="hero-text">
+<div class="slide-content">
 
-<h2>
-أحدث موديلات الملابس التركية
-</h2>
+<h2>أحدث موديلات الملابس التركية</h2>
 
-<h3>
-البيع بالجملة فقط
-</h3>
+<p>البيع بالجملة فقط</p>
 
-
-<a class="btn" href="products.html">
-ابدأ التسوق
-</a>
-
-
-</div>
-
-
-</section>
-<section class="categories">
-
-<h2 class="section-title">
-⭐ أقسام المنتجات
-</h2>
-
-
-<div class="cards">
-
-
-<div class="card">
-
-<img src="IMG_5661.jpeg" alt="القسم الرجالي">
-
-<h3>القسم الرجالي</h3>
-
-<p>
-ملابس رجالية حديثة بالجملة
-</p>
-
-<a class="btn" href="men.html">
-عرض القسم
+<a href="products.html" class="shop-btn">
+تسوق الآن
 </a>
 
 </div>
 
+</div>
 
+<div class="slide">
 
-<div class="card">
+<img src="IMG_5661.jpeg" alt="رجالي">
 
-<img src="IMG_5662.jpeg" alt="القسم النسائي">
+<div class="slide-content">
 
-<h3>القسم النسائي</h3>
+<h2>القسم الرجالي</h2>
 
-<p>
-موديلات نسائية تركية
-</p>
-
-<a class="btn" href="women.html">
-عرض القسم
-</a>
+<p>أفضل الموديلات التركية</p>
 
 </div>
 
+</div>
 
+<div class="slide">
 
-<div class="card">
+<img src="IMG_5662.jpeg" alt="نسائي">
 
-<img src="IMG_5663.jpeg" alt="القسم الولادي">
+<div class="slide-content">
 
-<h3>القسم الولادي</h3>
+<h2>القسم النسائي</h2>
 
-<p>
-ملابس أطفال بجودة عالية
-</p>
-
-<a class="btn" href="boys.html">
-عرض القسم
-</a>
+<p>موديلات جديدة 2026</p>
 
 </div>
 
+</div>
 
+<div class="slide">
 
-<div class="card">
+<img src="IMG_5663.jpeg" alt="ولادي">
 
-<img src="IMG_5664.jpeg" alt="القسم البناتي">
+<div class="slide-content">
 
-<h3>القسم البناتي</h3>
+<h2>القسم الولادي</h2>
 
-<p>
-أحدث موديلات البنات
-</p>
-
-<a class="btn" href="girls.html">
-عرض القسم
-</a>
+<p>أفضل الأسعار بالجملة</p>
 
 </div>
 
-
-
-<div class="card">
-
-<img src="IMG_5665.jpeg" alt="الجوارب">
-
-<h3>قسم الجوارب</h3>
-
-<p>
-جوارب متنوعة بالجملة
-</p>
-
-<a class="btn" href="socks.html">
-عرض القسم
-</a>
+</div>
 
 </div>
 
+<div class="slider-dots">
 
+<span class="dot active"></span>
 
-<div class="card">
+<span class="dot"></span>
 
-<img src="IMG_5666.jpeg" alt="البنطرونات">
+<span class="dot"></span>
 
-<h3>قسم البنطرونات</h3>
-
-<p>
-بنطرونات لجميع الأعمار
-</p>
-
-<a class="btn" href="pants.html">
-عرض القسم
-</a>
-
-</div>
-
-
-
-<div class="card">
-
-<img src="IMG_5667.jpeg" alt="الداخليات">
-
-<h3>الداخليات الرجالية</h3>
-
-<p>
-أفضل الخامات والأسعار
-</p>
-
-<a class="btn" href="underwear.html">
-عرض القسم
-</a>
-
-</div>
-
+<span class="dot"></span>
 
 </div>
 
 </section>
-<section class="products-box">
+
+<!-- ===== نهاية السلايدر ===== -->
+
+
+<!-- ===== بداية الأقسام ===== -->
+
+<section class="home-categories">
 
 <h2 class="section-title">
-🔥 أحدث العروض
+أقسام المتجر
 </h2>
 
+<div class="categories-scroll">
 
-<div class="cards">
+<a href="men.html" class="cat-item">
 
+<img src="IMG_5661.jpeg" alt="رجالي">
 
-<div class="product">
+<span>رجالي</span>
 
-<img src="IMG_5668.jpeg"
-alt="منتج جديد"
-onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
+</a>
 
+<a href="women.html" class="cat-item">
 
-<h3>
-تشيرت رجالي تركي
-</h3>
+<img src="IMG_5662.jpeg" alt="نسائي">
 
+<span>نسائي</span>
 
-<div class="stars">
+</a>
+
+<a href="boys.html" class="cat-item">
+
+<img src="IMG_5663.jpeg" alt="ولادي">
+
+<span>ولادي</span>
+
+</a>
+
+<a href="girls.html" class="cat-item">
+
+<img src="IMG_5664.jpeg" alt="بناتي">
+
+<span>بناتي</span>
+
+</a>
+
+<a href="socks.html" class="cat-item">
+
+<img src="IMG_5665.jpeg" alt="جوارب">
+
+<span>جوارب</span>
+
+</a>
+
+<a href="pants.html" class="cat-item">
+
+<img src="IMG_5666.jpeg" alt="بنطرونات">
+
+<span>بنطرونات</span>
+
+</a>
+
+<a href="underwear.html" class="cat-item">
+
+<img src="IMG_5667.jpeg" alt="داخليات">
+
+<span>داخليات</span>
+
+</a>
+
+</div>
+
+</section>
+
+<!-- ===== نهاية الأقسام ===== -->
+  <!-- ===== بداية أحدث المنتجات ===== -->
+
+<section class="products-section">
+
+<h2 class="section-title">
+🔥 أحدث المنتجات
+</h2>
+
+<div class="products-grid">
+
+<!-- المنتج الأول -->
+
+<div class="product-card">
+
+<div class="product-image">
+
+<img src="IMG_5668.jpeg" alt="تشيرت رجالي">
+
+<button class="favorite"
+onclick="addToFavorites('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
+
+<i class="fa-solid fa-heart"></i>
+
+</button>
+
+<span class="badge">متوفر</span>
+
+</div>
+
+<div class="product-content">
+
+<h3>تشيرت رجالي تركي</h3>
+
+<div class="rating">
 ★★★★★
 </div>
-
 
 <p class="price">
 20,000 د.ع
 </p>
 
-
-<p>
-خامة تركية ممتازة
+<p class="stock">
+باقي 24 قطعة
 </p>
 
+<div class="buttons">
 
 <button class="cart-btn"
 onclick="addToCart('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
@@ -296,139 +274,265 @@ onclick="addToCart('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 
 </button>
 
-
-
-<button class="fav-btn"
-onclick="addToFavorites('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
-
-❤️ المفضلة
-
-</button>
-
-
-
-<button class="view-btn"
+<button class="details-btn"
 onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
 
-👁️ عرض التفاصيل
+عرض التفاصيل
 
 </button>
-
 
 </div>
 
+</div>
 
+</div>
 
+<!-- المنتج الثاني -->
 
+<div class="product-card">
 
-<div class="product">
+<div class="product-image">
 
-<img src="IMG_5663.jpeg"
-alt="موديلات تركية"
-onclick="openProduct('موديلات تركية حديثة',18000,'IMG_5663.jpeg')">
+<img src="IMG_5662.jpeg" alt="نسائي">
 
+<button class="favorite"
+onclick="addToFavorites('موديلات نسائية',25000,'IMG_5662.jpeg')">
 
-<h3>
-موديلات تركية حديثة
-</h3>
+<i class="fa-solid fa-heart"></i>
 
+</button>
 
-<div class="stars">
+<span class="badge">جديد</span>
+
+</div>
+
+<div class="product-content">
+
+<h3>موديلات نسائية</h3>
+
+<div class="rating">
 ★★★★★
 </div>
 
-
 <p class="price">
-18,000 د.ع
+25,000 د.ع
 </p>
 
-
-<p>
-أحدث الموديلات المتوفرة
+<p class="stock">
+باقي 18 قطعة
 </p>
 
-
+<div class="buttons">
 
 <button class="cart-btn"
-onclick="addToCart('موديلات تركية حديثة',18000,'IMG_5663.jpeg')">
+onclick="addToCart('موديلات نسائية',25000,'IMG_5662.jpeg')">
 
 🛒 إضافة للسلة
 
 </button>
 
+<button class="details-btn"
+onclick="openProduct('موديلات نسائية',25000,'IMG_5662.jpeg')">
 
-
-<button class="fav-btn"
-onclick="addToFavorites('موديلات تركية حديثة',18000,'IMG_5663.jpeg')">
-
-❤️ المفضلة
+عرض التفاصيل
 
 </button>
-
-
-
-<button class="view-btn"
-onclick="openProduct('موديلات تركية حديثة',18000,'IMG_5663.jpeg')">
-
-👁️ عرض التفاصيل
-
-</button>
-
 
 </div>
 
+</div>
+
+</div>
+
+<!-- المنتج الثالث -->
+
+<div class="product-card">
+
+<div class="product-image">
+
+<img src="IMG_5663.jpeg" alt="ولادي">
+
+<button class="favorite"
+onclick="addToFavorites('موديلات ولادي',18000,'IMG_5663.jpeg')">
+
+<i class="fa-solid fa-heart"></i>
+
+</button>
+
+<span class="badge">الأكثر مبيعًا</span>
+
+</div>
+
+<div class="product-content">
+
+<h3>موديلات ولادي</h3>
+
+<div class="rating">
+★★★★★
+</div>
+
+<p class="price">
+18,000 د.ع
+</p>
+
+<p class="stock">
+باقي 12 قطعة
+</p>
+
+<div class="buttons">
+
+<button class="cart-btn"
+onclick="addToCart('موديلات ولادي',18000,'IMG_5663.jpeg')">
+
+🛒 إضافة للسلة
+
+</button>
+
+<button class="details-btn"
+onclick="openProduct('موديلات ولادي',18000,'IMG_5663.jpeg')">
+
+عرض التفاصيل
+
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 </section>
-<a class="whatsapp"
-href="https://wa.me/9647813555538"
+
+<!-- ===== نهاية أحدث المنتجات ===== -->
+  <!-- ===== بداية العروض ===== -->
+
+<section class="offers-section">
+
+<h2 class="section-title">
+🎁 عروض اليوم
+</h2>
+
+<div class="offer-card">
+
+<div class="offer-info">
+
+<h3>
+خصومات خاصة لتجار الجملة
+</h3>
+
+<p>
+اطلب الآن واستفد من أفضل الأسعار مع التوصيل إلى جميع محافظات العراق.
+</p>
+
+<a href="offers.html" class="offer-btn">
+
+عرض جميع العروض
+
+</a>
+
+</div>
+
+<div class="offer-image">
+
+<img src="IMG_5661.jpeg" alt="العروض">
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===== نهاية العروض ===== -->
+
+
+<!-- زر واتساب -->
+
+<a href="https://wa.me/9647813555538"
+class="whatsapp"
 target="_blank">
 
-💬
+<i class="fa-brands fa-whatsapp"></i>
 
 </a>
 
 
+<!-- القائمة السفلية -->
 
-<footer>
+<nav class="bottom-nav">
+
+<a href="index.html" class="active">
+
+<i class="fa-solid fa-house"></i>
+
+<span>الرئيسية</span>
+
+</a>
+
+<a href="products.html">
+
+<i class="fa-solid fa-shop"></i>
+
+<span>المنتجات</span>
+
+</a>
+
+<a href="cart.html">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span>السلة</span>
+
+</a>
+
+<a href="favorites.html">
+
+<i class="fa-solid fa-heart"></i>
+
+<span>المفضلة</span>
+
+</a>
+
+<a href="about.html">
+
+<i class="fa-solid fa-circle-info"></i>
+
+<span>من نحن</span>
+
+</a>
+
+</nav>
+
+
+<!-- الفوتر -->
+
+<footer class="footer">
 
 <h3>
 مجمع حمزه الشطري
 </h3>
 
-
 <p>
-📍 ذي قار - الشطرة
+ذي قار - الشطرة
 </p>
-
 
 <p>
 📞 07813555538
 </p>
 
-
 <p>
 🚚 توصيل إلى جميع محافظات العراق
 </p>
 
-
 <p>
-🕒 ساعات العمل: يوميًا من 9 صباحًا إلى 10 مساءً
+© 2026 جميع الحقوق محفوظة
 </p>
-
-
-<p>
-© 2026 جميع الحقوق محفوظة - مجمع حمزه الشطري
-</p>
-
 
 </footer>
 
 
-
 <script src="script.js"></script>
-
 
 </body>
 
