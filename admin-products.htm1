@@ -15,9 +15,7 @@
 
 </head>
 
-
 <body>
-
 
 <header class="header">
 
@@ -25,13 +23,9 @@
 
 <div class="brand">
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-<p>
-إضافة المنتجات
-</p>
+<p>لوحة إدارة المنتجات</p>
 
 </div>
 
@@ -39,109 +33,98 @@
 
 </header>
 
-
-
 <section class="products">
-
 
 <h2 class="title">
 ➕ إضافة منتج جديد
 </h2>
 
-
-
 <div class="about-box">
 
-
-<input id="productName"
+<input
+id="productName"
+type="text"
 placeholder="اسم المنتج">
 
-
 <br><br>
 
-
-<input id="productPrice"
+<input
+id="productPrice"
 type="number"
-placeholder="السعر">
-
+placeholder="سعر المنتج">
 
 <br><br>
 
-
-<input id="productImage"
+<input
+id="productImage"
+type="text"
 placeholder="رابط صورة المنتج">
 
-
 <br><br>
 
+<textarea
+id="productDescription"
+placeholder="وصف المنتج"
+rows="4"
+style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;resize:vertical;"></textarea>
+
+<br><br>
 
 <select id="productCategory">
 
+<option value="men">👔 القسم الرجالي</option>
 
-<option value="men">
-رجالي
-</option>
+<option value="women">👗 القسم النسائي</option>
 
+<option value="boys">🧒 القسم الولادي</option>
 
-<option value="women">
-نسائي
-</option>
+<option value="girls">👧 القسم البناتي</option>
 
+<option value="pants">👖 البنطرونات</option>
 
-<option value="boys">
-ولادي
-</option>
+<option value="underwear">🩳 الداخليات الرجالي</option>
 
-
-<option value="girls">
-بناتي
-</option>
-
-
-<option value="socks">
-جوارب
-</option>
-
+<option value="socks">🧦 الجوارب</option>
 
 </select>
 
-
 <br><br>
 
+<button
+class="cart-btn"
+onclick="addProduct()">
 
-
-<button onclick="addProduct()">
-
-حفظ المنتج
+💾 حفظ المنتج
 
 </button>
 
-
-
 </div>
-
-
 
 <h2 class="title">
 📦 المنتجات المضافة
 </h2>
 
+<div style="text-align:center;margin-bottom:20px;">
 
+<button
+class="cart-btn"
+onclick="refreshProducts()">
 
-<div id="productsList" class="products-grid">
+🔄 تحديث المنتجات
 
+</button>
 
 </div>
 
+<div
+id="productsList"
+class="products-grid">
 
+</div>
 
 </section>
 
-
-
-
 <script type="module" src="admin-products.js"></script>
-
 
 </body>
 
