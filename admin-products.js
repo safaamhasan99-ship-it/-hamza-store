@@ -1,259 +1,109 @@
-// admin-products.js
-
-import { db, storage } from "./firebase.js";
+import { db } from "./firebase.js";
 
 import {
-    collection,
-    addDoc,
-    getDocs,
-    serverTimestamp
+  collection,
+  addDoc,
+  getDocs,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-import {
-    ref,
-    uploadBytes,
-    getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-
-
 
 const saveBtn = document.getElementById("saveBtn");
 
+saveBtn.addEventListener("click", saveProduct);
 
+async function saveProduct() {
 
-if(saveBtn){
+  const name = document.getElementById("name").value.trim();
+  const price = Number(document.getElementById("price").value);
+  const category = document.getElementById("category").value;
+  const sizes = document.getElementById("sizes").value.trim();
+  const colors = document.getElementById("colors").value.trim();
+  const quantity = Number(document.getElementById("quantity").value);
+  const description = document.getElementById("description").value.trim();
+  const image = document.getElementById("image").value.trim();
+  const offer = document.getElementById("offer").checked;
 
+  if (!name || !price) {
+    alert("يرجى إدخال اسم المنتج والسعر");
+    return;
+  }
 
-saveBtn.addEventListener("click", async function(){
+  try {
 
+    await addDoc(collection(db, "products"), {
+      name,
+      price,
+      category,
+      sizes,
+      colors,
+      quantity,
+      description,
+      image,
+      offer,
+      createdAt: serverTimestamp()
+    });
 
+    alert("✅ تم حفظ المنتج");
 
-const name =
-document.getElementById("name").value.trim();
+    document.getElementById("name").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("sizes").value = "";
+    document.getElementById("colors").value = "";
+    document.getElementById("quantity").value = "0";
+    document.getElementById("description").value = "";
+    document.getElementById("image").value = "";
+    document.getElementById("offer").checked = false;
 
+    loadProducts();
 
-const price =
-document.getElementById("price").value.trim();
-
-
-const category =
-document.getElementById("category").value;
-
-
-const sizes =
-document.getElementById("sizes").value;
-
-
-const colors =
-document.getElementById("colors").value;
-
-
-const quantity =
-document.getElementById("quantity").value;
-
-
-const description =
-document.getElementById("description").value;
-
-
-const offer =
-document.getElementById("offer").checked;
-
-
-
-const imageFile =
-document.getElementById("imageFile").files[0];
-
-
-
-console.log("المنتج:",name,price);
-
-
-
-if(name === "" || price === ""){
-
-
-alert("اكتب اسم المنتج والسعر");
-
-return;
-
-
+  } catch (e) {
+    console.error(e);
+    alert("خطأ: " + e.message);
+  }
 }
 
+async function loadProducts() {
 
+  const box = document.getElementById("products");
 
-try{
+  box.innerHTML = "جاري التحميل...";
 
+  try {
 
-let imageURL = "";
+    const snap = await getDocs(collection(db, "products"));
 
+    if (snap.empty) {
+      box.innerHTML = "<h3>لا توجد منتجات</h3>";
+      return;
+    }
 
+    box.innerHTML = "";
 
-if(imageFile){
+    snap.forEach(doc => {
 
+      const p = doc.data();
 
-const imageRef = ref(
-storage,
-"products/" + Date.now() + "_" + imageFile.name
-);
+      box.innerHTML += `
+      <div class="card">
+        <img src="${p.image || 'images/no-image.png'}">
+        <div class="card-body">
+          <h3>${p.name}</h3>
+          <p>السعر: ${Number(p.price).toLocaleString()} د.ع</p>
+          <p>القسم: ${p.category}</p>
+        </div>
+      </div>
+      `;
 
+    });
 
-await uploadBytes(
-imageRef,
-imageFile
-);
+  } catch (e) {
 
+    console.error(e);
 
-imageURL = await getDownloadURL(imageRef);
+    box.innerHTML = "<h3>حدث خطأ في تحميل المنتجات</h3>";
 
-
-}
-
-
-
-
-await addDoc(
-collection(db,"products"),
-{
-
-name:name,
-
-price:Number(price),
-
-category:category,
-
-sizes:sizes,
-
-colors:colors,
-
-quantity:Number(quantity),
-
-description:description,
-
-offer:offer,
-
-image:imageURL,
-
-createdAt:serverTimestamp()
+  }
 
 }
-
-);
-
-
-
-alert("✅ تم حفظ المنتج بنجاح");
-
-
-
-loadProducts();
-
-
-
-}catch(error){
-
-
-console.log(error);
-
-
-alert(
-"خطأ في الحفظ: " + error.message
-);
-
-
-}
-
-
-
-});
-
-
-}
-
-
-
-
-async function loadProducts(){
-
-
-
-const box =
-document.getElementById("products");
-
-
-if(!box) return;
-
-
-
-box.innerHTML="";
-
-
-
-const snapshot =
-await getDocs(
-collection(db,"products")
-);
-
-
-
-if(snapshot.empty){
-
-
-box.innerHTML =
-"<h3>لا توجد منتجات</h3>";
-
-
-return;
-
-
-}
-
-
-
-
-snapshot.forEach((doc)=>{
-
-
-const p = doc.data();
-
-
-
-box.innerHTML += `
-
-<div class="card">
-
-
-<img src="${p.image}">
-
-
-<div class="card-body">
-
-
-<h3>${p.name}</h3>
-
-
-<p>السعر: ${p.price}</p>
-
-
-<p>${p.category}</p>
-
-
-</div>
-
-
-</div>
-
-`;
-
-
-});
-
-
-
-}
-
-
-
 
 loadProducts();
