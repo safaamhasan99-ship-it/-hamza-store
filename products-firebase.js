@@ -1,7 +1,4 @@
-// admin-products.js
-
 import { db, storage } from "./firebase.js";
-
 
 import {
 collection,
@@ -10,9 +7,9 @@ getDocs,
 deleteDoc,
 doc,
 updateDoc,
-getDoc
+getDoc,
+serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 
 import {
 ref,
@@ -20,99 +17,69 @@ uploadBytes,
 getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-
-
 const productsRef = collection(db,"products");
-
 
 let editId = null;
 
-
-
-// تحميل المنتجات
-
 async function loadProducts(){
 
-
-const container = document.getElementById("products");
-
+const container=document.getElementById("productsList");
 
 if(!container) return;
 
+container.innerHTML="";
 
+const snapshot=await getDocs(productsRef);
 
-container.innerHTML = "";
+if(snapshot.empty){
 
+container.innerHTML=`
+<div class="about-box">
+لا توجد منتجات
+</div>
+`;
 
+return;
 
-const snapshot = await getDocs(productsRef);
-
-
+}
 
 snapshot.forEach((item)=>{
 
+const p=item.data();
 
-const p = item.data();
+container.innerHTML+=`
 
+<div class="product-card">
 
+<img src="${p.image || ''}" alt="${p.name}">
 
-container.innerHTML += `
-
-<div class="card">
-
-
-<img src="${p.image}" alt="${p.name}">
-
-
-
-<div class="card-body">
-
+<div class="product-info">
 
 <h3>${p.name}</h3>
 
-
-<div class="price">
-${p.price} د.ع
-</div>
-
-
-<div>
-${p.category}
-</div>
-
-
-<p>
-${p.description || ""}
+<p class="price">
+${Number(p.price).toLocaleString()} د.ع
 </p>
 
+<p>${p.category}</p>
 
+<p>${p.description || ""}</p>
 
-<div class="actions">
-
-
-<button class="edit"
+<button class="cart-btn"
 onclick="editProduct('${item.id}')">
 
-تعديل
+✏️ تعديل
 
 </button>
 
-
-
-<button class="delete"
+<button class="favorite"
 onclick="removeProduct('${item.id}')">
 
-حذف
+🗑 حذف
 
 </button>
 
-
 </div>
-
-
-
-</div>
-
 
 </div>
 
@@ -120,326 +87,168 @@ onclick="removeProduct('${item.id}')">
 
 });
 
-
 }
 
+window.removeProduct=async function(id){
 
+if(!confirm("هل تريد حذف المنتج؟"))
+return;
 
-
-
-// حذف منتج
-
-window.removeProduct = async function(id){
-
-
-if(!confirm("هل تريد حذف المنتج؟")) return;
-
-
-
-await deleteDoc(
-doc(db,"products",id)
-);
-
-
+await deleteDoc(doc(db,"products",id));
 
 alert("تم حذف المنتج");
 
-
-
 loadProducts();
 
-
 };
 
+window.editProduct=async function(id){
 
+const snap=await getDoc(doc(db,"products",id));
 
+const p=snap.data();
 
+editId=id;
 
+document.getElementById("productName").value=p.name;
 
+document.getElementById("productPrice").value=p.price;
 
-// تعديل منتج
+document.getElementById("productCategory").value=p.category;
 
-window.editProduct = async function(id){
-
-
-
-const snap = await getDoc(
-doc(db,"products",id)
-);
-
-
-
-const p = snap.data();
-
-
-
-editId = id;
-
-
-
-document.getElementById("name").value = p.name;
-
-document.getElementById("price").value = p.price;
-
-document.getElementById("category").value = p.category;
-
-document.getElementById("description").value = p.description || "";
-
-
-
-document.getElementById("saveBtn").innerText =
-"حفظ التعديل";
-
-
+document.getElementById("productDescription").value=p.description || "";
 
 };
+window.saveProduct = async function () {
 
+const name = document.getElementById("productName").value.trim();
 
+const price = document.getElementById("productPrice").value.trim();
 
+const category = document.getElementById("productCategory").value;
 
+const description = document.getElementById("productDescription").value.trim();
 
+if (!name || !price) {
 
-
-
-// حفظ المنتج
-
-window.saveProduct = async function(){
-
-
-
-const name =
-document.getElementById("name").value.trim();
-
-
-
-const price =
-document.getElementById("price").value.trim();
-
-
-
-const category =
-document.getElementById("category").value;
-
-
-
-const description =
-document.getElementById("description").value.trim();
-
-
-
-if(!name || !price){
-
-alert("أكمل البيانات المطلوبة");
+alert("يرجى إدخال اسم المنتج والسعر");
 
 return;
 
 }
 
+let product = {
 
+name: name,
 
+price: Number(price),
 
-let imageUrl = "";
+category: category,
 
+description: description,
 
-
-const file =
-document.getElementById("imageFile").files[0];
-
-
-
-
-// رفع الصورة
-
-if(file){
-
-
-const imageRef = ref(
-storage,
-"products/" + Date.now() + "_" + file.name
-);
-
-
-
-await uploadBytes(
-imageRef,
-file
-);
-
-
-
-imageUrl =
-await getDownloadURL(imageRef);
-
-
-
-}
-
-
-
-
-
-
-const product = {
-
-
-name:name,
-
-price:Number(price),
-
-category:category,
-
-description:description,
-
-updatedAt:new Date()
-
+updatedAt: serverTimestamp()
 
 };
 
+const file = document.getElementById("imageFile")?.files[0];
 
+if (file) {
 
+const imageRef = ref(
 
-// إضافة الصورة فقط إذا موجودة
+storage,
 
-if(imageUrl){
+"products/" + Date.now() + "_" + file.name
 
-product.image = imageUrl;
+);
+
+await uploadBytes(imageRef, file);
+
+product.image = await getDownloadURL(imageRef);
 
 }
 
+try {
 
-
-
-
-
-try{
-
-
-
-if(editId){
-
-
+if (editId) {
 
 await updateDoc(
-doc(db,"products",editId),
+
+doc(db, "products", editId),
+
 product
+
 );
 
+alert("تم تعديل المنتج بنجاح ✅");
 
+editId = null;
 
-alert("تم تعديل المنتج");
+} else {
 
+product.createdAt = serverTimestamp();
 
+await addDoc(productsRef, product);
 
-editId=null;
-
-
-
-}else{
-
-
-
-product.createdAt = new Date();
-
-
-
-await addDoc(
-productsRef,
-product
-);
-
-
-
-alert("تمت إضافة المنتج");
-
-
+alert("تمت إضافة المنتج بنجاح ✅");
 
 }
-
-
-
-
 
 clearForm();
 
-
-
 loadProducts();
 
+const btn = document.getElementById("saveBtn");
 
+if (btn) {
 
-document.getElementById("saveBtn").innerText =
-"إضافة المنتج";
+btn.innerText = "💾 حفظ المنتج";
 
+}
 
-
-
-
-}catch(error){
-
+} catch (error) {
 
 console.error(error);
 
-
-alert("حدث خطأ أثناء الحفظ");
-
+alert("حدث خطأ أثناء حفظ المنتج");
 
 }
-
-
 
 };
 
+function clearForm() {
 
+document.getElementById("productName").value = "";
 
+document.getElementById("productPrice").value = "";
 
+document.getElementById("productDescription").value = "";
 
+document.getElementById("productCategory").selectedIndex = 0;
 
+const image = document.getElementById("imageFile");
 
+if (image) {
 
-
-function clearForm(){
-
-
-document.getElementById("name").value="";
-
-
-document.getElementById("price").value="";
-
-
-document.getElementById("description").value="";
-
-
-document.getElementById("imageFile").value="";
-
-
-
-document.getElementById("category").selectedIndex=0;
-
+image.value = "";
 
 }
 
-
-
-
-
-
-const saveBtn =
-document.getElementById("saveBtn");
-
-
-
-if(saveBtn){
-
-
-saveBtn.addEventListener(
-"click",
-saveProduct
-);
-
-
 }
 
+window.refreshProducts = function () {
 
+loadProducts();
 
+};
+
+const btn = document.getElementById("saveBtn");
+
+if (btn) {
+
+btn.addEventListener("click", saveProduct);
+
+}
 
 loadProducts();
