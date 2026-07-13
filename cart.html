@@ -1,280 +1,252 @@
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-const cartList = document.getElementById("cartList");
-const totalBox = document.getElementById("total");
-const orderBtn = document.getElementById("orderWhatsapp");
+<head>
 
+<meta charset="UTF-8">
 
-function showCart(){
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    if(!cartList || !totalBox || !orderBtn){
-        console.log("عناصر السلة غير موجودة");
-        return;
-    }
+<title>السلة | مجمع حمزه الشطري</title>
 
 
-    cartList.innerHTML = "";
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-    let total = 0;
 
-    let message = "السلام عليكم، أريد طلب:\n\n";
+<link rel="stylesheet" href="style.css">
 
 
-    if(cart.length === 0){
+<style>
 
-        cartList.innerHTML = `
+body{
+font-family:'Cairo',sans-serif;
+background:#f5f7fb;
+margin:0;
+}
 
-        <div class="about-box">
 
-            <h2>
-            🛒 السلة فارغة
-            </h2>
+.cart-container{
 
-            <p>
-            لم تقم بإضافة أي منتج بعد
-            </p>
+max-width:1000px;
+margin:30px auto;
+padding:20px;
 
-        </div>
+}
 
-        `;
 
+.cart-title{
 
-        totalBox.innerHTML = "0 د.ع";
-
-        orderBtn.href="#";
-
-        return;
-
-    }
-
-
-
-    cart.forEach((item,index)=>{
-
-
-        let price = Number(item.price) || 0;
-
-
-        let quantity = Number(
-            item.quantity || item.qty || 1
-        );
-
-
-        let itemTotal = price * quantity;
-
-
-        total += itemTotal;
-
-
-
-        message +=
-        "• " + item.name + "\n" +
-        "الكمية: " + quantity + "\n" +
-        "السعر: " + price.toLocaleString() + " د.ع\n" +
-        "--------------------\n";
-
-
-
-
-        cartList.innerHTML += `
-
-
-        <div class="product-card">
-
-
-            <img src="${item.image}" alt="${item.name}">
-
-
-
-            <div class="product-info">
-
-
-                <h3>
-                ${item.name}
-                </h3>
-
-
-
-                <p class="price">
-
-                ${price.toLocaleString()} د.ع
-
-                </p>
-
-
-
-                <div class="quantity-box">
-
-
-                    <button class="cart-btn"
-                    onclick="changeQuantity(${index},-1)">
-                    ➖
-                    </button>
-
-
-
-                    <span>
-                    ${quantity}
-                    </span>
-
-
-
-                    <button class="cart-btn"
-                    onclick="changeQuantity(${index},1)">
-                    ➕
-                    </button>
-
-
-                </div>
-
-
-
-
-                <p class="total-item">
-
-                المجموع:
-                ${itemTotal.toLocaleString()} د.ع
-
-                </p>
-
-
-
-
-                <button class="favorite"
-                onclick="removeCart(${index})">
-
-                🗑 حذف المنتج
-
-                </button>
-
-
-            </div>
-
-
-        </div>
-
-
-        `;
-
-
-    });
-
-
-
-    totalBox.innerHTML =
-    total.toLocaleString()+" د.ع";
-
-
-
-    message +=
-    "\n💰 المجموع الكلي: "
-    +
-    total.toLocaleString()
-    +
-    " د.ع";
-
-
-
-    orderBtn.href =
-    "https://wa.me/9647813555538?text="
-    +
-    encodeURIComponent(message);
-
-
-
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
-
+text-align:center;
+font-size:30px;
+font-weight:800;
+margin-bottom:30px;
 
 }
 
 
 
+.product-card{
 
-
-function changeQuantity(index,value){
-
-
-    let current = Number(
-        cart[index].quantity ||
-        cart[index].qty ||
-        1
-    );
-
-
-
-    cart[index].quantity =
-    current + value;
-
-
-
-    delete cart[index].qty;
-
-
-
-    if(cart[index].quantity <=0){
-
-        cart.splice(index,1);
-
-    }
-
-
-
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
-
-
-
-    if(typeof updateCartCount === "function"){
-
-        updateCartCount();
-
-    }
-
-
-
-    showCart();
-
+background:white;
+border-radius:15px;
+padding:15px;
+margin-bottom:20px;
+display:flex;
+gap:20px;
+align-items:center;
+box-shadow:0 5px 15px #0001;
 
 }
 
 
 
+.product-card img{
 
-
-function removeCart(index){
-
-
-    cart.splice(index,1);
-
-
-
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
-
-
-
-    if(typeof updateCartCount === "function"){
-
-        updateCartCount();
-
-    }
-
-
-
-    showCart();
-
+width:130px;
+height:130px;
+object-fit:cover;
+border-radius:12px;
 
 }
 
 
 
+.product-info{
+
+flex:1;
+
+}
 
 
-showCart();
+
+.price{
+
+color:#c28b00;
+font-size:20px;
+font-weight:bold;
+
+}
+
+
+
+.quantity-box{
+
+display:flex;
+justify-content:center;
+align-items:center;
+gap:15px;
+margin:15px 0;
+
+}
+
+
+
+.cart-btn{
+
+border:none;
+background:#222;
+color:white;
+width:35px;
+height:35px;
+border-radius:50%;
+cursor:pointer;
+
+}
+
+
+
+.favorite{
+
+border:none;
+background:#e74c3c;
+color:white;
+padding:10px 15px;
+border-radius:10px;
+cursor:pointer;
+
+}
+
+
+
+.about-box{
+
+background:white;
+padding:30px;
+border-radius:15px;
+text-align:center;
+
+}
+
+
+
+.total-box{
+
+background:white;
+padding:20px;
+border-radius:15px;
+margin-top:20px;
+text-align:center;
+font-size:25px;
+font-weight:bold;
+
+}
+
+
+
+.order-btn{
+
+display:block;
+background:#25d366;
+color:white;
+text-align:center;
+padding:15px;
+border-radius:12px;
+margin-top:20px;
+font-size:20px;
+font-weight:bold;
+text-decoration:none;
+
+}
+
+
+
+@media(max-width:600px){
+
+.product-card{
+
+flex-direction:column;
+text-align:center;
+
+}
+
+
+.product-card img{
+
+width:180px;
+height:180px;
+
+}
+
+}
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="cart-container">
+
+
+<h1 class="cart-title">
+
+🛒 سلة المشتريات
+
+</h1>
+
+
+
+<div id="cartList">
+
+</div>
+
+
+
+<div class="total-box">
+
+المجموع:
+<span id="total">
+0 د.ع
+</span>
+
+</div>
+
+
+
+<a id="orderWhatsapp"
+class="order-btn"
+target="_blank">
+
+إتمام الطلب عبر واتساب
+
+</a>
+
+
+
+</div>
+
+
+
+
+
+<script src="cart.js"></script>
+
+
+</body>
+
+</html>
