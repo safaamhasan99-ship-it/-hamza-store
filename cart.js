@@ -1,81 +1,52 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
-const cartItems = document.getElementById("cartItems");
-const grandTotal = document.getElementById("grandTotal");
+function showCart(){
+
+    const cartList = document.getElementById("cartList");
+    const totalBox = document.getElementById("total");
+    const orderBtn = document.getElementById("orderWhatsapp");
 
 
-// إضافة للسلة
-window.addToCart = function(name, price, image){
-
-    let existing = cart.find(
-        item => item.name === name
-    );
-
-
-    if(existing){
-
-        existing.quantity += 1;
-
-    }else{
-
-        cart.push({
-
-            name:name,
-
-            price:Number(price),
-
-            image:image,
-
-            quantity:1
-
-        });
-
+    if(!cartList || !totalBox || !orderBtn){
+        console.log("عناصر السلة غير موجودة");
+        return;
     }
 
 
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
-
-
-    updateCartCount();
-
-    alert("تمت إضافة المنتج للسلة 🛒");
-
-};
-
-
-
-
-// عرض السلة
-function renderCart(){
-
-    if(!cartItems) return;
-
-
-    cartItems.innerHTML = "";
+    cartList.innerHTML = "";
 
 
     let total = 0;
 
+    let message = "السلام عليكم، أريد طلب:\n\n";
+
+
 
     if(cart.length === 0){
 
-        cartItems.innerHTML = `
+        cartList.innerHTML = `
 
-        <tr>
+        <div class="about-box">
 
-        <td colspan="6">
+            <h2>
+            🛒 السلة فارغة
+            </h2>
 
-        السلة فارغة
+            <p>
+            لم يتم إضافة منتجات
+            </p>
 
-        </td>
-
-        </tr>
+        </div>
 
         `;
+
+
+        totalBox.innerHTML = "0 د.ع";
+
+        orderBtn.href = "#";
+
+        return;
 
     }
 
@@ -86,86 +57,102 @@ function renderCart(){
 
         let price = Number(item.price) || 0;
 
-        let quantity = item.quantity || 1;
+
+        let quantity = Number(
+            item.quantity || item.qty || 1
+        );
 
 
-        let subtotal = price * quantity;
+        let itemTotal = price * quantity;
 
 
-        total += subtotal;
-
-
-
-        cartItems.innerHTML += `
-
-        <tr>
-
-
-        <td>
-
-        <img src="${item.image}" width="70">
-
-        </td>
+        total += itemTotal;
 
 
 
-        <td>
-
-        ${item.name}
-
-        </td>
-
-
-
-        <td>
-
-        ${price.toLocaleString()} د.ع
-
-        </td>
+        message +=
+        "• " + item.name + "\n" +
+        "الكمية: " + quantity + "\n" +
+        "السعر: " + price.toLocaleString() + " د.ع\n" +
+        "--------------------\n";
 
 
 
-        <td>
+        cartList.innerHTML += `
 
 
-        <button onclick="changeQty(${index},-1)">
-        -
-        </button>
+        <div class="product-card">
 
 
-        ${quantity}
-
-
-        <button onclick="changeQty(${index},1)">
-        +
-        </button>
-
-
-        </td>
+            <img src="${item.image}" alt="${item.name}">
 
 
 
-        <td>
-
-        ${subtotal.toLocaleString()} د.ع
-
-        </td>
+            <div class="product-info">
 
 
-
-        <td>
-
-        <button onclick="removeItem(${index})">
-
-        حذف
-
-        </button>
-
-        </td>
+                <h3>
+                ${item.name}
+                </h3>
 
 
 
-        </tr>
+                <p class="price">
+
+                ${price.toLocaleString()} د.ع
+
+                </p>
+
+
+
+                <div class="quantity-box">
+
+
+                    <button class="cart-btn"
+                    onclick="changeQuantity(${index},-1)">
+                    ➖
+                    </button>
+
+
+
+                    <span>
+                    ${quantity}
+                    </span>
+
+
+
+                    <button class="cart-btn"
+                    onclick="changeQuantity(${index},1)">
+                    ➕
+                    </button>
+
+
+                </div>
+
+
+
+                <p class="item-total">
+
+                المجموع:
+                ${itemTotal.toLocaleString()} د.ع
+
+                </p>
+
+
+
+                <button class="favorite"
+                onclick="removeCart(${index})">
+
+                🗑 حذف المنتج
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
 
         `;
 
@@ -174,12 +161,21 @@ function renderCart(){
 
 
 
-    if(grandTotal){
+    totalBox.innerHTML =
+    total.toLocaleString()+" د.ع";
 
-        grandTotal.innerText =
-        total.toLocaleString()+" د.ع";
 
-    }
+
+    message +=
+    "\n💰 المجموع الكلي: " +
+    total.toLocaleString() +
+    " د.ع";
+
+
+
+    orderBtn.href =
+    "https://wa.me/9647813555538?text=" +
+    encodeURIComponent(message);
 
 
 
@@ -194,172 +190,87 @@ function renderCart(){
 
 
 
-// تغيير الكمية
-window.changeQty = function(index,value){
+
+function changeQuantity(index,value){
 
 
-    cart[index].quantity += value;
+    let quantity = Number(
+        cart[index].quantity ||
+        cart[index].qty ||
+        1
+    );
 
 
+    quantity += value;
 
-    if(cart[index].quantity <= 0){
+
+    if(quantity <= 0){
 
         cart.splice(index,1);
 
+    }else{
+
+        cart[index].quantity = quantity;
+
+    }
+
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+
+    if(typeof updateCartCount === "function"){
+
+        updateCartCount();
+
     }
 
 
 
-    renderCart();
-
-    updateCartCount();
-
-};
-
-
-
-
-// حذف منتج
-window.removeItem = function(index){
-
-    cart.splice(index,1);
-
-
-    renderCart();
-
-    updateCartCount();
-
-};
-
-
-
-
-// عدد المنتجات في السلة
-function updateCartCount(){
-
-    let count =
-    document.getElementById("cartCount");
-
-
-    if(count){
-
-        let total = cart.reduce(
-            (sum,item)=>sum + item.quantity,
-            0
-        );
-
-
-        count.innerText = total;
-
-    }
+    showCart();
 
 }
 
 
 
 
-// إرسال الطلب واتساب
-window.sendOrder = function(){
+function removeCart(index){
 
 
-    if(cart.length === 0){
-
-        alert("السلة فارغة");
-
-        return;
-
-    }
+    cart.splice(index,1);
 
 
 
-    let name =
-    document.getElementById("customerName").value;
-
-
-
-    let phone =
-    document.getElementById("customerPhone").value;
-
-
-
-    let city =
-    document.getElementById("customerCity").value;
-
-
-
-    let address =
-    document.getElementById("customerAddress").value;
-
-
-
-    let notes =
-    document.getElementById("customerNotes").value;
-
-
-
-
-    if(name==="" || phone===""){
-
-        alert("يرجى إدخال الاسم ورقم الهاتف");
-
-        return;
-
-    }
-
-
-
-    let message =
-    "🛒 طلب جديد من موقع مجمع حمزه الشطري\n\n";
-
-
-
-    cart.forEach(item=>{
-
-
-        message +=
-        "• "+item.name+
-        " × "+item.quantity+
-        "\n";
-
-
-    });
-
-
-
-    message += "\nالاسم: "+name;
-
-    message += "\nالهاتف: "+phone;
-
-    message += "\nالمحافظة: "+city;
-
-    message += "\nالعنوان: "+address;
-
-
-
-    if(notes!==""){
-
-        message += "\nملاحظات: "+notes;
-
-    }
-
-
-
-    window.open(
-
-    "https://wa.me/9647813555538?text="+
-    encodeURIComponent(message),
-
-    "_blank"
-
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
     );
 
 
-};
+
+    if(typeof updateCartCount === "function"){
+
+        updateCartCount();
+
+    }
+
+
+
+    showCart();
+
+}
 
 
 
 
-// تشغيل عند فتح الصفحة
-renderCart();
+document.addEventListener(
+"DOMContentLoaded",
+function(){
 
-updateCartCount();
+    showCart();
+
+});
