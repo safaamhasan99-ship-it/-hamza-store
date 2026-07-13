@@ -12,7 +12,6 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-
 <link rel="stylesheet" href="style.css">
 
 
@@ -22,11 +21,10 @@
 <body>
 
 
+
 <header class="header">
 
-
 <div class="brand">
-
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
@@ -37,17 +35,13 @@
 مجمع حمزه الشطري
 </h1>
 
-
 <p>
 تفاصيل المنتج
 </p>
 
-
 </div>
 
-
 </div>
-
 
 </header>
 
@@ -57,12 +51,9 @@
 
 <section class="products">
 
-
 <div id="productDetails">
 
-
 </div>
-
 
 </section>
 
@@ -106,8 +97,8 @@
 
 
 
-
 <script src="script.js"></script>
+
 
 
 
@@ -182,6 +173,7 @@ ${Number(product.price).toLocaleString()} د.ع
 <p class="description">
 
 منتج أصلي بجودة عالية.
+<br>
 متوفر لدى مجمع حمزه الشطري.
 <br>
 البيع بالجملة فقط.
@@ -202,7 +194,6 @@ ${Number(product.price).toLocaleString()} د.ع
 </label>
 
 
-
 <input 
 type="number"
 id="qty"
@@ -210,9 +201,58 @@ value="1"
 min="1">
 
 
-
 </div>
 
+
+
+
+
+
+<div class="size-box">
+
+
+<label>
+القياس
+</label>
+
+
+<select id="size">
+
+
+<option>
+اختر القياس
+</option>
+
+
+<option>
+بيبي
+</option>
+
+
+<option>
+ولادي
+</option>
+
+
+<option>
+شبابي
+</option>
+
+
+<option>
+نسائي
+</option>
+
+
+<option>
+كبير
+</option>
+
+
+</select>
+
+
+</div>
 
 
 
@@ -223,13 +263,18 @@ min="1">
 
 
 
+
+
 <button 
 class="cart-btn"
 onclick="addCartQty()">
 
+
 🛒 إضافة إلى السلة
 
+
 </button>
+
 
 
 
@@ -244,7 +289,9 @@ ${product.price},
 '${product.image}'
 )">
 
+
 ❤️ إضافة للمفضلة
+
 
 </button>
 
@@ -309,7 +356,7 @@ box.innerHTML = `
 
 
 <p>
-الرجاء العودة للمنتجات واختيار منتج.
+الرجاء العودة إلى المنتجات واختيار منتج.
 </p>
 
 
@@ -329,6 +376,7 @@ box.innerHTML = `
 function addCartQty(){
 
 
+
 let qty =
 parseInt(
 document.getElementById("qty").value
@@ -337,11 +385,16 @@ document.getElementById("qty").value
 
 
 
+let size =
+document.getElementById("size").value;
+
+
+
 for(let i=0;i<qty;i++){
 
 
 addToCart(
-product.name,
+product.name + " - " + size,
 product.price,
 product.image
 );
@@ -365,6 +418,5 @@ alert("✅ تمت إضافة المنتج إلى السلة");
 
 
 </body>
-
 
 </html>
