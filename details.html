@@ -4,196 +4,65 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>تفاصيل المنتج | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
 
 </head>
 
-
 <body>
-
 
 <header class="header">
 
-
 <div class="brand">
 
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" alt="الشعار">
 
 <div>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-<p>
-تفاصيل المنتج
-</p>
-
+<p>تفاصيل المنتج</p>
 
 </div>
 
-
 </div>
-
 
 </header>
 
-
-
-
-
 <section class="products">
 
-
-<div class="product-card" id="productDetails">
-
+<div id="productDetails">
 
 </div>
-
 
 </section>
 
-
-
-
-
 <nav class="bottom-nav">
 
+<a href="index.html">🏠 الرئيسية</a>
 
-<a href="index.html">
-🏠 الرئيسية
-</a>
+<a href="products.html">🛍 المنتجات</a>
 
+<a href="cart.html">🛒 السلة</a>
 
-<a href="products.html">
-🛍 المنتجات
-</a>
+<a href="favorites.html">❤️ المفضلة</a>
 
-
-<a href="cart.html">
-🛒 السلة
-</a>
-
-
-<a href="about.html">
-ℹ️ من نحن
-</a>
-
+<a href="about.html">ℹ️ من نحن</a>
 
 </nav>
 
-
-
-
-
 <script src="script.js"></script>
-
 
 <script>
 
-
 let product = JSON.parse(localStorage.getItem("product"));
-
 
 let box = document.getElementById("productDetails");
 
-
-
 if(product){
 
-
 box.innerHTML = `
-
-
-<img src="${product.image}">
-
-
-
-<div class="product-info">
-
-
-<h2>
-
-${product.name}
-
-</h2>
-
-
-
-<p class="price">
-
-${product.price} د.ع
-
-</p>
-
-
-
-<p>
-
-متوفر الآن - بيع بالجملة فقط
-
-</p>
-
-
-
-<button class="cart-btn"
-
-onclick="addToCart('${product.name}',${product.price},'${product.image}')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-
-<a class="wholesale"
-
-href="https://wa.me/9647813555538">
-
-💬 طلب عبر واتساب
-
-</a>
-
-
-</div>
-
-
-`;
-
-
-
-}else{
-
-
-box.innerHTML = `
-
-<div class="about-box">
-
-<h2>
-لم يتم اختيار منتج
-</h2>
-
-</div>
-
-`;
-
-
-
-}
-
-
-</script>
-
-
-
-</body>
-
-</html>
