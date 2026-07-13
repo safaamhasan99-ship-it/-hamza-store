@@ -13,6 +13,51 @@
 
 <link rel="stylesheet" href="style.css">
 
+<style>
+
+.form-box{
+max-width:700px;
+margin:20px auto;
+background:#fff;
+padding:25px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.form-box input,
+.form-box textarea,
+.form-box select{
+width:100%;
+padding:14px;
+margin-bottom:15px;
+border:1px solid #ddd;
+border-radius:10px;
+font-family:'Cairo',sans-serif;
+font-size:15px;
+}
+
+.form-box input[type=file]{
+padding:10px;
+}
+
+.form-box button{
+width:100%;
+padding:15px;
+background:#c79b3b;
+color:#fff;
+border:none;
+border-radius:10px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.form-box button:hover{
+background:#b3872e;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -39,36 +84,22 @@
 ➕ إضافة منتج جديد
 </h2>
 
-<div class="about-box">
+<div class="form-box">
 
 <input
 id="productName"
 type="text"
 placeholder="اسم المنتج">
 
-<br><br>
-
 <input
 id="productPrice"
 type="number"
-placeholder="سعر المنتج">
-
-<br><br>
-
-<input
-id="productImage"
-type="text"
-placeholder="رابط صورة المنتج">
-
-<br><br>
+placeholder="السعر">
 
 <textarea
 id="productDescription"
-placeholder="وصف المنتج"
 rows="4"
-style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;resize:vertical;"></textarea>
-
-<br><br>
+placeholder="وصف المنتج"></textarea>
 
 <select id="productCategory">
 
@@ -82,17 +113,21 @@ style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;resize:v
 
 <option value="pants">👖 البنطرونات</option>
 
-<option value="underwear">🩳 الداخليات الرجالي</option>
+<option value="underwear">🩳 الداخليات</option>
 
 <option value="socks">🧦 الجوارب</option>
 
 </select>
 
-<br><br>
+<input
+type="file"
+id="imageFile"
+accept="image/*">
 
 <button
-class="cart-btn"
-onclick="addProduct()">
+id="saveBtn"
+type="button"
+onclick="saveProduct()">
 
 💾 حفظ المنتج
 
@@ -101,7 +136,9 @@ onclick="addProduct()">
 </div>
 
 <h2 class="title">
+
 📦 المنتجات المضافة
+
 </h2>
 
 <div style="text-align:center;margin-bottom:20px;">
@@ -119,10 +156,15 @@ onclick="refreshProducts()">
 <div
 id="productsList"
 class="products-grid">
-
 </div>
 
 </section>
+
+<footer style="text-align:center;padding:25px;color:#777;">
+
+مجمع حمزه الشطري © 2026
+
+</footer>
 
 <script type="module" src="admin-products.js"></script>
 
