@@ -8,8 +8,12 @@ where
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-
 const productsBox = document.getElementById("productsBox");
+
+
+// اسم القسم من الصفحة
+const category =
+document.body.getAttribute("data-category");
 
 
 
@@ -19,15 +23,36 @@ async function loadProducts(){
 if(!productsBox) return;
 
 
-
 productsBox.innerHTML="";
 
 
 
-const snapshot =
-await getDocs(
-collection(db,"products")
+let productsRef =
+collection(db,"products");
+
+
+
+let q;
+
+
+
+if(category){
+
+q = query(
+productsRef,
+where("category","==",category)
 );
+
+}else{
+
+q = productsRef;
+
+}
+
+
+
+const snapshot =
+await getDocs(q);
 
 
 
@@ -47,6 +72,8 @@ productsBox.innerHTML += `
 <img src="${product.image}">
 
 
+<div class="product-info">
+
 
 <h3>
 ${product.name}
@@ -55,7 +82,7 @@ ${product.name}
 
 
 <p class="price">
-${product.price.toLocaleString()} د.ع
+${Number(product.price).toLocaleString()} د.ع
 </p>
 
 
@@ -73,15 +100,16 @@ ${product.price},
 </div>
 
 
-`;
+</div>
 
+
+`;
 
 
 });
 
 
 }
-
 
 
 loadProducts();
