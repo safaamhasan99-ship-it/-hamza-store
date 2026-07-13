@@ -3,51 +3,55 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-getFirestore
+    getFirestore
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
-getStorage
+    getStorage
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 import {
-getAuth
+    getAuth
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-// إعدادات مشروع Firebase
+
+
+// إعدادات Firebase
 const firebaseConfig = {
 
-    apiKey: "ضع apiKey هنا",
+    apiKey: "ضع_apiKey_الخاص_بك",
 
-    authDomain: "ضع authDomain هنا",
+    authDomain: "ضع_authDomain_الخاص_بك",
 
-    projectId: "ضع projectId هنا",
+    projectId: "ضع_projectId_الخاص_بك",
 
-    storageBucket: "ضع storageBucket هنا",
+    storageBucket: "ضع_storageBucket_الخاص_بك",
 
-    messagingSenderId: "ضع messagingSenderId هنا",
+    messagingSenderId: "ضع_messagingSenderId_الخاص_بك",
 
-    appId: "ضع appId هنا"
+    appId: "ضع_appId_الخاص_بك"
 
 };
+
+
+// تشغيل Firebase
 const app = initializeApp(firebaseConfig);
 
 
+// قواعد البيانات
 const db = getFirestore(app);
 
 
+// تخزين الصور
 const storage = getStorage(app);
 
 
+// تسجيل الدخول
 const auth = getAuth(app);
 
 
 
 export {
-
     db,
-
     storage,
-
     auth
-
 };
