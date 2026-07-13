@@ -1,95 +1,93 @@
-import { db } from "./firebase.js";
+import { db, storage } from "./firebase.js";
 
 import {
 collection,
 addDoc,
 getDocs,
-deleteDoc,
-doc,
 serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
-// تشغيل بعد تحميل الصفحة
-window.addEventListener("DOMContentLoaded", ()=>{
-
-
-const productName = document.getElementById("productName");
-const productPrice = document.getElementById("productPrice");
-const productCategory = document.getElementById("productCategory");
-const productsList = document.getElementById("productsList");
+import {
+ref,
+uploadBytes,
+getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 
 
-// إضافة منتج
-window.addProduct = async function(){
+const saveBtn = document.getElementById("saveBtn");
 
 
-    const name = productName.value.trim();
-
-    const price = Number(productPrice.value);
-
-    const category = productCategory.value;
+saveBtn.onclick = async function(){
 
 
+const name = document.getElementById("name").value;
+const price = document.getElementById("price").value;
+const category = document.getElementById("category").value;
+const sizes = document.getElementById("sizes").value;
+const colors = document.getElementById("colors").value;
+const quantity = document.getElementById("quantity").value;
+const description = document.getElementById("description").value;
+const offer = document.getElementById("offer").checked;
 
-    if(!name || !price){
-
-
-        alert("اكتب اسم المنتج والسعر");
-
-        return;
-
-    }
-
-
-
-    try{
+const imageFile = document.getElementById("imageFile").files[0];
 
 
-        await addDoc(
-            collection(db,"products"),
-            {
+if(!name || !price){
 
-                name:name,
+alert("اكتب اسم المنتج والسعر");
+return;
 
-                price:price,
-
-                category:category,
-
-                image:"",
-
-                createdAt:serverTimestamp()
-
-            }
-        );
+}
 
 
+try{
 
-        alert("تمت إضافة المنتج بنجاح ✅");
+
+let imageURL="";
+
+
+if(imageFile){
+
+const imageRef = ref(storage,"products/"+Date.now()+"_"+imageFile.name);
+
+await uploadBytes(imageRef,imageFile);
+
+imageURL = await getDownloadURL(imageRef);
+
+}
 
 
 
-        productName.value="";
+await addDoc(collection(db,"products"),{
 
-        productPrice.value="";
+name,
+price,
+category,
+sizes,
+colors,
+quantity,
+description,
+offer,
+image:imageURL,
+createdAt:serverTimestamp()
 
-
-
-        loadProducts();
-
-
-
-    }catch(error){
-
-
-        console.log(error);
-
-        alert("خطأ في إضافة المنتج");
+});
 
 
-    }
+alert("تم إضافة المنتج بنجاح");
 
+
+loadProducts();
+
+
+}catch(error){
+
+console.log(error);
+
+alert("خطأ: "+error.message);
+
+}
 
 
 };
@@ -98,169 +96,60 @@ window.addProduct = async function(){
 
 
 
-// عرض المنتجات
 async function loadProducts(){
 
 
-    if(!productsList) return;
+const box=document.getElementById("products");
+
+box.innerHTML="";
+
+
+const snap = await getDocs(collection(db,"products"));
 
 
 
-    productsList.innerHTML="جاري التحميل...";
+if(snap.empty){
+
+box.innerHTML="<h3>لا توجد منتجات</h3>";
+
+return;
+
+}
 
 
 
-    try{
+snap.forEach(doc=>{
 
 
-        const snapshot =
-        await getDocs(
-            collection(db,"products")
-        );
+let p=doc.data();
 
 
+box.innerHTML += `
 
-        productsList.innerHTML="";
+<div class="card">
 
+<img src="${p.image}">
 
+<div class="card-body">
 
-        if(snapshot.empty){
+<h3>${p.name}</h3>
 
+<p>السعر: ${p.price}</p>
 
-            productsList.innerHTML=`
+<p>${p.category}</p>
 
-            <div class="empty-box">
-            لا توجد منتجات
-            </div>
+</div>
 
-            `;
+</div>
 
-
-            return;
-
-        }
-
+`;
 
 
-
-        snapshot.forEach((item)=>{
-
-
-            const product=item.data();
-
-
-
-            productsList.innerHTML += `
-
-
-            <div class="product-card">
-
-
-                <h3>
-                ${product.name}
-                </h3>
-
-
-                <p>
-                السعر:
-                ${product.price} د.ع
-                </p>
-
-
-                <p>
-                القسم:
-                ${product.category}
-                </p>
-
-
-                <button
-                onclick="deleteProduct('${item.id}')">
-
-                🗑 حذف
-
-                </button>
-
-
-
-            </div>
-
-
-            `;
-
-
-
-        });
-
-
-
-    }catch(error){
-
-
-        console.log(error);
-
-
-        productsList.innerHTML=
-        "حدث خطأ أثناء تحميل المنتجات";
-
-
-    }
+});
 
 
 }
 
 
 
-
-// حذف منتج
-window.deleteProduct = async function(id){
-
-
-    if(!confirm("حذف المنتج؟"))
-    return;
-
-
-
-    try{
-
-
-        await deleteDoc(
-            doc(db,"products",id)
-        );
-
-
-        alert("تم الحذف ✅");
-
-
-        loadProducts();
-
-
-
-    }catch(error){
-
-
-        console.log(error);
-
-
-    }
-
-
-};
-
-
-
-
-// زر تحديث
-window.refreshProducts=function(){
-
-    loadProducts();
-
-};
-
-
-
-
-// تشغيل العرض
 loadProducts();
-
-
-});
