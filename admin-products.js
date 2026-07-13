@@ -10,27 +10,38 @@ serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-// العناصر
+// تشغيل بعد تحميل الصفحة
+window.addEventListener("DOMContentLoaded", ()=>{
+
+
 const productName = document.getElementById("productName");
 const productPrice = document.getElementById("productPrice");
 const productCategory = document.getElementById("productCategory");
 const productsList = document.getElementById("productsList");
 
 
+
 // إضافة منتج
 window.addProduct = async function(){
 
+
     const name = productName.value.trim();
+
     const price = Number(productPrice.value);
+
     const category = productCategory.value;
+
 
 
     if(!name || !price){
 
-        alert("يرجى إدخال اسم المنتج والسعر");
+
+        alert("اكتب اسم المنتج والسعر");
+
         return;
 
     }
+
 
 
     try{
@@ -44,9 +55,9 @@ window.addProduct = async function(){
 
                 price:price,
 
-                image:"",
-
                 category:category,
+
+                image:"",
 
                 createdAt:serverTimestamp()
 
@@ -54,26 +65,36 @@ window.addProduct = async function(){
         );
 
 
+
         alert("تمت إضافة المنتج بنجاح ✅");
 
 
+
         productName.value="";
+
         productPrice.value="";
+
 
 
         loadProducts();
 
 
+
     }catch(error){
+
 
         console.log(error);
 
-        alert("حدث خطأ أثناء إضافة المنتج");
+        alert("خطأ في إضافة المنتج");
+
 
     }
 
 
+
 };
+
+
 
 
 
@@ -84,7 +105,9 @@ async function loadProducts(){
     if(!productsList) return;
 
 
-    productsList.innerHTML="";
+
+    productsList.innerHTML="جاري التحميل...";
+
 
 
     try{
@@ -94,6 +117,10 @@ async function loadProducts(){
         await getDocs(
             collection(db,"products")
         );
+
+
+
+        productsList.innerHTML="";
 
 
 
@@ -108,9 +135,11 @@ async function loadProducts(){
 
             `;
 
+
             return;
 
         }
+
 
 
 
@@ -127,41 +156,37 @@ async function loadProducts(){
             <div class="product-card">
 
 
-                <div class="product-info">
+                <h3>
+                ${product.name}
+                </h3>
 
 
-                    <h3>
-                    ${product.name}
-                    </h3>
+                <p>
+                السعر:
+                ${product.price} د.ع
+                </p>
 
 
-                    <p>
-                    ${Number(product.price).toLocaleString()} د.ع
-                    </p>
+                <p>
+                القسم:
+                ${product.category}
+                </p>
 
 
-                    <p>
-                    القسم: ${product.category}
-                    </p>
+                <button
+                onclick="deleteProduct('${item.id}')">
 
+                🗑 حذف
 
+                </button>
 
-                    <button
-                    class="delete-btn"
-                    onclick="deleteProduct('${item.id}')">
-
-                    🗑 حذف
-
-                    </button>
-
-
-                </div>
 
 
             </div>
 
 
             `;
+
 
 
         });
@@ -185,11 +210,12 @@ async function loadProducts(){
 
 
 
+
 // حذف منتج
 window.deleteProduct = async function(id){
 
 
-    if(!confirm("هل تريد حذف المنتج؟"))
+    if(!confirm("حذف المنتج؟"))
     return;
 
 
@@ -222,6 +248,7 @@ window.deleteProduct = async function(id){
 
 
 
+
 // زر تحديث
 window.refreshProducts=function(){
 
@@ -231,5 +258,9 @@ window.refreshProducts=function(){
 
 
 
-// تشغيل عند فتح الصفحة
+
+// تشغيل العرض
 loadProducts();
+
+
+});
