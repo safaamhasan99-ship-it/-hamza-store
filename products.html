@@ -50,124 +50,10 @@
 </h2>
 
 
-<div class="products-grid">
-
-
-
-<div class="product-card"
-onclick="openProduct(
-'تراك بيبي تركي',
-60000,
-'images/baby/product1.jpg'
-)">
-
-
-<img src="images/baby/product1.jpg">
-
-
-<h3>
-تراك بيبي تركي
-</h3>
-
-
-<p class="price">
-60,000 د.ع
-</p>
-
-
-<button class="cart-btn"
-onclick="event.stopPropagation();
-addToCart(
-'تراك بيبي تركي',
-60000,
-'images/baby/product1.jpg'
-)">
-🛒 إضافة للسلة
-</button>
-
+<div id="productsList" class="products-grid">
 
 </div>
 
-
-
-
-
-<div class="product-card"
-onclick="openProduct(
-'تراك بناتي تركي',
-96000,
-'images/girls/product1.jpg'
-)">
-
-
-<img src="images/girls/product1.jpg">
-
-
-<h3>
-تراك بناتي تركي
-</h3>
-
-
-<p class="price">
-96,000 د.ع
-</p>
-
-
-<button class="cart-btn"
-onclick="event.stopPropagation();
-addToCart(
-'تراك بناتي تركي',
-96000,
-'images/girls/product1.jpg'
-)">
-🛒 إضافة للسلة
-</button>
-
-
-</div>
-
-
-
-
-
-
-<div class="product-card"
-onclick="openProduct(
-'جوارب تركي',
-10000,
-'images/socks/product1.jpg'
-)">
-
-
-<img src="images/socks/product1.jpg">
-
-
-<h3>
-جوارب تركي
-</h3>
-
-
-<p class="price">
-10,000 د.ع
-</p>
-
-
-<button class="cart-btn"
-onclick="event.stopPropagation();
-addToCart(
-'جوارب تركي',
-10000,
-'images/socks/product1.jpg'
-)">
-🛒 إضافة للسلة
-</button>
-
-
-</div>
-
-
-
-</div>
 
 </section>
 
@@ -207,7 +93,10 @@ addToCart(
 
 
 
+
 <script src="script.js"></script>
+
+<script type="module" src="products.js"></script>
 
 
 </body>
