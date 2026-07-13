@@ -4,18 +4,23 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>تفاصيل المنتج | مجمع حمزه الشطري</title>
+<title>المنتجات | مجمع حمزه الشطري</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+
 
 <link rel="stylesheet" href="style.css">
+
 
 </head>
 
 
 <body>
+
 
 
 <header class="header">
@@ -32,12 +37,14 @@
 </h1>
 
 <p>
-تفاصيل المنتج
+المنتجات بالجملة
 </p>
 
+
 </div>
 
 </div>
+
 
 </header>
 
@@ -45,55 +52,163 @@
 
 
 
-<section class="product-details">
+<section class="products">
 
 
-<img id="productImage" src="">
+<h2 class="section-title">
 
+🛍 جميع المنتجات
 
-
-<h2 id="productName">
-اسم المنتج
 </h2>
 
 
 
-<p id="productPrice" class="price">
-السعر
+<div class="products-grid">
+
+
+
+<div class="product-card"
+onclick="openProduct(
+'تراك بيبي تركي',
+60000,
+'images/baby/product1.jpg'
+)">
+
+
+
+<img src="images/baby/product1.jpg">
+
+
+
+<h3>
+تراك بيبي تركي
+</h3>
+
+
+
+<p class="price">
+60,000 د.ع
 </p>
 
 
 
-<p>
-خامة ممتازة وموديل حديث من مجمع حمزه الشطري
-</p>
 
+<button
+class="cart-btn"
+onclick="event.stopPropagation();
+addToCart(
+'تراك بيبي تركي',
+60000,
+'images/baby/product1.jpg'
+)">
 
-
-<button class="cart-btn" onclick="addCurrentProduct()">
-
-🛒 إضافة إلى السلة
+🛒 إضافة للسلة
 
 </button>
 
 
 
-<a class="whatsapp"
-id="whatsappOrder"
-target="_blank">
-
-💬 طلب عبر واتساب
-
-</a>
+</div>
 
 
 
-<a class="btn" href="products.html">
 
-⬅️ العودة للمنتجات
 
-</a>
+<div class="product-card"
+onclick="openProduct(
+'تراك بناتي تركي',
+96000,
+'images/girls/product1.jpg'
+)">
 
+
+
+<img src="images/girls/product1.jpg">
+
+
+
+<h3>
+تراك بناتي تركي
+</h3>
+
+
+
+<p class="price">
+96,000 د.ع
+</p>
+
+
+
+
+<button
+class="cart-btn"
+onclick="event.stopPropagation();
+addToCart(
+'تراك بناتي تركي',
+96000,
+'images/girls/product1.jpg'
+)">
+
+🛒 إضافة للسلة
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="product-card"
+onclick="openProduct(
+'جوارب تركي',
+10000,
+'images/socks/product1.jpg'
+)">
+
+
+
+<img src="images/socks/product1.jpg">
+
+
+
+<h3>
+جوارب تركي
+</h3>
+
+
+
+<p class="price">
+10,000 د.ع
+</p>
+
+
+
+
+<button
+class="cart-btn"
+onclick="event.stopPropagation();
+addToCart(
+'جوارب تركي',
+10000,
+'images/socks/product1.jpg'
+)">
+
+🛒 إضافة للسلة
+
+</button>
+
+
+
+</div>
+
+
+
+
+</div>
 
 
 </section>
@@ -103,99 +218,42 @@ target="_blank">
 
 
 
-<footer class="footer">
+
+<nav class="bottom-nav">
 
 
-<h3>
-مجمع حمزه الشطري
-</h3>
+<a href="index.html">
+🏠 الرئيسية
+</a>
 
 
-<p>
-📍 ذي قار - الشطرة
-</p>
+<a href="products.html">
+🛍 المنتجات
+</a>
 
 
-<p>
-📞 07813555538
-</p>
+<a href="cart.html">
+🛒 السلة
+</a>
 
 
-<p>
-🚚 توصيل لجميع محافظات العراق
-</p>
+<a href="favorites.html">
+❤️ المفضلة
+</a>
 
 
-</footer>
+<a href="about.html">
+ℹ️ من نحن
+</a>
 
+
+</nav>
 
 
 
 
 
 <script src="script.js"></script>
-
-
-<script>
-
-
-let product = JSON.parse(localStorage.getItem("product"));
-
-
-
-if(product){
-
-
-document.getElementById("productImage").src = product.image;
-
-
-document.getElementById("productName").innerHTML = product.name;
-
-
-document.getElementById("productPrice").innerHTML =
-product.price + " د.ع";
-
-
-
-document.getElementById("whatsappOrder").href =
-
-"https://wa.me/9647813555538?text=" +
-
-"أريد طلب المنتج: " + product.name;
-
-
-
-
-}
-
-
-
-
-function addCurrentProduct(){
-
-
-if(product){
-
-
-addToCart(
-
-product.name,
-
-product.price,
-
-product.image
-
-);
-
-
-}
-
-
-}
-
-
-</script>
-
 
 
 </body>
