@@ -4,13 +4,11 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>لوحة إدارة المنتجات | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
 
 <style>
@@ -105,43 +103,6 @@ object-fit:cover;
 padding:18px;
 }
 
-.actions{
-display:flex;
-gap:10px;
-margin-top:15px;
-}
-
-.edit{
-flex:1;
-background:#f59e0b;
-color:#fff;
-padding:12px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-}
-
-.delete{
-flex:1;
-background:#ef4444;
-color:#fff;
-padding:12px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-}
-
-.offer-badge{
-display:inline-block;
-background:#22c55e;
-color:#fff;
-padding:6px 12px;
-border-radius:20px;
-margin-top:10px;
-font-size:13px;
-font-weight:700;
-}
-
 </style>
 
 </head>
@@ -155,11 +116,8 @@ font-weight:700;
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
 <div>
-
 <h1>مجمع حمزه الشطري</h1>
-
 <p>لوحة إدارة المنتجات</p>
-
 </div>
 
 </div>
@@ -170,17 +128,18 @@ font-weight:700;
 
 <div class="admin-box">
 
-<h2>إضافة / تعديل منتج</h2>
+<h2>إضافة منتج جديد</h2>
 
 <div class="form-grid">
-  <div class="form-group">
+
+<div class="form-group">
 <label>اسم المنتج</label>
-<input type="text" id="name" placeholder="اسم المنتج">
+<input type="text" id="name">
 </div>
 
 <div class="form-group">
-<label>السعر (د.ع)</label>
-<input type="number" id="price" placeholder="السعر">
+<label>السعر</label>
+<input type="number" id="price">
 </div>
 
 <div class="form-group">
@@ -198,12 +157,12 @@ font-weight:700;
 
 <div class="form-group">
 <label>المقاسات</label>
-<input type="text" id="sizes" placeholder="مثال: M,L,XL أو 36-45">
+<input type="text" id="sizes">
 </div>
 
 <div class="form-group">
 <label>الألوان</label>
-<input type="text" id="colors" placeholder="أسود، أبيض، كحلي">
+<input type="text" id="colors">
 </div>
 
 <div class="form-group">
@@ -212,13 +171,15 @@ font-weight:700;
 </div>
 
 <div class="form-group">
-<label>صورة المنتج</label>
-<input type="file" id="imageFile" accept="image/*">
+<label>رابط أو مسار الصورة</label>
+<input
+type="text"
+id="image"
+placeholder="مثال: images/baby/product1.jpg">
 </div>
-
 <div class="form-group" style="grid-column:1/-1;">
 <label>وصف المنتج</label>
-<textarea id="description" placeholder="اكتب وصف المنتج"></textarea>
+<textarea id="description"></textarea>
 </div>
 
 <div class="form-group" style="grid-column:1/-1;">
@@ -228,28 +189,32 @@ font-weight:700;
 </label>
 </div>
 
-<button id="saveBtn">
-إضافة المنتج
-</button>
-
 </div>
+
+<button id="saveBtn">
+💾 حفظ المنتج
+</button>
 
 </div>
 
 <div class="admin-box">
 
-<h2>المنتجات</h2>
+<h2>🛍 المنتجات</h2>
 
 <div id="products" class="cards">
 
+<h3>جاري تحميل المنتجات...</h3>
+
 </div>
 
 </div>
+
 </div>
 
 <footer class="footer">
 
-<img class="footer-logo"
+<img
+class="footer-logo"
 src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
 alt="الشعار">
 
@@ -257,7 +222,7 @@ alt="الشعار">
 
 <p>لوحة تحكم إدارة المنتجات</p>
 
-<p>جميع الحقوق محفوظة © 2026</p>
+<p>© 2026 جميع الحقوق محفوظة</p>
 
 </footer>
 
