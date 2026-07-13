@@ -1,57 +1,28 @@
-// firebase.js
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-import {
-    getFirestore
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-import {
-    getStorage
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-import {
-    getAuth
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-
-// إعدادات مشروع Firebase
 const firebaseConfig = {
-
-    apiKey: "ضع API KEY هنا",
-
-    authDomain: "ضع AUTH DOMAIN هنا",
-
-    projectId: "ضع PROJECT ID هنا",
-
-    storageBucket: "ضع STORAGE BUCKET هنا",
-
-    messagingSenderId: "ضع MESSAGING SENDER ID هنا",
-
-    appId: "ضع APP ID هنا"
-
+  apiKey: "AIzaSyCcaOIwNodH5IESCShyYQkpHBFiywzIi-4",
+  authDomain: "hamza-shatri-store.firebaseapp.com",
+  projectId: "hamza-shatri-store",
+  storageBucket: "hamza-shatri-store.firebasestorage.app",
+  messagingSenderId: "372483512160",
+  appId: "1:372483512160:web:b594dd13f4774db6d13005"
 };
 
-
-// تشغيل التطبيق
 const app = initializeApp(firebaseConfig);
 
-
-// قاعدة البيانات
 const db = getFirestore(app);
-
-
-// تخزين الصور
 const storage = getStorage(app);
-
-
-// تسجيل الدخول
 const auth = getAuth(app);
 
-
-
 export {
-    db,
-    storage,
-    auth
+  db,
+  storage,
+  auth
 };
