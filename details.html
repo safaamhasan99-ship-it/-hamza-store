@@ -66,3 +66,105 @@ let box = document.getElementById("productDetails");
 if(product){
 
 box.innerHTML = `
+
+<div class="details-page">
+
+<div class="details-image">
+
+<img src="${product.image}" alt="${product.name}">
+
+</div>
+
+<div class="details-content">
+
+<h2>${product.name}</h2>
+
+<p class="price">${product.price} د.ع</p>
+
+<p class="stock">✅ متوفر للبيع بالجملة</p>
+
+<p class="description">
+
+منتج أصلي بجودة عالية متوفر لدى مجمع حمزه الشطري.
+البيع بالجملة فقط مع التوصيل إلى جميع محافظات العراق.
+
+</p>
+
+<div class="qty-box">
+
+<label>الكمية</label>
+
+<input type="number" id="qty" value="1" min="1">
+
+</div>
+
+<div class="details-buttons">
+
+<button class="cart-btn" onclick="addCartQty()">
+
+🛒 إضافة إلى السلة
+
+</button>
+
+<button class="fav-btn"
+onclick="addToFavorites('${product.name}',${product.price},'${product.image}')">
+
+❤️ إضافة إلى المفضلة
+
+</button>
+
+<a class="wholesale"
+target="_blank"
+href="https://wa.me/9647813555538?text=${encodeURIComponent(
+'السلام عليكم، أرغب بطلب المنتج:\n\n'+
+product.name+
+'\nالسعر: '+product.price+' د.ع'
+)}">
+
+💬 طلب عبر واتساب
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}else{
+
+box.innerHTML=`
+
+<div class="about-box">
+
+<h2>لم يتم اختيار منتج</h2>
+
+<p>الرجاء الرجوع إلى صفحة المنتجات واختيار منتج.</p>
+
+</div>
+
+`;
+
+}
+
+function addCartQty(){
+
+let qty=parseInt(document.getElementById("qty").value)||1;
+
+for(let i=0;i<qty;i++){
+
+addToCart(product.name,product.price,product.image);
+
+}
+
+alert("تمت إضافة المنتج إلى السلة");
+
+}
+
+  </script>
+
+</body>
+
+</html>
