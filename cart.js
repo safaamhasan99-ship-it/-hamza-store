@@ -1,241 +1,131 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-
-function showCart(){
-
-const cartList = document.getElementById("cartList");
-const totalBox = document.getElementById("total");
-const orderBtn = document.getElementById("orderWhatsapp");
-
-
-if(!cartList || !totalBox || !orderBtn){
-return;
+function saveCart() {
+    localStorage.setItem("cart", JSON.stringify(cart));
 }
 
+function showCart() {
 
-cartList.innerHTML = "";
+    const cartList = document.getElementById("cartList");
+    const totalBox = document.getElementById("total");
+    const orderBtn = document.getElementById("orderWhatsapp");
 
+    if (!cartList || !totalBox || !orderBtn) {
+        return;
+    }
 
-let total = 0;
+    cartList.innerHTML = "";
 
+    let total = 0;
 
-let message =
-"السلام عليكم، أريد طلب:\n\n";
+    let message = "السلام عليكم، أريد طلب المنتجات التالية:\n\n";
 
+    if (cart.length === 0) {
 
+        cartList.innerHTML = `
+            <div class="about-box">
+                <h2>🛒 السلة فارغة</h2>
+                <p>لم يتم إضافة أي منتج بعد.</p>
+            </div>
+        `;
 
-if(cart.length === 0){
+        totalBox.innerHTML = "0 د.ع";
+        orderBtn.href = "#";
+        return;
+    }
 
+    cart.forEach((item, index) => {
 
-cartList.innerHTML = `
+        let price = Number(item.price) || 0;
+        let qty = Number(item.quantity) || 1;
+        let sum = price * qty;
 
-<div class="about-box">
+        total += sum;
 
-<h2>
-🛒 السلة فارغة
-</h2>
-
-<p>
-لم يتم إضافة منتجات
-</p>
-
-</div>
-
+        message +=
+`• ${item.name}
+الكمية: ${qty}
+السعر: ${price.toLocaleString()} د.ع
+المجموع: ${sum.toLocaleString()} د.ع
+-------------------------
 `;
 
+        cartList.innerHTML += `
+        <div class="product-card">
 
-totalBox.innerHTML="0 د.ع";
+            <img src="${item.image}" alt="${item.name}">
 
-orderBtn.href="#";
+            <div class="product-info">
 
-return;
+                <h3>${item.name}</h3>
 
+                <p class="price">
+                    ${price.toLocaleString()} د.ع
+                </p>
+
+                <div class="quantity-box">
+
+                    <button class="cart-btn"
+                        onclick="changeQuantity(${index},-1)">
+                        ➖
+                    </button>
+
+                    <span>${qty}</span>
+
+                    <button class="cart-btn"
+                        onclick="changeQuantity(${index},1)">
+                        ➕
+                    </button>
+
+                </div>
+
+                <p>
+                    المجموع:
+                    ${sum.toLocaleString()} د.ع
+                </p>
+
+                <button class="favorite"
+                    onclick="removeCart(${index})">
+                    🗑 حذف
+                </button>
+
+            </div>
+
+        </div>
+        `;
+    });
+
+    totalBox.innerHTML = total.toLocaleString() + " د.ع";
+
+    message +=
+`=========================
+💰 المجموع الكلي: ${total.toLocaleString()} د.ع`;
+
+    orderBtn.href =
+        "https://wa.me/9647813555538?text=" +
+        encodeURIComponent(message);
+
+    saveCart();
 }
 
+function changeQuantity(index, value) {
 
+    cart[index].quantity = (cart[index].quantity || 1) + value;
 
-cart.forEach((item,index)=>{
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
 
-
-let price = Number(item.price) || 0;
-
-let qty = Number(item.quantity) || 1;
-
-
-let sum = price * qty;
-
-
-total += sum;
-
-
-
-message +=
-"• "+item.name+"\n"+
-"الكمية: "+qty+"\n"+
-"السعر: "+price+" د.ع\n"+
-"----------------\n";
-
-
-
-cartList.innerHTML += `
-
-<div class="product-card">
-
-
-<img src="${item.image}">
-
-
-<div class="product-info">
-
-
-<h3>
-${item.name}
-</h3>
-
-
-<p class="price">
-${price.toLocaleString()} د.ع
-</p>
-
-
-
-<div class="quantity-box">
-
-
-<button class="cart-btn"
-onclick="changeQuantity(${index},-1)">
-➖
-</button>
-
-
-<span>
-${qty}
-</span>
-
-
-<button class="cart-btn"
-onclick="changeQuantity(${index},1)">
-➕
-</button>
-
-
-</div>
-
-
-
-<p>
-المجموع:
-${sum.toLocaleString()} د.ع
-</p>
-
-
-
-<button class="favorite"
-onclick="removeCart(${index})">
-
-🗑 حذف
-
-</button>
-
-
-
-</div>
-
-
-</div>
-
-`;
-
-
-
-});
-
-
-
-totalBox.innerHTML =
-total.toLocaleString()+" د.ع";
-
-
-
-message +=
-"\n💰 المجموع الكلي: "+
-total+
-" د.ع";
-
-
-
-orderBtn.href =
-"https://wa.me/9647813555538?text="
-+
-encodeURIComponent(message);
-
-
-
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
-
-
+    saveCart();
+    showCart();
 }
 
+function removeCart(index) {
 
+    cart.splice(index, 1);
 
-
-
-function changeQuantity(index,value){
-
-
-cart[index].quantity =
-(cart[index].quantity || 1)
-+
-value;
-
-
-
-if(cart[index].quantity <=0){
-
-cart.splice(index,1);
-
+    saveCart();
+    showCart();
 }
-
-
-
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
-
-
-
-showCart();
-
-
-}
-
-
-
-
-
-function removeCart(index){
-
-
-cart.splice(index,1);
-
-
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
-
-
-
-showCart();
-
-
-}
-
-
-
 
 showCart();
