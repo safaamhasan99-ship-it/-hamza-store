@@ -1,4 +1,6 @@
-import { db } from "./firebase.js";
+// checkout.js
+
+import { db } from "../firebase.js";
 
 import {
 collection,
@@ -6,88 +8,131 @@ addDoc,
 serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-window.sendOrder = async function () {
+const sendBtn = document.getElementById("sendOrderBtn");
 
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const address = document.getElementById("address").value.trim();
+if(sendBtn){
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+sendBtn.addEventListener("click", sendOrder);
 
-    if (!name || !phone || !address) {
-        alert("يرجى ملء جميع الحقول");
-        return;
-    }
+}
 
-    if (cart.length === 0) {
-        alert("السلة فارغة");
-        return;
-    }
+async function sendOrder(){
 
-    let total = 0;
-    let message = "*طلب جديد من موقع مجمع حمزه الشطري*%0A%0A";
+const name = document.getElementById("name").value.trim();
 
-    message += "👤 الاسم: " + name + "%0A";
-    message += "📞 الهاتف: " + phone + "%0A";
-    message += "📍 العنوان: " + address + "%0A%0A";
+const phone = document.getElementById("phone").value.trim();
 
-    message += "📦 المنتجات:%0A";
+const city = document.getElementById("city").value;
 
-    cart.forEach((item) => {
+const address = document.getElementById("address").value.trim();
 
-        const qty = Number(item.quantity || 1);
-        const price = Number(item.price || 0);
-        const itemTotal = qty * price;
+const notes = document.getElementById("notes").value.trim();
 
-        total += itemTotal;
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-        message +=
-            "• " +
-            item.name +
-            " × " +
-            qty +
-            " = " +
-            itemTotal +
-            " د.ع%0A";
-    });
+if(!name || !phone || !city || !address){
 
-    message += "%0A💰 الإجمالي: " + total + " د.ع";
+alert("يرجى إكمال جميع البيانات");
 
-    try {
+return;
 
-        await addDoc(collection(db, "orders"), {
+}
 
-            name: name,
-            phone: phone,
-            address: address,
+if(cart.length===0){
 
-            items: cart,
+alert("السلة فارغة");
 
-            total: total,
+return;
 
-            status: "جديد",
+}
 
-            createdAt: serverTimestamp()
+sendBtn.disabled = true;
 
-        });
+sendBtn.textContent = "جاري إرسال الطلب...";
 
-        localStorage.removeItem("cart");
+let total = 0;
 
-        alert("تم حفظ الطلب بنجاح");
+let message = "*طلب جديد من موقع مجمع حمزه الشطري*%0A%0A";
 
-        window.open(
-            "https://wa.me/9647813555538?text=" + message,
-            "_blank"
-        );
+message += "👤 الاسم: " + name + "%0A";
 
-        window.location.href = "index.html";
+message += "📞 الهاتف: " + phone + "%0A";
 
-    } catch (error) {
+message += "🏙 المحافظة: " + city + "%0A";
 
-        console.error(error);
+message += "📍 العنوان: " + address + "%0A";
 
-        alert("حدث خطأ أثناء حفظ الطلب في قاعدة البيانات");
+if(notes){
 
-    }
+message += "📝 ملاحظات: " + notes + "%0A";
 
-};
+}
+
+message += "%0A📦 المنتجات:%0A";
+    cart.forEach((item)=>{
+
+const qty = Number(item.quantity || 1);
+
+const price = Number(item.price || 0);
+
+const itemTotal = qty * price;
+
+total += itemTotal;
+
+message +=
+"• " +
+item.name +
+" × " +
+qty +
+" = " +
+itemTotal +
+" د.ع%0A";
+
+});
+
+message += "%0A💰 الإجمالي: " + total + " د.ع";
+
+try{
+
+await addDoc(collection(db,"orders"),{
+
+name,
+phone,
+city,
+address,
+notes,
+
+items:cart,
+
+total,
+
+status:"جديد",
+
+createdAt:serverTimestamp()
+
+});
+
+localStorage.removeItem("cart");
+
+alert("تم إرسال الطلب بنجاح");
+
+window.open(
+"https://wa.me/9647813555538?text=" + message,
+"_blank"
+);
+
+window.location.href="index.html";
+
+}catch(error){
+
+console.error(error);
+
+alert("حدث خطأ أثناء إرسال الطلب");
+
+sendBtn.disabled=false;
+
+sendBtn.textContent="إرسال الطلب";
+
+}
+
+}
