@@ -15,29 +15,29 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
-// إعدادات Firebase
+// إعدادات مشروع Firebase
 const firebaseConfig = {
 
-    apiKey: "ضع_apiKey_الخاص_بك",
+    apiKey: "ضع API KEY هنا",
 
-    authDomain: "ضع_authDomain_الخاص_بك",
+    authDomain: "ضع AUTH DOMAIN هنا",
 
-    projectId: "ضع_projectId_الخاص_بك",
+    projectId: "ضع PROJECT ID هنا",
 
-    storageBucket: "ضع_storageBucket_الخاص_بك",
+    storageBucket: "ضع STORAGE BUCKET هنا",
 
-    messagingSenderId: "ضع_messagingSenderId_الخاص_بك",
+    messagingSenderId: "ضع MESSAGING SENDER ID هنا",
 
-    appId: "ضع_appId_الخاص_بك"
+    appId: "ضع APP ID هنا"
 
 };
 
 
-// تشغيل Firebase
+// تشغيل التطبيق
 const app = initializeApp(firebaseConfig);
 
 
-// قواعد البيانات
+// قاعدة البيانات
 const db = getFirestore(app);
 
 
