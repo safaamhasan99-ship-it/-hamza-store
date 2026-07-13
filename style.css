@@ -1045,3 +1045,165 @@ opacity:1;
 transform:translateY(0);
 
 }
+/*==================================
+تفاصيل المنتج الاحترافية
+==================================*/
+
+.details-page{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:35px;
+background:#fff;
+padding:30px;
+border-radius:25px;
+box-shadow:var(--shadow);
+margin:20px 0;
+align-items:center;
+}
+
+.details-image{
+text-align:center;
+}
+
+.details-image img{
+width:100%;
+max-width:500px;
+margin:auto;
+border-radius:20px;
+background:#f8fafc;
+padding:10px;
+}
+
+.details-content h2{
+font-size:34px;
+font-weight:800;
+margin-bottom:15px;
+}
+
+.details-content .price{
+font-size:30px;
+font-weight:800;
+color:var(--success);
+margin-bottom:15px;
+}
+
+.stock{
+color:var(--success);
+font-weight:700;
+margin-bottom:20px;
+}
+
+.description{
+font-size:16px;
+line-height:2;
+color:var(--gray);
+margin-bottom:25px;
+}
+
+.qty-box{
+margin-bottom:25px;
+}
+
+.qty-box label{
+display:block;
+margin-bottom:10px;
+font-weight:700;
+}
+
+.qty-box input{
+width:120px;
+padding:12px;
+font-size:18px;
+border:1px solid #ddd;
+border-radius:12px;
+text-align:center;
+outline:none;
+}
+
+.details-buttons{
+display:flex;
+flex-wrap:wrap;
+gap:15px;
+}
+
+.details-buttons .cart-btn,
+.details-buttons .fav-btn,
+.details-buttons .wholesale{
+flex:1;
+min-width:180px;
+padding:15px;
+border-radius:14px;
+font-size:16px;
+font-weight:700;
+text-align:center;
+}
+
+.fav-btn{
+background:#e11d48;
+color:#fff;
+}
+
+.fav-btn:hover{
+background:#be123c;
+}
+
+.details-buttons .wholesale{
+background:var(--success);
+color:#fff;
+}
+
+.details-buttons .wholesale:hover{
+transform:translateY(-3px);
+}
+
+body.dark .details-page{
+background:#1f2937;
+}
+
+body.dark .description{
+color:#d1d5db;
+}
+
+body.dark .qty-box input{
+background:#374151;
+color:#fff;
+border-color:#4b5563;
+}
+
+@media(max-width:768px){
+
+.details-page{
+grid-template-columns:1fr;
+padding:20px;
+}
+
+.details-content h2{
+font-size:26px;
+text-align:center;
+}
+
+.details-content .price{
+text-align:center;
+font-size:26px;
+}
+
+.stock,
+.description{
+text-align:center;
+}
+
+.qty-box{
+text-align:center;
+}
+
+.details-buttons{
+flex-direction:column;
+}
+
+.details-buttons .cart-btn,
+.details-buttons .fav-btn,
+.details-buttons .wholesale{
+width:100%;
+}
+
+}
