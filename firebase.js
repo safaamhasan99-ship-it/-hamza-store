@@ -1,29 +1,49 @@
-// استيراد Firebase
+// firebase.js
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
-  getFirestore
+    getFirestore
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
-  getStorage
+    getStorage
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 import {
-  getAuth
+    getAuth
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// ضع بيانات مشروع Firebase هنا
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
+
+    apiKey: "",
+
+    authDomain: "",
+
+    projectId: "",
+
+    storageBucket: "",
+
+    messagingSenderId: "",
+
+    appId: ""
+
 };
 
 const app = initializeApp(firebaseConfig);
 
-export const db = getFirestore(app);
-export const storage = getStorage(app);
-export const auth = getAuth(app);
+const db = getFirestore(app);
+
+const storage = getStorage(app);
+
+const auth = getAuth(app);
+
+export {
+
+    db,
+
+    storage,
+
+    auth
+
+};
