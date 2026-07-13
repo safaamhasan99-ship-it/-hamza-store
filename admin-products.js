@@ -9,6 +9,7 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+
 import {
     ref,
     uploadBytes,
@@ -21,99 +22,62 @@ const saveBtn = document.getElementById("saveBtn");
 
 
 
-async function loadProducts(){
-
-
-    const box = document.getElementById("products");
-
-
-    if(!box) return;
-
-
-    box.innerHTML = "";
-
-
-    const snap = await getDocs(
-        collection(db,"products")
-    );
-
-
-    if(snap.empty){
-
-        box.innerHTML="<h3>لا توجد منتجات</h3>";
-        return;
-
-    }
-
-
-
-    snap.forEach((doc)=>{
-
-
-        const p = doc.data();
-
-
-        box.innerHTML += `
-
-        <div class="card">
-
-        <img src="${p.image}">
-
-        <div class="card-body">
-
-        <h3>${p.name}</h3>
-
-        <p>السعر: ${p.price}</p>
-
-        <p>${p.category}</p>
-
-        </div>
-
-        </div>
-
-        `;
-
-
-    });
-
-
-}
-
-
-
-
 if(saveBtn){
 
 
-saveBtn.onclick = async function(){
+saveBtn.addEventListener("click", async function(){
 
 
 
-const name = document.getElementById("name").value.trim();
+const name =
+document.getElementById("name").value.trim();
 
-const price = document.getElementById("price").value.trim();
 
-const category = document.getElementById("category").value;
+const price =
+document.getElementById("price").value.trim();
 
-const sizes = document.getElementById("sizes").value;
 
-const colors = document.getElementById("colors").value;
+const category =
+document.getElementById("category").value;
 
-const quantity = document.getElementById("quantity").value;
 
-const description = document.getElementById("description").value;
+const sizes =
+document.getElementById("sizes").value;
 
-const offer = document.getElementById("offer").checked;
+
+const colors =
+document.getElementById("colors").value;
+
+
+const quantity =
+document.getElementById("quantity").value;
+
+
+const description =
+document.getElementById("description").value;
+
+
+const offer =
+document.getElementById("offer").checked;
+
+
 
 const imageFile =
 document.getElementById("imageFile").files[0];
 
 
 
-if(!name || !price){
+console.log("المنتج:",name,price);
+
+
+
+if(name === "" || price === ""){
+
 
 alert("اكتب اسم المنتج والسعر");
+
 return;
+
 
 }
 
@@ -122,7 +86,8 @@ return;
 try{
 
 
-let imageURL="";
+let imageURL = "";
+
 
 
 if(imageFile){
@@ -130,7 +95,7 @@ if(imageFile){
 
 const imageRef = ref(
 storage,
-"products/"+Date.now()+"_"+imageFile.name
+"products/" + Date.now() + "_" + imageFile.name
 );
 
 
@@ -144,6 +109,7 @@ imageURL = await getDownloadURL(imageRef);
 
 
 }
+
 
 
 
@@ -177,7 +143,8 @@ createdAt:serverTimestamp()
 
 
 
-alert("تم حفظ المنتج بنجاح");
+alert("✅ تم حفظ المنتج بنجاح");
+
 
 
 loadProducts();
@@ -190,17 +157,102 @@ loadProducts();
 console.log(error);
 
 
-alert(error.message);
+alert(
+"خطأ في الحفظ: " + error.message
+);
 
 
 }
 
 
 
-};
+});
 
 
 }
+
+
+
+
+async function loadProducts(){
+
+
+
+const box =
+document.getElementById("products");
+
+
+if(!box) return;
+
+
+
+box.innerHTML="";
+
+
+
+const snapshot =
+await getDocs(
+collection(db,"products")
+);
+
+
+
+if(snapshot.empty){
+
+
+box.innerHTML =
+"<h3>لا توجد منتجات</h3>";
+
+
+return;
+
+
+}
+
+
+
+
+snapshot.forEach((doc)=>{
+
+
+const p = doc.data();
+
+
+
+box.innerHTML += `
+
+<div class="card">
+
+
+<img src="${p.image}">
+
+
+<div class="card-body">
+
+
+<h3>${p.name}</h3>
+
+
+<p>السعر: ${p.price}</p>
+
+
+<p>${p.category}</p>
+
+
+</div>
+
+
+</div>
+
+`;
+
+
+});
+
+
+
+}
+
 
 
 
