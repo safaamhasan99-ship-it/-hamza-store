@@ -9,176 +9,161 @@ doc,
 serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+const productName = document.getElementById("productName");
+const productPrice = document.getElementById("productPrice");
+const productImage = document.getElementById("productImage");
+const productCategory = document.getElementById("productCategory");
+const productsList = document.getElementById("productsList");
 
+window.addProduct = async function () {
 
-// إضافة منتج
+    const name = productName.value.trim();
+    const price = Number(productPrice.value);
+    const image = productImage.value.trim();
+    const category = productCategory.value;
 
-window.addProduct = async function(){
+    if (!name || !price || !image) {
+        alert("يرجى ملء جميع الحقول");
+        return;
+    }
 
+    try {
 
-let name =
-document.getElementById("productName").value;
+        await addDoc(collection(db, "products"), {
 
+            name: name,
+            price: price,
+            image: image,
+            category: category,
+            createdAt: serverTimestamp()
 
-let price =
-document.getElementById("productPrice").value;
+        });
 
+        alert("تمت إضافة المنتج بنجاح ✅");
 
-let image =
-document.getElementById("productImage").value;
+        productName.value = "";
+        productPrice.value = "";
+        productImage.value = "";
 
+        loadProducts();
 
-let category =
-document.getElementById("productCategory").value;
+    } catch (error) {
 
+        console.error(error);
 
+        alert("حدث خطأ أثناء الإضافة");
 
-if(name==="" || price==="" || image===""){
+    }
 
-alert("املأ جميع البيانات");
+};async function loadProducts() {
 
-return;
+    if (!productsList) return;
 
-}
+    productsList.innerHTML = "";
 
+    try {
 
+        const snapshot = await getDocs(
+            collection(db, "products")
+        );
 
-await addDoc(
-collection(db,"products"),
-{
+        if (snapshot.empty) {
 
-name:name,
+            productsList.innerHTML = `
+            <div class="empty-box">
+                لا توجد منتجات حالياً
+            </div>
+            `;
 
-price:Number(price),
+            return;
+        }
 
-image:image,
+        snapshot.forEach((item) => {
 
-category:category,
+            const product = item.data();
 
-createdAt:serverTimestamp()
+            productsList.innerHTML += `
 
-}
+            <div class="product-card">
 
-);
+                <img src="${product.image}" alt="${product.name}">
 
+                <div class="product-info">
 
+                    <h3>${product.name}</h3>
 
-alert("تم إضافة المنتج ✅");
+                    <p class="price">
+                        ${Number(product.price).toLocaleString()} د.ع
+                    </p>
 
+                    <p>
+                        القسم:
+                        ${product.category}
+                    </p>
 
+                    <button
+                        class="delete-btn"
+                        onclick="deleteProduct('${item.id}')">
 
-document.getElementById("productName").value="";
+                        🗑 حذف
 
-document.getElementById("productPrice").value="";
+                    </button>
 
-document.getElementById("productImage").value="";
+                </div>
 
+            </div>
 
-loadProducts();
+            `;
 
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        productsList.innerHTML = `
+        <div class="empty-box">
+            حدث خطأ أثناء تحميل المنتجات
+        </div>
+        `;
+
+    }
+
+}// حذف منتج
+window.deleteProduct = async function (id) {
+
+    const ok = confirm("هل تريد حذف هذا المنتج؟");
+
+    if (!ok) return;
+
+    try {
+
+        await deleteDoc(
+            doc(db, "products", id)
+        );
+
+        alert("تم حذف المنتج بنجاح ✅");
+
+        loadProducts();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("حدث خطأ أثناء حذف المنتج");
+
+    }
 
 };
 
 
+// إعادة تحميل المنتجات
+window.refreshProducts = function () {
 
-
-// عرض المنتجات
-
-async function loadProducts(){
-
-
-const box =
-document.getElementById("productsList");
-
-
-if(!box) return;
-
-
-
-box.innerHTML="";
-
-
-
-const snapshot =
-await getDocs(
-collection(db,"products")
-);
-
-
-
-snapshot.forEach((item)=>{
-
-
-let product=item.data();
-
-
-
-box.innerHTML += `
-
-
-<div class="product-card">
-
-
-<img src="${product.image}">
-
-
-
-<h3>
-${product.name}
-</h3>
-
-
-
-<p>
-${product.price} د.ع
-</p>
-
-
-
-<button onclick="deleteProduct('${item.id}')">
-
-حذف
-
-</button>
-
-
-</div>
-
-
-`;
-
-
-
-});
-
-
-}
-
-
-
-
-// حذف منتج
-
-window.deleteProduct = async function(id){
-
-
-await deleteDoc(
-
-doc(db,"products",id)
-
-);
-
-
-
-alert("تم حذف المنتج");
-
-
-loadProducts();
-
+    loadProducts();
 
 };
 
 
-
-
+// تحميل المنتجات عند فتح الصفحة
 loadProducts();
