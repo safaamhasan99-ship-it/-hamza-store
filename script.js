@@ -1,6 +1,5 @@
 /*==================================
    مجمع حمزه الشطري
-   Main Script
 ==================================*/
 
 
@@ -9,31 +8,29 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 
-
 // إصلاح بيانات السلة القديمة
 
 cart = cart.map(item => {
 
-return {
+    return {
 
-name:item.name || "",
+        name: item.name || "",
 
-price:Number(item.price) || 0,
+        price: Number(item.price) || 0,
 
-image:item.image || "",
+        image: item.image || "",
 
-qty:Number(item.qty || item.quantity || 1)
+        qty: Number(item.qty || item.quantity || 1)
 
-};
+    };
 
 });
 
 
 localStorage.setItem(
-"cart",
-JSON.stringify(cart)
+    "cart",
+    JSON.stringify(cart)
 );
-
 
 
 
@@ -43,35 +40,31 @@ JSON.stringify(cart)
 function updateCartCount(){
 
 
-const count =
-document.getElementById("cartCount");
+    const count = document.getElementById("cartCount");
 
 
-
-if(count){
-
-
-let total = 0;
+    if(count){
 
 
-cart.forEach(item=>{
-
-total += item.qty || 1;
-
-});
+        let total = 0;
 
 
-count.innerText = total;
+        cart.forEach(item=>{
+
+            total += item.qty || 1;
+
+        });
 
 
-}
+        count.innerText = total;
 
+
+    }
 
 }
 
 
 updateCartCount();
-
 
 
 
@@ -79,59 +72,62 @@ updateCartCount();
 
 // إضافة للسلة
 
-window.addToCart=function(name,price,image){
+window.addToCart = function(name,price,image){
 
 
-let product =
-cart.find(item=>item.name===name);
-
-
-
-if(product){
-
-
-product.qty++;
-
-product.price=Number(price);
-
-product.image=image;
-
-
-}else{
-
-
-cart.push({
-
-name:name,
-
-price:Number(price),
-
-image:image,
-
-qty:1
-
-});
-
-
-}
+    const index = cart.findIndex(
+        item => item.name === name
+    );
 
 
 
-localStorage.setItem(
-
-"cart",
-
-JSON.stringify(cart)
-
-);
+    if(index !== -1){
 
 
+        cart[index].qty =
+        (cart[index].qty || 1) + 1;
 
-updateCartCount();
+
+        cart[index].price =
+        Number(price);
+
+
+        cart[index].image =
+        image;
+
+
+    }else{
+
+
+        cart.push({
+
+            name:name,
+
+            price:Number(price),
+
+            image:image,
+
+            qty:1
+
+        });
+
+
+    }
 
 
 
-alert("✅ تمت إضافة المنتج إلى السلة");
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+
+    updateCartCount();
+
+
+
+    alert("✅ تمت إضافة المنتج إلى السلة");
 
 
 };
@@ -143,51 +139,49 @@ alert("✅ تمت إضافة المنتج إلى السلة");
 
 // إضافة للمفضلة
 
-window.addToFavorites=function(name,price,image){
+window.addToFavorites = function(name,price,image){
 
 
-let exists =
-favorites.find(item=>item.name===name);
-
-
-
-if(exists){
-
-alert("❤️ المنتج موجود في المفضلة");
-
-return;
-
-}
+    let exists =
+    favorites.find(
+        item=>item.name === name
+    );
 
 
 
-favorites.push({
+    if(exists){
 
-name:name,
+        alert("❤️ المنتج موجود");
 
-price:Number(price),
+        return;
 
-image:image
-
-});
+    }
 
 
 
-localStorage.setItem(
+    favorites.push({
 
-"favorites",
+        name:name,
 
-JSON.stringify(favorites)
+        price:Number(price),
 
-);
+        image:image
+
+    });
 
 
 
-alert("❤️ تمت الإضافة للمفضلة");
+    localStorage.setItem(
+        "favorites",
+        JSON.stringify(favorites)
+    );
+
+
+
+    alert("❤️ تمت الإضافة للمفضلة");
 
 
 };
-
 
 
 
@@ -196,32 +190,30 @@ alert("❤️ تمت الإضافة للمفضلة");
 
 // تفاصيل المنتج
 
-window.openProduct=function(name,price,image){
+window.openProduct = function(name,price,image){
 
 
-localStorage.setItem(
+    localStorage.setItem(
 
-"product",
+        "product",
 
-JSON.stringify({
+        JSON.stringify({
 
-name:name,
+            name:name,
 
-price:Number(price),
+            price:Number(price),
 
-image:image
+            image:image
 
-})
+        })
 
-);
+    );
 
 
-
-window.location.href="details.html";
+    window.location.href="details.html";
 
 
 };
-
 
 
 
@@ -232,7 +224,6 @@ window.location.href="details.html";
 
 const searchInput =
 document.getElementById("searchInput");
-
 
 
 if(searchInput){
@@ -251,26 +242,17 @@ document.querySelectorAll(".product-card")
 
 
 let title =
-product.querySelector("h3");
-
-
-if(title){
-
-
-let name =
-title.textContent.toLowerCase();
+product.querySelector("h3")
+.textContent
+.toLowerCase();
 
 
 
 product.style.display =
-name.includes(value)
-?
-""
-:
-"none";
+title.includes(value)
+? ""
+: "none";
 
-
-}
 
 
 });
@@ -286,22 +268,16 @@ name.includes(value)
 
 
 
-
-// ======================
 // الوضع الليلي
-// ======================
-
 
 const darkBtn =
 document.getElementById("darkBtn");
 
 
 
-if(localStorage.getItem("theme")==="dark"){
+if(localStorage.getItem("theme") === "dark"){
 
-
-document.body.classList.add("dark-mode");
-
+document.body.classList.add("dark");
 
 }
 
@@ -313,7 +289,7 @@ if(darkBtn){
 darkBtn.onclick=function(){
 
 
-document.body.classList.toggle("dark-mode");
+document.body.classList.toggle("dark");
 
 
 
@@ -321,13 +297,12 @@ localStorage.setItem(
 
 "theme",
 
-document.body.classList.contains("dark-mode")
-?
-"dark"
-:
-"light"
+document.body.classList.contains("dark")
+? "dark"
+: "light"
 
 );
+
 
 
 };
@@ -340,11 +315,7 @@ document.body.classList.contains("dark-mode")
 
 
 
-
-// ======================
 // شاشة التحميل
-// ======================
-
 
 window.addEventListener("load",function(){
 
@@ -353,15 +324,12 @@ const loader =
 document.getElementById("loader");
 
 
-
 if(loader){
 
 
 setTimeout(()=>{
 
-
 loader.classList.add("hide");
-
 
 },1200);
 
