@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>القسم الرجالي | مجمع حمزه الشطري</title>
@@ -13,11 +12,21 @@
 
 <link rel="stylesheet" href="style.css">
 
+<style>
+
+.msg{
+text-align:center;
+font-size:22px;
+padding:40px;
+font-weight:bold;
+grid-column:1/-1;
+}
+
+</style>
+
 </head>
 
-
 <body>
-
 
 <header class="header">
 
@@ -37,145 +46,128 @@
 
 </header>
 
-
-
-
 <section class="products">
-
 
 <h2 class="title">
 👔 الملابس الرجالية
 </h2>
 
+<div id="products" class="products-grid">
 
-
-<div class="products-grid">
-
-
-
-<div class="product-card">
-
-
-<img src="IMG_5661.jpeg">
-
-
-<div class="product-info">
-
-
-<h3>
-ملابس رجالية تركية
-</h3>
-
-
-<p>
-موديلات حديثة وخامات ممتازة
-</p>
-
-
-<p class="price">
-أسعار جملة
-</p>
-
-
-
-<button class="cart-btn"
-onclick="addToCart('ملابس رجالية تركية',20000,'IMG_5661.jpeg')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-
+<div class="msg">
+جاري تحميل المنتجات...
 </div>
 
-
 </div>
-
-
-
-
-
-<div class="product-card">
-
-
-<img src="IMG_5668.jpeg">
-
-
-<div class="product-info">
-
-
-<h3>
-تشيرتات رجالية
-</h3>
-
-
-<p>
-تشكيلات جديدة للتجار
-</p>
-
-
-<p class="price">
-20,000 د.ع
-</p>
-
-
-
-<button class="cart-btn"
-onclick="addToCart('تشيرتات رجالية',20000,'IMG_5668.jpeg')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-
-</div>
-
-
-</div>
-
-
-
-</div>
-
 
 </section>
 
-
-
-
 <nav class="bottom-nav">
 
+<a href="index.html">🏠 الرئيسية</a>
 
-<a href="index.html">
+<a href="cart.html">🛒 السلة</a>
 
-🏠 الرئيسية
-
-</a>
-
-
-<a href="cart.html">
-
-🛒 السلة
-
-</a>
-
-
-<a href="about.html">
-
-ℹ️ من نحن
-
-</a>
-
+<a href="about.html">ℹ️ من نحن</a>
 
 </nav>
 
-
-
 <script src="script.js"></script>
 
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const box=document.getElementById("products");
+
+async function loadProducts(){
+
+try{
+
+const snap=await getDocs(collection(db,"products"));
+
+box.innerHTML="";
+
+let found=false;
+  snap.forEach((doc)=>{
+
+const p = doc.data();
+
+const category = (p.category || "").trim();
+
+if(
+category === "القسم الرجالي" ||
+category === "رجالي"
+){
+
+found = true;
+
+box.innerHTML += `
+
+<div class="product-card">
+
+<img src="${p.image || ''}" alt="${p.name || ''}">
+
+<div class="product-info">
+
+<h3>${p.name || ''}</h3>
+
+<p>${p.description || ''}</p>
+
+<p class="price">
+${Number(p.price || 0).toLocaleString()} د.ع
+</p>
+
+<button class="cart-btn"
+onclick="addToCart('${(p.name || '').replace(/'/g,"\\'")}',${Number(p.price || 0)},'${p.image || ''}')">
+
+🛒 إضافة للسلة
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+});
+
+if(!found){
+
+box.innerHTML = `
+<div class="msg">
+لا توجد منتجات في القسم الرجالي
+</div>
+`;
+
+}
+
+}catch(error){
+
+console.error(error);
+
+box.innerHTML = `
+<div class="msg">
+حدث خطأ أثناء تحميل المنتجات
+</div>
+`;
+
+}
+
+}
+
+loadProducts();
+
+</script>
 
 </body>
-
 </html>
