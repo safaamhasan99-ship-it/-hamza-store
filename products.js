@@ -19,7 +19,10 @@ async function loadProducts() {
 
     productsBox.innerHTML = "";
 
-    const category = new URLSearchParams(window.location.search).get("category");
+    // قراءة القسم من body أو من الرابط
+    const category =
+      document.body.dataset.category ||
+      new URLSearchParams(window.location.search).get("category");
 
     let found = false;
 
@@ -27,6 +30,7 @@ async function loadProducts() {
 
       const product = doc.data();
 
+      // عرض منتجات القسم فقط
       if (!category || product.category === category) {
 
         found = true;
@@ -34,9 +38,9 @@ async function loadProducts() {
         const name = product.name || "منتج";
         const price = Number(product.price) || 0;
 
-        const image = product.image && product.image.trim() !== ""
-          ? product.image
-          : "5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png";
+        const image = product.image
+          ? product.image.trim()
+          : "./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png";
 
         const card = document.createElement("div");
         card.className = "product-card";
@@ -45,10 +49,11 @@ async function loadProducts() {
           <img
             src="${image}"
             alt="${name}"
-            loading="eager"
+            loading="lazy"
+            decoding="async"
             referrerpolicy="no-referrer"
-            onerror="this.onerror=null;this.src='5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png';"
-          >
+            crossorigin="anonymous"
+            onerror="this.onerror=null;this.src='./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png';">
 
           <div class="product-info">
 
@@ -66,11 +71,17 @@ async function loadProducts() {
         `;
 
         card.querySelector(".cart-btn").addEventListener("click", () => {
+
           if (typeof addToCart === "function") {
+
             addToCart(name, price, image);
+
           } else {
+
             alert("تعذر إضافة المنتج إلى السلة.");
+
           }
+
         });
 
         productsBox.appendChild(card);
@@ -80,16 +91,16 @@ async function loadProducts() {
     });
 
     if (!found) {
-      productsBox.innerHTML = "<h3>لا توجد منتجات</h3>";
+
+      productsBox.innerHTML = "<h3>لا توجد منتجات في هذا القسم</h3>";
+
     }
 
   } catch (error) {
 
-    console.error("خطأ:", error);
+    console.error(error);
 
-    productsBox.innerHTML = `
-      <h3>حدث خطأ في تحميل المنتجات</h3>
-    `;
+    productsBox.innerHTML = "<h3>حدث خطأ أثناء تحميل المنتجات</h3>";
 
   }
 
