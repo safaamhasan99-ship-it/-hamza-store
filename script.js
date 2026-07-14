@@ -3,23 +3,25 @@
 ==================================*/
 
 
-// ===============================
-// السلة والمفضلة
-// ===============================
-
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 
-
-// إصلاح المنتجات القديمة
+// إصلاح بيانات السلة القديمة
 
 cart = cart.map(item => {
 
     return {
-        ...item,
-        qty: item.qty || item.quantity || 1
+
+        name: item.name || "",
+
+        price: Number(item.price) || 0,
+
+        image: item.image || "",
+
+        qty: Number(item.qty || item.quantity || 1)
+
     };
 
 });
@@ -33,11 +35,9 @@ localStorage.setItem(
 
 
 
-// ===============================
 // تحديث عداد السلة
-// ===============================
 
-function updateCartCount() {
+function updateCartCount(){
 
 
     const count = document.getElementById("cartCount");
@@ -56,11 +56,10 @@ function updateCartCount() {
         });
 
 
-        count.textContent = total;
+        count.innerText = total;
 
 
     }
-
 
 }
 
@@ -70,11 +69,10 @@ updateCartCount();
 
 
 
-// ===============================
-// إضافة إلى السلة
-// ===============================
 
-window.addToCart = function(name, price, image){
+// إضافة للسلة
+
+window.addToCart = function(name,price,image){
 
 
     const index = cart.findIndex(
@@ -86,7 +84,16 @@ window.addToCart = function(name, price, image){
     if(index !== -1){
 
 
-        cart[index].qty++;
+        cart[index].qty =
+        (cart[index].qty || 1) + 1;
+
+
+        cart[index].price =
+        Number(price);
+
+
+        cart[index].image =
+        image;
 
 
     }else{
@@ -109,7 +116,6 @@ window.addToCart = function(name, price, image){
 
 
 
-
     localStorage.setItem(
         "cart",
         JSON.stringify(cart)
@@ -129,25 +135,23 @@ window.addToCart = function(name, price, image){
 
 
 
-// ===============================
-// إضافة إلى المفضلة
-// ===============================
+
+
+// إضافة للمفضلة
 
 window.addToFavorites = function(name,price,image){
 
 
-    const exists =
+    let exists =
     favorites.find(
-        item=>item.name===name
+        item=>item.name === name
     );
 
 
 
     if(exists){
 
-
-        alert("❤️ المنتج موجود بالفعل");
-
+        alert("❤️ المنتج موجود");
 
         return;
 
@@ -173,6 +177,7 @@ window.addToFavorites = function(name,price,image){
     );
 
 
+
     alert("❤️ تمت الإضافة للمفضلة");
 
 
@@ -181,27 +186,27 @@ window.addToFavorites = function(name,price,image){
 
 
 
-// ===============================
-// صفحة التفاصيل
-// ===============================
+
+
+// تفاصيل المنتج
 
 window.openProduct = function(name,price,image){
 
 
-    const product={
-
-        name:name,
-
-        price:Number(price),
-
-        image:image
-
-    };
-
-
     localStorage.setItem(
+
         "product",
-        JSON.stringify(product)
+
+        JSON.stringify({
+
+            name:name,
+
+            price:Number(price),
+
+            image:image
+
+        })
+
     );
 
 
@@ -213,73 +218,12 @@ window.openProduct = function(name,price,image){
 
 
 
-// ===============================
-// السلايدر
-// ===============================
-
-const slides =
-document.querySelectorAll(".hero-slide");
 
 
-let current=0;
-
-
-
-function slider(){
-
-
-    if(!slides.length) return;
-
-
-
-    slides.forEach(slide=>{
-
-        slide.classList.remove("active");
-
-    });
-
-
-
-    slides[current].classList.add("active");
-
-
-
-    current++;
-
-
-
-    if(current>=slides.length){
-
-        current=0;
-
-    }
-
-
-}
-
-
-
-if(slides.length){
-
-
-    slider();
-
-
-    setInterval(slider,4000);
-
-
-}
-
-
-
-
-// ===============================
 // البحث
-// ===============================
 
 const searchInput =
 document.getElementById("searchInput");
-
 
 
 if(searchInput){
@@ -288,7 +232,8 @@ if(searchInput){
 searchInput.addEventListener("keyup",function(){
 
 
-const value=this.value.toLowerCase();
+let value =
+this.value.toLowerCase();
 
 
 
@@ -296,29 +241,21 @@ document.querySelectorAll(".product-card")
 .forEach(product=>{
 
 
-const title =
-product.querySelector("h3").textContent.toLowerCase();
+let title =
+product.querySelector("h3")
+.textContent
+.toLowerCase();
 
 
 
-if(title.includes(value)){
-
-
-product.style.display="";
-
-
-}else{
-
-
-product.style.display="none";
-
-
-}
+product.style.display =
+title.includes(value)
+? ""
+: "none";
 
 
 
 });
-
 
 
 });
@@ -329,20 +266,18 @@ product.style.display="none";
 
 
 
-// ===============================
+
+
 // الوضع الليلي
-// ===============================
 
 const darkBtn =
 document.getElementById("darkBtn");
 
 
 
-if(localStorage.getItem("theme")==="dark"){
-
+if(localStorage.getItem("theme") === "dark"){
 
 document.body.classList.add("dark");
-
 
 }
 
@@ -351,30 +286,26 @@ document.body.classList.add("dark");
 if(darkBtn){
 
 
-darkBtn.addEventListener("click",function(){
+darkBtn.onclick=function(){
 
 
 document.body.classList.toggle("dark");
 
 
 
-if(document.body.classList.contains("dark")){
+localStorage.setItem(
 
+"theme",
 
-localStorage.setItem("theme","dark");
+document.body.classList.contains("dark")
+? "dark"
+: "light"
 
-
-}else{
-
-
-localStorage.setItem("theme","light");
-
-
-}
+);
 
 
 
-});
+};
 
 
 }
@@ -382,24 +313,9 @@ localStorage.setItem("theme","light");
 
 
 
-// ===============================
-// تشغيل عند فتح الصفحة
-// ===============================
-
-document.addEventListener("DOMContentLoaded",function(){
 
 
-updateCartCount();
-
-
-});
-
-
-
-
-// ===============================
 // شاشة التحميل
-// ===============================
 
 window.addEventListener("load",function(){
 
@@ -408,15 +324,12 @@ const loader =
 document.getElementById("loader");
 
 
-
 if(loader){
 
 
-setTimeout(function(){
-
+setTimeout(()=>{
 
 loader.classList.add("hide");
-
 
 },1200);
 
