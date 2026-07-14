@@ -43,7 +43,6 @@ async function loadProducts(){
             const product = item.data();
 
 
-            // عرض المنتجات حسب القسم
             if(
                 !category ||
                 product.category === category
@@ -54,19 +53,29 @@ async function loadProducts(){
 
 
                 const name = product.name || "منتج";
+
                 const price = Number(product.price) || 0;
+
+
                 const image = product.image || 
                 "5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png";
 
 
+
                 productsBox.innerHTML += `
+
 
                 <div class="product-card">
 
 
-                    <img src="${image}" 
+                    <img 
+                    src="${image}"
                     alt="${name}"
-                    onerror="this.src='5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'">
+                    loading="lazy"
+                    crossorigin="anonymous"
+                    onerror="this.onerror=null;this.src='5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png';"
+                    >
+
 
 
                     <div class="product-info">
@@ -83,7 +92,8 @@ async function loadProducts(){
 
 
 
-                        <button class="cart-btn"
+                        <button 
+                        class="cart-btn"
                         onclick="addToCart(
                         '${name.replace(/'/g,"\\'")}',
                         ${price},
@@ -95,10 +105,12 @@ async function loadProducts(){
                         </button>
 
 
+
                     </div>
 
 
                 </div>
+
 
                 `;
 
@@ -124,6 +136,7 @@ async function loadProducts(){
 
     }catch(error){
 
+
         console.log(error);
 
 
@@ -132,6 +145,7 @@ async function loadProducts(){
         حدث خطأ في تحميل المنتجات
         </h3>
         `;
+
 
     }
 
