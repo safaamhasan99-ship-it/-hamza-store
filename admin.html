@@ -1,41 +1,188 @@
-<div class="form-group">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-<label>القسم</label>
+<head>
 
-<select id="category">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<option value="رجالي">
-القسم الرجالي
-</option>
+<title>الداخليات الرجالي | مجمع حمزه الشطري</title>
 
-<option value="نسائي">
-القسم النسائي
-</option>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-<option value="ولادي">
-القسم الولادي
-</option>
 
-<option value="بناتي">
-القسم البناتي
-</option>
+<style>
 
-<option value="بنطرونات">
-قسم البنطرونات
-</option>
+*{
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
 
-<option value="الداخليات الرجالي">
-الداخليات الرجالي
-</option>
+body{
+margin:0;
+background:#f5f7fb;
+}
 
-<option value="جوارب">
-قسم الجوارب
-</option>
+header{
+background:#111;
+color:white;
+padding:20px;
+text-align:center;
+font-size:22px;
+font-weight:800;
+}
 
-<option value="حقائب">
-قسم الحقائب
-</option>
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+padding:20px;
+}
 
-</select>
+.card{
+background:white;
+border-radius:15px;
+padding:10px;
+text-align:center;
+box-shadow:0 3px 10px #ddd;
+}
+
+.card img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:12px;
+}
+
+.card h3{
+font-size:18px;
+}
+
+.price{
+color:#c28b00;
+font-size:18px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+قسم الداخليات الرجالي
+</header>
+
+
+<div class="products" id="products">
+
+جاري تحميل المنتجات...
 
 </div>
+
+
+
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const box=document.getElementById("products");
+
+
+async function loadProducts(){
+
+try{
+
+
+box.innerHTML="";
+
+
+const snapshot = await getDocs(
+collection(db,"products")
+);
+
+
+let found=false;
+
+
+
+snapshot.forEach((doc)=>{
+
+
+const p=doc.data();
+
+
+
+if(
+p.category=="الداخليات الرجالي" ||
+p.category=="داخليات"
+){
+
+
+found=true;
+
+
+box.innerHTML += `
+
+<div class="card">
+
+<img src="${p.image || ''}">
+
+<h3>
+${p.name || ''}
+</h3>
+
+<div class="price">
+${p.price || 0} د.ع
+</div>
+
+</div>
+
+`;
+
+}
+
+
+});
+
+
+
+if(!found){
+
+box.innerHTML="لا توجد منتجات";
+
+}
+
+
+}
+
+catch(error){
+
+console.log(error);
+
+box.innerHTML="حدث خطأ في تحميل المنتجات";
+
+}
+
+
+}
+
+
+
+loadProducts();
+
+
+</script>
+
+
+</body>
+</html>
