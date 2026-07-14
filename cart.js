@@ -1,13 +1,19 @@
 // cart.js
 
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
-// إصلاح الكمية
-cart = cart.map(item => ({
-    ...item,
-    qty: item.qty || 1
-}));
+// إصلاح الكمية القديمة
+
+cart = cart.map(item => {
+
+    return {
+        ...item,
+        qty: item.qty || item.quantity || 1
+    };
+
+});
 
 
 localStorage.setItem(
@@ -40,11 +46,18 @@ function renderCart(){
 
     if(cart.length === 0){
 
+
         cartItems.innerHTML = `
         <h3>السلة فارغة 🛒</h3>
         `;
 
-        cartTotal.innerText = "0";
+
+        if(cartTotal){
+
+            cartTotal.innerText="0";
+
+        }
+
 
         return;
 
@@ -52,13 +65,17 @@ function renderCart(){
 
 
 
+
     cart.forEach((item,index)=>{
 
 
-        let itemTotal = item.price * item.qty;
+        item.qty = item.qty || 1;
 
 
-        total += itemTotal;
+        let sum = item.price * item.qty;
+
+
+        total += sum;
 
 
 
@@ -80,7 +97,9 @@ function renderCart(){
 
 
                 <p class="price">
+
                 ${Number(item.price).toLocaleString()} د.ع
+
                 </p>
 
 
@@ -88,9 +107,12 @@ function renderCart(){
                 <div class="qty">
 
 
-                    <button onclick="changeQty(${index},1)">
+                    <button 
+                    class="qty-btn"
+                    onclick="changeQty(${index},1)">
                     +
                     </button>
+
 
 
                     <span>
@@ -98,7 +120,10 @@ function renderCart(){
                     </span>
 
 
-                    <button onclick="changeQty(${index},-1)">
+
+                    <button 
+                    class="qty-btn"
+                    onclick="changeQty(${index},-1)">
                     -
                     </button>
 
@@ -110,7 +135,8 @@ function renderCart(){
 
 
 
-            <button class="remove-btn"
+            <button 
+            class="remove-btn"
             onclick="removeItem(${index})">
 
             🗑 حذف
@@ -132,17 +158,23 @@ function renderCart(){
     total.toLocaleString();
 
 
+
+    saveCart();
+
+
 }
 
 
 
 
-// تغيير الكمية
+// زيادة ونقصان الكمية
 
-window.changeQty = function(index,amount){
+function changeQty(index,amount){
 
 
-    cart[index].qty += amount;
+    cart[index].qty =
+    (cart[index].qty || 1) + amount;
+
 
 
     if(cart[index].qty < 1){
@@ -152,19 +184,26 @@ window.changeQty = function(index,amount){
     }
 
 
+
     saveCart();
+
 
     renderCart();
 
 
-};
+}
+
+
+
+window.changeQty = changeQty;
+
 
 
 
 
 // حذف المنتج
 
-window.removeItem = function(index){
+function removeItem(index){
 
 
     cart.splice(index,1);
@@ -172,10 +211,16 @@ window.removeItem = function(index){
 
     saveCart();
 
+
     renderCart();
 
 
-};
+}
+
+
+
+window.removeItem = removeItem;
+
 
 
 
@@ -184,10 +229,12 @@ window.removeItem = function(index){
 
 function saveCart(){
 
+
     localStorage.setItem(
         "cart",
         JSON.stringify(cart)
     );
+
 
 }
 
@@ -195,9 +242,11 @@ function saveCart(){
 
 
 
-// واتساب
+
+// إرسال واتساب
 
 window.sendWhatsAppOrder = function(){
+
 
 
     if(cart.length === 0){
@@ -207,6 +256,7 @@ window.sendWhatsAppOrder = function(){
         return;
 
     }
+
 
 
     let name =
@@ -222,7 +272,7 @@ window.sendWhatsAppOrder = function(){
 
 
 
-    let message =
+    let message = 
 `🛒 طلب جديد - مجمع حمزه الشطري
 
 👤 الاسم: ${name}
@@ -236,24 +286,28 @@ window.sendWhatsAppOrder = function(){
 
 
 
-    let total = 0;
+    let total=0;
 
 
 
     cart.forEach(item=>{
 
 
-        let price = item.price * item.qty;
+        let price =
+        item.price * item.qty;
 
 
         total += price;
 
 
+
         message += `
 
 ${item.name}
+
 الكمية: ${item.qty}
-السعر: ${price} د.ع
+
+السعر: ${price.toLocaleString()} د.ع
 
 `;
 
@@ -262,19 +316,20 @@ ${item.name}
 
 
     message += `
+
 💰 المجموع:
-${total} د.ع
+${total.toLocaleString()} د.ع
 `;
 
 
 
-    let url =
+    let link =
     "https://wa.me/9647813555538?text="
     + encodeURIComponent(message);
 
 
 
-    window.open(url,"_blank");
+    window.open(link,"_blank");
 
 
 };
