@@ -849,3 +849,179 @@ box-shadow:0 5px 15px #0003;
 transform:scale(1.1);
 
 }
+/* ===== أقسام المتجر الاحترافية ===== */
+
+.category-list{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:25px;
+
+padding:25px;
+
+}
+
+
+.category-list a{
+
+background:#fff;
+
+padding:15px 10px;
+
+border-radius:25px;
+
+text-decoration:none;
+
+text-align:center;
+
+box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+transition:.3s;
+
+border:1px solid #eee;
+
+}
+
+
+.category-list a:hover{
+
+transform:translateY(-8px);
+
+}
+
+
+.category-list img{
+
+width:120px;
+
+height:120px;
+
+object-fit:cover;
+
+border-radius:50%;
+
+border:5px solid #fff;
+
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+
+}
+
+
+
+.category-list span{
+
+display:block;
+
+margin-top:12px;
+
+font-size:17px;
+
+font-weight:800;
+
+color:#111827;
+
+}
+
+
+
+/* ألوان الأقسام */
+
+.category-list a:nth-child(1) img{
+
+border-color:#2563eb;
+
+}
+
+
+.category-list a:nth-child(2) img{
+
+border-color:#ec4899;
+
+}
+
+
+.category-list a:nth-child(3) img{
+
+border-color:#16a34a;
+
+}
+
+
+.category-list a:nth-child(4) img{
+
+border-color:#f97316;
+
+}
+
+
+.category-list a:nth-child(5) img{
+
+border-color:#7c3aed;
+
+}
+
+
+.category-list a:nth-child(6) img{
+
+border-color:#0891b2;
+
+}
+
+
+.category-list a:nth-child(7) img{
+
+border-color:#dc2626;
+
+}
+
+
+.category-list a:nth-child(8) img{
+
+border-color:#ca8a04;
+
+}
+
+
+
+/* موبايل */
+
+@media(max-width:600px){
+
+.category-list{
+
+grid-template-columns:repeat(3,1fr);
+
+gap:15px;
+
+padding:15px;
+
+}
+
+
+.category-list a{
+
+padding:10px 5px;
+
+border-radius:20px;
+
+}
+
+
+.category-list img{
+
+width:85px;
+
+height:85px;
+
+}
+
+
+.category-list span{
+
+font-size:14px;
+
+}
+
+}
