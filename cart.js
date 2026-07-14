@@ -4,13 +4,20 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
-// إصلاح الكمية القديمة
+// إصلاح الكمية والسعر
 
 cart = cart.map(item => {
 
     return {
-        ...item,
-        qty: item.qty || item.quantity || 1
+
+        name: item.name || "",
+
+        price: Number(item.price) || 0,
+
+        image: item.image || "",
+
+        qty: Number(item.qty || item.quantity || 1)
+
     };
 
 });
@@ -24,6 +31,7 @@ localStorage.setItem(
 
 
 const cartItems = document.getElementById("cartItems");
+
 const cartTotal = document.getElementById("cartTotal");
 
 
@@ -47,9 +55,8 @@ function renderCart(){
     if(cart.length === 0){
 
 
-        cartItems.innerHTML = `
-        <h3>السلة فارغة 🛒</h3>
-        `;
+        cartItems.innerHTML =
+        "<h3>السلة فارغة 🛒</h3>";
 
 
         if(cartTotal){
@@ -66,13 +73,12 @@ function renderCart(){
 
 
 
+
     cart.forEach((item,index)=>{
 
 
-        item.qty = item.qty || 1;
-
-
-        let sum = item.price * item.qty;
+        let sum =
+        item.price * item.qty;
 
 
         total += sum;
@@ -97,9 +103,7 @@ function renderCart(){
 
 
                 <p class="price">
-
-                ${Number(item.price).toLocaleString()} د.ع
-
+                ${item.price.toLocaleString()} د.ع
                 </p>
 
 
@@ -107,9 +111,7 @@ function renderCart(){
                 <div class="qty">
 
 
-                    <button 
-                    class="qty-btn"
-                    onclick="changeQty(${index},1)">
+                    <button onclick="changeQty(${index},1)">
                     +
                     </button>
 
@@ -121,9 +123,7 @@ function renderCart(){
 
 
 
-                    <button 
-                    class="qty-btn"
-                    onclick="changeQty(${index},-1)">
+                    <button onclick="changeQty(${index},-1)">
                     -
                     </button>
 
@@ -135,13 +135,14 @@ function renderCart(){
 
 
 
-            <button 
-            class="remove-btn"
+
+            <button class="remove-btn"
             onclick="removeItem(${index})">
 
             🗑 حذف
 
             </button>
+
 
 
         </div>
@@ -159,21 +160,18 @@ function renderCart(){
 
 
 
-    saveCart();
-
-
 }
 
 
 
 
-// زيادة ونقصان الكمية
 
-function changeQty(index,amount){
+// تغيير الكمية
+
+window.changeQty = function(index,amount){
 
 
-    cart[index].qty =
-    (cart[index].qty || 1) + amount;
+    cart[index].qty += amount;
 
 
 
@@ -187,15 +185,10 @@ function changeQty(index,amount){
 
     saveCart();
 
-
     renderCart();
 
 
-}
-
-
-
-window.changeQty = changeQty;
+};
 
 
 
@@ -203,7 +196,7 @@ window.changeQty = changeQty;
 
 // حذف المنتج
 
-function removeItem(index){
+window.removeItem = function(index){
 
 
     cart.splice(index,1);
@@ -211,15 +204,11 @@ function removeItem(index){
 
     saveCart();
 
-
     renderCart();
 
 
-}
+};
 
-
-
-window.removeItem = removeItem;
 
 
 
@@ -243,7 +232,8 @@ function saveCart(){
 
 
 
-// إرسال واتساب
+
+// واتساب
 
 window.sendWhatsAppOrder = function(){
 
@@ -251,7 +241,9 @@ window.sendWhatsAppOrder = function(){
 
     if(cart.length === 0){
 
+
         alert("السلة فارغة");
+
 
         return;
 
@@ -259,45 +251,27 @@ window.sendWhatsAppOrder = function(){
 
 
 
-    let name =
-    document.getElementById("customerName").value;
+    let message =
 
-
-    let phone =
-    document.getElementById("customerPhone").value;
-
-
-    let address =
-    document.getElementById("customerAddress").value;
-
-
-
-    let message = 
 `🛒 طلب جديد - مجمع حمزه الشطري
-
-👤 الاسم: ${name}
-
-📱 الهاتف: ${phone}
-
-📍 العنوان: ${address}
 
 📦 المنتجات:
 `;
 
 
 
-    let total=0;
+    let total = 0;
 
 
 
     cart.forEach(item=>{
 
 
-        let price =
+        let sum =
         item.price * item.qty;
 
 
-        total += price;
+        total += sum;
 
 
 
@@ -307,7 +281,7 @@ ${item.name}
 
 الكمية: ${item.qty}
 
-السعر: ${price.toLocaleString()} د.ع
+السعر: ${sum.toLocaleString()} د.ع
 
 `;
 
@@ -323,13 +297,15 @@ ${total.toLocaleString()} د.ع
 
 
 
-    let link =
+    let url =
+
     "https://wa.me/9647813555538?text="
+
     + encodeURIComponent(message);
 
 
 
-    window.open(link,"_blank");
+    window.open(url,"_blank");
 
 
 };
