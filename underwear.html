@@ -121,3 +121,66 @@ return;
 }
 
 let found=false;
+  snapshot.forEach((doc)=>{
+
+const p=doc.data();
+
+const category=(p.category || "").trim();
+
+if(
+category==="قسم الداخليات الرجالي" ||
+category==="الداخليات الرجالي" ||
+category==="داخليات" ||
+category==="underwear"
+){
+
+found=true;
+
+box.innerHTML += `
+
+<div class="card">
+
+<img src="${p.image || 'https://via.placeholder.com/300x400?text=No+Image'}" alt="${p.name || ''}">
+
+<h3>${p.name || 'بدون اسم'}</h3>
+
+<div class="price">
+${Number(p.price || 0).toLocaleString()} د.ع
+</div>
+
+</div>
+
+`;
+
+}
+
+});
+
+if(!found){
+
+box.innerHTML="<div class='msg'>لا توجد منتجات ضمن قسم الداخليات الرجالي</div>";
+
+}
+
+}catch(error){
+
+console.error(error);
+
+box.innerHTML=`
+<div class="msg">
+حدث خطأ أثناء تحميل المنتجات
+<br><br>
+${error.message}
+</div>
+`;
+
+}
+
+}
+
+loadProducts();
+
+</script>
+
+</body>
+</html>
