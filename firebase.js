@@ -1,185 +1,31 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
+// firebase.js
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>الداخليات الرجالي | مجمع حمزه الشطري</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-body{
-background:#f5f7fb;
-}
-
-header{
-background:#111;
-color:#fff;
-padding:18px;
-text-align:center;
-font-size:24px;
-font-weight:bold;
-}
-
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:15px;
-padding:20px;
-}
-
-.card{
-background:#fff;
-border-radius:15px;
-overflow:hidden;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-}
-
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-background:#eee;
-}
-
-.card h3{
-padding:10px;
-font-size:18px;
-text-align:center;
-}
-
-.price{
-text-align:center;
-color:#c28b00;
-font-size:20px;
-font-weight:bold;
-padding-bottom:15px;
-}
-
-.msg{
-text-align:center;
-padding:40px;
-font-size:22px;
-font-weight:bold;
-grid-column:1/-1;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-قسم الداخليات الرجالي
-</header>
-
-<div id="products" class="products">
-<div class="msg">جاري تحميل المنتجات...</div>
-</div>
-
-<script type="module">
-
-import { db } from "./firebase.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-collection,
-getDocs
+  getFirestore
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const box=document.getElementById("products");
+import {
+  getStorage
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-async function loadProducts(){
+import {
+  getAuth
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-try{
+const firebaseConfig = {
+  apiKey: "AIzaSyCcaOIwNodH5IESCShyYQkpHBFiywzIi-4",
+  authDomain: "hamza-shatri-store.firebaseapp.com",
+  projectId: "hamza-shatri-store",
+  storageBucket: "hamza-shatri-store.firebasestorage.app",
+  messagingSenderId: "372483512160",
+  appId: "1:372483512160:web:b594dd13f4774db6d13005",
+  measurementId: "G-B98RK4FDZ9"
+};
 
-const snap=await getDocs(collection(db,"products"));
+const app = initializeApp(firebaseConfig);
 
-console.log("عدد المنتجات:",snap.size);
-
-box.innerHTML="";
-
-if(snap.empty){
-
-box.innerHTML="<div class='msg'>لا توجد منتجات داخل Firebase</div>";
-return;
-
-}
-
-let found=false;
-
-snap.forEach((doc)=>{
-
-const p=doc.data();
-
-const category=(p.category || "").trim();
-
-if(
-category.includes("داخليات") ||
-category.includes("رجالي")
-){
-
-found=true;
-
-box.innerHTML+=`
-
-<div class="card">
-
-<img src="${p.image || 'https://via.placeholder.com/300x400?text=No+Image'}" alt="${p.name || ''}">
-
-<h3>${p.name || "بدون اسم"}</h3>
-
-<div class="price">
-${Number(p.price || 0).toLocaleString()} د.ع
-</div>
-
-</div>
-
-`;
-
-}
-
-});
-
-if(!found){
-
-box.innerHTML="<div class='msg'>لا يوجد أي منتج ضمن قسم الداخليات الرجالي</div>";
-
-}
-
-}catch(error){
-
-console.error(error);
-
-box.innerHTML=`
-<div class="msg">
-حدث خطأ أثناء تحميل المنتجات<br><br>
-${error.message}
-</div>
-`;
-
-}
-
-}
-
-loadProducts();
-
-</script>
-
-</body>
-</html>
+export const db = getFirestore(app);
+export const storage = getStorage(app);
+export const auth = getAuth(app);
