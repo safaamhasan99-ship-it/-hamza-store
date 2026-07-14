@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 
 <meta charset="UTF-8">
@@ -10,264 +9,173 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-
 <style>
 
 *{
+margin:0;
+padding:0;
 box-sizing:border-box;
 font-family:'Cairo',sans-serif;
 }
 
-
 body{
-margin:0;
 background:#f5f7fb;
 }
 
-
 header{
-
 background:#111;
-color:white;
-padding:20px;
+color:#fff;
+padding:18px;
 text-align:center;
-font-size:22px;
-font-weight:800;
-
+font-size:24px;
+font-weight:bold;
 }
 
-
-
 .products{
-
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:15px;
 padding:20px;
-
 }
-
-
 
 .card{
-
-background:white;
+background:#fff;
 border-radius:15px;
-padding:10px;
-text-align:center;
-box-shadow:0 3px 10px #ddd;
-
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
-
-
 
 .card img{
-
 width:100%;
-height:200px;
+height:220px;
 object-fit:cover;
-border-radius:12px;
-
+background:#eee;
 }
-
-
 
 .card h3{
-
+padding:10px;
 font-size:18px;
-
+text-align:center;
 }
-
-
 
 .price{
-
+text-align:center;
 color:#c28b00;
-font-size:18px;
+font-size:20px;
 font-weight:bold;
-
+padding-bottom:15px;
 }
 
-
+.msg{
+text-align:center;
+padding:40px;
+font-size:22px;
+font-weight:bold;
+}
 
 </style>
 
-
 </head>
-
-
 
 <body>
 
-
-
 <header>
-
 قسم الداخليات الرجالي
-
 </header>
 
-
-
-<div class="products" id="products">
-
-جاري تحميل المنتجات...
-
+<div id="products" class="products">
+<div class="msg">جاري تحميل المنتجات...</div>
 </div>
-
-
-
 
 <script type="module">
 
-
 import { db } from "./firebase.js";
 
-
 import {
-
 collection,
 getDocs
-
-}
-
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const box=document.getElementById("products");
 
-
-
 async function loadProducts(){
-
 
 try{
 
+const snap=await getDocs(collection(db,"products"));
 
-const snap = await getDocs(
-collection(db,"products")
-);
-
-
-
-console.log("عدد المنتجات:", snap.size);
-
-
+console.log("عدد المنتجات:",snap.size);
 
 box.innerHTML="";
 
+if(snap.empty){
+
+box.innerHTML="<div class='msg'>لا توجد أي منتجات داخل Firebase</div>";
+return;
+
+}
 
 let found=false;
 
-
-
 snap.forEach((doc)=>{
 
-
-let p=doc.data();
-
-
+const p=doc.data();
 
 console.log(p);
 
-
-
 if(
-
-p.category==="الداخليات الرجالي"
-
-||
-
+p.category==="الداخليات الرجالي" ||
 p.category==="داخليات"
-
 ){
-
 
 found=true;
 
-
-
-box.innerHTML += `
-
+box.innerHTML+=`
 
 <div class="card">
 
+<img src="${p.image || ''}" alt="">
 
-<img src="${p.image || ''}">
-
-
-
-<h3>
-
-${p.name || 'بدون اسم'}
-
-</h3>
-
-
+<h3>${p.name || "بدون اسم"}</h3>
 
 <div class="price">
-
-${p.price || 0} د.ع
-
+${Number(p.price||0).toLocaleString()} د.ع
 </div>
 
-
 </div>
-
 
 `;
 
-
-
 }
-
-
 
 });
 
-
-
-
 if(!found){
 
-box.innerHTML="لا توجد منتجات";
+box.innerHTML="<div class='msg'>لا يوجد أي منتج ضمن قسم الداخليات الرجالي</div>";
 
 }
 
-
-
 }
-
-
 
 catch(error){
 
+console.error(error);
 
-console.log(error);
-
-
-box.innerHTML=
-
-"خطأ: "+error.message;
-
-
-}
-
-
+box.innerHTML=`
+<div class="msg">
+حدث خطأ<br><br>
+${error.message}
+</div>
+`;
 
 }
 
-
+}
 
 loadProducts();
 
-
-
 </script>
 
-
-
 </body>
-
 </html>
