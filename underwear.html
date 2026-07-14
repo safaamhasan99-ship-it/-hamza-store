@@ -2,188 +2,145 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>قسم الداخليات | مجمع حمزه الشطري</title>
+<title>الداخليات الرجالي | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="style.css">
+<style>
+*{
+    box-sizing:border-box;
+    font-family:'Cairo',sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f5f7fb;
+}
+
+header{
+    background:#111;
+    color:white;
+    padding:20px;
+    text-align:center;
+    font-size:22px;
+    font-weight:800;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:10px;
+    text-align:center;
+    box-shadow:0 3px 10px #ddd;
+}
+
+.card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.card h3{
+    font-size:18px;
+}
+
+.price{
+    color:#c28b00;
+    font-size:18px;
+    font-weight:bold;
+}
+</style>
 
 </head>
 
-
 <body>
 
-
-<header class="header">
-
-
-<div class="brand">
-
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-
-<div>
-
-<h1>
-مجمع حمزه الشطري
-</h1>
-
-<p>
-قسم الداخليات
-</p>
-
-</div>
-
-
-</div>
-
-
+<header>
+قسم الداخليات الرجالي
 </header>
 
 
-
-
-
-<section class="products">
-
-
-<h2 class="title">
-
-🩲 الداخليات
-
-</h2>
-
-
-
-<div class="products-grid">
-
-
-
-<div class="product-card">
-
-
-<img src="IMG_5667.jpeg">
-
-
-<div class="product-info">
-
-
-<h3>
-داخليات رجالية
-</h3>
-
-
-<p>
-قطنيات وخامات مريحة
-</p>
-
-
-<p class="price">
-12,000 د.ع
-</p>
-
-
-
-<button class="cart-btn"
-onclick="addToCart('داخليات رجالية',12000,'IMG_5667.jpeg')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
+<div class="products" id="products">
+جاري تحميل المنتجات...
 </div>
 
 
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const box=document.getElementById("products");
+
+
+async function loadProducts(){
+
+box.innerHTML="";
+
+
+const snap=await getDocs(collection(db,"products"));
+
+
+snap.forEach((doc)=>{
+
+let p=doc.data();
+
+
+if(p.category==="الداخليات الرجالي"){
+
+
+box.innerHTML+=`
+
+<div class="card">
+
+<img src="${p.image}">
+
+<h3>${p.name}</h3>
+
+<div class="price">
+${p.price} د.ع
 </div>
-
-
-
-
-
-<div class="product-card">
-
-
-<img src="IMG_5667.jpeg">
-
-
-<div class="product-info">
-
-
-<h3>
-ملابس داخلية متنوعة
-</h3>
-
-
-<p>
-جودة عالية وأسعار جملة
-</p>
-
-
-<p class="price">
-أسعار خاصة للتجار
-
-</p>
-
-
-
-<button class="cart-btn"
-onclick="addToCart('ملابس داخلية متنوعة',12000,'IMG_5667.jpeg')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
 
 </div>
 
+`;
 
-</section>
-
-
-
+}
 
 
-<nav class="bottom-nav">
+});
 
 
-<a href="index.html">
-🏠 الرئيسية
-</a>
+if(box.innerHTML===""){
+box.innerHTML="لا توجد منتجات";
+}
 
 
-<a href="cart.html">
-🛒 السلة
-</a>
+}
 
 
-<a href="about.html">
-ℹ️ من نحن
-</a>
+loadProducts();
 
 
-</nav>
-
-
-
-
-<script src="script.js"></script>
+</script>
 
 
 </body>
-
 </html>
