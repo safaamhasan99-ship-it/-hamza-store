@@ -7,38 +7,28 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title>سلة المشتريات | مجمع حمزه الشطري</title>
 
-
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-
 
 <link rel="stylesheet" href="style.css">
 
 
 <style>
 
-
 .cart-page{
-
 max-width:1100px;
 margin:auto;
 padding:20px;
-
 }
 
 
-
 .cart-title{
-
 text-align:center;
 font-size:28px;
 font-weight:800;
 margin-bottom:25px;
-
 }
-
 
 
 .cart-grid{
@@ -50,7 +40,6 @@ gap:20px;
 }
 
 
-
 .cart-box,
 .order-box{
 
@@ -60,7 +49,6 @@ border-radius:20px;
 box-shadow:0 8px 25px rgba(0,0,0,.08);
 
 }
-
 
 
 .cart-item{
@@ -76,7 +64,6 @@ border-radius:15px;
 }
 
 
-
 .cart-item img{
 
 width:90px;
@@ -87,21 +74,11 @@ border-radius:15px;
 }
 
 
-
 .cart-info{
 
 flex:1;
 
 }
-
-
-
-.cart-info h3{
-
-margin:0 0 10px;
-
-}
-
 
 
 .price{
@@ -112,7 +89,6 @@ font-weight:bold;
 }
 
 
-
 .qty{
 
 display:flex;
@@ -121,7 +97,6 @@ gap:10px;
 margin-top:10px;
 
 }
-
 
 
 .qty button{
@@ -138,7 +113,6 @@ cursor:pointer;
 }
 
 
-
 .remove-btn{
 
 background:#d9534f;
@@ -149,7 +123,6 @@ border-radius:8px;
 cursor:pointer;
 
 }
-
 
 
 .order-box input,
@@ -166,14 +139,11 @@ font-family:Cairo;
 }
 
 
-
 .order-box textarea{
 
 height:100px;
-resize:none;
 
 }
-
 
 
 .whatsapp-btn{
@@ -191,7 +161,6 @@ cursor:pointer;
 }
 
 
-
 #cartTotal{
 
 color:#c79b3b;
@@ -202,17 +171,7 @@ font-weight:bold;
 
 
 
-/* الموبايل */
-
 @media(max-width:700px){
-
-
-.cart-page{
-
-padding:10px;
-
-}
-
 
 .cart-grid{
 
@@ -243,25 +202,17 @@ height:75px;
 
 }
 
-
-.cart-title{
-
-font-size:22px;
-
 }
-
-
-}
-
 
 
 </style>
 
-
 </head>
 
 
+
 <body>
+
 
 
 <header class="header">
@@ -287,9 +238,7 @@ font-size:22px;
 
 
 <h2 class="cart-title">
-
 🛒 سلة الطلب
-
 </h2>
 
 
@@ -299,7 +248,6 @@ font-size:22px;
 
 
 <div class="cart-box">
-
 
 <h3>
 📦 المنتجات
@@ -316,7 +264,6 @@ font-size:22px;
 
 
 
-
 <div class="order-box">
 
 
@@ -326,7 +273,7 @@ font-size:22px;
 
 
 
-<input 
+<input
 id="customerName"
 placeholder="اسم الزبون">
 
@@ -348,9 +295,7 @@ placeholder="العنوان"></textarea>
 <h3>
 
 المجموع:
-<span id="cartTotal">
-0
-</span>
+<span id="cartTotal">0</span>
 
 د.ع
 
@@ -410,7 +355,6 @@ onclick="sendWhatsAppOrder()">
 
 
 </nav>
-
 
 
 
