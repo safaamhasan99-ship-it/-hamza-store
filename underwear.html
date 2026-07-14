@@ -10,7 +10,6 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-
 <style>
 
 *{
@@ -23,7 +22,6 @@ margin:0;
 background:#f5f7fb;
 }
 
-
 header{
 background:#111;
 color:white;
@@ -33,58 +31,41 @@ font-size:22px;
 font-weight:800;
 }
 
-
 .products{
-
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:15px;
 padding:20px;
-
 }
 
-
 .card{
-
 background:white;
 border-radius:15px;
 padding:10px;
 text-align:center;
 box-shadow:0 3px 10px #ddd;
-
 }
 
-
 .card img{
-
 width:100%;
 height:200px;
 object-fit:cover;
 border-radius:12px;
-
 }
-
 
 .card h3{
-
 font-size:18px;
-
 }
 
-
 .price{
-
 color:#c28b00;
 font-size:18px;
 font-weight:bold;
-
 }
 
 </style>
 
-
 </head>
-
 
 
 <body>
@@ -95,13 +76,11 @@ font-weight:bold;
 </header>
 
 
-
 <div class="products" id="products">
 
 جاري تحميل المنتجات...
 
 </div>
-
 
 
 
@@ -112,10 +91,8 @@ import { db } from "./firebase.js";
 
 
 import {
-
 collection,
 getDocs
-
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -131,16 +108,12 @@ async function loadProducts(){
 try{
 
 
-box.innerHTML="يتم تحميل المنتجات...";
+box.innerHTML="جاري تحميل المنتجات...";
 
 
-const snap = await getDocs(
+const snapshot = await getDocs(
 collection(db,"products")
 );
-
-
-
-console.log("عدد المنتجات:", snap.size);
 
 
 
@@ -151,23 +124,24 @@ let found=false;
 
 
 
-snap.forEach((doc)=>{
+snapshot.forEach((doc)=>{
 
 
-const p = doc.data();
-
-
-console.log(p);
-
-
-
-const category = p.category || "";
+const p=doc.data();
 
 
 
 if(
 
-category.includes("داخلي")
+p.category=="الداخليات الرجالي"
+
+||
+
+p.category=="داخليات"
+
+||
+
+p.category=="underwear"
 
 ){
 
@@ -178,7 +152,6 @@ found=true;
 
 box.innerHTML += `
 
-
 <div class="card">
 
 
@@ -187,10 +160,9 @@ box.innerHTML += `
 
 <h3>
 
-${p.name || 'بدون اسم'}
+${p.name || ''}
 
 </h3>
-
 
 
 <div class="price">
@@ -200,16 +172,11 @@ ${p.price || 0} د.ع
 </div>
 
 
-
 </div>
-
 
 `;
 
-
-
 }
-
 
 
 });
@@ -223,9 +190,7 @@ box.innerHTML="لا توجد منتجات";
 }
 
 
-
 }
-
 
 
 catch(error){
@@ -234,11 +199,10 @@ catch(error){
 console.log(error);
 
 
-box.innerHTML="خطأ: "+error.message;
+box.innerHTML="حدث خطأ في تحميل المنتجات";
 
 
 }
-
 
 
 }
@@ -250,7 +214,6 @@ loadProducts();
 
 
 </script>
-
 
 
 </body>
