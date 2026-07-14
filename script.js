@@ -8,7 +8,7 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 
-// إصلاح بيانات السلة القديمة
+// إصلاح بيانات السلة
 
 cart = cart.map(item => {
 
@@ -39,12 +39,10 @@ localStorage.setItem(
 
 function updateCartCount(){
 
-
     const count = document.getElementById("cartCount");
 
 
     if(count){
-
 
         let total = 0;
 
@@ -57,7 +55,6 @@ function updateCartCount(){
 
 
         count.innerText = total;
-
 
     }
 
@@ -122,9 +119,7 @@ window.addToCart = function(name,price,image){
     );
 
 
-
     updateCartCount();
-
 
 
     alert("✅ تمت إضافة المنتج إلى السلة");
@@ -142,16 +137,14 @@ window.addToCart = function(name,price,image){
 window.addToFavorites = function(name,price,image){
 
 
-    let exists =
-    favorites.find(
-        item=>item.name === name
+    let exists = favorites.find(
+        item => item.name === name
     );
-
 
 
     if(exists){
 
-        alert("❤️ المنتج موجود");
+        alert("❤️ المنتج موجود في المفضلة");
 
         return;
 
@@ -175,7 +168,6 @@ window.addToFavorites = function(name,price,image){
         "favorites",
         JSON.stringify(favorites)
     );
-
 
 
     alert("❤️ تمت الإضافة للمفضلة");
@@ -226,6 +218,7 @@ const searchInput =
 document.getElementById("searchInput");
 
 
+
 if(searchInput){
 
 
@@ -242,17 +235,19 @@ document.querySelectorAll(".product-card")
 
 
 let title =
-product.querySelector("h3")
-.textContent
-.toLowerCase();
+product.querySelector("h3");
 
+
+if(title){
 
 
 product.style.display =
-title.includes(value)
+title.innerText.toLowerCase().includes(value)
 ? ""
 : "none";
 
+
+}
 
 
 });
@@ -268,38 +263,44 @@ title.includes(value)
 
 
 
+// ========================
 // الوضع الليلي
+// ========================
+
 
 const darkBtn =
 document.getElementById("darkBtn");
 
 
 
-if(localStorage.getItem("theme") === "dark"){
+// تشغيل الوضع المحفوظ
 
-document.body.classList.add("dark");
+if(localStorage.getItem("darkMode") === "true"){
+
+    document.body.classList.add("dark-mode");
 
 }
 
 
 
+
+// زر الوضع الليلي
+
 if(darkBtn){
 
 
-darkBtn.onclick=function(){
+darkBtn.onclick = function(){
 
 
-document.body.classList.toggle("dark");
+document.body.classList.toggle("dark-mode");
 
 
 
 localStorage.setItem(
 
-"theme",
+"darkMode",
 
-document.body.classList.contains("dark")
-? "dark"
-: "light"
+document.body.classList.contains("dark-mode")
 
 );
 
