@@ -43,6 +43,11 @@ background:#fff;
 border-radius:15px;
 overflow:hidden;
 box-shadow:0 5px 15px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
 }
 
 .card img{
@@ -71,6 +76,7 @@ text-align:center;
 padding:40px;
 font-size:22px;
 font-weight:bold;
+grid-column:1/-1;
 }
 
 </style>
@@ -110,7 +116,7 @@ box.innerHTML="";
 
 if(snap.empty){
 
-box.innerHTML="<div class='msg'>لا توجد أي منتجات داخل Firebase</div>";
+box.innerHTML="<div class='msg'>لا توجد منتجات داخل Firebase</div>";
 return;
 
 }
@@ -121,11 +127,11 @@ snap.forEach((doc)=>{
 
 const p=doc.data();
 
-console.log(p);
+const category=(p.category || "").trim();
 
 if(
-p.category==="الداخليات الرجالي" ||
-p.category==="داخليات"
+category.includes("داخليات") ||
+category.includes("رجالي")
 ){
 
 found=true;
@@ -134,12 +140,12 @@ box.innerHTML+=`
 
 <div class="card">
 
-<img src="${p.image || ''}" alt="">
+<img src="${p.image || 'https://via.placeholder.com/300x400?text=No+Image'}" alt="${p.name || ''}">
 
 <h3>${p.name || "بدون اسم"}</h3>
 
 <div class="price">
-${Number(p.price||0).toLocaleString()} د.ع
+${Number(p.price || 0).toLocaleString()} د.ع
 </div>
 
 </div>
@@ -156,15 +162,13 @@ box.innerHTML="<div class='msg'>لا يوجد أي منتج ضمن قسم الد
 
 }
 
-}
-
-catch(error){
+}catch(error){
 
 console.error(error);
 
 box.innerHTML=`
 <div class="msg">
-حدث خطأ<br><br>
+حدث خطأ أثناء تحميل المنتجات<br><br>
 ${error.message}
 </div>
 `;
