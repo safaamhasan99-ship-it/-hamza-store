@@ -1,11 +1,8 @@
 // admin-products.js
 
-
 import { db } from "./firebase.js";
 
-
 import {
-
 collection,
 addDoc,
 getDocs,
@@ -13,38 +10,23 @@ doc,
 deleteDoc,
 updateDoc,
 serverTimestamp
-
 }
-
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 
 
 // عناصر الصفحة
 
 const name = document.getElementById("name");
-
 const price = document.getElementById("price");
-
 const category = document.getElementById("category");
-
 const sizes = document.getElementById("sizes");
-
 const colors = document.getElementById("colors");
-
 const quantity = document.getElementById("quantity");
-
 const description = document.getElementById("description");
-
 const image = document.getElementById("image");
 
-const offer = document.getElementById("offer");
-
-
 const saveBtn = document.getElementById("saveBtn");
-
 const productsList = document.getElementById("products");
-
 
 
 let editId = null;
@@ -55,13 +37,10 @@ let editId = null;
 
 async function loadProducts(){
 
-
 if(!productsList) return;
 
 
-productsList.innerHTML =
-"جاري تحميل المنتجات...";
-
+productsList.innerHTML="جاري تحميل المنتجات...";
 
 
 try{
@@ -73,61 +52,55 @@ collection(db,"products")
 
 
 
-productsList.innerHTML = "";
+productsList.innerHTML="";
+
+
+if(snap.empty){
+
+productsList.innerHTML="لا توجد منتجات";
+
+return;
+
+}
 
 
 
 snap.forEach((item)=>{
 
 
-const p = item.data();
-
+const p=item.data();
 
 
 productsList.innerHTML += `
 
-
 <div class="product-box">
 
-
-<img src="${p.image || ''}" width="100">
-
+<img src="${p.image || ''}" width="120">
 
 <h3>${p.name || ''}</h3>
-
 
 <p>
 السعر: ${p.price || 0}
 </p>
-
 
 <p>
 القسم: ${p.category || ''}
 </p>
 
 
-
 <button onclick="editProduct('${item.id}')">
-
 ✏️ تعديل
-
 </button>
 
 
-
 <button onclick="deleteProduct('${item.id}')">
-
 🗑 حذف
-
 </button>
 
 
 </div>
 
-
 `;
-
-
 
 });
 
@@ -136,20 +109,14 @@ productsList.innerHTML += `
 
 catch(error){
 
-
 console.log(error);
 
-
-productsList.innerHTML =
-"حدث خطأ في تحميل المنتجات";
-
+productsList.innerHTML="حدث خطأ في تحميل المنتجات";
 
 }
 
 
-
 }
-
 
 
 loadProducts();
@@ -157,42 +124,32 @@ loadProducts();
 
 
 
-
 // حفظ المنتج
+
+if(saveBtn){
+
 
 saveBtn.onclick = async function(){
 
 
-
-const product = {
+const product={
 
 
 name:name.value.trim(),
 
-
 price:price.value.trim(),
-
 
 category:category.value,
 
-
 sizes:sizes.value.trim(),
-
 
 colors:colors.value.trim(),
 
-
 quantity:quantity.value.trim(),
-
 
 description:description.value.trim(),
 
-
 image:image.value.trim(),
-
-
-offer:offer ? offer.checked : false,
-
 
 time:serverTimestamp()
 
@@ -201,13 +158,10 @@ time:serverTimestamp()
 
 
 
-
 try{
 
 
-
 if(editId){
-
 
 
 await updateDoc(
@@ -219,7 +173,6 @@ product
 );
 
 
-
 alert("تم تعديل المنتج");
 
 
@@ -227,7 +180,6 @@ editId=null;
 
 
 saveBtn.innerText="💾 حفظ المنتج";
-
 
 
 }
@@ -244,7 +196,6 @@ product
 );
 
 
-
 alert("تم إضافة المنتج");
 
 
@@ -252,6 +203,8 @@ alert("تم إضافة المنتج");
 
 
 
+
+// تفريغ الحقول
 
 name.value="";
 
@@ -269,8 +222,6 @@ description.value="";
 
 image.value="";
 
-if(offer) offer.checked=false;
-
 
 
 loadProducts();
@@ -280,12 +231,10 @@ loadProducts();
 }
 
 
-
 catch(error){
 
 
 console.log(error);
-
 
 alert("حدث خطأ أثناء الحفظ");
 
@@ -297,6 +246,8 @@ alert("حدث خطأ أثناء الحفظ");
 };
 
 
+}
+
 
 
 
@@ -305,9 +256,7 @@ alert("حدث خطأ أثناء الحفظ");
 window.deleteProduct = async function(id){
 
 
-
 if(!confirm("هل تريد حذف المنتج؟")) return;
-
 
 
 try{
@@ -320,27 +269,21 @@ doc(db,"products",id)
 );
 
 
-
 alert("تم حذف المنتج");
 
 
 loadProducts();
 
 
-
 }
 
 catch(error){
 
-
 console.log(error);
-
 
 alert("حدث خطأ أثناء الحذف");
 
-
 }
-
 
 
 };
@@ -355,7 +298,6 @@ alert("حدث خطأ أثناء الحذف");
 window.editProduct = async function(id){
 
 
-
 try{
 
 
@@ -368,9 +310,7 @@ collection(db,"products")
 snap.forEach((item)=>{
 
 
-
-if(item.id === id){
-
+if(item.id===id){
 
 
 const p=item.data();
@@ -393,8 +333,6 @@ description.value=p.description || "";
 
 image.value=p.image || "";
 
-if(offer) offer.checked=p.offer || false;
-
 
 
 editId=id;
@@ -416,9 +354,7 @@ behavior:"smooth"
 }
 
 
-
 });
-
 
 
 }
@@ -428,12 +364,10 @@ catch(error){
 
 console.log(error);
 
-
 alert("حدث خطأ بجلب المنتج");
 
 
 }
-
 
 
 };
@@ -441,6 +375,7 @@ alert("حدث خطأ بجلب المنتج");
 
 
 
+// تحديث يدوي
 
 window.refreshProducts=function(){
 
