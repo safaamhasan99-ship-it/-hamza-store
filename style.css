@@ -489,35 +489,72 @@ font-size:28px;
 color:#25D366;
 margin:0 8px;
 }
-/*========================
-الوضع الليلي
-========================*/
+/* زر الوضع الليلي الاحترافي */
 
-body.dark{
+.theme-toggle{
+
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+
 background:#111827;
 color:#fff;
+
+border:none;
+
+padding:10px 16px;
+
+border-radius:30px;
+
+font-family:'Cairo',sans-serif;
+
+font-size:14px;
+
+font-weight:700;
+
+cursor:pointer;
+
+box-shadow:0 4px 12px #0003;
+
+transition:.3s;
+
 }
 
-body.dark .header,
-body.dark .product-card,
-body.dark .wholesale,
-body.dark .about-box,
-body.dark .bottom-nav,
-body.dark .footer{
-background:#1f2937;
-color:#fff;
+
+.theme-toggle i{
+
+font-size:18px;
+
 }
 
-body.dark .search{
-background:#374151;
+
+.theme-toggle:hover{
+
+transform:scale(1.05);
+
 }
 
-body.dark .search input{
-color:#fff;
+
+/* موبايل */
+
+@media(max-width:600px){
+
+.theme-toggle span{
+
+display:none;
+
 }
 
-body.dark .price{
-color:#4ade80;
+
+.theme-toggle{
+
+width:42px;
+height:42px;
+padding:0;
+
+}
+
 }
 
 /*========================
