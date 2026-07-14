@@ -19,22 +19,18 @@ font-family:'Cairo',sans-serif;
 }
 
 body{
-
 margin:0;
 background:#f5f7fb;
-
 }
 
 
 header{
-
 background:#111;
 color:white;
 padding:20px;
 text-align:center;
 font-size:22px;
 font-weight:800;
-
 }
 
 
@@ -92,6 +88,7 @@ font-weight:bold;
 
 </style>
 
+
 </head>
 
 
@@ -99,9 +96,13 @@ font-weight:bold;
 <body>
 
 
+
 <header>
+
 قسم الداخليات الرجالي
+
 </header>
+
 
 
 
@@ -131,9 +132,7 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
-
 const box=document.getElementById("products");
-
 
 
 
@@ -146,8 +145,9 @@ try{
 box.innerHTML="";
 
 
-
-const snap = await getDocs(collection(db,"products"));
+const snap = await getDocs(
+collection(db,"products")
+);
 
 
 
@@ -158,18 +158,16 @@ let found=false;
 snap.forEach((doc)=>{
 
 
-let p = doc.data();
+let p=doc.data();
+
+
+
+let cat = p.category || "";
 
 
 
 if(
-
-p.category === "الداخليات الرجالي"
-
-||
-
-p.category === "داخليات"
-
+cat.includes("داخلي")
 ){
 
 
@@ -179,12 +177,10 @@ found=true;
 
 box.innerHTML += `
 
-
 <div class="card">
 
 
 <img src="${p.image || ''}">
-
 
 
 <h3>
@@ -202,19 +198,16 @@ ${p.price || 0} د.ع
 </div>
 
 
-
 </div>
 
-
 `;
+
 
 
 }
 
 
-
 });
-
 
 
 
@@ -223,7 +216,6 @@ if(!found){
 box.innerHTML="لا توجد منتجات";
 
 }
-
 
 
 }
@@ -237,9 +229,7 @@ console.log(error);
 
 box.innerHTML="حدث خطأ في تحميل المنتجات";
 
-
 }
-
 
 
 }
