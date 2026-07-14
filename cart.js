@@ -4,23 +4,19 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
-// إصلاح الكمية والسعر
+// إصلاح بيانات السلة
 
-cart = cart.map(item => {
+cart = cart.map(item => ({
 
-    return {
+    name: item.name || "",
 
-        name: item.name || "",
+    price: Number(item.price) || 0,
 
-        price: Number(item.price) || 0,
+    image: item.image || "",
 
-        image: item.image || "",
+    qty: Number(item.qty || item.quantity || 1)
 
-        qty: Number(item.qty || item.quantity || 1)
-
-    };
-
-});
+}));
 
 
 localStorage.setItem(
@@ -59,12 +55,7 @@ function renderCart(){
         "<h3>السلة فارغة 🛒</h3>";
 
 
-        if(cartTotal){
-
-            cartTotal.innerText="0";
-
-        }
-
+        cartTotal.innerText = "0";
 
         return;
 
@@ -73,12 +64,10 @@ function renderCart(){
 
 
 
-
     cart.forEach((item,index)=>{
 
 
-        let sum =
-        item.price * item.qty;
+        let sum = item.price * item.qty;
 
 
         total += sum;
@@ -91,58 +80,54 @@ function renderCart(){
         <div class="cart-item">
 
 
-            <img src="${item.image}">
+        <img src="${item.image}">
 
 
-            <div class="cart-info">
+        <div class="cart-info">
 
 
-                <h3>
-                ${item.name}
-                </h3>
+        <h3>
+        ${item.name}
+        </h3>
 
 
-                <p class="price">
-                ${item.price.toLocaleString()} د.ع
-                </p>
-
-
-
-                <div class="qty">
-
-
-                    <button onclick="changeQty(${index},1)">
-                    +
-                    </button>
+        <p class="price">
+        ${item.price.toLocaleString()} د.ع
+        </p>
 
 
 
-                    <span>
-                    ${item.qty}
-                    </span>
+        <div class="qty">
+
+
+        <button onclick="changeQty(${index},1)">
+        +
+        </button>
+
+
+        <span>
+        ${item.qty}
+        </span>
+
+
+        <button onclick="changeQty(${index},-1)">
+        -
+        </button>
+
+
+        </div>
+
+
+        </div>
 
 
 
-                    <button onclick="changeQty(${index},-1)">
-                    -
-                    </button>
+        <button class="remove-btn"
+        onclick="removeItem(${index})">
 
+        🗑 حذف
 
-                </div>
-
-
-            </div>
-
-
-
-
-            <button class="remove-btn"
-            onclick="removeItem(${index})">
-
-            🗑 حذف
-
-            </button>
-
+        </button>
 
 
         </div>
@@ -159,7 +144,6 @@ function renderCart(){
     total.toLocaleString();
 
 
-
 }
 
 
@@ -172,7 +156,6 @@ window.changeQty = function(index,amount){
 
 
     cart[index].qty += amount;
-
 
 
     if(cart[index].qty < 1){
@@ -213,7 +196,6 @@ window.removeItem = function(index){
 
 
 
-
 // حفظ السلة
 
 function saveCart(){
@@ -233,7 +215,7 @@ function saveCart(){
 
 
 
-// واتساب
+// إرسال الطلب واتساب + حفظ الطلب
 
 window.sendWhatsAppOrder = function(){
 
@@ -251,28 +233,116 @@ window.sendWhatsAppOrder = function(){
 
 
 
+    let name =
+    document.getElementById("customerName").value;
+
+
+    let phone =
+    document.getElementById("customerPhone").value;
+
+
+    let address =
+    document.getElementById("customerAddress").value;
+
+
+
+
+
+    if(!name || !phone || !address){
+
+
+        alert("اكمل معلومات الزبون");
+
+
+        return;
+
+    }
+
+
+
+
+
+
+    // حفظ الطلب
+
+    let orders =
+    JSON.parse(localStorage.getItem("orders")) || [];
+
+
+
+    let order = {
+
+
+        name:name,
+
+
+        phone:phone,
+
+
+        address:address,
+
+
+        products:cart,
+
+
+        total:cart.reduce(
+            (sum,item)=>
+            sum + (item.price * item.qty),
+            0
+        ),
+
+
+        date:new Date().toLocaleString()
+
+    };
+
+
+
+    orders.push(order);
+
+
+
+    localStorage.setItem(
+
+        "orders",
+
+        JSON.stringify(orders)
+
+    );
+
+
+
+
+
+
+    // رسالة الواتساب
+
+
     let message =
 
 `🛒 طلب جديد - مجمع حمزه الشطري
+
+
+👤 الاسم:
+${name}
+
+
+📱 الهاتف:
+${phone}
+
+
+📍 العنوان:
+${address}
+
+
 
 📦 المنتجات:
 `;
 
 
 
-    let total = 0;
-
-
 
     cart.forEach(item=>{
-
-
-        let sum =
-        item.price * item.qty;
-
-
-        total += sum;
-
 
 
         message += `
@@ -281,7 +351,8 @@ ${item.name}
 
 الكمية: ${item.qty}
 
-السعر: ${sum.toLocaleString()} د.ع
+السعر:
+${(item.price * item.qty).toLocaleString()} د.ع
 
 `;
 
@@ -289,11 +360,19 @@ ${item.name}
 
 
 
+
+    let total =
+    order.total;
+
+
+
     message += `
 
 💰 المجموع:
 ${total.toLocaleString()} د.ع
+
 `;
+
 
 
 
