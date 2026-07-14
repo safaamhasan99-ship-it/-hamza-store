@@ -3,63 +3,37 @@
 import { db } from "./firebase.js";
 
 import {
-    collection,
-    getDocs,
-    query,
-    where
+collection,
+getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-
 const productsBox = document.getElementById("productsList");
-
-
-// قراءة القسم إذا كانت الصفحة خاصة بقسم معين
-const category = document.body.getAttribute("data-category");
-
 
 
 
 async function loadProducts(){
 
 
-    if(!productsBox) return;
+    if(!productsBox){
+
+        console.log("productsList غير موجود");
+
+        return;
+
+    }
 
 
     productsBox.innerHTML = "جاري تحميل المنتجات...";
 
 
 
-    try {
+    try{
 
 
-        const productsRef = collection(db,"products");
-
-
-        let q;
-
-
-
-        if(category){
-
-
-            q = query(
-                productsRef,
-                where("category","==",category)
-            );
-
-
-        }else{
-
-
-            q = productsRef;
-
-
-        }
-
-
-
-        const snapshot = await getDocs(q);
+        const snapshot = await getDocs(
+            collection(db,"products")
+        );
 
 
 
@@ -71,19 +45,12 @@ async function loadProducts(){
 
 
             productsBox.innerHTML = `
-
-            <h3>
-            لا توجد منتجات
-            </h3>
-
+            <h3>لا توجد منتجات</h3>
             `;
 
             return;
 
-
         }
-
-
 
 
 
@@ -97,47 +64,36 @@ async function loadProducts(){
             productsBox.innerHTML += `
 
 
-            <div class="product-card"
-            onclick="openProduct(
-            '${product.name}',
-            ${product.price},
-            '${product.image}'
-            )">
+            <div class="product-card">
 
 
-                <img src="${product.image}" alt="${product.name}">
-
+                <img src="${product.image}">
 
 
                 <div class="product-info">
 
 
-                    <h3>
-                    ${product.name}
-                    </h3>
+                <h3>
+                ${product.name}
+                </h3>
 
 
-
-                    <p class="price">
-                    ${Number(product.price).toLocaleString()} د.ع
-                    </p>
-
+                <p class="price">
+                ${Number(product.price).toLocaleString()} د.ع
+                </p>
 
 
-                    <button class="cart-btn"
+                <button class="cart-btn"
 
-                    onclick="event.stopPropagation();
+                onclick="addToCart(
+                '${product.name}',
+                ${product.price},
+                '${product.image}'
+                )">
 
-                    addToCart(
-                    '${product.name}',
-                    ${product.price},
-                    '${product.image}'
-                    )">
+                🛒 إضافة للسلة
 
-                    🛒 إضافة للسلة
-
-                    </button>
-
+                </button>
 
 
                 </div>
@@ -149,24 +105,18 @@ async function loadProducts(){
             `;
 
 
-
         });
 
 
 
-    } catch(error){
+    }catch(error){
 
 
         console.log(error);
 
 
-
         productsBox.innerHTML = `
-
-        <h3>
-        حدث خطأ في تحميل المنتجات
-        </h3>
-
+        <h3>خطأ: ${error.message}</h3>
         `;
 
 
@@ -174,7 +124,6 @@ async function loadProducts(){
 
 
 }
-
 
 
 
