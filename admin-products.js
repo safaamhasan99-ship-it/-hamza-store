@@ -1,109 +1,128 @@
 import { db } from "./firebase.js";
 
 import {
-  collection,
-  addDoc,
-  getDocs,
-  serverTimestamp
+collection,
+addDoc,
+getDocs,
+doc,
+deleteDoc,
+updateDoc,
+serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// وضع التعديل
+let editId = null;
+
+// عناصر الصفحة
+const name = document.getElementById("name");
+const price = document.getElementById("price");
+const category = document.getElementById("category");
+const sizes = document.getElementById("sizes");
+const colors = document.getElementById("colors");
+const quantity = document.getElementById("quantity");
+const description = document.getElementById("description");
+const image = document.getElementById("image");
+const offer = document.getElementById("offer");
 
 const saveBtn = document.getElementById("saveBtn");
-
-saveBtn.addEventListener("click", saveProduct);
-
-async function saveProduct() {
-
-  const name = document.getElementById("name").value.trim();
-  const price = Number(document.getElementById("price").value);
-  const category = document.getElementById("category").value;
-  const sizes = document.getElementById("sizes").value.trim();
-  const colors = document.getElementById("colors").value.trim();
-  const quantity = Number(document.getElementById("quantity").value);
-  const description = document.getElementById("description").value.trim();
-  const image = document.getElementById("image").value.trim();
-  const offer = document.getElementById("offer").checked;
-
-  if (!name || !price) {
-    alert("يرجى إدخال اسم المنتج والسعر");
-    return;
-  }
-
-  try {
-
-    await addDoc(collection(db, "products"), {
-      name,
-      price,
-      category,
-      sizes,
-      colors,
-      quantity,
-      description,
-      image,
-      offer,
-      createdAt: serverTimestamp()
-    });
-
-    alert("✅ تم حفظ المنتج");
-
-    document.getElementById("name").value = "";
-    document.getElementById("price").value = "";
-    document.getElementById("sizes").value = "";
-    document.getElementById("colors").value = "";
-    document.getElementById("quantity").value = "0";
-    document.getElementById("description").value = "";
-    document.getElementById("image").value = "";
-    document.getElementById("offer").checked = false;
-
-    loadProducts();
-
-  } catch (e) {
-    console.error(e);
-    alert("خطأ: " + e.message);
-  }
-}
-
+const productsDiv = document.getElementById("products");
 async function loadProducts() {
 
-  const box = document.getElementById("products");
+const snap = await getDocs(collection(db, "products"));
 
-  box.innerHTML = "جاري التحميل...";
+productsDiv.innerHTML = "";
 
-  try {
+snap.forEach((item) => {
 
-    const snap = await getDocs(collection(db, "products"));
+const p = item.data();
 
-    if (snap.empty) {
-      box.innerHTML = "<h3>لا توجد منتجات</h3>";
-      return;
-    }
+productsDiv.innerHTML += `
 
-    box.innerHTML = "";
+<div class="card">
 
-    snap.forEach(doc => {
+<img src="${p.image}" alt="">
 
-      const p = doc.data();
+<div class="card-body">
 
-      box.innerHTML += `
-      <div class="card">
-        <img src="${p.image || 'images/no-image.png'}">
-        <div class="card-body">
-          <h3>${p.name}</h3>
-          <p>السعر: ${Number(p.price).toLocaleString()} د.ع</p>
-          <p>القسم: ${p.category}</p>
-        </div>
-      </div>
-      `;
+<h3>${p.name}</h3>
 
-    });
+<p>السعر: ${Number(p.price).toLocaleString()} د.ع</p>
 
-  } catch (e) {
+<p>القسم: ${p.category}</p>
 
-    console.error(e);
+<div class="actions">
 
-    box.innerHTML = "<h3>حدث خطأ في تحميل المنتجات</h3>";
+<button class="edit"
+onclick="editProduct('${item.id}')">
 
-  }
+✏️ تعديل
+
+</button>
+
+<button class="delete"
+onclick="deleteProduct('${item.id}')">
+
+🗑 حذف
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}window.deleteProduct = async function(id){
+
+if(!confirm("هل تريد حذف المنتج؟")) return;
+
+try{
+
+await deleteDoc(doc(db,"products",id));
+
+alert("تم حذف المنتج");
+
+loadProducts();
+
+}catch(err){
+
+alert(err.message);
 
 }
 
-loadProducts();
+}
+
+
+
+window.editProduct = async function(id){
+
+const snap = await getDocs(collection(db,"products"));
+
+snap.forEach((item)=>{
+
+if(item.id===id){
+
+const p=item.data();
+
+name.value=p.name;
+price.value=p.price;
+category.value=p.category;
+sizes.value=p.sizes;
+colors.value=p.colors;
+quantity.value=p.quantity;
+description.value=p.description;
+image.value=p.image;
+offer.checked=p.offer;
+
+editId=id;
+
+saveBtn.innerText="💾 حفظ التعديلات";
+
+}
+
+});
+
+}
