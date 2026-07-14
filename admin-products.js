@@ -31,7 +31,7 @@ let editId = null;
 
 
 
-// رسالة احترافية
+// رسالة نجاح تختفي تلقائياً
 
 function showMessage(text){
 
@@ -51,6 +51,8 @@ toast.style.fontWeight="bold";
 toast.style.fontSize="16px";
 toast.style.zIndex="9999";
 toast.style.boxShadow="0 5px 20px #0003";
+toast.style.opacity="1";
+toast.style.transition="0.5s";
 
 
 document.body.appendChild(toast);
@@ -58,13 +60,20 @@ document.body.appendChild(toast);
 
 setTimeout(()=>{
 
+toast.style.opacity="0";
+
+
+setTimeout(()=>{
+
 toast.remove();
 
-},3000);
+},500);
+
+
+},2000);
 
 
 }
-
 
 
 
@@ -77,6 +86,7 @@ if(!url) return "";
 
 let match = url.match(/src="([^"]+)"/);
 
+
 if(match){
 
 return match[1];
@@ -87,11 +97,6 @@ return match[1];
 return url.trim();
 
 }
-
-
-
-
-
 // تحميل المنتجات
 
 async function loadProducts(){
@@ -111,7 +116,6 @@ collection(db,"products")
 
 
 productsList.innerHTML="";
-
 
 
 if(snap.empty){
@@ -143,7 +147,9 @@ onerror="this.style.display='none'"
 >
 
 
-<h3>${p.name || ''}</h3>
+<h3>
+${p.name || ''}
+</h3>
 
 
 <p>
@@ -156,11 +162,9 @@ onerror="this.style.display='none'"
 </p>
 
 
-
 <button onclick="editProduct('${item.id}')">
 ✏️ تعديل
 </button>
-
 
 
 <button onclick="deleteProduct('${item.id}')">
@@ -273,27 +277,16 @@ showMessage("✅ تم إضافة المنتج بنجاح");
 }
 
 
-
-
-
 name.value="";
-
 price.value="";
-
 sizes.value="";
-
 colors.value="";
-
 quantity.value="";
-
 description.value="";
-
 image.value="";
 
 
-
 loadProducts();
-
 
 
 }
@@ -310,16 +303,10 @@ showMessage("❌ حدث خطأ أثناء الحفظ");
 }
 
 
-
 };
 
 
 }
-
-
-
-
-
 // حذف منتج
 
 window.deleteProduct = async function(id){
@@ -338,7 +325,7 @@ doc(db,"products",id)
 );
 
 
-showMessage("🗑 تم حذف المنتج");
+showMessage("🗑 تم حذف المنتج بنجاح");
 
 
 loadProducts();
@@ -356,6 +343,7 @@ showMessage("❌ حدث خطأ أثناء الحذف");
 
 
 };
+
 
 
 
@@ -445,7 +433,8 @@ showMessage("❌ حدث خطأ بجلب المنتج");
 
 
 
-// تحديث يدوي
+
+// تحديث المنتجات يدوياً
 
 window.refreshProducts=function(){
 
