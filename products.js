@@ -1,5 +1,3 @@
-// products.js
-
 import { db } from "./firebase.js";
 
 import {
@@ -15,112 +13,124 @@ const productsBox = document.getElementById("productsList");
 async function loadProducts(){
 
 
-    if(!productsBox) return;
-
-
-    productsBox.innerHTML =
-    "جاري تحميل المنتجات...";
+if(!productsBox) return;
 
 
 
-    try{
-
-
-        const snapshot = await getDocs(
-            collection(db,"products")
-        );
+productsBox.innerHTML="جاري تحميل المنتجات...";
 
 
 
-        productsBox.innerHTML = "";
+try{
+
+
+const snapshot = await getDocs(
+collection(db,"products")
+);
 
 
 
-        if(snapshot.empty){
-
-
-            productsBox.innerHTML =
-            "<h3>لا توجد منتجات</h3>";
-
-            return;
-
-        }
+productsBox.innerHTML="";
 
 
 
-        snapshot.forEach((item)=>{
-
-
-            const product = item.data();
-
-
-            const price =
-            Number(product.price) || 0;
+let category = new URLSearchParams(
+window.location.search
+).get("category");
 
 
 
-            productsBox.innerHTML += `
-
-
-            <div class="product-card">
-
-
-                <img src="${product.image || ''}">
-
-
-                <div class="product-info">
-
-
-                    <h3>
-                    ${product.name || ''}
-                    </h3>
+let found=false;
 
 
 
-                    <p class="price">
-                    ${price.toLocaleString()} د.ع
-                    </p>
+snapshot.forEach((item)=>{
+
+
+const product=item.data();
 
 
 
-
-                    <button class="cart-btn"
-                    onclick="addToCart(
-                    '${product.name}',
-                    ${price},
-                    '${product.image}'
-                    )">
-
-                    🛒 إضافة للسلة
-
-                    </button>
+if(
+!category ||
+product.category===category
+){
 
 
-
-                </div>
-
-
-            </div>
+found=true;
 
 
-            `;
-
-
-        });
+const price =
+Number(product.price) || 0;
 
 
 
-    }catch(error){
+productsBox.innerHTML += `
 
 
-        console.log(error);
+<div class="product-card">
 
 
-        productsBox.innerHTML =
-        "<h3>حدث خطأ في تحميل المنتجات</h3>";
+<img src="${product.image || ''}">
 
 
-    }
+<div class="product-info">
+
+
+<h3>
+${product.name || ''}
+</h3>
+
+
+<p class="price">
+${price.toLocaleString()} د.ع
+</p>
+
+
+<button class="cart-btn"
+onclick="addToCart(
+'${product.name}',
+${price},
+'${product.image}'
+)">
+
+🛒 إضافة للسلة
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+}
+
+
+});
+
+
+
+if(!found){
+
+productsBox.innerHTML="<h3>لا توجد منتجات</h3>";
+
+}
+
+
+
+}catch(error){
+
+
+console.log(error);
+
+
+productsBox.innerHTML="<h3>حدث خطأ في تحميل المنتجات</h3>";
+
+}
 
 
 }
