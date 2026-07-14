@@ -24,10 +24,47 @@ const description = document.getElementById("description");
 const image = document.getElementById("image");
 
 const saveBtn = document.getElementById("saveBtn");
-const productsList = document.getElementById("products");
+const productsList = document.getElementById("productsList");
 
 
 let editId = null;
+
+
+
+// رسالة احترافية
+
+function showMessage(text){
+
+let toast = document.createElement("div");
+
+toast.innerHTML = text;
+
+toast.style.position="fixed";
+toast.style.bottom="30px";
+toast.style.right="30px";
+toast.style.background="#198754";
+toast.style.color="#fff";
+toast.style.padding="15px 25px";
+toast.style.borderRadius="15px";
+toast.style.fontFamily="Cairo";
+toast.style.fontWeight="bold";
+toast.style.fontSize="16px";
+toast.style.zIndex="9999";
+toast.style.boxShadow="0 5px 20px #0003";
+
+
+document.body.appendChild(toast);
+
+
+setTimeout(()=>{
+
+toast.remove();
+
+},3000);
+
+
+}
+
 
 
 
@@ -38,8 +75,6 @@ function cleanImageUrl(url){
 if(!url) return "";
 
 
-// إذا لصقت كود imgbb كامل
-
 let match = url.match(/src="([^"]+)"/);
 
 if(match){
@@ -48,8 +83,6 @@ return match[1];
 
 }
 
-
-// إذا كان رابط مباشر
 
 return url.trim();
 
@@ -75,7 +108,6 @@ try{
 const snap = await getDocs(
 collection(db,"products")
 );
-
 
 
 productsList.innerHTML="";
@@ -111,9 +143,7 @@ onerror="this.style.display='none'"
 >
 
 
-<h3>
-${p.name || ''}
-</h3>
+<h3>${p.name || ''}</h3>
 
 
 <p>
@@ -214,7 +244,7 @@ product
 );
 
 
-alert("تم تعديل المنتج");
+showMessage("✅ تم تعديل المنتج بنجاح");
 
 
 editId=null;
@@ -237,7 +267,7 @@ product
 );
 
 
-alert("تم إضافة المنتج");
+showMessage("✅ تم إضافة المنتج بنجاح");
 
 
 }
@@ -249,8 +279,6 @@ alert("تم إضافة المنتج");
 name.value="";
 
 price.value="";
-
-category.value="رجالي";
 
 sizes.value="";
 
@@ -276,7 +304,7 @@ catch(error){
 
 console.log(error);
 
-alert("حدث خطأ أثناء الحفظ");
+showMessage("❌ حدث خطأ أثناء الحفظ");
 
 
 }
@@ -310,7 +338,7 @@ doc(db,"products",id)
 );
 
 
-alert("تم حذف المنتج");
+showMessage("🗑 تم حذف المنتج");
 
 
 loadProducts();
@@ -322,7 +350,7 @@ catch(error){
 
 console.log(error);
 
-alert("حدث خطأ أثناء الحذف");
+showMessage("❌ حدث خطأ أثناء الحذف");
 
 }
 
@@ -362,7 +390,7 @@ name.value=p.name || "";
 
 price.value=p.price || "";
 
-category.value=p.category || "رجالي";
+category.value=p.category || "";
 
 sizes.value=p.sizes || "";
 
@@ -405,7 +433,7 @@ catch(error){
 
 console.log(error);
 
-alert("حدث خطأ بجلب المنتج");
+showMessage("❌ حدث خطأ بجلب المنتج");
 
 
 }
