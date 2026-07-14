@@ -5,105 +5,201 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+
 const productsBox = document.getElementById("productsList");
+
+
+// رسالة السلة
+
+function showCartMessage(text){
+
+let msg = document.createElement("div");
+
+msg.innerHTML = text;
+
+msg.style.position="fixed";
+msg.style.bottom="30px";
+msg.style.right="30px";
+msg.style.background="#c79b3b";
+msg.style.color="#fff";
+msg.style.padding="15px 25px";
+msg.style.borderRadius="15px";
+msg.style.fontFamily="Cairo";
+msg.style.fontWeight="bold";
+msg.style.fontSize="16px";
+msg.style.zIndex="9999";
+msg.style.boxShadow="0 5px 20px #0003";
+msg.style.transition="0.5s";
+
+
+document.body.appendChild(msg);
+
+
+setTimeout(()=>{
+
+msg.style.opacity="0";
+
+
+setTimeout(()=>{
+
+msg.remove();
+
+},500);
+
+
+},2000);
+
+
+}
+
+
+
 
 async function loadProducts() {
 
-  if (!productsBox) return;
+if (!productsBox) return;
 
-  productsBox.innerHTML = "<h3>جاري تحميل المنتجات...</h3>";
 
-  try {
+productsBox.innerHTML = "<h3>جاري تحميل المنتجات...</h3>";
 
-    const snapshot = await getDocs(collection(db, "products"));
 
-    productsBox.innerHTML = "";
+try {
 
-    // قراءة القسم من body أو من الرابط
-    const category =
-      document.body.dataset.category ||
-      new URLSearchParams(window.location.search).get("category");
 
-    let found = false;
+const snapshot = await getDocs(collection(db,"products"));
 
-    snapshot.forEach((doc) => {
 
-      const product = doc.data();
+productsBox.innerHTML = "";
 
-      // عرض منتجات القسم فقط
-      if (!category || product.category === category) {
 
-        found = true;
+const category =
+document.body.dataset.category ||
+new URLSearchParams(window.location.search).get("category");
 
-        const name = product.name || "منتج";
-        const price = Number(product.price) || 0;
 
-        const image = product.image
-          ? product.image.trim()
-          : "./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png";
+let found = false;
 
-        const card = document.createElement("div");
-        card.className = "product-card";
 
-        card.innerHTML = `
-          <img
-            src="${image}"
-            alt="${name}"
-            loading="lazy"
-            decoding="async"
-            referrerpolicy="no-referrer"
-            crossorigin="anonymous"
-            onerror="this.onerror=null;this.src='./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png';">
 
-          <div class="product-info">
+snapshot.forEach((doc)=>{
 
-            <h3>${name}</h3>
 
-            <p class="price">
-              ${price.toLocaleString()} د.ع
-            </p>
+const product = doc.data();
 
-            <button class="cart-btn">
-              🛒 إضافة للسلة
-            </button>
 
-          </div>
-        `;
+if(!category || product.category === category){
 
-        card.querySelector(".cart-btn").addEventListener("click", () => {
 
-          if (typeof addToCart === "function") {
+found = true;
 
-            addToCart(name, price, image);
 
-          } else {
+const name = product.name || "منتج";
 
-            alert("تعذر إضافة المنتج إلى السلة.");
+const price = Number(product.price) || 0;
 
-          }
 
-        });
+const image = product.image
+? product.image.trim()
+: "./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png";
 
-        productsBox.appendChild(card);
 
-      }
 
-    });
+const card = document.createElement("div");
 
-    if (!found) {
+card.className="product-card";
 
-      productsBox.innerHTML = "<h3>لا توجد منتجات في هذا القسم</h3>";
 
-    }
 
-  } catch (error) {
+card.innerHTML = `
 
-    console.error(error);
+<img
+src="${image}"
+alt="${name}"
+loading="lazy"
+decoding="async"
+referrerpolicy="no-referrer"
+crossorigin="anonymous"
+onerror="this.onerror=null;this.src='./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png';">
 
-    productsBox.innerHTML = "<h3>حدث خطأ أثناء تحميل المنتجات</h3>";
 
-  }
+<div class="product-info">
+
+
+<h3>${name}</h3>
+
+
+<p class="price">
+${price.toLocaleString()} د.ع
+</p>
+
+
+<button class="cart-btn">
+🛒 إضافة للسلة
+</button>
+
+
+</div>
+
+`;
+
+
+
+card.querySelector(".cart-btn").addEventListener("click",()=>{
+
+
+if(typeof addToCart === "function"){
+
+
+addToCart(name,price,image);
+
+
+showCartMessage("🛒 تمت إضافة المنتج إلى السلة");
+
+
+}else{
+
+
+showCartMessage("❌ تعذر إضافة المنتج للسلة");
+
 
 }
+
+
+});
+
+
+
+productsBox.appendChild(card);
+
+
+}
+
+
+});
+
+
+
+if(!found){
+
+productsBox.innerHTML="<h3>لا توجد منتجات في هذا القسم</h3>";
+
+}
+
+
+
+}
+
+catch(error){
+
+console.error(error);
+
+productsBox.innerHTML="<h3>حدث خطأ أثناء تحميل المنتجات</h3>";
+
+}
+
+
+}
+
+
 
 loadProducts();
