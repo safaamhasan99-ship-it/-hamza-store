@@ -6,60 +6,77 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>الداخليات الرجالي | مجمع حمزه الشطري</title>
+<title>قسم الداخليات الرجالي | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
 <style>
 
 *{
+margin:0;
+padding:0;
 box-sizing:border-box;
 font-family:'Cairo',sans-serif;
 }
 
 body{
-margin:0;
 background:#f5f7fb;
 }
 
 header{
 background:#111;
-color:white;
+color:#fff;
 padding:20px;
 text-align:center;
-font-size:22px;
+font-size:24px;
 font-weight:800;
 }
 
 .products{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
 gap:15px;
 padding:20px;
 }
 
 .card{
-background:white;
+background:#fff;
 border-radius:15px;
-padding:10px;
-text-align:center;
-box-shadow:0 3px 10px #ddd;
+overflow:hidden;
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-4px);
 }
 
 .card img{
 width:100%;
-height:200px;
+height:220px;
 object-fit:cover;
-border-radius:12px;
+background:#eee;
 }
 
 .card h3{
+padding:10px;
+text-align:center;
 font-size:18px;
 }
 
 .price{
+text-align:center;
 color:#c28b00;
-font-size:18px;
+font-size:20px;
+font-weight:bold;
+padding-bottom:15px;
+}
+
+.msg{
+grid-column:1/-1;
+text-align:center;
+padding:40px;
+font-size:22px;
 font-weight:bold;
 }
 
@@ -67,155 +84,40 @@ font-weight:bold;
 
 </head>
 
-
 <body>
-
 
 <header>
 قسم الداخليات الرجالي
 </header>
 
-
-<div class="products" id="products">
-
-جاري تحميل المنتجات...
-
+<div id="products" class="products">
+<div class="msg">جاري تحميل المنتجات...</div>
 </div>
-
-
 
 <script type="module">
 
-
 import { db } from "./firebase.js";
-
 
 import {
 collection,
 getDocs
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const box=document.getElementById("products");
 
-
-
 async function loadProducts(){
-
 
 try{
 
-
-box.innerHTML="جاري تحميل المنتجات...";
-
-
-const snapshot = await getDocs(
-collection(db,"products")
-);
-
-
+const snapshot=await getDocs(collection(db,"products"));
 
 box.innerHTML="";
 
+if(snapshot.empty){
+
+box.innerHTML="<div class='msg'>لا توجد منتجات</div>";
+return;
+
+}
 
 let found=false;
-
-
-
-snapshot.forEach((doc)=>{
-
-
-const p=doc.data();
-
-
-
-if(
-
-p.category=="الداخليات الرجالي"
-
-||
-
-p.category=="داخليات"
-
-||
-
-p.category=="underwear"
-
-){
-
-
-found=true;
-
-
-
-box.innerHTML += `
-
-<div class="card">
-
-
-<img src="${p.image || ''}">
-
-
-<h3>
-
-${p.name || ''}
-
-</h3>
-
-
-<div class="price">
-
-${p.price || 0} د.ع
-
-</div>
-
-
-</div>
-
-`;
-
-}
-
-
-});
-
-
-
-if(!found){
-
-box.innerHTML="لا توجد منتجات";
-
-}
-
-
-}
-
-
-catch(error){
-
-
-console.log(error);
-
-
-box.innerHTML="حدث خطأ في تحميل المنتجات";
-
-
-}
-
-
-}
-
-
-
-loadProducts();
-
-
-
-</script>
-
-
-</body>
-
-</html>
