@@ -1,5 +1,6 @@
 /*==================================
-   مجمع حمزه الشطري
+  مجمع حمزه الشطري
+  Professional Store Style
 ==================================*/
 
 *{
@@ -9,752 +10,188 @@ box-sizing:border-box;
 font-family:'Cairo',sans-serif;
 }
 
+
 :root{
---primary:#0ea5e9;
---primary-dark:#0284c7;
---success:#22c55e;
---danger:#ef4444;
---bg:#f5f7fb;
+
+--primary:#2563eb;
+--secondary:#ec4899;
+--gold:#f59e0b;
+--green:#22c55e;
+
+--bg:#f8fafc;
 --card:#ffffff;
 --text:#111827;
---gray:#6b7280;
---shadow:0 8px 20px rgba(0,0,0,.08);
---radius:18px;
+--gray:#64748b;
+
+--shadow:0 10px 30px rgba(0,0,0,.10);
+
 }
+
 
 body{
+
 background:var(--bg);
 color:var(--text);
-overflow-x:hidden;
+
 padding-bottom:90px;
+
+overflow-x:hidden;
+
 }
+
+
 
 a{
+
 text-decoration:none;
 color:inherit;
+
 }
+
 
 img{
+
 max-width:100%;
 display:block;
+
 }
+
 
 button{
-border:none;
+
 cursor:pointer;
-transition:.3s;
+border:none;
+
 }
+
+
 
 .title{
+
 text-align:center;
+
 font-size:28px;
+
 font-weight:800;
-margin:25px 0;
+
+margin:30px 0;
+
 }
+
+
 
 /*========================
-HEADER
+ HEADER
 ========================*/
 
+
 .header{
+
 position:sticky;
+
 top:0;
-background:#fff;
-padding:15px;
-box-shadow:var(--shadow);
+
 z-index:999;
+
+background:#fff;
+
+padding:15px;
+
+box-shadow:var(--shadow);
+
 }
+
+
 
 .top-header{
+
 display:flex;
+
 justify-content:space-between;
+
 align-items:center;
+
 }
 
+
+
 .brand{
+
 display:flex;
+
 align-items:center;
+
 gap:12px;
+
 }
+
+
 
 .brand img{
+
 width:65px;
+
 height:65px;
+
 border-radius:50%;
+
 object-fit:cover;
+
 border:3px solid var(--primary);
+
 }
 
+
+
 .brand h1{
-font-size:24px;
+
+font-size:23px;
+
 font-weight:800;
+
 }
+
+
 
 .brand p{
-font-size:14px;
+
 color:var(--gray);
-}
-
-.search{
-margin-top:15px;
-display:flex;
-align-items:center;
-background:#eef2f7;
-padding:12px 16px;
-border-radius:30px;
-}
-
-.search input{
-width:100%;
-border:none;
-background:none;
-outline:none;
-font-size:15px;
-}
-/*========================
-السلايدر
-========================*/
-
-.hero-slider{
-margin:18px;
-border-radius:20px;
-overflow:hidden;
-box-shadow:var(--shadow);
-}
-
-.hero-slide{
-display:none;
-position:relative;
-}
-
-.hero-slide.active{
-display:block;
-}
-
-.hero-slide img{
-width:100%;
-height:260px;
-object-fit:cover;
-}
-
-.hero-text{
-position:absolute;
-right:15px;
-left:15px;
-bottom:15px;
-background:rgba(0,0,0,.55);
-color:#fff;
-padding:18px;
-border-radius:15px;
-}
-
-.hero-text h2{
-font-size:26px;
-margin-bottom:10px;
-}
-
-.hero-text p{
-font-size:15px;
-line-height:1.8;
-margin-bottom:12px;
-}
-
-.hero-text a{
-display:inline-block;
-padding:10px 25px;
-background:var(--primary);
-color:#fff;
-border-radius:30px;
-font-weight:700;
-}
-
-/*========================
-الأقسام الاحترافية
-========================*/
-
-.categories{
-    padding:18px 12px;
-}
-
-.category-list{
-    display:flex;
-    align-items:flex-start;
-    gap:18px;
-    overflow-x:auto;
-    padding:10px 5px;
-    scrollbar-width:none;
-    -webkit-overflow-scrolling:touch;
-}
-
-.category-list::-webkit-scrollbar{
-    display:none;
-}
-
-.category-list a{
-    min-width:90px;
-    text-align:center;
-    flex-shrink:0;
-}
-
-.category-list img{
-    width:78px;
-    height:78px;
-    border-radius:50%;
-    object-fit:cover;
-    background:#fff;
-    padding:4px;
-    border:3px solid #d4af37;
-    box-shadow:0 4px 12px rgba(0,0,0,.15);
-    transition:.3s;
-}
-
-.category-list a:hover img{
-    transform:scale(1.08);
-    border-color:#0ea5e9;
-}
-
-.category-list span{
-    display:block;
-    margin-top:8px;
-    font-size:13px;
-    font-weight:700;
-    color:#ffffff;
-    line-height:1.4;
-}
-/*========================
-المنتجات
-========================*/
-
-.products{
-padding:18px;
-}
-
-.products-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px;
-}
-
-.product-card{
-background:#fff;
-border-radius:18px;
-overflow:hidden;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-transition:.3s;
-position:relative;
-}
-
-.product-card:hover{
-transform:translateY(-4px);
-}
-
-.product-card img{
-width:100%;
-aspect-ratio:1/1;
-object-fit:cover;
-background:#f8fafc;
-}
-
-.product-info{
-padding:12px;
-text-align:center;
-}
-
-.product-info h3{
-font-size:15px;
-font-weight:700;
-line-height:1.5;
-height:44px;
-overflow:hidden;
-margin-bottom:8px;
-}
-
-.price{
-font-size:18px;
-font-weight:800;
-color:#16a34a;
-margin-bottom:12px;
-}
-
-.cart-btn{
-width:100%;
-padding:11px;
-background:#0ea5e9;
-color:#fff;
-border-radius:10px;
-font-size:14px;
-font-weight:700;
-}
-
-.cart-btn:hover{
-background:#0284c7;
-}
-
-.details-btn,
-.favorite{
-display:none;
-}
-
-/*========================
-الجوال
-========================*/
-
-@media(max-width:768px){
-
-.products{
-padding:12px;
-}
-
-.products-grid{
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-}
-
-.product-card{
-border-radius:15px;
-}
-
-.product-card img{
-aspect-ratio:1/1;
-}
-
-.product-info{
-padding:10px;
-}
-
-.product-info h3{
-font-size:13px;
-height:38px;
-}
-
-.price{
-font-size:16px;
-}
-
-.cart-btn{
-padding:10px;
-font-size:13px;
-}
-
-}
-
-@media(max-width:420px){
-
-.products-grid{
-grid-template-columns:repeat(2,1fr);
-gap:8px;
-}
-
-.product-info h3{
-font-size:12px;
-}
-
-.price{
-font-size:15px;
-}
-
-.cart-btn{
-font-size:12px;
-padding:9px;
-}
-
-}
-/*========================
-قسم الجملة
-========================*/
-
-.wholesale,
-.about-box{
-margin:20px;
-padding:25px;
-background:#fff;
-border-radius:18px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-text-align:center;
-}
-
-.wholesale h2,
-.about-box h2{
-font-size:26px;
-font-weight:800;
-margin-bottom:15px;
-}
-
-.wholesale p,
-.about-box p{
-font-size:15px;
-line-height:2;
-color:#666;
-margin-bottom:20px;
-}
-
-.wholesale a,
-.about-box a{
-display:inline-block;
-padding:12px 28px;
-background:#22c55e;
-color:#fff;
-border-radius:30px;
-font-weight:700;
-}
-
-/*========================
-واتساب
-========================*/
-
-.whatsapp{
-position:fixed;
-left:18px;
-bottom:90px;
-width:60px;
-height:60px;
-background:#25D366;
-color:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:50%;
-font-size:32px;
-box-shadow:0 10px 20px rgba(0,0,0,.2);
-z-index:999;
-}
-
-/*========================
-القائمة السفلية
-========================*/
-
-.bottom-nav{
-position:fixed;
-left:0;
-right:0;
-bottom:0;
-height:72px;
-background:#fff;
-display:flex;
-justify-content:space-around;
-align-items:center;
-box-shadow:0 -5px 15px rgba(0,0,0,.08);
-z-index:999;
-}
-
-.bottom-nav a{
-display:flex;
-flex-direction:column;
-align-items:center;
-font-size:12px;
-color:#666;
-gap:4px;
-}
-
-.bottom-nav a.active{
-color:#0ea5e9;
-}
-
-.bottom-nav i{
-font-size:22px;
-}
-
-/*========================
-الفوتر
-========================*/
-
-.footer{
-background:#111827;
-color:#fff;
-text-align:center;
-padding:40px 20px 110px;
-margin-top:35px;
-}
-
-.footer-logo{
-width:85px;
-height:85px;
-margin:auto;
-border-radius:50%;
-margin-bottom:15px;
-}
-
-.footer h3{
-font-size:26px;
-margin-bottom:10px;
-}
-
-.footer p{
-margin:8px 0;
-color:#d1d5db;
-}
-
-.footer-social a{
-font-size:28px;
-color:#25D366;
-margin:0 8px;
-}
-/* زر الوضع الليلي الاحترافي */
-
-.theme-toggle{
-
-display:flex;
-align-items:center;
-justify-content:center;
-gap:8px;
-
-background:#111827;
-color:#fff;
-
-border:none;
-
-padding:10px 16px;
-
-border-radius:30px;
-
-font-family:'Cairo',sans-serif;
 
 font-size:14px;
 
-font-weight:700;
-
-cursor:pointer;
-
-box-shadow:0 4px 12px #0003;
-
-transition:.3s;
-
 }
 
 
-.theme-toggle i{
 
-font-size:18px;
+/* أزرار الهيدر */
 
-}
-
-
-.theme-toggle:hover{
-
-transform:scale(1.05);
-
-}
-
-
-/* موبايل */
-
-@media(max-width:600px){
-
-.theme-toggle span{
-
-display:none;
-
-}
-
-
-.theme-toggle{
-
-width:42px;
-height:42px;
-padding:0;
-
-}
-
-}
-
-/*========================
-شاشة التحميل
-========================*/
-
-#loader{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#fff;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:99999;
-transition:.5s;
-}
-
-#loader.hide{
-opacity:0;
-visibility:hidden;
-}
-
-.loader-content{
-text-align:center;
-}
-
-.loader-content img{
-width:90px;
-height:90px;
-border-radius:50%;
-margin:auto;
-margin-bottom:20px;
-border:4px solid #0ea5e9;
-}
-
-.loader-spinner{
-width:55px;
-height:55px;
-margin:20px auto;
-border:5px solid #e5e7eb;
-border-top-color:#0ea5e9;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-100%{
-transform:rotate(360deg);
-}
-}
-
-/*========================
-حركات
-========================*/
-
-.product-card,
-.category-list a,
-.hero-slide{
-animation:fade .5s ease;
-}
-
-@keyframes fade{
-from{
-opacity:0;
-transform:translateY(20px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-/*========================
-الجوال
-========================*/
-
-@media(max-width:768px){
-
-.header{
-padding:12px;
-}
-
-.top-header{
-flex-direction:column;
-gap:10px;
-text-align:center;
-}
-
-.brand{
-flex-direction:column;
-}
-
-.hero-slide img{
-height:220px;
-}
-
-.hero-text h2{
-font-size:20px;
-}
-
-.hero-text p{
-font-size:13px;
-}
-
-.whatsapp{
-width:55px;
-height:55px;
-font-size:28px;
-bottom:82px;
-}
-
-.footer{
-padding-bottom:110px;
-}
-
-}
-
-@media(max-width:420px){
-
-.brand h1{
-font-size:18px;
-}
-
-.title{
-font-size:22px;
-}
-
-.bottom-nav span{
-font-size:10px;
-}
-
-.bottom-nav i{
-font-size:20px;
-}
-
-}
-/* تكبير زر الوضع الليلي */
-
-#darkBtn{
-
-width:50px;
-height:50px;
-
-border-radius:50%;
-
-background:#111827;
-
-color:white;
-
-border:none;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-font-size:22px;
-
-cursor:pointer;
-
-box-shadow:0 5px 15px #0003;
-
-transition:.3s;
-
-}
-
-
-#darkBtn:hover{
-
-transform:scale(1.1);
-
-}
-
-
-#darkBtn i{
-
-font-size:22px;
-
-}
-/* الهيدر - أزرار السلة والوضع */
 
 .header-actions{
 
 display:flex;
+
 align-items:center;
+
 gap:12px;
 
 }
 
 
-/* زر السلة */
+
+/* السلة */
+
 
 .cart-icon{
 
-width:50px;
-height:50px;
+width:52px;
+
+height:52px;
+
+background:var(--gold);
+
+color:#fff;
+
+border-radius:50%;
 
 display:flex;
 
@@ -762,22 +199,15 @@ align-items:center;
 
 justify-content:center;
 
-background:#c79b3b;
-
-color:#fff;
-
-border-radius:50%;
-
-font-size:22px;
+font-size:23px;
 
 position:relative;
 
-box-shadow:0 5px 15px #0003;
+box-shadow:var(--shadow);
 
 }
 
 
-/* رقم السلة */
 
 #cartCount{
 
@@ -787,23 +217,23 @@ top:-5px;
 
 right:-5px;
 
-background:#e11d48;
+background:#ef4444;
 
 color:#fff;
 
-width:22px;
+width:23px;
 
-height:22px;
+height:23px;
 
 border-radius:50%;
-
-font-size:12px;
 
 display:flex;
 
 align-items:center;
 
 justify-content:center;
+
+font-size:12px;
 
 font-weight:bold;
 
@@ -811,21 +241,22 @@ font-weight:bold;
 
 
 
-/* زر الوضع الليلي */
+/* الوضع الليلي */
+
 
 #darkBtn{
 
-width:50px;
+width:52px;
 
-height:50px;
-
-border-radius:50%;
+height:52px;
 
 background:#111827;
 
 color:#fff;
 
-border:none;
+border-radius:50%;
+
+font-size:22px;
 
 display:flex;
 
@@ -833,11 +264,7 @@ align-items:center;
 
 justify-content:center;
 
-font-size:22px;
-
-cursor:pointer;
-
-box-shadow:0 5px 15px #0003;
+box-shadow:var(--shadow);
 
 }
 
@@ -846,10 +273,171 @@ box-shadow:0 5px 15px #0003;
 #darkBtn:hover,
 .cart-icon:hover{
 
-transform:scale(1.1);
+transform:scale(1.08);
 
 }
-/* ===== أقسام المتجر الاحترافية ===== */
+
+
+
+/* البحث */
+
+
+.search{
+
+margin-top:15px;
+
+background:#eef2f7;
+
+border-radius:30px;
+
+padding:12px 18px;
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+}
+
+
+
+.search input{
+
+width:100%;
+
+border:none;
+
+outline:none;
+
+background:none;
+
+font-size:15px;
+
+}
+/*========================
+ HERO SLIDER
+========================*/
+
+
+.hero-slider{
+
+margin:20px;
+
+border-radius:25px;
+
+overflow:hidden;
+
+box-shadow:var(--shadow);
+
+}
+
+
+
+.hero-slide{
+
+display:none;
+
+position:relative;
+
+}
+
+
+
+.hero-slide.active{
+
+display:block;
+
+}
+
+
+
+.hero-slide img{
+
+width:100%;
+
+height:280px;
+
+object-fit:cover;
+
+}
+
+
+
+.hero-text{
+
+position:absolute;
+
+bottom:20px;
+
+right:20px;
+
+left:20px;
+
+background:rgba(0,0,0,.55);
+
+color:#fff;
+
+padding:20px;
+
+border-radius:20px;
+
+}
+
+
+
+.hero-text h2{
+
+font-size:26px;
+
+font-weight:800;
+
+margin-bottom:8px;
+
+}
+
+
+
+.hero-text p{
+
+line-height:1.8;
+
+margin-bottom:15px;
+
+}
+
+
+
+.hero-text a{
+
+display:inline-block;
+
+background:var(--primary);
+
+color:#fff;
+
+padding:10px 30px;
+
+border-radius:30px;
+
+font-weight:bold;
+
+}
+
+
+
+/*========================
+ الأقسام الاحترافية
+========================*/
+
+
+.categories{
+
+padding:15px;
+
+}
+
+
 
 .category-list{
 
@@ -857,32 +445,30 @@ display:grid;
 
 grid-template-columns:repeat(4,1fr);
 
-gap:25px;
-
-padding:25px;
+gap:22px;
 
 }
+
 
 
 .category-list a{
 
 background:#fff;
 
-padding:15px 10px;
+padding:15px 8px;
 
 border-radius:25px;
 
-text-decoration:none;
-
 text-align:center;
 
-box-shadow:0 8px 25px rgba(0,0,0,.12);
+box-shadow:var(--shadow);
 
 transition:.3s;
 
-border:1px solid #eee;
+border:1px solid #e5e7eb;
 
 }
+
 
 
 .category-list a:hover{
@@ -892,19 +478,22 @@ transform:translateY(-8px);
 }
 
 
+
 .category-list img{
 
 width:120px;
 
 height:120px;
 
-object-fit:cover;
+margin:auto;
 
 border-radius:50%;
 
-border:5px solid #fff;
+object-fit:cover;
 
-box-shadow:0 5px 15px rgba(0,0,0,.2);
+border:5px solid var(--primary);
+
+box-shadow:0 5px 18px rgba(0,0,0,.18);
 
 }
 
@@ -916,7 +505,7 @@ display:block;
 
 margin-top:12px;
 
-font-size:17px;
+font-size:16px;
 
 font-weight:800;
 
@@ -928,11 +517,13 @@ color:#111827;
 
 /* ألوان الأقسام */
 
+
 .category-list a:nth-child(1) img{
 
 border-color:#2563eb;
 
 }
+
 
 
 .category-list a:nth-child(2) img{
@@ -942,11 +533,13 @@ border-color:#ec4899;
 }
 
 
+
 .category-list a:nth-child(3) img{
 
 border-color:#16a34a;
 
 }
+
 
 
 .category-list a:nth-child(4) img{
@@ -956,11 +549,13 @@ border-color:#f97316;
 }
 
 
+
 .category-list a:nth-child(5) img{
 
 border-color:#7c3aed;
 
 }
+
 
 
 .category-list a:nth-child(6) img{
@@ -970,6 +565,7 @@ border-color:#0891b2;
 }
 
 
+
 .category-list a:nth-child(7) img{
 
 border-color:#dc2626;
@@ -977,36 +573,553 @@ border-color:#dc2626;
 }
 
 
+
 .category-list a:nth-child(8) img{
 
-border-color:#ca8a04;
+border-color:#f59e0b;
+
+}
+/*========================
+ المنتجات
+========================*/
+
+
+.products{
+
+padding:20px;
 
 }
 
 
 
-/* موبايل */
+.products-grid{
 
-@media(max-width:600px){
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:15px;
+
+}
+
+
+
+.product-card{
+
+background:#fff;
+
+border-radius:22px;
+
+overflow:hidden;
+
+box-shadow:var(--shadow);
+
+transition:.3s;
+
+}
+
+
+
+.product-card:hover{
+
+transform:translateY(-5px);
+
+}
+
+
+
+.product-card img{
+
+width:100%;
+
+aspect-ratio:1/1;
+
+object-fit:cover;
+
+background:#f1f5f9;
+
+}
+
+
+
+.product-info{
+
+padding:15px;
+
+text-align:center;
+
+}
+
+
+
+.product-info h3{
+
+font-size:16px;
+
+font-weight:800;
+
+height:45px;
+
+overflow:hidden;
+
+}
+
+
+
+.price{
+
+color:#16a34a;
+
+font-size:18px;
+
+font-weight:800;
+
+margin:10px 0;
+
+}
+
+
+
+.cart-btn{
+
+width:100%;
+
+padding:12px;
+
+background:var(--primary);
+
+color:#fff;
+
+border-radius:12px;
+
+font-weight:700;
+
+}
+
+
+
+.cart-btn:hover{
+
+background:#1d4ed8;
+
+}
+
+
+
+/*========================
+ قسم الجملة والعروض
+========================*/
+
+
+.wholesale,
+.about-box{
+
+margin:20px;
+
+padding:30px 20px;
+
+background:#fff;
+
+border-radius:25px;
+
+box-shadow:var(--shadow);
+
+text-align:center;
+
+}
+
+
+
+.wholesale h2,
+.about-box h2{
+
+font-size:26px;
+
+font-weight:800;
+
+margin-bottom:15px;
+
+}
+
+
+
+.wholesale p,
+.about-box p{
+
+color:#64748b;
+
+line-height:2;
+
+margin-bottom:20px;
+
+}
+
+
+
+.wholesale a,
+.about-box a{
+
+display:inline-block;
+
+padding:13px 30px;
+
+background:var(--green);
+
+color:#fff;
+
+border-radius:30px;
+
+font-weight:800;
+
+}
+
+
+
+/*========================
+ واتساب
+========================*/
+
+
+.whatsapp{
+
+position:fixed;
+
+left:18px;
+
+bottom:90px;
+
+width:60px;
+
+height:60px;
+
+background:#25D366;
+
+color:white;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:32px;
+
+box-shadow:var(--shadow);
+
+z-index:999;
+
+}
+/*========================
+ القائمة السفلية
+========================*/
+
+
+.bottom-nav{
+
+position:fixed;
+
+bottom:0;
+
+left:0;
+
+right:0;
+
+height:75px;
+
+background:#fff;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+box-shadow:0 -5px 20px rgba(0,0,0,.12);
+
+z-index:999;
+
+}
+
+
+
+.bottom-nav a{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+gap:5px;
+
+font-size:12px;
+
+color:#64748b;
+
+}
+
+
+
+.bottom-nav a.active{
+
+color:var(--primary);
+
+}
+
+
+
+.bottom-nav i{
+
+font-size:22px;
+
+}
+
+
+
+
+/*========================
+ الفوتر
+========================*/
+
+
+.footer{
+
+background:#111827;
+
+color:#fff;
+
+padding:40px 20px 120px;
+
+text-align:center;
+
+margin-top:35px;
+
+}
+
+
+
+.footer-logo{
+
+width:90px;
+
+height:90px;
+
+border-radius:50%;
+
+margin:auto;
+
+margin-bottom:15px;
+
+}
+
+
+
+.footer h3{
+
+font-size:26px;
+
+font-weight:800;
+
+}
+
+
+
+.footer p{
+
+color:#cbd5e1;
+
+margin:8px;
+
+}
+
+
+
+.footer-social a{
+
+font-size:30px;
+
+color:#25D366;
+
+}
+
+
+
+
+/*========================
+ شاشة التحميل
+========================*/
+
+
+#loader{
+
+position:fixed;
+
+inset:0;
+
+background:#fff;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+z-index:99999;
+
+transition:.5s;
+
+}
+
+
+
+#loader.hide{
+
+opacity:0;
+
+visibility:hidden;
+
+}
+
+
+
+.loader-content{
+
+text-align:center;
+
+}
+
+
+
+.loader-content img{
+
+width:90px;
+
+height:90px;
+
+border-radius:50%;
+
+border:4px solid var(--primary);
+
+margin:auto;
+
+}
+
+
+
+.loader-spinner{
+
+width:55px;
+
+height:55px;
+
+margin:20px auto;
+
+border:5px solid #e5e7eb;
+
+border-top-color:var(--primary);
+
+border-radius:50%;
+
+animation:spin 1s linear infinite;
+
+}
+
+
+
+@keyframes spin{
+
+to{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+
+
+
+/*========================
+ الموبايل
+========================*/
+
+
+@media(max-width:768px){
+
+
+.top-header{
+
+flex-direction:row;
+
+}
+
+
+
+.brand img{
+
+width:55px;
+
+height:55px;
+
+}
+
+
+
+.brand h1{
+
+font-size:18px;
+
+}
+
+
+
+.header-actions{
+
+gap:8px;
+
+}
+
+
+
+.cart-icon,
+#darkBtn{
+
+width:45px;
+
+height:45px;
+
+font-size:19px;
+
+}
+
+
+
+.hero-slide img{
+
+height:220px;
+
+}
+
+
+
+.hero-text h2{
+
+font-size:20px;
+
+}
+
+
 
 .category-list{
 
 grid-template-columns:repeat(3,1fr);
 
-gap:15px;
-
-padding:15px;
+gap:12px;
 
 }
 
-
-.category-list a{
-
-padding:10px 5px;
-
-border-radius:20px;
-
-}
 
 
 .category-list img{
@@ -1018,10 +1131,89 @@ height:85px;
 }
 
 
+
 .category-list span{
 
-font-size:14px;
+font-size:13px;
 
 }
+
+
+
+.products-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+gap:10px;
+
+}
+
+
+
+.product-info{
+
+padding:10px;
+
+}
+
+
+
+.product-info h3{
+
+font-size:13px;
+
+}
+
+
+
+.cart-btn{
+
+font-size:13px;
+
+padding:10px;
+
+}
+
+
+}
+
+
+
+
+@media(max-width:420px){
+
+
+.title{
+
+font-size:22px;
+
+}
+
+
+
+.category-list img{
+
+width:75px;
+
+height:75px;
+
+}
+
+
+
+.bottom-nav span{
+
+font-size:10px;
+
+}
+
+
+
+.bottom-nav i{
+
+font-size:20px;
+
+}
+
 
 }
