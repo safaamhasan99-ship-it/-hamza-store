@@ -15,16 +15,11 @@ const productsBox = document.getElementById("productsList");
 async function loadProducts(){
 
 
-    if(!productsBox){
-
-        console.log("productsList غير موجود");
-
-        return;
-
-    }
+    if(!productsBox) return;
 
 
-    productsBox.innerHTML = "جاري تحميل المنتجات...";
+    productsBox.innerHTML =
+    "جاري تحميل المنتجات...";
 
 
 
@@ -44,9 +39,8 @@ async function loadProducts(){
         if(snapshot.empty){
 
 
-            productsBox.innerHTML = `
-            <h3>لا توجد منتجات</h3>
-            `;
+            productsBox.innerHTML =
+            "<h3>لا توجد منتجات</h3>";
 
             return;
 
@@ -60,6 +54,10 @@ async function loadProducts(){
             const product = item.data();
 
 
+            const price =
+            Number(product.price) || 0;
+
+
 
             productsBox.innerHTML += `
 
@@ -67,33 +65,36 @@ async function loadProducts(){
             <div class="product-card">
 
 
-                <img src="${product.image}">
+                <img src="${product.image || ''}">
 
 
                 <div class="product-info">
 
 
-                <h3>
-                ${product.name}
-                </h3>
+                    <h3>
+                    ${product.name || ''}
+                    </h3>
 
 
-                <p class="price">
-                ${Number(product.price).toLocaleString()} د.ع
-                </p>
+
+                    <p class="price">
+                    ${price.toLocaleString()} د.ع
+                    </p>
 
 
-                <button class="cart-btn"
 
-                onclick="addToCart(
-                '${product.name}',
-                ${product.price},
-                '${product.image}'
-                )">
 
-                🛒 إضافة للسلة
+                    <button class="cart-btn"
+                    onclick="addToCart(
+                    '${product.name}',
+                    ${price},
+                    '${product.image}'
+                    )">
 
-                </button>
+                    🛒 إضافة للسلة
+
+                    </button>
+
 
 
                 </div>
@@ -115,9 +116,8 @@ async function loadProducts(){
         console.log(error);
 
 
-        productsBox.innerHTML = `
-        <h3>خطأ: ${error.message}</h3>
-        `;
+        productsBox.innerHTML =
+        "<h3>حدث خطأ في تحميل المنتجات</h3>";
 
 
     }
