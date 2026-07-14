@@ -1,369 +1,130 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+// products.js
 
-<head>
+import { db } from "./firebase.js";
 
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>سلة المشتريات | مجمع حمزه الشطري</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
+import {
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-<style>
-
-.cart-page{
-max-width:1100px;
-margin:auto;
-padding:20px;
-}
+const productsBox = document.getElementById("productsList");
 
 
-.cart-title{
-text-align:center;
-font-size:28px;
-font-weight:800;
-margin-bottom:25px;
-}
+
+async function loadProducts(){
 
 
-.cart-grid{
-
-display:grid;
-grid-template-columns:2fr 1fr;
-gap:20px;
-
-}
+    if(!productsBox) return;
 
 
-.cart-box,
-.order-box{
-
-background:#fff;
-padding:20px;
-border-radius:20px;
-box-shadow:0 8px 25px rgba(0,0,0,.08);
-
-}
+    productsBox.innerHTML =
+    "جاري تحميل المنتجات...";
 
 
-.cart-item{
 
-display:flex;
-align-items:center;
-gap:15px;
-background:#fafafa;
-padding:15px;
-margin-bottom:15px;
-border-radius:15px;
-
-}
+    try{
 
 
-.cart-item img{
-
-width:90px;
-height:90px;
-object-fit:cover;
-border-radius:15px;
-
-}
+        const snapshot = await getDocs(
+            collection(db,"products")
+        );
 
 
-.cart-info{
 
-flex:1;
-
-}
+        productsBox.innerHTML = "";
 
 
-.price{
 
-color:#c79b3b;
-font-weight:bold;
-
-}
+        if(snapshot.empty){
 
 
-.qty{
+            productsBox.innerHTML =
+            "<h3>لا توجد منتجات</h3>";
 
-display:flex;
-align-items:center;
-gap:10px;
-margin-top:10px;
+            return;
 
-}
+        }
 
 
-.qty button{
 
-width:35px;
-height:35px;
-border:0;
-border-radius:8px;
-background:#c79b3b;
-color:white;
-font-size:20px;
-cursor:pointer;
-
-}
+        snapshot.forEach((item)=>{
 
 
-.remove-btn{
-
-background:#d9534f;
-color:white;
-border:0;
-padding:8px 12px;
-border-radius:8px;
-cursor:pointer;
-
-}
+            const product = item.data();
 
 
-.order-box input,
-.order-box textarea{
-
-width:100%;
-box-sizing:border-box;
-padding:13px;
-margin-bottom:12px;
-border:1px solid #ddd;
-border-radius:12px;
-font-family:Cairo;
-
-}
+            const price =
+            Number(product.price) || 0;
 
 
-.order-box textarea{
 
-height:100px;
-
-}
+            productsBox.innerHTML += `
 
 
-.whatsapp-btn{
-
-width:100%;
-padding:15px;
-border:0;
-border-radius:12px;
-background:#25D366;
-color:white;
-font-size:17px;
-font-weight:bold;
-cursor:pointer;
-
-}
+            <div class="product-card">
 
 
-#cartTotal{
+                <img src="${product.image || ''}">
 
-color:#c79b3b;
-font-size:22px;
-font-weight:bold;
+
+                <div class="product-info">
+
+
+                    <h3>
+                    ${product.name || ''}
+                    </h3>
+
+
+
+                    <p class="price">
+                    ${price.toLocaleString()} د.ع
+                    </p>
+
+
+
+
+                    <button class="cart-btn"
+                    onclick="addToCart(
+                    '${product.name}',
+                    ${price},
+                    '${product.image}'
+                    )">
+
+                    🛒 إضافة للسلة
+
+                    </button>
+
+
+
+                </div>
+
+
+            </div>
+
+
+            `;
+
+
+        });
+
+
+
+    }catch(error){
+
+
+        console.log(error);
+
+
+        productsBox.innerHTML =
+        "<h3>حدث خطأ في تحميل المنتجات</h3>";
+
+
+    }
+
 
 }
 
 
 
-@media(max-width:700px){
-
-.cart-grid{
-
-display:block;
-
-}
-
-
-.cart-box,
-.order-box{
-
-margin-bottom:20px;
-
-}
-
-
-.cart-item{
-
-flex-wrap:wrap;
-
-}
-
-
-.cart-item img{
-
-width:75px;
-height:75px;
-
-}
-
-}
-
-
-</style>
-
-</head>
-
-
-
-<body>
-
-
-
-<header class="header">
-
-<div class="brand">
-
-<h1>
-مجمع حمزه الشطري
-</h1>
-
-<p>
-🛒 سلة المشتريات
-</p>
-
-</div>
-
-</header>
-
-
-
-
-<section class="cart-page">
-
-
-<h2 class="cart-title">
-🛒 سلة الطلب
-</h2>
-
-
-
-<div class="cart-grid">
-
-
-
-<div class="cart-box">
-
-<h3>
-📦 المنتجات
-</h3>
-
-
-<div id="cartItems">
-
-</div>
-
-
-</div>
-
-
-
-
-<div class="order-box">
-
-
-<h3>
-👤 معلومات الزبون
-</h3>
-
-
-
-<input
-id="customerName"
-placeholder="اسم الزبون">
-
-
-
-<input
-id="customerPhone"
-placeholder="رقم الهاتف">
-
-
-
-<textarea
-id="customerAddress"
-placeholder="العنوان"></textarea>
-
-
-
-
-<h3>
-
-المجموع:
-<span id="cartTotal">0</span>
-
-د.ع
-
-</h3>
-
-
-
-
-<button
-class="whatsapp-btn"
-onclick="sendWhatsAppOrder()">
-
-🟢 إرسال الطلب عبر واتساب
-
-</button>
-
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<nav class="bottom-nav">
-
-
-<a href="index.html">
-🏠 الرئيسية
-</a>
-
-
-<a href="products.html">
-🛍 المنتجات
-</a>
-
-
-<a href="cart.html">
-🛒 السلة
-</a>
-
-
-<a href="favorites.html">
-❤️ المفضلة
-</a>
-
-
-<a href="about.html">
-ℹ️ من نحن
-</a>
-
-
-</nav>
-
-
-
-
-<script src="script.js"></script>
-
-<script src="cart.js"></script>
-
-
-</body>
-
-</html>
+loadProducts();
