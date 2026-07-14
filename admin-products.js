@@ -5,6 +5,7 @@ import { db } from "./firebase.js";
 
 
 import {
+
 collection,
 addDoc,
 getDocs,
@@ -12,7 +13,10 @@ doc,
 deleteDoc,
 updateDoc,
 serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
@@ -39,11 +43,9 @@ const offer = document.getElementById("offer");
 
 const saveBtn = document.getElementById("saveBtn");
 
-const productsList = document.getElementById("productsList");
+const productsList = document.getElementById("products");
 
 
-
-// متغير التعديل
 
 let editId = null;
 
@@ -54,55 +56,96 @@ let editId = null;
 async function loadProducts(){
 
 
-    productsList.innerHTML = "";
+if(!productsList) return;
 
 
-    const snap = await getDocs(
-        collection(db,"products")
-    );
+productsList.innerHTML =
+"جاري تحميل المنتجات...";
 
 
-    snap.forEach((item)=>{
+
+try{
 
 
-        const p = item.data();
+const snap = await getDocs(
+collection(db,"products")
+);
 
 
-        productsList.innerHTML += `
+
+productsList.innerHTML = "";
 
 
-        <div class="product-box">
+
+snap.forEach((item)=>{
 
 
-        <img src="${p.image}" width="100">
+const p = item.data();
 
 
-        <h3>${p.name}</h3>
+
+productsList.innerHTML += `
 
 
-        <p>السعر: ${p.price}</p>
+<div class="product-box">
 
 
-        <p>القسم: ${p.category}</p>
+<img src="${p.image || ''}" width="100">
 
 
-        <button onclick="editProduct('${item.id}')">
-        ✏️ تعديل
-        </button>
+<h3>${p.name || ''}</h3>
 
 
-        <button onclick="deleteProduct('${item.id}')">
-        🗑 حذف
-        </button>
+<p>
+السعر: ${p.price || 0}
+</p>
 
 
-        </div>
+<p>
+القسم: ${p.category || ''}
+</p>
 
 
-        `;
+
+<button onclick="editProduct('${item.id}')">
+
+✏️ تعديل
+
+</button>
 
 
-    });
+
+<button onclick="deleteProduct('${item.id}')">
+
+🗑 حذف
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+}
+
+catch(error){
+
+
+console.log(error);
+
+
+productsList.innerHTML =
+"حدث خطأ في تحميل المنتجات";
+
+
+}
+
 
 
 }
@@ -110,182 +153,198 @@ async function loadProducts(){
 
 
 loadProducts();
+
+
+
+
+
 // حفظ المنتج
 
 saveBtn.onclick = async function(){
 
 
-    const product = {
 
+const product = {
 
-        name: name.value.trim(),
 
+name:name.value.trim(),
 
-        price: price.value.trim(),
 
+price:price.value.trim(),
 
-        category: category.value,
 
+category:category.value,
 
-        sizes: sizes.value.trim(),
 
+sizes:sizes.value.trim(),
 
-        colors: colors.value.trim(),
 
+colors:colors.value.trim(),
 
-        quantity: quantity.value.trim(),
 
+quantity:quantity.value.trim(),
 
-        description: description.value.trim(),
 
+description:description.value.trim(),
 
-        image: image.value.trim(),
 
+image:image.value.trim(),
 
-        offer: offer.checked,
 
+offer:offer ? offer.checked : false,
 
-        time: serverTimestamp()
 
-
-    };
-
-
-
-    try{
-
-
-        // تعديل منتج موجود
-
-        if(editId){
-
-
-            await updateDoc(
-
-                doc(db,"products",editId),
-
-                product
-
-            );
-
-
-            alert("تم تعديل المنتج بنجاح");
-
-
-            editId = null;
-
-
-            saveBtn.innerText = "💾 حفظ المنتج";
-
-
-        }
-
-
-        // إضافة منتج جديد
-
-        else{
-
-
-            await addDoc(
-
-                collection(db,"products"),
-
-                product
-
-            );
-
-
-            alert("تم إضافة المنتج بنجاح");
-
-
-        }
-
-
-
-        // تنظيف الحقول
-
-        name.value = "";
-
-        price.value = "";
-
-        category.value = "";
-
-        sizes.value = "";
-
-        colors.value = "";
-
-        quantity.value = "";
-
-        description.value = "";
-
-        image.value = "";
-
-        offer.checked = false;
-
-
-
-        loadProducts();
-
-
-
-    }
-
-    catch(error){
-
-
-        console.log(error);
-
-
-        alert("حدث خطأ أثناء الحفظ");
-
-
-    }
+time:serverTimestamp()
 
 
 };
+
+
+
+
+try{
+
+
+
+if(editId){
+
+
+
+await updateDoc(
+
+doc(db,"products",editId),
+
+product
+
+);
+
+
+
+alert("تم تعديل المنتج");
+
+
+editId=null;
+
+
+saveBtn.innerText="💾 حفظ المنتج";
+
+
+
+}
+
+else{
+
+
+await addDoc(
+
+collection(db,"products"),
+
+product
+
+);
+
+
+
+alert("تم إضافة المنتج");
+
+
+}
+
+
+
+
+name.value="";
+
+price.value="";
+
+category.value="رجالي";
+
+sizes.value="";
+
+colors.value="";
+
+quantity.value="";
+
+description.value="";
+
+image.value="";
+
+if(offer) offer.checked=false;
+
+
+
+loadProducts();
+
+
+
+}
+
+
+
+catch(error){
+
+
+console.log(error);
+
+
+alert("حدث خطأ أثناء الحفظ");
+
+
+}
+
+
+
+};
+
+
+
+
+
 // حذف منتج
 
 window.deleteProduct = async function(id){
 
 
-    if(!confirm("هل تريد حذف المنتج؟")) return;
+
+if(!confirm("هل تريد حذف المنتج؟")) return;
 
 
 
-    try{
+try{
 
 
-        await deleteDoc(
+await deleteDoc(
 
-            doc(db,"products",id)
+doc(db,"products",id)
 
-        );
-
-
-
-        alert("تم حذف المنتج بنجاح");
+);
 
 
 
-        loadProducts();
+alert("تم حذف المنتج");
+
+
+loadProducts();
 
 
 
-    }
+}
 
-    catch(error){
-
-
-        console.log(error);
+catch(error){
 
 
-        alert("حدث خطأ أثناء الحذف");
+console.log(error);
 
 
-    }
+alert("حدث خطأ أثناء الحذف");
+
+
+}
+
 
 
 };
+
 
 
 
@@ -296,117 +355,95 @@ window.deleteProduct = async function(id){
 window.editProduct = async function(id){
 
 
-    try{
 
+try{
 
-        const snap = await getDocs(
 
-            collection(db,"products")
+const snap = await getDocs(
+collection(db,"products")
+);
 
-        );
 
 
+snap.forEach((item)=>{
 
-        snap.forEach((item)=>{
 
 
-            if(item.id === id){
+if(item.id === id){
 
 
-                const p = item.data();
 
+const p=item.data();
 
 
-                name.value = p.name || "";
 
+name.value=p.name || "";
 
-                price.value = p.price || "";
+price.value=p.price || "";
 
+category.value=p.category || "رجالي";
 
-                category.value = p.category || "";
+sizes.value=p.sizes || "";
 
+colors.value=p.colors || "";
 
-                sizes.value = p.sizes || "";
+quantity.value=p.quantity || "";
 
+description.value=p.description || "";
 
-                colors.value = p.colors || "";
+image.value=p.image || "";
 
+if(offer) offer.checked=p.offer || false;
 
-                quantity.value = p.quantity || "";
 
 
-                description.value = p.description || "";
+editId=id;
 
 
-                image.value = p.image || "";
+saveBtn.innerText="💾 حفظ التعديلات";
 
 
-                offer.checked = p.offer || false;
 
+window.scrollTo({
 
+top:0,
 
-                editId = id;
+behavior:"smooth"
 
+});
 
 
-                saveBtn.innerText = "💾 حفظ التعديلات";
+}
 
-
-
-                window.scrollTo({
-
-                    top:0,
-
-                    behavior:"smooth"
-
-                });
-
-
-            }
-
-
-        });
-
-
-    }
-
-
-    catch(error){
-
-
-        console.log(error);
-
-
-        alert("حدث خطأ بجلب المنتج");
-
-
-    }
-
-
-};
-// حماية عند فتح الصفحة
-
-window.addEventListener("DOMContentLoaded",()=>{
-
-
-    if(!productsList){
-
-        console.log("لم يتم العثور على قائمة المنتجات");
-
-        return;
-
-    }
 
 
 });
 
 
 
+}
 
-// إعادة تحميل المنتجات عند الرجوع للصفحة
+catch(error){
 
-window.refreshProducts = function(){
 
-    loadProducts();
+console.log(error);
+
+
+alert("حدث خطأ بجلب المنتج");
+
+
+}
+
+
+
+};
+
+
+
+
+
+window.refreshProducts=function(){
+
+loadProducts();
 
 };
