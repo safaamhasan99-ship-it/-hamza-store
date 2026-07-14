@@ -1,5 +1,3 @@
-// admin-products.js
-
 import { db } from "./firebase.js";
 
 import {
@@ -33,6 +31,34 @@ let editId = null;
 
 
 
+// تنظيف رابط الصورة
+
+function cleanImageUrl(url){
+
+if(!url) return "";
+
+
+// إذا لصقت كود imgbb كامل
+
+let match = url.match(/src="([^"]+)"/);
+
+if(match){
+
+return match[1];
+
+}
+
+
+// إذا كان رابط مباشر
+
+return url.trim();
+
+}
+
+
+
+
+
 // تحميل المنتجات
 
 async function loadProducts(){
@@ -55,6 +81,7 @@ collection(db,"products")
 productsList.innerHTML="";
 
 
+
 if(snap.empty){
 
 productsList.innerHTML="لا توجد منتجات";
@@ -75,22 +102,35 @@ productsList.innerHTML += `
 
 <div class="product-box">
 
-<img src="${p.image || ''}" width="120">
 
-<h3>${p.name || ''}</h3>
+<img 
+src="${p.image || ''}" 
+width="120"
+loading="lazy"
+onerror="this.style.display='none'"
+>
+
+
+<h3>
+${p.name || ''}
+</h3>
+
 
 <p>
 السعر: ${p.price || 0}
 </p>
+
 
 <p>
 القسم: ${p.category || ''}
 </p>
 
 
+
 <button onclick="editProduct('${item.id}')">
 ✏️ تعديل
 </button>
+
 
 
 <button onclick="deleteProduct('${item.id}')">
@@ -124,6 +164,7 @@ loadProducts();
 
 
 
+
 // حفظ المنتج
 
 if(saveBtn){
@@ -149,7 +190,7 @@ quantity:quantity.value.trim(),
 
 description:description.value.trim(),
 
-image:image.value.trim(),
+image:cleanImageUrl(image.value),
 
 time:serverTimestamp()
 
@@ -204,7 +245,6 @@ alert("تم إضافة المنتج");
 
 
 
-// تفريغ الحقول
 
 name.value="";
 
@@ -247,6 +287,7 @@ alert("حدث خطأ أثناء الحفظ");
 
 
 }
+
 
 
 
@@ -371,6 +412,7 @@ alert("حدث خطأ بجلب المنتج");
 
 
 };
+
 
 
 
