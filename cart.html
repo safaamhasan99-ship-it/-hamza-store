@@ -19,11 +19,12 @@
 
 .cart-page{
 
-max-width:1000px;
+max-width:1100px;
 margin:auto;
 padding:20px;
 
 }
+
 
 
 .cart-title{
@@ -31,6 +32,17 @@ padding:20px;
 text-align:center;
 font-size:28px;
 font-weight:800;
+margin-bottom:25px;
+
+}
+
+
+
+.cart-grid{
+
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
 
 }
 
@@ -42,8 +54,6 @@ font-weight:800;
 background:white;
 padding:20px;
 border-radius:20px;
-margin-top:20px;
-
 box-shadow:0 8px 25px rgba(0,0,0,.08);
 
 }
@@ -56,9 +66,9 @@ display:flex;
 align-items:center;
 gap:15px;
 padding:15px;
+margin-bottom:15px;
 background:#fafafa;
 border-radius:15px;
-margin-bottom:15px;
 
 }
 
@@ -95,8 +105,9 @@ font-weight:bold;
 .qty{
 
 display:flex;
-gap:10px;
 align-items:center;
+gap:10px;
+margin-top:10px;
 
 }
 
@@ -110,6 +121,7 @@ border:0;
 border-radius:8px;
 background:#c79b3b;
 color:white;
+font-size:20px;
 
 }
 
@@ -120,8 +132,31 @@ color:white;
 background:#d9534f;
 color:white;
 border:0;
-padding:8px;
+padding:8px 12px;
 border-radius:8px;
+
+}
+
+
+
+.order-box input,
+.order-box textarea{
+
+width:100%;
+box-sizing:border-box;
+padding:13px;
+margin-bottom:12px;
+border-radius:12px;
+border:1px solid #ddd;
+font-family:Cairo;
+
+}
+
+
+
+.order-box textarea{
+
+height:100px;
 
 }
 
@@ -131,30 +166,59 @@ border-radius:8px;
 
 width:100%;
 padding:15px;
-margin-top:15px;
 background:#25D366;
 color:white;
 border:0;
 border-radius:12px;
 font-size:18px;
 font-weight:bold;
+cursor:pointer;
 
 }
 
 
-input[type="file"]{
 
-width:100%;
-margin-top:15px;
+#cartTotal{
+
+color:#c79b3b;
+font-size:22px;
+font-weight:bold;
 
 }
 
+
+
+
+@media(max-width:700px){
+
+.cart-grid{
+
+display:block;
+
+}
+
+
+.cart-box,
+.order-box{
+
+margin-bottom:20px;
+
+}
+
+
+.cart-item{
+
+flex-wrap:wrap;
+
+}
+
+}
 
 
 </style>
 
-
 </head>
+
 
 
 <body>
@@ -162,19 +226,25 @@ margin-top:15px;
 
 <header class="header">
 
+
 <div class="brand">
+
 
 <h1>
 مجمع حمزه الشطري
 </h1>
 
+
 <p>
-🛒 سلة الطلب
+🛒 سلة المشتريات
 </p>
+
 
 </div>
 
+
 </header>
+
 
 
 
@@ -183,13 +253,24 @@ margin-top:15px;
 
 
 <h2 class="cart-title">
-🛒 السلة
+
+🛒 سلة الطلب
+
 </h2>
 
 
 
 
+<div class="cart-grid">
+
+
+
 <div class="cart-box">
+
+
+<h3>
+📦 المنتجات
+</h3>
 
 
 <div id="cartItems"></div>
@@ -200,18 +281,32 @@ margin-top:15px;
 
 
 
+
+
 <div class="order-box">
 
 
 <h3>
-📷 إرفاق صورة
+👤 معلومات الزبون
 </h3>
 
 
-<input 
-type="file"
-id="customerImage"
-accept="image/*">
+
+<input
+id="customerName"
+placeholder="اسم الزبون">
+
+
+
+<input
+id="customerPhone"
+placeholder="رقم الهاتف">
+
+
+
+<textarea
+id="customerAddress"
+placeholder="العنوان"></textarea>
 
 
 
@@ -232,13 +327,18 @@ accept="image/*">
 
 
 
-<button 
+
+<button
 class="whatsapp-btn"
 onclick="sendWhatsAppOrder()">
 
-🟢 إرسال الطلب واتساب
+🟢 إرسال الطلب عبر واتساب
 
 </button>
+
+
+
+</div>
 
 
 
@@ -254,21 +354,31 @@ onclick="sendWhatsAppOrder()">
 
 <nav class="bottom-nav">
 
+
 <a href="index.html">
 🏠 الرئيسية
 </a>
+
 
 <a href="products.html">
 🛍 المنتجات
 </a>
 
+
 <a href="cart.html">
 🛒 السلة
 </a>
 
+
 <a href="favorites.html">
 ❤️ المفضلة
 </a>
+
+
+<a href="about.html">
+ℹ️ من نحن
+</a>
+
 
 </nav>
 
