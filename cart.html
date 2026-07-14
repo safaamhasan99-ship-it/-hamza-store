@@ -17,8 +17,8 @@
 <link rel="stylesheet" href="style.css">
 
 
-
 <style>
+
 
 .cart-page{
 
@@ -29,12 +29,13 @@ padding:20px;
 }
 
 
+
 .cart-title{
 
+text-align:center;
 font-size:28px;
 font-weight:800;
 margin-bottom:25px;
-text-align:center;
 
 }
 
@@ -54,8 +55,8 @@ gap:20px;
 .order-box{
 
 background:#fff;
-border-radius:20px;
 padding:20px;
+border-radius:20px;
 box-shadow:0 8px 25px rgba(0,0,0,.08);
 
 }
@@ -65,10 +66,12 @@ box-shadow:0 8px 25px rgba(0,0,0,.08);
 .cart-item{
 
 display:flex;
-gap:15px;
-padding:15px;
-border-bottom:1px solid #eee;
 align-items:center;
+gap:15px;
+background:#fafafa;
+padding:15px;
+margin-bottom:15px;
+border-radius:15px;
 
 }
 
@@ -95,7 +98,7 @@ flex:1;
 
 .cart-info h3{
 
-margin:0;
+margin:0 0 10px;
 
 }
 
@@ -127,11 +130,13 @@ width:35px;
 height:35px;
 border:0;
 border-radius:8px;
-cursor:pointer;
 background:#c79b3b;
 color:white;
+font-size:20px;
+cursor:pointer;
 
 }
+
 
 
 .remove-btn{
@@ -147,6 +152,109 @@ cursor:pointer;
 
 
 
+.order-box input,
+.order-box textarea{
+
+width:100%;
+box-sizing:border-box;
+padding:13px;
+margin-bottom:12px;
+border:1px solid #ddd;
+border-radius:12px;
+font-family:Cairo;
+
+}
+
+
+
+.order-box textarea{
+
+height:100px;
+resize:none;
+
+}
+
+
+
+.whatsapp-btn{
+
+width:100%;
+padding:15px;
+border:0;
+border-radius:12px;
+background:#25D366;
+color:white;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+
+
+#cartTotal{
+
+color:#c79b3b;
+font-size:22px;
+font-weight:bold;
+
+}
+
+
+
+/* الموبايل */
+
+@media(max-width:700px){
+
+
+.cart-page{
+
+padding:10px;
+
+}
+
+
+.cart-grid{
+
+display:block;
+
+}
+
+
+.cart-box,
+.order-box{
+
+margin-bottom:20px;
+
+}
+
+
+.cart-item{
+
+flex-wrap:wrap;
+
+}
+
+
+.cart-item img{
+
+width:75px;
+height:75px;
+
+}
+
+
+.cart-title{
+
+font-size:22px;
+
+}
+
+
+}
+
+
+
 </style>
 
 
@@ -154,7 +262,9 @@ cursor:pointer;
 
 
 <body>
-  <header class="header">
+
+
+<header class="header">
 
 <div class="brand">
 
@@ -177,7 +287,9 @@ cursor:pointer;
 
 
 <h2 class="cart-title">
+
 🛒 سلة الطلب
+
 </h2>
 
 
@@ -186,13 +298,11 @@ cursor:pointer;
 
 
 
-<!-- المنتجات -->
-
 <div class="cart-box">
 
 
 <h3>
-المنتجات
+📦 المنتجات
 </h3>
 
 
@@ -207,18 +317,16 @@ cursor:pointer;
 
 
 
-<!-- ملخص الطلب -->
-
 <div class="order-box">
 
 
 <h3>
-📦 معلومات الطلب
+👤 معلومات الزبون
 </h3>
 
 
 
-<input
+<input 
 id="customerName"
 placeholder="اسم الزبون">
 
@@ -232,8 +340,8 @@ placeholder="رقم الهاتف">
 
 <textarea
 id="customerAddress"
-placeholder="العنوان">
-</textarea>
+placeholder="العنوان"></textarea>
+
 
 
 
@@ -247,6 +355,7 @@ placeholder="العنوان">
 د.ع
 
 </h3>
+
 
 
 
@@ -267,6 +376,11 @@ onclick="sendWhatsAppOrder()">
 
 
 </section>
+
+
+
+
+
 <nav class="bottom-nav">
 
 
@@ -299,8 +413,9 @@ onclick="sendWhatsAppOrder()">
 
 
 
-<script src="script.js"></script>
 
+
+<script src="script.js"></script>
 
 <script src="cart.js"></script>
 
