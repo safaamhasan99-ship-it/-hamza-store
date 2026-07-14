@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>الحجابات والشالات | مجمع حمزه الشطري</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+.msg{
+text-align:center;
+padding:40px;
+font-size:22px;
+font-weight:bold;
+grid-column:1/-1;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+
+<div class="brand">
+
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+
+<div>
+
+<h1>
+مجمع حمزه الشطري
+</h1>
+
+
+<p>
+قسم الحجابات والشالات
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+<section class="products">
+
+
+<h2 class="title">
+🧕 الحجابات والشالات
+</h2>
+
+
+<div id="products" class="products-grid">
+
+
+<div class="msg">
+جاري تحميل المنتجات...
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<nav class="bottom-nav">
+
+
+<a href="index.html">
+🏠 الرئيسية
+</a>
+
+
+<a href="products.html">
+🛍 المنتجات
+</a>
+
+
+<a href="cart.html">
+🛒 السلة
+</a>
+
+
+<a href="about.html">
+ℹ️ من نحن
+</a>
+
+
+</nav>
+
+
+
+
+
+<script src="script.js"></script>
+
+
+
+
+<script type="module">
+
+
+import { db } from "./firebase.js";
+
+
+import {
+
+collection,
+
+getDocs
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+const box=document.getElementById("products");
+
+
+
+async function loadProducts(){
+
+
+try{
+
+
+const snap = await getDocs(
+collection(db,"products")
+);
+
+
+
+box.innerHTML="";
+
+
+let found=false;
+
+
+
+snap.forEach((doc)=>{
+
+
+const p=doc.data();
+
+
+const category=(p.category || "").trim();
+
+
+
+if(
+
+category==="قسم الحجابات والشالات" ||
+
+category==="حجابات" 
+
+){
+
+
+found=true;
+
+
+
+box.innerHTML += `
+
+
+<div class="product-card">
+
+
+<img src="${p.image || 'https://via.placeholder.com/300x400?text=No+Image'}">
+
+
+<div class="product-info">
+
+
+<h3>
+${p.name || "بدون اسم"}
+</h3>
+
+
+
+<p>
+${p.description || ""}
+</p>
+
+
+
+<p class="price">
+
+${Number(p.price || 0).toLocaleString()} د.ع
+
+</p>
+
+
+
+
+<div class="buttons">
+
+
+<button class="cart-btn"
+
+onclick="addToCart('${(p.name || '').replace(/'/g,"\\'")}',${Number(p.price || 0)},'${p.image || ''}')">
+
+🛒 إضافة للسلة
+
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+
+}
+
+
+});
+
+
+
+if(!found){
+
+
+box.innerHTML=`
+
+<div class="msg">
+
+لا توجد منتجات في قسم الحجابات والشالات
+
+</div>
+
+`;
+
+}
+
+
+}
+
+
+catch(error){
+
+
+console.error(error);
+
+
+box.innerHTML=`
+
+<div class="msg">
+
+حدث خطأ أثناء تحميل المنتجات
+
+</div>
+
+`;
+
+}
+
+
+}
+
+
+
+loadProducts();
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
