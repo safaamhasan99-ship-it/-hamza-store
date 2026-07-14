@@ -34,7 +34,6 @@ font-weight:800;
 }
 
 
-
 .products{
 
 display:grid;
@@ -43,7 +42,6 @@ gap:15px;
 padding:20px;
 
 }
-
 
 
 .card{
@@ -57,7 +55,6 @@ box-shadow:0 3px 10px #ddd;
 }
 
 
-
 .card img{
 
 width:100%;
@@ -68,13 +65,11 @@ border-radius:12px;
 }
 
 
-
 .card h3{
 
 font-size:18px;
 
 }
-
 
 
 .price{
@@ -84,7 +79,6 @@ font-size:18px;
 font-weight:bold;
 
 }
-
 
 </style>
 
@@ -96,13 +90,9 @@ font-weight:bold;
 <body>
 
 
-
 <header>
-
 قسم الداخليات الرجالي
-
 </header>
-
 
 
 
@@ -127,7 +117,6 @@ collection,
 getDocs
 
 }
-
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
@@ -142,13 +131,20 @@ async function loadProducts(){
 try{
 
 
-box.innerHTML="";
+box.innerHTML="يتم تحميل المنتجات...";
 
 
 const snap = await getDocs(
 collection(db,"products")
 );
 
+
+
+console.log("عدد المنتجات:", snap.size);
+
+
+
+box.innerHTML="";
 
 
 let found=false;
@@ -158,16 +154,21 @@ let found=false;
 snap.forEach((doc)=>{
 
 
-let p=doc.data();
+const p = doc.data();
+
+
+console.log(p);
 
 
 
-let cat = p.category || "";
+const category = p.category || "";
 
 
 
 if(
-cat.includes("داخلي")
+
+category.includes("داخلي")
+
 ){
 
 
@@ -177,6 +178,7 @@ found=true;
 
 box.innerHTML += `
 
+
 <div class="card">
 
 
@@ -185,7 +187,7 @@ box.innerHTML += `
 
 <h3>
 
-${p.name || ''}
+${p.name || 'بدون اسم'}
 
 </h3>
 
@@ -198,13 +200,16 @@ ${p.price || 0} د.ع
 </div>
 
 
+
 </div>
+
 
 `;
 
 
 
 }
+
 
 
 });
@@ -218,7 +223,9 @@ box.innerHTML="لا توجد منتجات";
 }
 
 
+
 }
+
 
 
 catch(error){
@@ -227,9 +234,11 @@ catch(error){
 console.log(error);
 
 
-box.innerHTML="حدث خطأ في تحميل المنتجات";
+box.innerHTML="خطأ: "+error.message;
+
 
 }
+
 
 
 }
