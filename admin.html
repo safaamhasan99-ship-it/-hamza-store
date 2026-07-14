@@ -6,62 +6,88 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>الداخليات الرجالي | مجمع حمزه الشطري</title>
+<title>لوحة إدارة المنتجات | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="style.css">
 
 <style>
 
-*{
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-body{
-margin:0;
-background:#f5f7fb;
-}
-
-header{
-background:#111;
-color:white;
+.admin-page{
+max-width:1200px;
+margin:30px auto;
 padding:20px;
-text-align:center;
-font-size:22px;
-font-weight:800;
 }
 
-.products{
+.admin-box{
+background:#fff;
+padding:25px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+margin-bottom:30px;
+}
+
+.form-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:15px;
-padding:20px;
+}
+
+.form-group{
+display:flex;
+flex-direction:column;
+}
+
+.form-group label{
+margin-bottom:8px;
+font-weight:700;
+}
+
+input,select,textarea{
+padding:14px;
+border:1px solid #ddd;
+border-radius:12px;
+font-size:15px;
+}
+
+textarea{
+height:120px;
+}
+
+#saveBtn{
+width:100%;
+padding:16px;
+margin-top:20px;
+background:#0ea5e9;
+color:white;
+border:0;
+border-radius:12px;
+font-size:18px;
+cursor:pointer;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+gap:20px;
 }
 
 .card{
 background:white;
-border-radius:15px;
-padding:10px;
-text-align:center;
-box-shadow:0 3px 10px #ddd;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 20px #ddd;
 }
 
 .card img{
 width:100%;
-height:200px;
+height:250px;
 object-fit:cover;
-border-radius:12px;
 }
 
-.card h3{
-font-size:18px;
-}
-
-.price{
-color:#c28b00;
-font-size:18px;
-font-weight:bold;
+.card-body{
+padding:15px;
 }
 
 </style>
@@ -72,117 +98,180 @@ font-weight:bold;
 <body>
 
 
-<header>
-قسم الداخليات الرجالي
+<header class="header">
+
+<h1>مجمع حمزه الشطري</h1>
+
+<p>لوحة إدارة المنتجات</p>
+
 </header>
 
 
-<div class="products" id="products">
+
+<div class="admin-page">
+
+
+<div class="admin-box">
+
+
+<h2>إضافة منتج جديد</h2>
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+<label>اسم المنتج</label>
+<input id="name" type="text">
+</div>
+
+
+
+<div class="form-group">
+<label>السعر</label>
+<input id="price" type="number">
+</div>
+
+
+
+<div class="form-group">
+
+<label>القسم</label>
+
+
+<select id="category">
+
+
+<option value="رجالي">
+القسم الرجالي
+</option>
+
+
+<option value="نسائي">
+القسم النسائي
+</option>
+
+
+<option value="ولادي">
+القسم الولادي
+</option>
+
+
+<option value="بناتي">
+القسم البناتي
+</option>
+
+
+<option value="بنطرونات">
+قسم البنطرونات
+</option>
+
+
+<option value="underwear">
+الداخليات الرجالي
+</option>
+
+
+<option value="جوارب">
+قسم الجوارب
+</option>
+
+
+<option value="حقائب">
+قسم الحقائب
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+<div class="form-group">
+<label>المقاسات</label>
+<input id="sizes">
+</div>
+
+
+
+<div class="form-group">
+<label>الألوان</label>
+<input id="colors">
+</div>
+
+
+
+<div class="form-group">
+<label>الكمية</label>
+<input id="quantity" type="number" value="0">
+</div>
+
+
+
+<div class="form-group">
+
+<label>رابط الصورة</label>
+
+<input id="image" type="text">
+
+</div>
+
+
+
+
+<div class="form-group" style="grid-column:1/-1;">
+
+<label>الوصف</label>
+
+<textarea id="description"></textarea>
+
+</div>
+
+
+
+</div>
+
+
+
+<button id="saveBtn">
+💾 حفظ المنتج
+</button>
+
+
+
+</div>
+
+
+
+<div class="admin-box">
+
+
+<h2>🛍 المنتجات</h2>
+
+
+<div id="products" class="cards">
 
 جاري تحميل المنتجات...
 
 </div>
 
 
-
-<script type="module">
-
-import { db } from "./firebase.js";
-
-import {
-collection,
-getDocs
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-const box=document.getElementById("products");
-
-
-async function loadProducts(){
-
-try{
-
-
-box.innerHTML="";
-
-
-const snapshot = await getDocs(
-collection(db,"products")
-);
-
-
-let found=false;
-
-
-
-snapshot.forEach((doc)=>{
-
-
-const p=doc.data();
-
-
-
-if(
-p.category=="الداخليات الرجالي" ||
-p.category=="داخليات"
-){
-
-
-found=true;
-
-
-box.innerHTML += `
-
-<div class="card">
-
-<img src="${p.image || ''}">
-
-<h3>
-${p.name || ''}
-</h3>
-
-<div class="price">
-${p.price || 0} د.ع
 </div>
+
+
 
 </div>
 
-`;
-
-}
 
 
-});
-
-
-
-if(!found){
-
-box.innerHTML="لا توجد منتجات";
-
-}
-
-
-}
-
-catch(error){
-
-console.log(error);
-
-box.innerHTML="حدث خطأ في تحميل المنتجات";
-
-}
-
-
-}
-
-
-
-loadProducts();
-
-
-</script>
+<script type="module" src="admin-products.js"></script>
 
 
 </body>
+
 </html>
