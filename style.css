@@ -1217,3 +1217,158 @@ font-size:20px;
 
 
 }
+
+/*========================
+ الوضع الليلي
+========================*/
+
+body.dark-mode{
+
+background:#0f172a;
+
+color:#f8fafc;
+
+}
+
+
+/* الهيدر */
+
+body.dark-mode .header{
+
+background:#1e293b;
+
+}
+
+
+/* البحث */
+
+body.dark-mode .search{
+
+background:#334155;
+
+}
+
+
+body.dark-mode .search input{
+
+color:#fff;
+
+}
+
+
+/* الأقسام */
+
+body.dark-mode .category-list a{
+
+background:#1e293b;
+
+border-color:#334155;
+
+}
+
+
+body.dark-mode .category-list span{
+
+color:#fff;
+
+}
+
+
+/* المنتجات */
+
+body.dark-mode .product-card{
+
+background:#1e293b;
+
+}
+
+
+body.dark-mode .product-info h3{
+
+color:#fff;
+
+}
+
+
+/* الجملة والعروض */
+
+body.dark-mode .wholesale,
+body.dark-mode .about-box{
+
+background:#1e293b;
+
+}
+
+
+body.dark-mode .wholesale h2,
+body.dark-mode .about-box h2{
+
+color:#fff;
+
+}
+
+
+body.dark-mode .wholesale p,
+body.dark-mode .about-box p{
+
+color:#cbd5e1;
+
+}
+
+
+/* القائمة السفلية */
+
+body.dark-mode .bottom-nav{
+
+background:#1e293b;
+
+}
+
+
+body.dark-mode .bottom-nav a{
+
+color:#cbd5e1;
+
+}
+
+
+/* الفوتر */
+
+body.dark-mode .footer{
+
+background:#020617;
+
+}
+
+
+/* شاشة التحميل */
+
+body.dark-mode #loader{
+
+background:#0f172a;
+
+}
+
+const darkBtn = document.getElementById("darkBtn");
+
+if(darkBtn){
+
+darkBtn.onclick = function(){
+
+document.body.classList.toggle("dark-mode");
+
+localStorage.setItem(
+"darkMode",
+document.body.classList.contains("dark-mode")
+);
+
+};
+
+}
+
+
+if(localStorage.getItem("darkMode") === "true"){
+
+document.body.classList.add("dark-mode");
+
+}
