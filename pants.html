@@ -13,6 +13,18 @@
 
 <link rel="stylesheet" href="style.css">
 
+<style>
+
+.msg{
+text-align:center;
+padding:40px;
+font-size:22px;
+font-weight:bold;
+grid-column:1/-1;
+}
+
+</style>
+
 </head>
 
 
@@ -21,12 +33,9 @@
 
 <header class="header">
 
-
 <div class="brand">
 
-
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
 
 <div>
 
@@ -40,13 +49,9 @@
 
 </div>
 
-
 </div>
 
-
 </header>
-
-
 
 
 
@@ -54,107 +59,21 @@
 
 
 <h2 class="title">
-
 👖 البنطرونات
-
 </h2>
 
 
 
-<div class="products-grid">
+<div id="products" class="products-grid">
 
-
-
-<div class="product-card">
-
-
-<img src="IMG_5666.jpeg">
-
-
-<div class="product-info">
-
-
-<h3>
-بنطرونات رجالية تركية
-</h3>
-
-
-<p>
-موديلات حديثة للتجار
-</p>
-
-
-<p class="price">
-25,000 د.ع
-</p>
-
-
-
-<button class="cart-btn"
-onclick="addToCart('بنطرونات رجالية تركية',25000,'IMG_5666.jpeg')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
+<div class="msg">
+جاري تحميل المنتجات...
 </div>
-
-
-</div>
-
-
-
-
-
-<div class="product-card">
-
-
-<img src="IMG_5666.jpeg">
-
-
-<div class="product-info">
-
-
-<h3>
-بنطرونات متنوعة
-</h3>
-
-
-<p>
-خامات ممتازة وأسعار جملة
-</p>
-
-
-<p class="price">
-حسب الموديل
-
-</p>
-
-
-
-<button class="cart-btn"
-onclick="addToCart('بنطرونات متنوعة',20000,'IMG_5666.jpeg')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
 
 </div>
 
 
 </section>
-
-
 
 
 
@@ -180,8 +99,145 @@ onclick="addToCart('بنطرونات متنوعة',20000,'IMG_5666.jpeg')">
 
 
 
-
 <script src="script.js"></script>
+
+
+
+<script type="module">
+
+import { db } from "./firebase.js";
+
+
+import {
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const box=document.getElementById("products");
+
+
+
+async function loadProducts(){
+
+
+try{
+
+
+const snap=await getDocs(
+collection(db,"products")
+);
+
+
+box.innerHTML="";
+
+
+let found=false;
+
+
+
+snap.forEach((doc)=>{
+
+
+const p=doc.data();
+
+
+const category=(p.category || "").trim();
+
+
+
+if(
+category==="قسم البنطرونات" ||
+category==="بنطرونات"
+){
+
+
+found=true;
+
+
+box.innerHTML += `
+
+<div class="product-card">
+
+
+<img src="${p.image || 'https://via.placeholder.com/300x400?text=No+Image'}">
+
+
+<div class="product-info">
+
+
+<h3>
+${p.name || "بدون اسم"}
+</h3>
+
+
+<p>
+${p.description || ""}
+</p>
+
+
+<p class="price">
+${Number(p.price || 0).toLocaleString()} د.ع
+</p>
+
+
+<button class="cart-btn"
+
+onclick="addToCart('${(p.name || '').replace(/'/g,"\\'")}',${Number(p.price || 0)},'${p.image || ''}')">
+
+🛒 إضافة للسلة
+
+</button>
+
+
+</div>
+
+
+</div>
+
+`;
+
+}
+
+
+});
+  if(!found){
+
+box.innerHTML=`
+
+<div class="msg">
+لا توجد منتجات في قسم البنطرونات
+</div>
+
+`;
+
+}
+
+
+}catch(error){
+
+console.error(error);
+
+
+box.innerHTML=`
+
+<div class="msg">
+حدث خطأ أثناء تحميل المنتجات
+</div>
+
+`;
+
+}
+
+
+}
+
+
+loadProducts();
+
+
+</script>
 
 
 </body>
