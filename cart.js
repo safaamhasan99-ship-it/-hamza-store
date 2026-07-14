@@ -1,131 +1,255 @@
+// cart.js
+
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function saveCart() {
-    localStorage.setItem("cart", JSON.stringify(cart));
-}
 
-function showCart() {
 
-    const cartList = document.getElementById("cartList");
-    const totalBox = document.getElementById("total");
-    const orderBtn = document.getElementById("orderWhatsapp");
+const cartItems = document.getElementById("cartItems");
 
-    if (!cartList || !totalBox || !orderBtn) {
-        return;
-    }
+const cartTotal = document.getElementById("cartTotal");
 
-    cartList.innerHTML = "";
+
+
+
+// عرض السلة
+
+function renderCart(){
+
+
+    if(!cartItems) return;
+
+
+    cartItems.innerHTML = "";
+
+
 
     let total = 0;
 
-    let message = "السلام عليكم، أريد طلب المنتجات التالية:\n\n";
 
-    if (cart.length === 0) {
 
-        cartList.innerHTML = `
-            <div class="about-box">
-                <h2>🛒 السلة فارغة</h2>
-                <p>لم يتم إضافة أي منتج بعد.</p>
-            </div>
+    if(cart.length === 0){
+
+
+        cartItems.innerHTML = `
+
+        <h3>
+        السلة فارغة 🛒
+        </h3>
+
         `;
 
-        totalBox.innerHTML = "0 د.ع";
-        orderBtn.href = "#";
+
+        cartTotal.innerText = "0";
+
         return;
+
+
     }
 
-    cart.forEach((item, index) => {
 
-        let price = Number(item.price) || 0;
-        let qty = Number(item.quantity) || 1;
-        let sum = price * qty;
 
-        total += sum;
 
-        message +=
-`• ${item.name}
-الكمية: ${qty}
-السعر: ${price.toLocaleString()} د.ع
-المجموع: ${sum.toLocaleString()} د.ع
--------------------------
-`;
 
-        cartList.innerHTML += `
-        <div class="product-card">
+    cart.forEach((item,index)=>{
 
-            <img src="${item.image}" alt="${item.name}">
 
-            <div class="product-info">
+        total += item.price * item.qty;
 
-                <h3>${item.name}</h3>
 
-                <p class="price">
-                    ${price.toLocaleString()} د.ع
-                </p>
 
-                <div class="quantity-box">
+        cartItems.innerHTML += `
 
-                    <button class="cart-btn"
-                        onclick="changeQuantity(${index},-1)">
-                        ➖
-                    </button>
 
-                    <span>${qty}</span>
+        <div class="cart-item">
 
-                    <button class="cart-btn"
-                        onclick="changeQuantity(${index},1)">
-                        ➕
-                    </button>
 
-                </div>
+        <img src="${item.image}">
 
-                <p>
-                    المجموع:
-                    ${sum.toLocaleString()} د.ع
-                </p>
 
-                <button class="favorite"
-                    onclick="removeCart(${index})">
-                    🗑 حذف
-                </button>
 
-            </div>
+        <div class="cart-info">
+
+
+        <h3>
+        ${item.name}
+        </h3>
+
+
+        <p class="price">
+        ${item.price.toLocaleString()} د.ع
+        </p>
+
+
+
+        <div class="qty">
+
+
+        <button onclick="changeQty(${index},1)">
+        +
+        </button>
+
+
+        <span>
+        ${item.qty}
+        </span>
+
+
+        <button onclick="changeQty(${index},-1)">
+        -
+        </button>
+
 
         </div>
+
+
+        </div>
+
+
+
+        <button class="remove-btn"
+        onclick="removeItem(${index})">
+
+        🗑
+
+        </button>
+
+
+
+        </div>
+
+
         `;
+
+
     });
 
-    totalBox.innerHTML = total.toLocaleString() + " د.ع";
 
-    message +=
-`=========================
-💰 المجموع الكلي: ${total.toLocaleString()} د.ع`;
 
-    orderBtn.href =
-        "https://wa.me/9647813555538?text=" +
-        encodeURIComponent(message);
+    cartTotal.innerText =
+    total.toLocaleString();
 
-    saveCart();
+
 }
 
-function changeQuantity(index, value) {
 
-    cart[index].quantity = (cart[index].quantity || 1) + value;
 
-    if (cart[index].quantity <= 0) {
-        cart.splice(index, 1);
+renderCart();
+// تغيير كمية المنتج
+
+window.changeQty = function(index, amount){
+
+
+    cart[index].qty += amount;
+
+
+
+    if(cart[index].qty <= 0){
+
+        cart[index].qty = 1;
+
     }
 
-    saveCart();
-    showCart();
-}
 
-function removeCart(index) {
-
-    cart.splice(index, 1);
 
     saveCart();
-    showCart();
-}
 
-showCart();
+
+    renderCart();
+
+
+};
+
+
+
+
+// حذف منتج من السلة
+
+window.removeItem = function(index){
+
+
+    cart.splice(index,1);
+
+
+    saveCart();
+
+
+    renderCart();
+
+
+};
+
+
+
+
+// حفظ السلة
+
+function saveCart(){
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+}
+// تغيير كمية المنتج
+
+window.changeQty = function(index, amount){
+
+
+    cart[index].qty += amount;
+
+
+
+    if(cart[index].qty <= 0){
+
+        cart[index].qty = 1;
+
+    }
+
+
+
+    saveCart();
+
+
+    renderCart();
+
+
+};
+
+
+
+
+// حذف منتج من السلة
+
+window.removeItem = function(index){
+
+
+    cart.splice(index,1);
+
+
+    saveCart();
+
+
+    renderCart();
+
+
+};
+
+
+
+
+// حفظ السلة
+
+function saveCart(){
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+}
