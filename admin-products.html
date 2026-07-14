@@ -7,167 +7,335 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <title>إدارة المنتجات | مجمع حمزه الشطري</title>
+
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
+
 <link rel="stylesheet" href="style.css">
+
+
 
 <style>
 
 .form-box{
+
 max-width:700px;
+
 margin:20px auto;
+
 background:#fff;
+
 padding:25px;
+
 border-radius:18px;
+
 box-shadow:0 10px 25px rgba(0,0,0,.08);
+
 }
+
+
 
 .form-box input,
+
 .form-box textarea,
+
 .form-box select{
+
 width:100%;
+
 padding:14px;
+
 margin-bottom:15px;
+
 border:1px solid #ddd;
+
 border-radius:10px;
+
 font-family:'Cairo',sans-serif;
+
 font-size:15px;
+
 }
 
-.form-box input[type=file]{
-padding:10px;
-}
+
 
 .form-box button{
+
 width:100%;
+
 padding:15px;
+
 background:#c79b3b;
+
 color:#fff;
+
 border:none;
+
 border-radius:10px;
+
 font-size:18px;
+
 font-weight:bold;
+
 cursor:pointer;
+
 }
 
-.form-box button:hover{
-background:#b3872e;
+
+
+.product-box{
+
+background:white;
+
+padding:15px;
+
+border-radius:15px;
+
+margin:15px;
+
+box-shadow:0 5px 15px #ddd;
+
 }
+
+
+
+.product-box button{
+
+margin:5px;
+
+padding:8px 15px;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+}
+
+
 
 </style>
 
+
 </head>
+
 
 <body>
 
+
 <header class="header">
+
 
 <div class="top-header">
 
+
 <div class="brand">
+
 
 <h1>مجمع حمزه الشطري</h1>
 
+
 <p>لوحة إدارة المنتجات</p>
 
-</div>
 
 </div>
+
+
+</div>
+
 
 </header>
-
 <section class="products">
+
 
 <h2 class="title">
 ➕ إضافة منتج جديد
 </h2>
 
+
+
 <div class="form-box">
 
+
+
 <input
-id="productName"
+id="name"
 type="text"
 placeholder="اسم المنتج">
 
+
+
 <input
-id="productPrice"
+id="price"
 type="number"
 placeholder="السعر">
 
+
+
 <textarea
-id="productDescription"
+id="description"
 rows="4"
-placeholder="وصف المنتج"></textarea>
+placeholder="وصف المنتج">
+</textarea>
 
-<select id="productCategory">
 
-<option value="men">👔 القسم الرجالي</option>
 
-<option value="women">👗 القسم النسائي</option>
+<select id="category">
 
-<option value="boys">🧒 القسم الولادي</option>
 
-<option value="girls">👧 القسم البناتي</option>
+<option value="men">
+👔 القسم الرجالي
+</option>
 
-<option value="pants">👖 البنطرونات</option>
 
-<option value="underwear">🩳 الداخليات</option>
+<option value="women">
+👗 القسم النسائي
+</option>
 
-<option value="socks">🧦 الجوارب</option>
+
+<option value="boys">
+🧒 القسم الولادي
+</option>
+
+
+<option value="girls">
+👧 القسم البناتي
+</option>
+
+
+<option value="pants">
+👖 البنطرونات
+</option>
+
+
+<option value="underwear">
+🩳 الداخليات
+</option>
+
+
+<option value="socks">
+🧦 الجوارب
+</option>
+
 
 </select>
 
+
+
 <input
-type="file"
-id="imageFile"
-accept="image/*">
+id="sizes"
+type="text"
+placeholder="القياسات">
+
+
+
+<input
+id="colors"
+type="text"
+placeholder="الألوان">
+
+
+
+<input
+id="quantity"
+type="number"
+placeholder="الكمية">
+
+
+
+<input
+id="image"
+type="text"
+placeholder="رابط صورة المنتج">
+
+
+
+<label>
+
+<input
+id="offer"
+type="checkbox">
+
+عرض خاص
+
+</label>
+
+
+
+<br><br>
+
+
 
 <button
 id="saveBtn"
-type="button"
-onclick="saveProduct()">
+type="button">
 
 💾 حفظ المنتج
 
 </button>
 
-</div>
 
+
+</div>
 <h2 class="title">
 
 📦 المنتجات المضافة
 
 </h2>
 
+
+
 <div style="text-align:center;margin-bottom:20px;">
 
+
 <button
-class="cart-btn"
-onclick="refreshProducts()">
+onclick="refreshProducts()"
+class="cart-btn">
 
 🔄 تحديث المنتجات
 
 </button>
 
+
 </div>
+
+
 
 <div
 id="productsList"
 class="products-grid">
+
+
 </div>
+
+
 
 </section>
 
+
+
+
 <footer style="text-align:center;padding:25px;color:#777;">
+
 
 مجمع حمزه الشطري © 2026
 
+
 </footer>
+
+
+
+
 
 <script type="module" src="admin-products.js"></script>
 
+
+
 </body>
+
 
 </html>
