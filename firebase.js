@@ -1,76 +1,273 @@
-// firebase.js
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>الداخليات الرجالي | مجمع حمزه الشطري</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
 
-import { initializeApp } 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+<style>
+
+*{
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
 
 
-import { getFirestore } 
+body{
+margin:0;
+background:#f5f7fb;
+}
+
+
+header{
+
+background:#111;
+color:white;
+padding:20px;
+text-align:center;
+font-size:22px;
+font-weight:800;
+
+}
+
+
+
+.products{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+padding:20px;
+
+}
+
+
+
+.card{
+
+background:white;
+border-radius:15px;
+padding:10px;
+text-align:center;
+box-shadow:0 3px 10px #ddd;
+
+}
+
+
+
+.card img{
+
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:12px;
+
+}
+
+
+
+.card h3{
+
+font-size:18px;
+
+}
+
+
+
+.price{
+
+color:#c28b00;
+font-size:18px;
+font-weight:bold;
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+
+<body>
+
+
+
+<header>
+
+قسم الداخليات الرجالي
+
+</header>
+
+
+
+<div class="products" id="products">
+
+جاري تحميل المنتجات...
+
+</div>
+
+
+
+
+<script type="module">
+
+
+import { db } from "./firebase.js";
+
+
+import {
+
+collection,
+getDocs
+
+}
+
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-import { getStorage } 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-
-import { getAuth } 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const box=document.getElementById("products");
 
 
 
-// إعدادات مشروع Firebase
-
-const firebaseConfig = {
+async function loadProducts(){
 
 
-  apiKey: "AIzaSyCcaOIwNodH5IESCShyYQkpHBFiywzIi-4",
+try{
 
 
-  authDomain: "hamza-shatri-store.firebaseapp.com",
-
-
-  projectId: "hamza-shatri-store",
-
-
-  storageBucket: "hamza-shatri-store.firebasestorage.app",
-
-
-  messagingSenderId: "372483512160",
-
-
-  appId: "1:372483512160:web:b594dd13f4774db6d13005"
-
-
-};
+const snap = await getDocs(
+collection(db,"products")
+);
 
 
 
-// تشغيل Firebase
-
-const app = initializeApp(firebaseConfig);
+console.log("عدد المنتجات:", snap.size);
 
 
 
-// الخدمات
-
-const db = getFirestore(app);
+box.innerHTML="";
 
 
-const storage = getStorage(app);
-
-
-const auth = getAuth(app);
+let found=false;
 
 
 
-// تصدير الاستخدام
+snap.forEach((doc)=>{
 
-export {
 
-  db,
+let p=doc.data();
 
-  storage,
 
-  auth
 
-};
+console.log(p);
+
+
+
+if(
+
+p.category==="الداخليات الرجالي"
+
+||
+
+p.category==="داخليات"
+
+){
+
+
+found=true;
+
+
+
+box.innerHTML += `
+
+
+<div class="card">
+
+
+<img src="${p.image || ''}">
+
+
+
+<h3>
+
+${p.name || 'بدون اسم'}
+
+</h3>
+
+
+
+<div class="price">
+
+${p.price || 0} د.ع
+
+</div>
+
+
+</div>
+
+
+`;
+
+
+
+}
+
+
+
+});
+
+
+
+
+if(!found){
+
+box.innerHTML="لا توجد منتجات";
+
+}
+
+
+
+}
+
+
+
+catch(error){
+
+
+console.log(error);
+
+
+box.innerHTML=
+
+"خطأ: "+error.message;
+
+
+}
+
+
+
+}
+
+
+
+loadProducts();
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
