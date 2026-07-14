@@ -1379,3 +1379,52 @@ padding:0;
 
 
 }
+/*========================
+ DARK MODE FIX
+========================*/
+
+
+body.dark-mode .cart-icon{
+
+background:#f59e0b;
+
+}
+
+
+body.dark-mode #darkBtn{
+
+background:#f8fafc;
+
+color:#111827;
+
+}
+
+
+body.dark-mode .title{
+
+color:#fff;
+
+}
+
+
+body.dark-mode .footer p{
+
+color:#cbd5e1;
+
+}
+
+
+body.dark-mode #loader{
+
+background:#0f172a;
+
+color:#fff;
+
+}
+
+
+body.dark-mode .loader-content h2{
+
+color:#fff;
+
+}
