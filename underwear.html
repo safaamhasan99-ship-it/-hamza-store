@@ -14,22 +14,27 @@
 
 </head>
 
+
 <body>
 
+
 <header>
+
 <h1>مجمع حمزه الشطري</h1>
+
 <p>قسم الداخليات الرجالي - بيع جملة فقط</p>
+
 </header>
 
 
+
 <section class="category-page">
+
 
 <h2>الداخليات الرجالي</h2>
 
 
 <div id="products" class="products">
-
-<!-- المنتجات تظهر هنا من Firebase -->
 
 </div>
 
@@ -37,34 +42,42 @@
 </section>
 
 
+
 <script type="module">
+
 
 import { db } from "./firebase.js";
 
+
 import {
+
 collection,
-getDocs,
-query,
-where
+getDocs
+
 }
+
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
 
 const productsBox = document.getElementById("products");
 
 
+
 async function loadProducts(){
 
-const q = query(
-collection(db,"products"),
-where("category","==","داخليات رجالي")
+
+try{
+
+
+const snapshot = await getDocs(
+collection(db,"products")
 );
 
 
-const snapshot = await getDocs(q);
-
 
 productsBox.innerHTML="";
+
 
 
 snapshot.forEach((doc)=>{
@@ -73,12 +86,21 @@ snapshot.forEach((doc)=>{
 let p = doc.data();
 
 
+
+if(
+p.category &&
+p.category.includes("داخلي")
+){
+
+
+
 productsBox.innerHTML += `
+
 
 <div class="product-card">
 
 
-<img src="${p.image}">
+<img src="${p.image}" alt="${p.name}">
 
 
 <h3>${p.name}</h3>
@@ -89,41 +111,91 @@ ${p.price} د.ع
 </p>
 
 
+
 <button onclick="order('${p.name}')">
+
 طلب واتساب
+
 </button>
+
 
 
 </div>
 
+
 `;
 
-});
 
 
 }
 
 
+
+});
+
+
+
+if(productsBox.innerHTML===""){
+
+
+productsBox.innerHTML=
+
+"<h3>لا توجد منتجات حالياً</h3>";
+
+}
+
+
+}
+
+catch(error){
+
+
+console.log(error);
+
+
+productsBox.innerHTML=
+
+"<h3>حدث خطأ في تحميل المنتجات</h3>";
+
+}
+
+
+}
+
+
+
+
 window.order=function(name){
 
+
 let phone="964xxxxxxxxxx";
+
 
 let msg=
 "السلام عليكم أريد طلب: "+name;
 
 
+
 window.open(
-"https://wa.me/"+phone+"?text="+encodeURIComponent(msg)
+
+"https://wa.me/"+phone+
+"?text="+encodeURIComponent(msg)
+
 );
 
+
 }
+
 
 
 loadProducts();
 
 
+
 </script>
 
 
+
 </body>
+
 </html>
