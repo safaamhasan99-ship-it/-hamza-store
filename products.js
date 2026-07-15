@@ -80,36 +80,9 @@ productsBox.innerHTML="";
 
 
 
-// اسم القسم من الصفحة
-
-const pageCategory =
-document.body.dataset.category;
-
-
-
-// ربط أسماء الصفحات مع Firebase
-
-const categories = {
-
-
-socks:
-"قسم الجوراب",
-
-
-underwear:
-"قسم الداخليات الرجالي",
-
-
-hijab:
-"قسم الحجابات والشالات"
-
-
-};
-
-
-
 const category =
-categories[pageCategory];
+document.body.dataset.category ||
+new URLSearchParams(window.location.search).get("category");
 
 
 
@@ -124,7 +97,7 @@ const product = doc.data();
 
 
 
-if(product.category === category){
+if(!category || product.category === category){
 
 
 
@@ -162,7 +135,6 @@ card.className="product-card";
 
 card.innerHTML = `
 
-
 <img
 
 src="${image}"
@@ -182,12 +154,10 @@ onerror="this.onerror=null;this.src='./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'
 >
 
 
-
 <div class="product-info">
 
 
 <h3>${name}</h3>
-
 
 
 <p class="price">
@@ -197,7 +167,6 @@ ${price.toLocaleString()} د.ع
 </p>
 
 
-
 <button class="cart-btn">
 
 🛒 إضافة للسلة
@@ -205,12 +174,9 @@ ${price.toLocaleString()} د.ع
 </button>
 
 
-
 </div>
 
-
 `;
-
 
 
 
@@ -233,14 +199,12 @@ showCartMessage(
 );
 
 
-
 }else{
 
 
 showCartMessage(
 "❌ تعذر إضافة المنتج للسلة"
 );
-
 
 
 }
@@ -253,7 +217,6 @@ showCartMessage(
 productsBox.appendChild(card);
 
 
-
 }
 
 
@@ -262,14 +225,11 @@ productsBox.appendChild(card);
 
 
 
-
 if(!found){
 
 
 productsBox.innerHTML =
-
 "<h3>لا توجد منتجات في هذا القسم</h3>";
-
 
 }
 
@@ -284,7 +244,6 @@ console.error(error);
 
 
 productsBox.innerHTML =
-
 "<h3>حدث خطأ أثناء تحميل المنتجات</h3>";
 
 }
