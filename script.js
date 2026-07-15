@@ -1,12 +1,28 @@
 /*==================================
 مجمع حمزه الشطري
-Professional Store JS
+Professional Store JS v3
 ==================================*/
 
-// شاشة التحميل
-window.addEventListener("load", () => {
 
-const loader = document.getElementById("loader");
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs,
+query,
+limit
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+/*========================
+شاشة التحميل
+========================*/
+
+
+window.addEventListener("load",()=>{
+
+const loader=document.getElementById("loader");
 
 if(loader){
 
@@ -16,26 +32,44 @@ setTimeout(()=>{
 
 loader.style.display="none";
 
-},600);
+},500);
 
 }
 
 });
 
-// السلة
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// المفضلة
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-// تحديث عداد السلة
+
+
+/*========================
+السلة والمفضلة
+========================*/
+
+
+let cart=
+JSON.parse(localStorage.getItem("cart")) || [];
+
+
+let favorites=
+JSON.parse(localStorage.getItem("favorites")) || [];
+
+
+
+
+
 function updateCartCount(){
 
-const count=document.getElementById("cartCount");
 
-if(count){
+const count=
+document.getElementById("cartCount");
+
+
+if(!count) return;
+
 
 let total=0;
+
 
 cart.forEach(item=>{
 
@@ -43,59 +77,100 @@ total += item.qty || 1;
 
 });
 
+
 count.innerText=total;
 
-}
 
 }
+
 
 updateCartCount();
 
-// حفظ السلة
+
+
+
+
 function saveCart(){
 
-localStorage.setItem("cart",JSON.stringify(cart));
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
 
 updateCartCount();
 
+
 }
-/*==================================
+
+
+
+
+
+/*========================
 إضافة للسلة
-==================================*/
+========================*/
+
 
 function addToCart(name,price,image){
 
-let item=cart.find(p=>p.name===name);
+
+let item=
+cart.find(p=>p.name===name);
+
+
 
 if(item){
 
 item.qty++;
 
-}else{
+}
+
+else{
+
 
 cart.push({
+
 name:name,
+
 price:Number(price),
+
 image:image,
+
 qty:1
+
 });
 
+
 }
+
+
 
 saveCart();
 
+
 alert("🛒 تمت إضافة المنتج إلى السلة");
+
 
 }
 
 
-/*==================================
+
+
+
+/*========================
 إضافة للمفضلة
-==================================*/
+========================*/
+
 
 function addToFavorites(name,price,image){
 
-let item=favorites.find(p=>p.name===name);
+
+let item=
+favorites.find(p=>p.name===name);
+
+
 
 if(item){
 
@@ -105,79 +180,135 @@ return;
 
 }
 
+
+
 favorites.push({
+
 name:name,
+
 price:Number(price),
+
 image:image
+
 });
 
+
+
 localStorage.setItem(
+
 "favorites",
+
 JSON.stringify(favorites)
+
 );
+
+
 
 alert("❤️ تمت إضافة المنتج للمفضلة");
 
+
 }
-
-
-/*==================================
+/*========================
 عرض المفضلة
-==================================*/
+========================*/
+
 
 function renderFavorites(){
 
-const box=document.getElementById("favoritesGrid");
+
+const box=
+document.getElementById("favoritesGrid");
+
 
 if(!box) return;
 
+
+
 box.innerHTML="";
+
+
 
 favorites.forEach(item=>{
 
-box.innerHTML+=`
+
+box.innerHTML +=`
+
 
 <div class="product-card">
 
+
 <img src="${item.image}">
+
+
 
 <div class="product-info">
 
+
 <h3>${item.name}</h3>
 
-<p class="price">${item.price} د.ع</p>
+
+
+<p class="price">
+
+${item.price} د.ع
+
+</p>
+
+
 
 <button class="cart-add"
+
 onclick="addToCart('${item.name}',${item.price},'${item.image}')">
 
-إضافة للسلة
+🛒 إضافة للسلة
 
 </button>
 
-</div>
+
 
 </div>
+
+
+</div>
+
 
 `;
 
 });
 
+
 }
 
+
 renderFavorites();
-/*==================================
+
+
+
+
+
+/*========================
 عرض السلة
-==================================*/
+========================*/
+
 
 function renderCart(){
 
-const box=document.getElementById("cartItems");
+
+const box=
+document.getElementById("cartItems");
+
+
 
 if(!box) return;
 
+
+
 box.innerHTML="";
 
+
+
 if(cart.length===0){
+
 
 box.innerHTML=`
 
@@ -193,71 +324,124 @@ box.innerHTML=`
 
 return;
 
+
 }
+
+
 
 let total=0;
 
+
+
 cart.forEach((item,index)=>{
+
 
 total += item.price * item.qty;
 
-box.innerHTML += `
+
+
+box.innerHTML +=`
+
 
 <div class="cart-item">
 
+
 <img src="${item.image}">
+
+
 
 <div class="cart-info">
 
+
 <h3>${item.name}</h3>
+
+
 
 <p>${item.price} د.ع</p>
 
+
+
 <div class="qty-box">
 
-<button onclick="changeQty(${index},-1)">-</button>
 
-<span>${item.qty}</span>
+<button onclick="changeQty(${index},-1)">
+-
+</button>
 
-<button onclick="changeQty(${index},1)">+</button>
+
+<span>
+${item.qty}
+</span>
+
+
+<button onclick="changeQty(${index},1)">
++
+</button>
+
 
 </div>
 
+
 </div>
+
+
 
 <button class="delete-cart"
+
 onclick="removeItem(${index})">
 
 <i class="fa-solid fa-trash"></i>
 
 </button>
 
+
+
 </div>
+
 
 `;
 
 });
 
-const totalBox=document.getElementById("cartTotal");
+
+
+const totalBox=
+document.getElementById("cartTotal");
+
 
 if(totalBox){
 
-totalBox.innerText="المجموع: "+total+" د.ع";
+totalBox.innerText=
+"المجموع: "+total+" د.ع";
 
 }
 
+
 }
 
 
-/*==================================
-تعديل الكمية
-==================================*/
+
+renderCart();
+
+
+
+
+
+/*========================
+تعديل الكمية والحذف
+========================*/
+
 
 function changeQty(index,value){
 
+
 if(!cart[index]) return;
 
+
+
 cart[index].qty += value;
+
+
 
 if(cart[index].qty<=0){
 
@@ -265,181 +449,329 @@ cart.splice(index,1);
 
 }
 
+
+
 saveCart();
 
 renderCart();
 
+
 }
 
 
-/*==================================
-حذف منتج
-==================================*/
 
 function removeItem(index){
 
+
 cart.splice(index,1);
+
 
 saveCart();
 
-renderCart();
-
-}
 
 renderCart();
-/*==================================
-البحث
-==================================*/
 
-const searchInput=document.getElementById("searchInput");
-
-if(searchInput){
-
-searchInput.addEventListener("input",function(){
-
-let value=this.value.toLowerCase();
-
-document.querySelectorAll(".product-card").forEach(card=>{
-
-let text=card.innerText.toLowerCase();
-
-if(text.includes(value)){
-
-card.style.display="block";
-
-}else{
-
-card.style.display="none";
-
-}
-
-});
-
-});
 
 }
 
 
-/*==================================
+
+
+
+/*========================
 الوضع الليلي
-==================================*/
+========================*/
 
-const darkBtn=document.getElementById("darkBtn");
+
+const darkBtn=
+document.getElementById("darkBtn");
+
+
 
 if(darkBtn){
 
+
+
 if(localStorage.getItem("darkMode")==="on"){
 
-document.body.classList.add("dark-mode");
+document.body.classList.add("dark");
 
 }
+
+
 
 darkBtn.onclick=()=>{
 
-document.body.classList.toggle("dark-mode");
 
-if(document.body.classList.contains("dark-mode")){
+document.body.classList.toggle("dark");
 
-localStorage.setItem("darkMode","on");
 
-}else{
 
-localStorage.setItem("darkMode","off");
+if(document.body.classList.contains("dark")){
+
+
+localStorage.setItem(
+"darkMode",
+"on"
+);
+
 
 }
+
+else{
+
+
+localStorage.setItem(
+"darkMode",
+"off"
+);
+
+
+}
+
 
 };
 
+
 }
+/*========================
+تحميل منتجات الرئيسية من Firebase
+========================*/
 
 
-/*==================================
-تحميل المنتجات
-==================================*/
+async function loadProducts(){
 
-function loadProducts(){
 
-const grid=document.getElementById("productsGrid");
+const grid=
+document.getElementById("productsGrid");
+
+
 
 if(!grid) return;
 
-const products=
-JSON.parse(localStorage.getItem("products")) || [];
+
+
+try{
+
+
+const q=query(
+
+collection(db,"products"),
+
+limit(8)
+
+);
+
+
+
+const snap=
+await getDocs(q);
+
+
 
 grid.innerHTML="";
 
-if(products.length===0){
+
+
+if(snap.empty){
+
 
 grid.innerHTML=`
+
 <div class="loading-products">
+
 لا توجد منتجات حالياً
+
 </div>
+
 `;
 
 return;
 
+
 }
 
-products.slice(0,8).forEach(product=>{
+
+
+
+snap.forEach(doc=>{
+
+
+const p=doc.data();
+
+
 
 grid.innerHTML +=`
 
+
 <div class="product-card">
 
-<img src="${product.image}">
+
+<img src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}">
+
+
 
 <div class="product-info">
 
-<h3>${product.name}</h3>
 
-<p class="price">${product.price} د.ع</p>
+<h3>
+
+${p.name || "منتج"}
+
+</h3>
+
+
+
+<p class="price">
+
+${Number(p.price || 0).toLocaleString()} د.ع
+
+</p>
+
+
 
 <div class="product-actions">
 
+
 <button class="cart-add"
-onclick="addToCart('${product.name}',${product.price},'${product.image}')">
 
-<i class="fa-solid fa-cart-shopping"></i>
+onclick="addToCart('${p.name || ''}',${Number(p.price || 0)},'${p.image || ''}')">
 
-السلة
+🛒 السلة
 
 </button>
+
+
 
 <button class="fav-add"
-onclick="addToFavorites('${product.name}',${product.price},'${product.image}')">
 
-<i class="fa-solid fa-heart"></i>
+onclick="addToFavorites('${p.name || ''}',${Number(p.price || 0)},'${p.image || ''}')">
+
+❤️
 
 </button>
 
-</div>
 
 </div>
 
+
+
 </div>
+
+
+</div>
+
 
 `;
 
 });
 
+
 }
 
-loadProducts();
-/*==================================
-السلايدر الرئيسي
-==================================*/
+catch(error){
 
-const slides=document.querySelectorAll(".hero-slide");
+
+console.error(error);
+
+
+
+grid.innerHTML=`
+
+<div class="loading-products">
+
+خطأ في تحميل المنتجات
+
+</div>
+
+`;
+
+
+}
+
+
+}
+
+
+
+loadProducts();
+
+
+
+
+
+/*========================
+البحث
+========================*/
+
+
+const searchInput=
+document.getElementById("searchInput");
+
+
+if(searchInput){
+
+
+searchInput.addEventListener("input",()=>{
+
+
+let value=
+searchInput.value.toLowerCase();
+
+
+
+document.querySelectorAll(".product-card").forEach(card=>{
+
+
+let text=
+card.innerText.toLowerCase();
+
+
+
+card.style.display=
+text.includes(value)
+?
+"block"
+:
+"none";
+
+
+
+});
+
+
+});
+
+
+}
+
+
+
+
+
+/*========================
+السلايدر
+========================*/
+
+
+const slides=
+document.querySelectorAll(".hero-slide");
+
 
 let slideIndex=0;
 
+
+
 function showSlide(){
 
-slides.forEach(slide=>{
 
-slide.classList.remove("active");
+slides.forEach(s=>{
+
+s.classList.remove("active");
 
 });
+
+
 
 if(slides[slideIndex]){
 
@@ -447,13 +779,19 @@ slides[slideIndex].classList.add("active");
 
 }
 
+
 }
+
+
 
 if(slides.length>1){
 
+
 setInterval(()=>{
 
+
 slideIndex++;
+
 
 if(slideIndex>=slides.length){
 
@@ -461,18 +799,26 @@ slideIndex=0;
 
 }
 
+
 showSlide();
 
+
 },4000);
+
 
 }
 
 
-/*==================================
-إرسال الطلب واتساب
-==================================*/
+
+
+
+/*========================
+واتساب
+========================*/
+
 
 function sendWhatsApp(){
+
 
 if(cart.length===0){
 
@@ -482,54 +828,88 @@ return;
 
 }
 
-let message="طلب جديد من مجمع حمزه الشطري%0A%0A";
+
+
+let msg=
+"طلب جديد من مجمع حمزه الشطري%0A%0A";
+
+
 
 let total=0;
 
+
+
 cart.forEach(item=>{
 
-message+=`${item.name} × ${item.qty} - ${item.price} د.ع%0A`;
 
-total+=item.price*item.qty;
+msg+=
+`${item.name} × ${item.qty} - ${item.price} د.ع%0A`;
+
+
+total += item.price * item.qty;
+
 
 });
 
-message+=`%0Aالمجموع: ${total} د.ع`;
+
+
+msg+=
+`%0Aالمجموع: ${total} د.ع`;
+
+
 
 window.open(
 
-"https://wa.me/9647813555538?text="+message,
+"https://wa.me/9647813555538?text="+msg,
 
 "_blank"
 
 );
 
+
 }
 
 
-/*==================================
+
+
+
+/*========================
 حماية الصور
-==================================*/
+========================*/
+
 
 document.addEventListener("error",(e)=>{
 
+
 if(e.target.tagName==="IMG"){
 
-e.target.src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png";
+e.target.src=
+"5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png";
 
 }
+
 
 },true);
 
 
-/*==================================
-ربط الدوال بالصفحات
-==================================*/
+
+
+
+/*========================
+ربط الدوال
+========================*/
+
 
 window.addToCart=addToCart;
+
 window.addToFavorites=addToFavorites;
+
 window.changeQty=changeQty;
+
 window.removeItem=removeItem;
+
 window.sendWhatsApp=sendWhatsApp;
+
 window.renderCart=renderCart;
+
 window.renderFavorites=renderFavorites;
