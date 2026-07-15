@@ -9,105 +9,209 @@
 
 <title>القسم الولادي | مجمع حمزه الشطري</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#111827">
+
+<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <link rel="stylesheet" href="style.css">
 
-<style>
-
-.msg{
-text-align:center;
-padding:40px;
-font-size:22px;
-font-weight:bold;
-grid-column:1/-1;
-}
-
-</style>
-
 </head>
-
 
 <body>
 
+<div id="loader">
+
+<div class="loader-box">
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+<h2>مجمع حمزه الشطري</h2>
+
+<div class="loader-spinner"></div>
+
+<p>جاري تحميل القسم...</p>
+
+</div>
+
+</div>
 
 <header class="header">
 
-<div class="brand">
+<div class="logo-box">
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
 <div>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-<p>
-القسم الولادي
-</p>
+<span>القسم الولادي</span>
 
 </div>
+
+</div>
+
+<div class="header-buttons">
+
+<a href="cart.html" class="cart-btn">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span id="cartCount">0</span>
+
+</a>
+
+<button id="darkBtn" class="dark-btn">
+
+<i class="fa-solid fa-moon"></i>
+
+</button>
 
 </div>
 
 </header>
 
+<section class="search-box">
 
+<input
+id="searchInput"
+type="text"
+placeholder="ابحث داخل القسم الولادي...">
 
-<section class="products">
-
-
-<h2 class="title">
-👦 ملابس ولادية
-</h2>
-
-
-
-<div id="products" class="products-grid">
-
-<div class="msg">
-جاري تحميل المنتجات...
-</div>
-
-</div>
-
+<i class="fa-solid fa-magnifying-glass"></i>
 
 </section>
 
+<section class="products-home">
 
+<h2 class="title">
 
+🧒 القسم الولادي
+
+</h2>
+
+<div id="productsGrid" class="products-grid">
+
+<div class="loading-products">
+
+جاري تحميل المنتجات...
+
+</div>
+
+</div>
+
+</section>
+<!-- زر واتساب -->
+
+<a class="whatsapp"
+href="https://wa.me/9647813555538"
+target="_blank">
+
+<i class="fa-brands fa-whatsapp"></i>
+
+</a>
+
+<!-- القائمة السفلية -->
 
 <nav class="bottom-nav">
 
-
 <a href="index.html">
-🏠 الرئيسية
+
+<i class="fa-solid fa-house"></i>
+
+<span>الرئيسية</span>
+
 </a>
 
+<a href="products.html">
+
+<i class="fa-solid fa-shop"></i>
+
+<span>المنتجات</span>
+
+</a>
 
 <a href="cart.html">
-🛒 السلة
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span>السلة</span>
+
 </a>
 
+<a href="favorites.html">
+
+<i class="fa-solid fa-heart"></i>
+
+<span>المفضلة</span>
+
+</a>
 
 <a href="about.html">
-ℹ️ من نحن
-</a>
 
+<i class="fa-solid fa-circle-info"></i>
+
+<span>من نحن</span>
+
+</a>
 
 </nav>
 
+<!-- الفوتر -->
 
+<footer class="footer">
 
+<div class="footer-box">
 
-<script src="script.js"></script>
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
+class="footer-logo">
 
+<h3>مجمع حمزه الشطري</h3>
+
+<p>للملابس الجاهزة والجملة</p>
+
+<p>
+
+<i class="fa-solid fa-location-dot"></i>
+
+ذي قار - الشطرة
+
+</p>
+
+<p>
+
+<i class="fa-solid fa-phone"></i>
+
+07813555538
+
+</p>
+
+<p>
+
+<i class="fa-solid fa-truck"></i>
+
+توصيل لجميع محافظات العراق
+
+</p>
+
+<p class="copy">
+
+© 2026 جميع الحقوق محفوظة
+
+</p>
+
+</div>
+
+</footer>
 
 <script type="module">
 
 import { db } from "./firebase.js";
-
 
 import {
 collection,
@@ -115,134 +219,91 @@ getDocs
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
-
-const box=document.getElementById("products");
-
-
-
 async function loadProducts(){
 
+const grid=document.getElementById("productsGrid");
 
-try{
+grid.innerHTML="";
 
-
-const snap=await getDocs(
-collection(db,"products")
-);
-
-
-box.innerHTML="";
-
+const snap=await getDocs(collection(db,"products"));
 
 let found=false;
 
-
-
-snap.forEach((doc)=>{
-
+snap.forEach(doc=>{
 
 const p=doc.data();
 
-
-const category=(p.category || "").trim();
-
-
-if(
-category==="القسم الولادي" ||
-category==="ولادي"
-){
-
+if((p.category||"")!=="boys") return;
 
 found=true;
 
-
-
-box.innerHTML += `
+grid.innerHTML+=`
 
 <div class="product-card">
 
-
-<img src="${p.image || 'https://via.placeholder.com/300x400?text=No+Image'}">
-
+<img src="${p.image}">
 
 <div class="product-info">
 
-
-<h3>
-${p.name || "بدون اسم"}
-</h3>
-
-
-<p>
-${p.description || ""}
-</p>
-
+<h3>${p.name}</h3>
 
 <p class="price">
-${Number(p.price || 0).toLocaleString()} د.ع
+
+${Number(p.price).toLocaleString()} د.ع
+
 </p>
 
+<div class="product-actions">
 
+<button class="cart-add"
 
-<button class="cart-btn"
+onclick="addToCart('${p.name}',${p.price},'${p.image}')">
 
-onclick="addToCart('${(p.name || '').replace(/'/g,"\\'")}',${Number(p.price || 0)},'${p.image || ''}')">
+<i class="fa-solid fa-cart-shopping"></i>
 
-🛒 إضافة للسلة
+السلة
 
 </button>
 
+<button class="fav-add"
+
+onclick="addToFavorites('${p.name}',${p.price},'${p.image}')">
+
+<i class="fa-solid fa-heart"></i>
+
+</button>
 
 </div>
 
+</div>
 
 </div>
 
 `;
-
-}
-
 
 });
-  if(!found){
 
-box.innerHTML=`
+if(!found){
 
-<div class="msg">
+grid.innerHTML=`
+
+<div class="loading-products">
+
 لا توجد منتجات في القسم الولادي
+
 </div>
 
 `;
 
 }
 
-
-}catch(error){
-
-
-console.error(error);
-
-
-box.innerHTML=`
-
-<div class="msg">
-حدث خطأ أثناء تحميل المنتجات
-</div>
-
-`;
-
 }
-
-
-}
-
 
 loadProducts();
 
-
 </script>
 
+<script type="module" src="script.js"></script>
 
 </body>
 
