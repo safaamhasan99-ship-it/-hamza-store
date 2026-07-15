@@ -17,19 +17,76 @@
 <link rel="stylesheet" href="style.css">
 
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+<style>
+
+.msg{
+text-align:center;
+padding:40px;
+font-size:22px;
+font-weight:bold;
+grid-column:1/-1;
+}
+
+
+.product-actions{
+
+display:flex;
+gap:10px;
+margin-top:10px;
+
+}
+
+
+.fav-btn{
+
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:18px;
+width:45px;
+
+}
+
+
+.details-btn{
+
+display:block;
+margin-top:10px;
+padding:10px;
+text-align:center;
+border-radius:10px;
+text-decoration:none;
+
+}
+
+</style>
+
+
 </head>
 
 
 
-<body data-category="underwear">
+
+<body>
+
 
 
 
 <header class="header">
 
 
+
 <div class="brand">
 
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+
+
+<div>
 
 <h1>
 مجمع حمزه الشطري
@@ -44,7 +101,44 @@
 </div>
 
 
+</div>
+
+
+
+<div class="header-icons">
+
+
+<a href="favorites.html">
+
+❤️
+
+</a>
+
+
+
+<a href="cart.html">
+
+🛒
+
+<span id="cartCount">0</span>
+
+</a>
+
+
+
+<button onclick="toggleDarkMode()">
+
+🌙
+
+</button>
+
+
+
+</div>
+
+
 </header>
+
 
 
 
@@ -62,13 +156,25 @@
 
 
 
-<div id="productsList" class="products-grid">
+
+
+<div id="products" class="products-grid">
+
+
+<div class="msg">
+
+جاري تحميل المنتجات...
+
+</div>
+
 
 </div>
 
 
 
+
 </section>
+
 
 
 
@@ -80,25 +186,33 @@
 
 
 <a href="index.html">
+
 🏠 الرئيسية
+
 </a>
 
 
 
-<a href="products.html">
-🛍 المنتجات
+<a href="favorites.html">
+
+❤️ المفضلة
+
 </a>
 
 
 
 <a href="cart.html">
+
 🛒 السلة
+
 </a>
 
 
 
 <a href="about.html">
+
 ℹ️ من نحن
+
 </a>
 
 
@@ -110,10 +224,272 @@
 
 
 
+
 <script src="script.js"></script>
 
 
-<script type="module" src="products.js"></script>
+<script src="cart.js"></script>
+
+
+
+
+
+
+<script type="module">
+
+
+import { db } from "./firebase.js";
+
+
+import {
+
+collection,
+getDocs
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+
+const box=document.getElementById("products");
+
+
+
+
+async function loadProducts(){
+
+
+
+try{
+
+
+
+const snap=await getDocs(
+
+collection(db,"products")
+
+);
+
+
+
+box.innerHTML="";
+
+
+let found=false;
+
+
+
+
+snap.forEach((doc)=>{
+
+
+
+const p=doc.data();
+
+
+
+const category=(p.category || "").trim();
+
+
+
+
+if(
+
+category==="قسم الداخليات الرجالي" ||
+
+category==="داخليات رجالي" ||
+
+category==="underwear"
+
+){
+
+
+
+found=true;
+
+
+
+
+box.innerHTML += `
+
+
+
+<div class="product-card">
+
+
+
+<img src="${p.image || 'https://via.placeholder.com/300x400'}">
+
+
+
+
+<div class="product-info">
+
+
+<h3>
+
+${p.name || "بدون اسم"}
+
+</h3>
+
+
+
+
+<p>
+
+${p.description || ""}
+
+</p>
+
+
+
+
+<p class="price">
+
+${Number(p.price || 0).toLocaleString()} د.ع
+
+</p>
+
+
+
+
+
+<div class="product-actions">
+
+
+
+<button class="cart-btn"
+
+onclick="addToCart(
+
+'${(p.name || '').replace(/'/g,"\\'")}',
+
+${Number(p.price || 0)},
+
+'${p.image || ''}'
+
+)">
+
+🛒 إضافة للسلة
+
+</button>
+
+
+
+
+
+<button class="fav-btn"
+
+onclick="addToFavorites(
+
+'${(p.name || '').replace(/'/g,"\\'")}',
+
+${Number(p.price || 0)},
+
+'${p.image || ''}'
+
+)">
+
+❤️
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+<a class="details-btn" href="details.html?id=${doc.id}">
+
+عرض التفاصيل
+
+</a>
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+`;
+
+
+
+}
+
+
+
+});
+
+
+
+
+
+if(!found){
+
+
+box.innerHTML=`
+
+<div class="msg">
+
+لا توجد منتجات في قسم الداخليات الرجالي
+
+</div>
+
+`;
+
+}
+
+
+
+}
+
+catch(error){
+
+
+console.error(error);
+
+
+
+box.innerHTML=`
+
+<div class="msg">
+
+حدث خطأ أثناء تحميل المنتجات
+
+</div>
+
+`;
+
+}
+
+
+
+}
+
+
+
+
+
+loadProducts();
+
+
+
+</script>
+
+
 
 
 
