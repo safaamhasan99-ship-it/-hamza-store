@@ -4,158 +4,110 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>الداخليات الرجالي | مجمع حمزه الشطري</title>
+<title>قسم الداخليات الرجالي | مجمع حمزه الشطري</title>
+
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
+
 <link rel="stylesheet" href="style.css">
+
 
 </head>
 
 
-<body>
+
+<body data-category="underwear">
 
 
-<header>
 
-<h1>مجمع حمزه الشطري</h1>
+<header class="header">
 
-<p>قسم الداخليات الرجالي - بيع جملة فقط</p>
+
+<div class="brand">
+
+
+<h1>
+مجمع حمزه الشطري
+</h1>
+
+
+<p>
+🩲 قسم الداخليات الرجالي بالجملة
+</p>
+
+
+</div>
+
 
 </header>
 
 
 
-<section class="category-page">
+
+<section class="products">
 
 
-<h2>الداخليات الرجالي</h2>
+
+<h2 class="title">
+
+🩲 الداخليات الرجالي
+
+</h2>
 
 
-<div id="products" class="products">
+
+<div id="productsList" class="products-grid">
 
 </div>
+
 
 
 </section>
 
 
 
-<script type="module">
 
 
-import { db } from "./firebase.js";
+<nav class="bottom-nav">
 
 
-import {
 
-collection,
-getDocs
+<a href="index.html">
+🏠 الرئيسية
+</a>
 
-}
 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+<a href="products.html">
+🛍 المنتجات
+</a>
 
 
-const productsBox = document.getElementById("products");
 
+<a href="cart.html">
+🛒 السلة
+</a>
 
 
-async function loadProducts(){
 
+<a href="about.html">
+ℹ️ من نحن
+</a>
 
-try{
 
 
-const snapshot = await getDocs(
-collection(db,"products")
-);
+</nav>
 
 
 
-productsBox.innerHTML = "";
 
+<script src="script.js"></script>
 
-
-snapshot.forEach((doc)=>{
-
-
-let p = doc.data();
-
-
-
-productsBox.innerHTML += `
-
-
-<div class="product-card">
-
-
-<img src="${p.image}" alt="${p.name}">
-
-
-<h3>
-${p.name}
-</h3>
-
-
-<p>
-القسم: ${p.category || "غير موجود"}
-</p>
-
-
-
-<p class="price">
-
-${p.price} د.ع
-
-</p>
-
-
-
-</div>
-
-
-`;
-
-
-
-});
-
-
-
-if(productsBox.innerHTML===""){
-
-
-productsBox.innerHTML="<h3>لا توجد منتجات</h3>";
-
-}
-
-
-}
-
-catch(error){
-
-
-console.log(error);
-
-
-productsBox.innerHTML="<h3>حدث خطأ</h3>";
-
-}
-
-
-}
-
-
-
-loadProducts();
-
-
-
-</script>
+<script type="module" src="products.js"></script>
 
 
 
