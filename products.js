@@ -50,8 +50,8 @@ msg.remove();
 
 },2000);
 
-
 }
+
 
 
 
@@ -82,8 +82,9 @@ productsBox.innerHTML="";
 
 
 const category =
-document.body.dataset.category ||
-new URLSearchParams(window.location.search).get("category");
+(document.body.dataset.category ||
+new URLSearchParams(window.location.search).get("category") ||
+"").trim();
 
 
 
@@ -103,9 +104,11 @@ const productCategory =
 
 
 
+// فلترة القسم بشكل مطابق
+
 if(
 !category ||
-productCategory.includes(category)
+productCategory === category
 ){
 
 
@@ -142,6 +145,7 @@ card.className="product-card";
 
 
 card.innerHTML = `
+
 
 <img
 
@@ -188,7 +192,9 @@ ${price.toLocaleString()} د.ع
 
 </div>
 
+
 `;
+
 
 
 
