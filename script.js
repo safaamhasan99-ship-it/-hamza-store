@@ -1,28 +1,42 @@
 /*==================================
 مجمع حمزه الشطري
-Professional Store JS v4
+Professional Store JS v5
 ==================================*/
+
 
 import { db } from "./firebase.js";
 
 import {
+
 collection,
 getDocs,
 query,
 limit
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
-/* شاشة التحميل */
+
+
+/*========================
+شاشة التحميل
+========================*/
+
 
 window.addEventListener("load",()=>{
 
+
 const loader=document.getElementById("loader");
+
 
 if(loader){
 
+
 loader.classList.add("hide");
+
 
 setTimeout(()=>{
 
@@ -30,74 +44,125 @@ loader.style.display="none";
 
 },500);
 
+
 }
+
 
 });
 
 
 
-/* السلة والمفضلة */
 
-let cart=
+
+
+/*========================
+السلة والمفضلة
+========================*/
+
+
+let cart =
 JSON.parse(localStorage.getItem("cart")) || [];
 
 
-let favorites=
+
+let favorites =
 JSON.parse(localStorage.getItem("favorites")) || [];
 
 
 
+
+
+
+
+/* تحديث عدد السلة */
+
+
 function updateCartCount(){
 
-const count=document.getElementById("cartCount");
 
-if(!count)return;
+const count =
+document.getElementById("cartCount");
+
+
+
+if(!count) return;
+
 
 
 let total=0;
 
+
+
 cart.forEach(item=>{
 
+
 total += item.qty || 1;
+
 
 });
 
 
+
 count.innerText=total;
+
 
 }
 
 
+
 updateCartCount();
 
+
+
+
+
+
+/* حفظ السلة */
 
 
 function saveCart(){
 
+
 localStorage.setItem(
+
 "cart",
+
 JSON.stringify(cart)
+
 );
 
+
+
 updateCartCount();
+
 
 }
 
 
 
-/* إضافة للسلة */
+
+
+
+/*========================
+إضافة للسلة
+========================*/
+
 
 function addToCart(name,price,image){
 
 
-let item=cart.find(
-p=>p.name===name
-);
+
+let item =
+cart.find(p=>p.name===name);
+
+
 
 
 if(item){
 
+
 item.qty++;
+
 
 }else{
 
@@ -118,34 +183,49 @@ qty:1
 }
 
 
+
 saveCart();
 
 
-alert("🛒 تمت إضافة المنتج للسلة");
+
+alert("🛒 تمت إضافة المنتج إلى السلة");
+
 
 
 }
 
 
 
-/* إضافة للمفضلة */
+
+
+
+
+/*========================
+إضافة للمفضلة
+========================*/
+
 
 function addToFavorites(name,price,image){
 
 
-let item=favorites.find(
-p=>p.name===name
-);
+
+let item =
+favorites.find(p=>p.name===name);
+
 
 
 
 if(item){
 
+
 alert("❤️ المنتج موجود بالمفضلة");
+
 
 return;
 
+
 }
+
 
 
 
@@ -162,8 +242,11 @@ image:image
 
 
 localStorage.setItem(
+
 "favorites",
+
 JSON.stringify(favorites)
+
 );
 
 
@@ -172,6 +255,83 @@ alert("❤️ تمت إضافة المنتج للمفضلة");
 
 
 }
+
+
+
+
+
+
+/*========================
+عرض المفضلة
+========================*/
+
+
+function renderFavorites(){
+
+
+const box =
+document.getElementById("favoritesGrid");
+
+
+
+if(!box)return;
+
+
+
+box.innerHTML="";
+
+
+
+favorites.forEach(item=>{
+
+
+box.innerHTML+=`
+
+<div class="product-card">
+
+
+<img src="${item.image}">
+
+
+<div class="product-info">
+
+
+<h3>${item.name}</h3>
+
+
+<p class="price">
+
+${item.price.toLocaleString()} د.ع
+
+</p>
+
+
+
+<button class="cart-btn"
+
+onclick="addToCart('${item.name}',${item.price},'${item.image}')">
+
+🛒 إضافة للسلة
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+});
+
+
+}
+
+
+
+renderFavorites();
 /*========================
 عرض السلة
 ========================*/
@@ -179,15 +339,22 @@ alert("❤️ تمت إضافة المنتج للمفضلة");
 
 function renderCart(){
 
-const box=document.getElementById("cartItems");
 
-if(!box)return;
+const box =
+document.getElementById("cartItems");
+
+
+
+if(!box) return;
+
 
 
 box.innerHTML="";
 
 
+
 if(cart.length===0){
+
 
 box.innerHTML=`
 
@@ -197,23 +364,43 @@ box.innerHTML=`
 
 <h3>السلة فارغة</h3>
 
+<p>لم تقم بإضافة أي منتج</p>
+
 </div>
 
 `;
 
-return;
+
+
+const totalBox =
+document.getElementById("cartTotal");
+
+
+if(totalBox){
+
+totalBox.innerText="المجموع: 0 د.ع";
 
 }
+
+
+return;
+
+
+}
+
 
 
 
 let total=0;
 
 
+
+
 cart.forEach((item,index)=>{
 
 
 total += item.price * item.qty;
+
 
 
 box.innerHTML+=`
@@ -224,108 +411,199 @@ box.innerHTML+=`
 <img src="${item.image}">
 
 
-<div>
 
-<h3>${item.name}</h3>
+<div class="cart-info">
 
-<p>${item.price} د.ع</p>
+
+<h3>
+
+${item.name}
+
+</h3>
+
+
+
+<p>
+
+${item.price.toLocaleString()} د.ع
+
+</p>
+
+
+
+
+<div class="qty-box">
+
 
 
 <button onclick="changeQty(${index},-1)">
--
+
+−
+
 </button>
 
-<span>${item.qty}</span>
+
+
+
+<span>
+
+${item.qty}
+
+</span>
+
+
+
 
 <button onclick="changeQty(${index},1)">
+
 +
+
 </button>
+
 
 
 </div>
 
 
-<button onclick="removeItem(${index})">
 
-🗑️
+</div>
+
+
+
+
+
+<button class="delete-cart"
+
+onclick="removeItem(${index})">
+
+
+<i class="fa-solid fa-trash"></i>
+
 
 </button>
+
 
 
 </div>
 
 `;
 
+
+
 });
 
 
 
-const totalBox=document.getElementById("cartTotal");
+
+const totalBox =
+document.getElementById("cartTotal");
+
+
 
 if(totalBox){
 
+
 totalBox.innerText=
-"المجموع: "+total+" د.ع";
+
+"المجموع: "+total.toLocaleString()+" د.ع";
+
 
 }
 
 
+
 }
+
+
+
 
 
 renderCart();
 
 
 
-
-
-function changeQty(index,value){
-
-if(!cart[index])return;
-
-
-cart[index].qty += value;
-
-
-if(cart[index].qty<=0){
-
-cart.splice(index,1);
-
-}
-
-
-saveCart();
-
-renderCart();
-
-}
-
-
-
-
-function removeItem(index){
-
-cart.splice(index,1);
-
-saveCart();
-
-renderCart();
-
-}
 
 
 
 
 
 /*========================
+زيادة ونقصان الكمية
+========================*/
+
+
+function changeQty(index,value){
+
+
+
+if(!cart[index]) return;
+
+
+
+cart[index].qty += value;
+
+
+
+if(cart[index].qty<=0){
+
+
+cart.splice(index,1);
+
+
+}
+
+
+
+saveCart();
+
+
+renderCart();
+
+
+
+}
+
+
+
+
+
+
+
+
+/*========================
+حذف منتج
+========================*/
+
+
+function removeItem(index){
+
+
+
+cart.splice(index,1);
+
+
+
+saveCart();
+
+
+
+renderCart();
+
+
+
+}
+/*========================
 الوضع الليلي
 ========================*/
 
 
-const darkBtn=document.getElementById("darkBtn");
+const darkBtn =
+document.getElementById("darkBtn");
+
 
 
 if(darkBtn){
+
 
 
 if(localStorage.getItem("darkMode")==="on"){
@@ -336,10 +614,12 @@ document.body.classList.add("dark");
 
 
 
+
 darkBtn.onclick=()=>{
 
 
 document.body.classList.toggle("dark");
+
 
 
 if(document.body.classList.contains("dark")){
@@ -351,6 +631,7 @@ localStorage.setItem(
 );
 
 
+
 }else{
 
 
@@ -360,13 +641,17 @@ localStorage.setItem(
 );
 
 
+
 }
+
 
 
 };
 
 
+
 }
+
 
 
 
@@ -380,7 +665,10 @@ localStorage.setItem(
 async function loadProducts(){
 
 
-const grid=document.getElementById("productsGrid");
+
+const grid =
+document.getElementById("productsGrid");
+
 
 
 if(!grid)return;
@@ -390,7 +678,9 @@ if(!grid)return;
 try{
 
 
-const q=query(
+
+const q =
+query(
 
 collection(db,"products"),
 
@@ -400,11 +690,14 @@ limit(8)
 
 
 
-const snap=await getDocs(q);
+const snap =
+await getDocs(q);
+
 
 
 
 grid.innerHTML="";
+
 
 
 
@@ -423,11 +716,14 @@ grid.innerHTML=`
 
 return;
 
+
 }
 
 
 
+
 snap.forEach(doc=>{
+
 
 
 const p=doc.data();
@@ -439,6 +735,7 @@ grid.innerHTML+=`
 <div class="product-card">
 
 
+
 <img src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}">
 
 
@@ -446,7 +743,13 @@ grid.innerHTML+=`
 <div class="product-info">
 
 
-<h3>${p.name || "منتج"}</h3>
+
+<h3>
+
+${p.name || "منتج"}
+
+</h3>
+
 
 
 
@@ -458,29 +761,34 @@ ${Number(p.price || 0).toLocaleString()} د.ع
 
 
 
+
 <div class="product-actions">
 
 
-<button class="cart-add"
 
-onclick="addToCart('${p.name || ""}',${Number(p.price||0)},'${p.image||""}')">
+<button class="cart-btn"
 
-🛒 السلة
+onclick="addToCart('${p.name || ""}',${Number(p.price||0)},'${p.image || ""}')">
+
+🛒 إضافة للسلة
 
 </button>
 
 
 
-<button class="fav-add"
 
-onclick="addToFavorites('${p.name || ""}',${Number(p.price||0)},'${p.image||""}')">
+<button class="fav-btn"
+
+onclick="addToFavorites('${p.name || ""}',${Number(p.price||0)},'${p.image || ""}')">
 
 ❤️
 
 </button>
 
 
+
 </div>
+
 
 
 </div>
@@ -490,28 +798,36 @@ onclick="addToFavorites('${p.name || ""}',${Number(p.price||0)},'${p.image||""}'
 
 `;
 
+
+
 });
+
+
 
 
 }
 
 catch(error){
 
+
 console.log(error);
+
 
 
 grid.innerHTML=`
 
 <div class="loading-products">
 
-حدث خطأ في تحميل المنتجات
+خطأ في تحميل المنتجات
 
 </div>
 
 `;
 
 
+
 }
+
 
 
 }
@@ -523,43 +839,63 @@ loadProducts();
 البحث
 ========================*/
 
-const searchInput=document.getElementById("searchInput");
+
+const searchInput =
+document.getElementById("searchInput");
+
 
 
 if(searchInput){
 
+
+
 searchInput.addEventListener("input",()=>{
 
 
-let value=searchInput.value.toLowerCase();
+
+let value =
+searchInput.value.toLowerCase();
 
 
 
-document.querySelectorAll(".product-card").forEach(card=>{
+document.querySelectorAll(".product-card")
+.forEach(card=>{
 
 
-let text=card.innerText.toLowerCase();
+
+let text =
+card.innerText.toLowerCase();
 
 
 
 if(text.includes(value)){
 
+
 card.style.display="block";
+
 
 }else{
 
+
 card.style.display="none";
 
+
 }
+
 
 
 });
 
 
+
 });
 
 
+
 }
+
+
+
 
 
 
@@ -570,7 +906,9 @@ card.style.display="none";
 ========================*/
 
 
-const slides=document.querySelectorAll(".hero-slide");
+const slides =
+document.querySelectorAll(".hero-slide");
+
 
 
 let slideIndex=0;
@@ -582,7 +920,9 @@ function showSlide(){
 
 slides.forEach(slide=>{
 
+
 slide.classList.remove("active");
+
 
 });
 
@@ -590,7 +930,10 @@ slide.classList.remove("active");
 
 if(slides[slideIndex]){
 
-slides[slideIndex].classList.add("active");
+
+slides[slideIndex]
+.classList.add("active");
+
 
 }
 
@@ -602,26 +945,34 @@ slides[slideIndex].classList.add("active");
 if(slides.length>1){
 
 
+
 setInterval(()=>{
 
 
 slideIndex++;
 
 
+
 if(slideIndex>=slides.length){
+
 
 slideIndex=0;
 
+
 }
+
 
 
 showSlide();
 
 
+
 },4000);
 
 
+
 }
+
 
 
 
@@ -630,25 +981,67 @@ showSlide();
 
 
 /*========================
-واتساب الطلب
+إرسال الطلب واتساب
 ========================*/
 
 
 function sendWhatsApp(){
 
 
+
 if(cart.length===0){
+
 
 alert("السلة فارغة");
 
+
 return;
+
 
 }
 
 
 
-let msg=
-"طلب جديد من مجمع حمزه الشطري%0A%0A";
+let name =
+document.getElementById("customerName")?.value || "غير محدد";
+
+
+
+let phone =
+document.getElementById("customerPhone")?.value || "غير محدد";
+
+
+
+let address =
+document.getElementById("customerAddress")?.value || "غير محدد";
+
+
+
+
+
+let msg =
+
+`طلب جديد من مجمع حمزه الشطري%0A%0A`;
+
+
+
+msg +=
+
+`👤 اسم الزبون: ${name}%0A`;
+
+
+msg +=
+
+`📱 رقم الهاتف: ${phone}%0A`;
+
+
+msg +=
+
+`📍 العنوان: ${address}%0A%0A`;
+
+
+
+
 
 let total=0;
 
@@ -657,11 +1050,15 @@ let total=0;
 cart.forEach(item=>{
 
 
+
 msg +=
-`${item.name} × ${item.qty} - ${item.price} د.ع%0A`;
+
+`🛍️ ${item.name} × ${item.qty} = ${item.price} د.ع%0A`;
+
 
 
 total += item.price * item.qty;
+
 
 
 });
@@ -669,7 +1066,10 @@ total += item.price * item.qty;
 
 
 msg +=
-`%0Aالمجموع: ${total} د.ع`;
+
+`%0A💰 المجموع: ${total.toLocaleString()} د.ع`;
+
+
 
 
 
@@ -682,7 +1082,11 @@ window.open(
 );
 
 
+
 }
+
+
+
 
 
 
@@ -698,8 +1102,10 @@ document.addEventListener("error",(e)=>{
 
 if(e.target.tagName==="IMG"){
 
+
 e.target.src=
 "5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png";
+
 
 }
 
@@ -712,8 +1118,9 @@ e.target.src=
 
 
 
+
 /*========================
-ربط الدوال للصفحات
+ربط الدوال
 ========================*/
 
 
@@ -728,3 +1135,5 @@ window.removeItem=removeItem;
 window.sendWhatsApp=sendWhatsApp;
 
 window.renderCart=renderCart;
+
+window.renderFavorites=renderFavorites;
