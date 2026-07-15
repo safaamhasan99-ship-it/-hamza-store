@@ -604,3 +604,9 @@ bottom:85px;
 html{
 scroll-behavior:smooth;
 }
+#loader.hide{
+opacity:0;
+visibility:hidden;
+pointer-events:none;
+transition:0.5s;
+}
