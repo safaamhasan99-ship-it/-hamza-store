@@ -2,57 +2,108 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <title>القسم الرجالي | مجمع حمزه الشطري</title>
 
+
 <link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 
 <link rel="stylesheet" href="style.css">
 
+
 </head>
+
 
 <body>
 
+
+
 <div id="loader">
+
 <div class="loader-box">
+
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-<h2>مجمع حمزه الشطري</h2>
+
+
+<h2>
+مجمع حمزه الشطري
+</h2>
+
+
 <div class="loader-spinner"></div>
-<p>جاري تحميل القسم...</p>
+
+
+<p>
+جاري تحميل القسم...
+</p>
+
+
 </div>
+
 </div>
+
+
+
 
 <header class="header">
 
+
 <div class="logo-box">
+
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
+
 <div>
 
-<h1>مجمع حمزه الشطري</h1>
+<h1>
+مجمع حمزه الشطري
+</h1>
 
-<span>القسم الرجالي</span>
+
+<span>
+القسم الرجالي
+</span>
+
 
 </div>
 
+
 </div>
+
+
+
 
 <div class="header-buttons">
 
+
 <a href="cart.html" class="cart-btn">
+
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-<span id="cartCount">0</span>
+
+<span id="cartCount">
+0
+</span>
+
 
 </a>
+
+
+
 
 <button id="darkBtn" class="dark-btn">
 
@@ -60,10 +111,12 @@
 
 </button>
 
+
+
 </div>
 
-</header>
 
+</header>
 <section class="search-box">
 
 <input
@@ -75,13 +128,22 @@ placeholder="ابحث داخل القسم الرجالي...">
 
 </section>
 
+
+
+
 <section class="products-home">
 
+
 <h2 class="title">
+
 👔 القسم الرجالي
+
 </h2>
 
+
+
 <div id="productsGrid" class="products-grid">
+
 
 <div class="loading-products">
 
@@ -89,103 +151,202 @@ placeholder="ابحث داخل القسم الرجالي...">
 
 </div>
 
+
 </div>
 
+
+
 </section>
+
+
+
+
+
 <script type="module">
+
 
 import { db } from "./firebase.js";
 
+
 import {
+
 collection,
 getDocs
+
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const grid=document.getElementById("productsGrid");
+
+
+const grid = document.getElementById("productsGrid");
+
+
 
 async function loadMenProducts(){
 
-grid.innerHTML="<div class='loading-products'>جاري تحميل المنتجات...</div>";
+
+
+grid.innerHTML = `
+
+<div class="loading-products">
+
+جاري تحميل المنتجات...
+
+</div>
+
+`;
+
+
 
 try{
 
-const snap=await getDocs(collection(db,"products"));
 
-grid.innerHTML="";
+const snap = await getDocs(
+collection(db,"products")
+);
 
-let found=false;
+
+
+grid.innerHTML = "";
+
+
+let found = false;
+
+
 
 snap.forEach(doc=>{
 
-const p=doc.data();
 
-if((p.category || "").trim() !== "القسم الرجالي") return;
+const p = doc.data();
 
-found=true;
 
-grid.innerHTML+=`
+
+/* قسم الرجالي فقط */
+
+if(
+(p.category || "").trim() !== "men"
+) return;
+
+
+
+found = true;
+
+
+
+grid.innerHTML += `
+
 
 <div class="product-card">
 
+
+
 <img src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}">
+
+
 
 <div class="product-info">
 
-<h3>${p.name}</h3>
+
+
+<h3>
+
+${p.name}
+
+</h3>
+
+
 
 <p class="price">
 
-${Number(p.price||0).toLocaleString()} د.ع
+${Number(p.price || 0).toLocaleString()} د.ع
 
 </p>
 
+
+
 <div class="product-actions">
 
+
+
 <button class="cart-add"
+
 onclick="addToCart('${p.name}',${p.price},'${p.image}')">
+
 
 <i class="fa-solid fa-cart-shopping"></i>
 
 السلة
 
+
 </button>
 
+
+
+
+
 <button class="fav-add"
+
 onclick="addToFavorites('${p.name}',${p.price},'${p.image}')">
+
 
 <i class="fa-solid fa-heart"></i>
 
+
 </button>
 
-</div>
+
 
 </div>
 
+
+
 </div>
+
+
+
+</div>
+
+
 
 `;
+
+
 
 });
 
+
+
+
 if(!found){
 
-grid.innerHTML=`
+
+grid.innerHTML = `
+
 
 <div class="loading-products">
 
+
 لا توجد منتجات في القسم الرجالي
+
 
 </div>
 
+
 `;
+
 
 }
 
+
+
 }catch(e){
+
 
 console.log(e);
 
-grid.innerHTML=`
+
+
+grid.innerHTML = `
+
 
 <div class="loading-products">
 
@@ -193,13 +354,21 @@ grid.innerHTML=`
 
 </div>
 
+
 `;
 
-}
 
 }
+
+
+
+}
+
+
 
 loadMenProducts();
+
+
 
 </script>
 <!-- زر واتساب -->
@@ -212,71 +381,163 @@ target="_blank">
 
 </a>
 
+
+
+
+
 <!-- القائمة السفلية -->
+
 
 <nav class="bottom-nav">
 
+
+
 <a href="index.html">
+
 <i class="fa-solid fa-house"></i>
-<span>الرئيسية</span>
+
+<span>
+الرئيسية
+</span>
+
 </a>
+
+
+
 
 <a href="products.html" class="active">
+
 <i class="fa-solid fa-shop"></i>
-<span>المنتجات</span>
+
+<span>
+المنتجات
+</span>
+
 </a>
+
+
+
+
 
 <a href="cart.html">
+
 <i class="fa-solid fa-cart-shopping"></i>
-<span>السلة</span>
+
+<span>
+السلة
+</span>
+
 </a>
+
+
+
+
 
 <a href="favorites.html">
+
 <i class="fa-solid fa-heart"></i>
-<span>المفضلة</span>
+
+<span>
+المفضلة
+</span>
+
 </a>
+
+
+
+
 
 <a href="about.html">
+
 <i class="fa-solid fa-circle-info"></i>
-<span>من نحن</span>
+
+<span>
+من نحن
+</span>
+
 </a>
 
-</nav>
 
+
+</nav>
 <footer class="footer">
+
 
 <div class="footer-box">
 
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" class="footer-logo">
 
-<h3>مجمع حمزه الشطري</h3>
+<img 
+src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" 
+class="footer-logo">
 
-<p>للملابس الجاهزة والجملة</p>
+
+
+<h3>
+مجمع حمزه الشطري
+</h3>
+
+
 
 <p>
+للملابس الجاهزة والجملة
+</p>
+
+
+
+<p>
+
 <i class="fa-solid fa-location-dot"></i>
+
 ذي قار - الشطرة
+
 </p>
 
+
+
+
 <p>
+
 <i class="fa-solid fa-phone"></i>
+
 07813555538
+
 </p>
 
+
+
+
 <p>
+
 <i class="fa-solid fa-truck"></i>
+
 توصيل لجميع محافظات العراق
+
 </p>
+
+
+
 
 <p class="copy">
+
 © 2026 جميع الحقوق محفوظة
+
 </p>
+
+
 
 </div>
 
+
+
 </footer>
 
+
+
+
+
 <script type="module" src="script.js"></script>
+
+
 
 </body>
 
