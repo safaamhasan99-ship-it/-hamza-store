@@ -1625,9 +1625,13 @@ height:90px;
 
 }
 
-/*========================
-تصميم السلة الاحترافي
-========================*/
+padding:25px 15px;
+}
+
+
+/*==============================
+   سلة احترافية - مجمع حمزه الشطري
+==============================*/
 
 .cart-page{
 padding:25px 15px;
@@ -1643,41 +1647,40 @@ gap:25px;
 }
 
 
+
 .cart-box,
 .order-box{
 
 background:#fff;
-border-radius:25px;
-padding:20px;
-box-shadow:var(--shadow);
+border-radius:28px;
+padding:22px;
+
+box-shadow:
+0 15px 35px rgba(0,0,0,.08);
 
 }
 
 
-.cart-box h3,
-.order-box h3{
 
-font-size:22px;
-margin-bottom:20px;
-font-weight:800;
-
-}
-
-
+/* بطاقة المنتج */
 
 .cart-item{
 
 display:flex;
+
 align-items:center;
-gap:15px;
+
+gap:18px;
 
 background:#f8fafc;
 
+border-radius:22px;
+
 padding:15px;
 
-border-radius:18px;
-
 margin-bottom:15px;
+
+border:1px solid #eee;
 
 }
 
@@ -1685,12 +1688,17 @@ margin-bottom:15px;
 
 .cart-item img{
 
-width:90px;
-height:90px;
+width:110px;
 
-border-radius:15px;
+height:130px;
 
 object-fit:cover;
+
+border-radius:18px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+background:white;
 
 }
 
@@ -1703,46 +1711,92 @@ flex:1;
 }
 
 
+
 .cart-info h3{
 
-font-size:17px;
+font-size:18px;
+
+font-weight:800;
+
+margin-bottom:8px;
 
 }
 
 
 
+.cart-info p{
+
+color:#64748b;
+
+font-size:14px;
+
+}
+
+
+
+.cart-price{
+
+font-size:20px;
+
+font-weight:900;
+
+color:#2563eb;
+
+margin:10px 0;
+
+}
+
+
+
+/* الكمية */
+
 .qty-box{
 
 display:flex;
-align-items:center;
-gap:15px;
 
-margin-top:10px;
+align-items:center;
+
+gap:12px;
 
 }
 
 
 .qty-box button{
 
-width:35px;
-height:35px;
+width:38px;
 
-border:none;
+height:38px;
 
 border-radius:50%;
+
+border:none;
 
 background:#2563eb;
 
 color:white;
 
-font-size:20px;
+font-size:22px;
 
-cursor:pointer;
+font-weight:bold;
 
 }
 
 
 .qty-box span{
+
+background:white;
+
+width:40px;
+
+height:38px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:12px;
 
 font-size:18px;
 
@@ -1752,25 +1806,145 @@ font-weight:bold;
 
 
 
+/* حذف */
+
 .delete-cart{
 
-background:#ef4444;
+width:42px;
 
-color:white;
+height:42px;
+
+border-radius:50%;
 
 border:none;
 
-width:40px;
+background:#fee2e2;
 
-height:40px;
+color:#ef4444;
 
-border-radius:12px;
-
-cursor:pointer;
+font-size:18px;
 
 }
 
 
+
+/* بيانات الزبون */
+
+.order-box h3{
+
+font-size:22px;
+
+font-weight:900;
+
+}
+
+
+
+.order-box input,
+.order-box textarea{
+
+width:100%;
+
+padding:15px;
+
+border-radius:16px;
+
+border:1px solid #ddd;
+
+margin-bottom:15px;
+
+font-family:Cairo;
+
+font-size:15px;
+
+}
+
+
+
+.order-box textarea{
+
+height:100px;
+
+}
+
+
+
+/* المجموع */
+
+.cart-total{
+
+background:linear-gradient(135deg,#2563eb,#0f766e);
+
+color:white;
+
+padding:18px;
+
+border-radius:20px;
+
+text-align:center;
+
+font-size:22px;
+
+font-weight:900;
+
+margin:15px 0;
+
+}
+
+
+
+/* واتساب */
+
+.whatsapp-btn{
+
+width:100%;
+
+padding:16px;
+
+border:none;
+
+border-radius:20px;
+
+background:#25d366;
+
+color:white;
+
+font-size:17px;
+
+font-weight:800;
+
+}
+
+
+
+/* موبايل */
+
+@media(max-width:768px){
+
+.cart-grid{
+
+grid-template-columns:1fr;
+
+}
+
+
+.cart-item img{
+
+width:85px;
+
+height:100px;
+
+}
+
+
+.cart-info h3{
+
+font-size:15px;
+
+}
+
+
+}
 
 /* معلومات الزبون */
 
