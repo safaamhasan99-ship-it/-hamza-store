@@ -1178,3 +1178,78 @@ height:320px;
 
 
 }
+/* إصلاح شكل الأقسام الدائرية */
+
+.category-grid{
+
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+}
+
+
+.category{
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+font-weight:800;
+}
+
+
+.category img{
+
+width:85px;
+height:85px;
+border-radius:50%;
+object-fit:cover;
+padding:4px;
+background:#fff;
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+
+}
+
+
+/* ألوان الدوائر */
+
+.category.blue img{
+border:4px solid #2563eb;
+}
+
+.category.pink img{
+border:4px solid #ec4899;
+}
+
+.category.green img{
+border:4px solid #22c55e;
+}
+
+.category.orange img{
+border:4px solid #f97316;
+}
+
+.category.purple img{
+border:4px solid #8b5cf6;
+}
+
+.category.cyan img{
+border:4px solid #06b6d4;
+}
+
+.category.red img{
+border:4px solid #ef4444;
+}
+
+.category.gold img{
+border:4px solid #d4af37;
+}
+
+
+.category span{
+
+margin-top:10px;
+font-size:14px;
+
+}
