@@ -3,7 +3,7 @@ import { db } from "./firebase.js";
 import {
   collection,
   getDocs
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase_firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 const productsBox = document.getElementById("productsList");
@@ -143,7 +143,6 @@ card.className="product-card";
 
 card.innerHTML = `
 
-
 <img
 
 src="${image}"
@@ -188,7 +187,6 @@ ${price.toLocaleString()} د.ع
 
 
 </div>
-
 
 `;
 
