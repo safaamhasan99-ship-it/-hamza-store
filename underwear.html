@@ -6,93 +6,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>قسم الداخليات الرجالي | مجمع حمزه الشطري</title>
+<title>الداخليات الرجالي | مجمع حمزه الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-body{
-background:#f5f7fb;
-}
-
-header{
-background:#111;
-color:#fff;
-padding:20px;
-text-align:center;
-font-size:24px;
-font-weight:800;
-}
-
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-gap:15px;
-padding:20px;
-}
-
-.card{
-background:#fff;
-border-radius:15px;
-overflow:hidden;
-box-shadow:0 4px 12px rgba(0,0,0,.08);
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-4px);
-}
-
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-background:#eee;
-}
-
-.card h3{
-padding:10px;
-text-align:center;
-font-size:18px;
-}
-
-.price{
-text-align:center;
-color:#c28b00;
-font-size:20px;
-font-weight:bold;
-padding-bottom:15px;
-}
-
-.msg{
-grid-column:1/-1;
-text-align:center;
-padding:40px;
-font-size:22px;
-font-weight:bold;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
 <header>
-قسم الداخليات الرجالي
+<h1>مجمع حمزه الشطري</h1>
+<p>قسم الداخليات الرجالي - بيع جملة فقط</p>
 </header>
 
+
+<section class="category-page">
+
+<h2>الداخليات الرجالي</h2>
+
+
 <div id="products" class="products">
-<div class="msg">جاري تحميل المنتجات...</div>
+
+<!-- المنتجات تظهر هنا من Firebase -->
+
 </div>
+
+
+</section>
+
 
 <script type="module">
 
@@ -100,87 +43,87 @@ import { db } from "./firebase.js";
 
 import {
 collection,
-getDocs
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+getDocs,
+query,
+where
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const box=document.getElementById("products");
+
+const productsBox = document.getElementById("products");
+
 
 async function loadProducts(){
 
-try{
+const q = query(
+collection(db,"products"),
+where("category","==","داخليات رجالي")
+);
 
-const snapshot=await getDocs(collection(db,"products"));
 
-box.innerHTML="";
+const snapshot = await getDocs(q);
 
-if(snapshot.empty){
 
-box.innerHTML="<div class='msg'>لا توجد منتجات</div>";
-return;
+productsBox.innerHTML="";
 
-}
 
-let found=false;
-  snapshot.forEach((doc)=>{
+snapshot.forEach((doc)=>{
 
-const p=doc.data();
 
-const category=(p.category || "").trim();
+let p = doc.data();
 
-if(
-category==="قسم الداخليات الرجالي" ||
-category==="الداخليات الرجالي" ||
-category==="داخليات" ||
-category==="underwear"
-){
 
-found=true;
+productsBox.innerHTML += `
 
-box.innerHTML += `
+<div class="product-card">
 
-<div class="card">
 
-<img src="${p.image || 'https://via.placeholder.com/300x400?text=No+Image'}" alt="${p.name || ''}">
+<img src="${p.image}">
 
-<h3>${p.name || 'بدون اسم'}</h3>
 
-<div class="price">
-${Number(p.price || 0).toLocaleString()} د.ع
-</div>
+<h3>${p.name}</h3>
+
+
+<p class="price">
+${p.price} د.ع
+</p>
+
+
+<button onclick="order('${p.name}')">
+طلب واتساب
+</button>
+
 
 </div>
 
 `;
-
-}
 
 });
 
-if(!found){
-
-box.innerHTML="<div class='msg'>لا توجد منتجات ضمن قسم الداخليات الرجالي</div>";
 
 }
 
-}catch(error){
 
-console.error(error);
+window.order=function(name){
 
-box.innerHTML=`
-<div class="msg">
-حدث خطأ أثناء تحميل المنتجات
-<br><br>
-${error.message}
-</div>
-`;
+let phone="964xxxxxxxxxx";
+
+let msg=
+"السلام عليكم أريد طلب: "+name;
+
+
+window.open(
+"https://wa.me/"+phone+"?text="+encodeURIComponent(msg)
+);
 
 }
 
-}
 
 loadProducts();
 
+
 </script>
+
 
 </body>
 </html>
