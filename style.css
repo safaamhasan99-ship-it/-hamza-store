@@ -12,6 +12,7 @@ font-family:'Cairo',sans-serif;
 }
 
 
+
 :root{
 
 --primary:#2563eb;
@@ -2481,5 +2482,15 @@ body.dark .qty-box span{
 
 background:#ffffff;
 color:#111827 !important;
+
+}
+/* تصغير عنوان المتجر */
+
+.logo-box h1,
+.brand h1,
+.header h1{
+
+font-size:22px !important;
+line-height:1.3 !important;
 
 }
