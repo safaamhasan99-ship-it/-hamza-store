@@ -1,1220 +1,563 @@
 /*==================================
 مجمع حمزه الشطري
-Professional Store v2
+Professional Store JS v2
 ==================================*/
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Cairo',sans-serif;
-}
-
-:root{
-
---primary:#2563eb;
---green:#16a34a;
---gold:#f59e0b;
---red:#ef4444;
---purple:#8b5cf6;
---pink:#ec4899;
---cyan:#06b6d4;
---orange:#f97316;
-
---bg:#f5f7fb;
---card:#ffffff;
---text:#0f172a;
---gray:#64748b;
-
---radius:22px;
---shadow:0 12px 30px rgba(0,0,0,.08);
-
-}
-
-body{
-
-background:var(--bg);
-color:var(--text);
-overflow-x:hidden;
-padding-bottom:90px;
-
-}
-
-body.dark-mode{
-
-background:#0f172a;
-color:#fff;
-
-}
-
-a{
-
-text-decoration:none;
-color:inherit;
-
-}
-
-img{
-
-max-width:100%;
-display:block;
-
-}
-
-section{
-
-padding:25px 15px;
-
-}
-
-/*=====================
-Loader
-=====================*/
-
-#loader{
-
-position:fixed;
-inset:0;
-background:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:99999;
-
-}
-
-.loader-box{
-
-text-align:center;
-
-}
-
-.loader-box img{
-
-width:110px;
-margin:auto;
-
-}
-
-.loader-spinner{
-
-width:48px;
-height:48px;
-margin:20px auto;
-border:4px solid #ddd;
-border-top:4px solid var(--primary);
-border-radius:50%;
-animation:spin 1s linear infinite;
-
-}
-
-@keyframes spin{
-
-100%{
-
-transform:rotate(360deg);
-
-}
-
-}
-
-#loader.hide{
-
-opacity:0;
-visibility:hidden;
-transition:.5s;
-
-}
-/*==========================
-Header
-==========================*/
-
-.header{
-
-background:#fff;
-padding:15px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-position:sticky;
-top:0;
-z-index:999;
-box-shadow:0 5px 20px rgba(0,0,0,.08);
-
-}
-
-body.dark-mode .header{
-
-background:#111827;
-
-}
-
-.logo-box{
-
-display:flex;
-align-items:center;
-gap:12px;
-
-}
-
-.logo-box img{
-
-width:65px;
-height:65px;
-border-radius:50%;
-border:3px solid var(--gold);
-
-}
-
-.logo-box h1{
-
-font-size:24px;
-font-weight:800;
-
-}
-
-.logo-box span{
-
-display:block;
-font-size:14px;
-color:var(--gray);
-
-}
-
-body.dark-mode .logo-box span{
-
-color:#cbd5e1;
-
-}
-
-.header-buttons{
-
-display:flex;
-align-items:center;
-gap:15px;
-
-}
-
-/* السلة */
-
-.cart-btn{
-
-width:58px;
-height:58px;
-background:var(--primary);
-border-radius:18px;
-display:flex;
-align-items:center;
-justify-content:center;
-position:relative;
-color:#fff;
-font-size:24px;
-box-shadow:0 8px 20px rgba(37,99,235,.35);
-transition:.3s;
-
-}
-
-.cart-btn:hover{
-
-transform:translateY(-3px);
-
-}
 
-.cart-btn span{
-
-position:absolute;
-top:-6px;
-left:-6px;
-width:24px;
-height:24px;
-background:#ef4444;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:12px;
-font-weight:700;
-color:#fff;
+// إخفاء شاشة التحميل
 
-}
+window.addEventListener("load",()=>{
 
-/* زر الوضع الليلي */
+const loader=document.getElementById("loader");
 
-.dark-btn{
+if(loader){
 
-width:58px;
-height:58px;
-border:none;
-border-radius:18px;
-background:#111827;
-color:#fff;
-font-size:24px;
-cursor:pointer;
-transition:.3s;
+loader.classList.add("hide");
 
-}
+setTimeout(()=>{
 
-.dark-btn:hover{
+loader.style.display="none";
 
-transform:rotate(15deg);
+},600);
 
 }
 
-body.dark-mode .dark-btn{
+});
 
-background:var(--gold);
-color:#111827;
 
-}
-
-/* البحث */
+// بيانات السلة
 
-.search-box{
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-padding:18px;
-position:relative;
-
-}
 
-.search-box input{
-
-width:100%;
-height:58px;
-border:none;
-border-radius:18px;
-padding:0 55px 0 20px;
-font-size:16px;
-background:#fff;
-box-shadow:var(--shadow);
-outline:none;
+// بيانات المفضلة
 
-}
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-body.dark-mode .search-box input{
 
-background:#1e293b;
-color:#fff;
+// تحديث رقم السلة
 
-}
+function updateCartCount(){
 
-.search-box i{
+const count=document.getElementById("cartCount");
 
-position:absolute;
-right:35px;
-top:50%;
-transform:translateY(-50%);
-font-size:20px;
-color:var(--primary);
+if(count){
 
-}
-/*==========================
-Hero
-==========================*/
-
-.hero{
-padding:20px;
-}
+count.innerText = cart.reduce((sum,item)=>sum + item.qty,0);
 
-.hero-slide{
-background:#fff;
-border-radius:25px;
-overflow:hidden;
-box-shadow:var(--shadow);
 }
 
-body.dark-mode .hero-slide{
-background:#1e293b;
 }
 
-.hero-slide img{
-width:100%;
-height:340px;
-object-fit:cover;
-display:block;
-}
 
-.hero-content{
-padding:25px;
-text-align:center;
-}
+updateCartCount();
 
-.hero-content h2{
-font-size:34px;
-font-weight:800;
-margin-bottom:12px;
-color:var(--text);
-}
 
-body.dark-mode .hero-content h2{
-color:#fff;
-}
+// إضافة للسلة
 
-.hero-content p{
-font-size:17px;
-color:var(--gray);
-line-height:1.9;
-margin-bottom:20px;
-}
+function addToCart(name,price,image){
 
-body.dark-mode .hero-content p{
-color:#cbd5e1;
-}
+let item = cart.find(p=>p.name===name);
 
-.hero-btn{
-display:inline-block;
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
-color:#fff;
-padding:14px 35px;
-border-radius:16px;
-font-size:17px;
-font-weight:700;
-transition:.3s;
-}
 
-.hero-btn:hover{
-transform:translateY(-4px);
-}
+if(item){
 
-/*==========================
-المميزات
-==========================*/
+item.qty++;
 
-.features{
+}else{
 
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
-padding:20px;
 
-}
+cart.push({
 
-.feature{
+name:name,
 
-background:#fff;
-border-radius:22px;
-padding:25px;
-text-align:center;
-box-shadow:var(--shadow);
-transition:.3s;
+price:Number(price),
 
-}
+image:image,
 
-body.dark-mode .feature{
-background:#1e293b;
-}
+qty:1
 
-.feature:hover{
+});
 
-transform:translateY(-6px);
 
 }
 
-.feature i{
 
-font-size:42px;
-color:var(--primary);
-margin-bottom:15px;
+localStorage.setItem("cart",JSON.stringify(cart));
 
-}
-
-.feature h3{
-
-font-size:20px;
-margin-bottom:10px;
 
-}
+updateCartCount();
 
-body.dark-mode .feature h3{
-color:#fff;
-}
 
-.feature p{
+alert("تمت إضافة المنتج إلى السلة");
 
-color:var(--gray);
-font-size:15px;
 
 }
+  // عرض السلة
 
-body.dark-mode .feature p{
-color:#cbd5e1;
-}
+function renderCart(){
 
-@media(max-width:768px){
+const cartBox=document.getElementById("cartItems");
 
-.features{
+if(!cartBox) return;
 
-grid-template-columns:1fr;
 
-}
+cartBox.innerHTML="";
 
-.hero-slide img{
 
-height:230px;
+if(cart.length===0){
 
-}
+cartBox.innerHTML=`
 
-.hero-content h2{
+<div class="empty-cart">
 
-font-size:24px;
+<i class="fa-solid fa-cart-shopping"></i>
 
-}
+<h3>السلة فارغة</h3>
 
-}
-/*==========================
-العناوين
-==========================*/
+</div>
 
-.section-title{
+`;
 
-text-align:center;
-font-size:32px;
-font-weight:800;
-margin-bottom:25px;
+return;
 
 }
 
-/*==========================
-الأقسام
-==========================*/
 
-.category-grid{
+cart.forEach((item,index)=>{
 
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:22px;
 
-}
-
-.category{
-
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-padding:22px;
-border-radius:28px;
-color:#fff;
-font-weight:800;
-transition:.35s;
-box-shadow:var(--shadow);
-
-}
+cartBox.innerHTML += `
 
-.category:hover{
+<div class="cart-item">
 
-transform:translateY(-8px) scale(1.03);
 
-}
+<img src="${item.image}">
 
-.category img{
 
-width:95px;
-height:95px;
-border-radius:50%;
-object-fit:cover;
-border:5px solid rgba(255,255,255,.85);
-margin-bottom:15px;
+<div class="cart-info">
 
-}
+<h3>${item.name}</h3>
 
-.category span{
+<p>${item.price} د.ع</p>
 
-font-size:18px;
 
-}
+<div class="qty-box">
 
-/* ألوان الأقسام */
+<button onclick="changeQty(${index},-1)">
+-
+</button>
 
-.blue{
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
-}
 
-.green{
-background:linear-gradient(135deg,#16a34a,#15803d);
-}
+<span>${item.qty}</span>
 
-.orange{
-background:linear-gradient(135deg,#f97316,#ea580c);
-}
 
-.purple{
-background:linear-gradient(135deg,#8b5cf6,#7c3aed);
-}
+<button onclick="changeQty(${index},1)">
++
+</button>
 
-.red{
-background:linear-gradient(135deg,#ef4444,#dc2626);
-}
 
-.cyan{
-background:linear-gradient(135deg,#06b6d4,#0891b2);
-}
+</div>
 
-.pink{
-background:linear-gradient(135deg,#ec4899,#db2777);
-}
 
-.gold{
-background:linear-gradient(135deg,#f59e0b,#d97706);
-}
+</div>
 
-/*==========================
-المنتجات
-==========================*/
 
-.products-grid{
+<button class="delete-cart" onclick="removeItem(${index})">
 
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:22px;
+<i class="fa-solid fa-trash"></i>
 
-}
+</button>
 
-.product-card{
 
-background:#fff;
-border-radius:22px;
-overflow:hidden;
-box-shadow:var(--shadow);
-transition:.35s;
+</div>
 
-}
+`;
 
-body.dark-mode .product-card{
+});
 
-background:#1e293b;
 
 }
-
-.product-card:hover{
 
-transform:translateY(-8px);
 
-}
+// تغيير الكمية
 
-.product-card img{
+function changeQty(index,value){
 
-width:100%;
-height:250px;
-object-fit:cover;
+cart[index].qty += value;
 
-}
 
-.product-info{
+if(cart[index].qty <=0){
 
-padding:18px;
+cart[index].qty=1;
 
 }
 
-.product-info h3{
 
-font-size:20px;
-margin-bottom:10px;
+saveCart();
 
-}
 
-body.dark-mode .product-info h3{
+renderCart();
 
-color:#fff;
 
 }
 
-.price{
 
-font-size:22px;
-font-weight:800;
-color:var(--primary);
-margin-bottom:15px;
+// حذف منتج
 
-}
-
-.product-actions{
+function removeItem(index){
 
-display:flex;
-gap:10px;
-
-}
+cart.splice(index,1);
 
-.product-actions button{
 
-flex:1;
-height:46px;
-border:none;
-border-radius:12px;
-font-weight:700;
-cursor:pointer;
-transition:.3s;
+saveCart();
 
-}
 
-.cart-add{
+renderCart();
 
-background:#2563eb;
-color:#fff;
 
 }
-
-.fav-add{
-
-background:#f3f4f6;
 
-}
 
-body.dark-mode .fav-add{
+// حفظ السلة
 
-background:#334155;
-color:#fff;
+function saveCart(){
 
-}
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
 
-.product-actions button:hover{
 
-transform:scale(1.05);
+updateCartCount();
 
 }
 
-@media(max-width:768px){
 
-.category-grid{
+// تشغيل عرض السلة إذا موجودة الصفحة
 
-grid-template-columns:repeat(2,1fr);
+renderCart();
+  // إضافة للمفضلة
 
-}
+function addToFavorites(name,price,image){
 
-.products-grid{
+let item=favorites.find(p=>p.name===name);
 
-grid-template-columns:repeat(2,1fr);
 
-}
+if(item){
 
-.product-card img{
+alert("المنتج موجود في المفضلة");
 
-height:170px;
+return;
 
 }
 
-.category img{
 
-width:80px;
-height:80px;
+favorites.push({
 
-}
-
-.section-title{
-
-font-size:26px;
+name:name,
 
-}
+price:Number(price),
 
-}
-/*==========================
-العروض
-==========================*/
+image:image
 
-.offers{
+});
 
-padding:25px;
 
-}
+localStorage.setItem(
+"favorites",
+JSON.stringify(favorites)
+);
 
-.offer-card{
 
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
-color:#fff;
-border-radius:28px;
-padding:35px 25px;
-text-align:center;
-box-shadow:var(--shadow);
+alert("تمت إضافة المنتج للمفضلة");
 
 }
-
-.offer-card i{
 
-font-size:60px;
-margin-bottom:20px;
-color:#ffd54a;
 
-}
 
-.offer-card h2{
+// عرض المفضلة
 
-font-size:32px;
-margin-bottom:15px;
+function renderFavorites(){
 
-}
+const box=document.getElementById("favoritesGrid");
 
-.offer-card p{
+if(!box) return;
 
-font-size:17px;
-line-height:1.9;
-margin-bottom:25px;
 
-}
+box.innerHTML="";
 
-.offer-btn{
 
-display:inline-block;
-background:#fff;
-color:#2563eb;
-padding:14px 35px;
-border-radius:15px;
-font-weight:800;
+favorites.forEach(item=>{
 
-}
 
-/*==========================
-من نحن
-==========================*/
+box.innerHTML +=`
 
-.about-store{
+<div class="product-card">
 
-padding:25px;
-text-align:center;
 
-}
+<img src="${item.image}">
 
-.about-store h2{
 
-font-size:30px;
-margin-bottom:15px;
+<div class="product-info">
 
-}
+<h3>${item.name}</h3>
 
-.about-store p{
+<p class="price">${item.price} د.ع</p>
 
-font-size:17px;
-line-height:2;
-max-width:800px;
-margin:auto;
-color:var(--gray);
 
-}
+<button class="cart-add"
+onclick="addToCart('${item.name}',${item.price},'${item.image}')">
 
-body.dark-mode .about-store p{
+إضافة للسلة
 
-color:#cbd5e1;
+</button>
 
-}
 
-/*==========================
-واتساب
-==========================*/
-
-.whatsapp{
-
-position:fixed;
-left:20px;
-bottom:95px;
-width:65px;
-height:65px;
-border-radius:50%;
-background:#25D366;
-color:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:34px;
-box-shadow:0 10px 25px rgba(0,0,0,.25);
-z-index:999;
+</div>
 
-}
 
-/*==========================
-القائمة السفلية
-==========================*/
-
-.bottom-nav{
-
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-height:75px;
-background:#fff;
-display:flex;
-justify-content:space-around;
-align-items:center;
-box-shadow:0 -5px 20px rgba(0,0,0,.08);
-z-index:999;
+</div>
 
-}
+`;
 
-body.dark-mode .bottom-nav{
+});
 
-background:#111827;
 
 }
 
-.bottom-nav a{
 
-display:flex;
-flex-direction:column;
-align-items:center;
-font-size:13px;
-color:#64748b;
+renderFavorites();
 
-}
 
-.bottom-nav a i{
 
-font-size:24px;
-margin-bottom:4px;
+// البحث عن المنتجات
 
-}
+const searchInput=document.getElementById("searchInput");
 
-.bottom-nav a.active{
 
-color:#2563eb;
-font-weight:700;
+if(searchInput){
 
-}
 
-/*==========================
-الفوتر
-==========================*/
+searchInput.addEventListener("input",function(){
 
-.footer{
 
-background:#0f172a;
-color:#fff;
-padding:50px 20px 100px;
-text-align:center;
+let value=this.value.toLowerCase();
 
-}
 
-.footer-logo{
+document.querySelectorAll(".product-card").forEach(card=>{
 
-width:100px;
-height:100px;
-border-radius:50%;
-margin:auto auto 20px;
 
-}
+let text=card.innerText.toLowerCase();
 
-.footer h3{
 
-font-size:30px;
-margin-bottom:10px;
+if(text.includes(value)){
 
-}
+card.style.display="block";
 
-.footer p{
+}else{
 
-margin:10px 0;
-line-height:1.8;
+card.style.display="none";
 
 }
 
-.copy{
 
-margin-top:30px;
-font-size:14px;
-color:#cbd5e1;
+});
 
-}
-/*==================================
-Dark Mode
-==================================*/
 
-body.dark-mode{
+});
 
-background:#0f172a;
-color:#fff;
 
 }
 
-body.dark-mode .category{
 
-box-shadow:0 8px 25px rgba(255,255,255,.05);
 
-}
-
-body.dark-mode .offer-card{
 
-background:linear-gradient(135deg,#1e3a8a,#2563eb);
-
-}
+// الوضع الليلي
 
-body.dark-mode .footer{
+const darkBtn=document.getElementById("darkBtn");
 
-background:#020617;
 
-}
+if(darkBtn){
 
-body.dark-mode input{
 
-background:#1e293b;
-color:#fff;
-border:1px solid #334155;
+let mode=localStorage.getItem("darkMode");
 
-}
 
-body.dark-mode .product-card,
-body.dark-mode .feature,
-body.dark-mode .about-store{
+if(mode==="on"){
 
-background:#1e293b;
+document.body.classList.add("dark-mode");
 
 }
 
-body.dark-mode .product-info h3,
-body.dark-mode .section-title,
-body.dark-mode .about-store h2{
 
-color:#fff;
 
-}
+darkBtn.onclick=()=>{
 
-/*==================================
-Animation
-==================================*/
 
-.category,
-.product-card,
-.feature,
-.offer-card,
-.hero-slide{
+document.body.classList.toggle("dark-mode");
 
-transition:.35s ease;
 
-}
+if(document.body.classList.contains("dark-mode")){
 
-.category:hover,
-.product-card:hover,
-.feature:hover{
 
-transform:translateY(-8px);
+localStorage.setItem("darkMode","on");
 
-}
 
-/*==================================
-Responsive
-==================================*/
+}else{
 
-@media (max-width:768px){
 
-.header{
+localStorage.setItem("darkMode","off");
 
-padding:12px;
 
 }
-
-.logo-box img{
-
-width:55px;
-height:55px;
 
-}
 
-.logo-box h1{
+};
 
-font-size:20px;
 
 }
-
-.cart-btn,
-.dark-btn{
-
-width:52px;
-height:52px;
-font-size:22px;
+  // تحميل المنتجات من التخزين
 
-}
+function loadProducts(){
 
-.hero-slide img{
+const grid=document.getElementById("productsGrid");
 
-height:220px;
+if(!grid) return;
 
-}
 
-.hero-content{
+let products = JSON.parse(localStorage.getItem("products")) || [];
 
-padding:18px;
 
-}
+grid.innerHTML="";
 
-.hero-content h2{
 
-font-size:24px;
+if(products.length===0){
 
-}
+grid.innerHTML=`
 
-.hero-content p{
+<p style="text-align:center">
 
-font-size:15px;
+لا توجد منتجات حالياً
 
-}
+</p>
 
-.offer-card h2{
+`;
 
-font-size:24px;
+return;
 
 }
 
-.footer-logo{
 
-width:80px;
-height:80px;
-
-}
 
-}
-/*==================================
-اللمسات الأخيرة
-==================================*/
-
-html{
-scroll-behavior:smooth;
-}
+products.slice(0,8).forEach(product=>{
 
-button{
-font-family:'Cairo',sans-serif;
-}
 
-.hero-btn,
-.offer-btn,
-.cart-add,
-.fav-add,
-.category,
-.cart-btn,
-.dark-btn,
-.whatsapp{
+grid.innerHTML += `
 
-transition:.3s ease;
+<div class="product-card">
 
-}
 
-.hero-btn:hover,
-.offer-btn:hover{
+<img src="${product.image}">
 
-transform:translateY(-3px);
 
-}
+<div class="product-info">
 
-.whatsapp:hover{
 
-transform:scale(1.1);
+<h3>${product.name}</h3>
 
-}
 
-.cart-btn:hover,
-.dark-btn:hover{
+<p class="price">
 
-transform:translateY(-3px);
+${product.price} د.ع
 
-}
+</p>
 
-.category:hover img{
 
-transform:scale(1.08);
+<div class="product-actions">
 
-}
 
-.category img{
+<button class="cart-add"
 
-transition:.3s;
+onclick="addToCart('${product.name}',${product.price},'${product.image}')">
 
-}
+<i class="fa-solid fa-cart-shopping"></i>
 
-.product-card img{
+السلة
 
-transition:.4s;
+</button>
 
-}
 
-.product-card:hover img{
 
-transform:scale(1.05);
+<button class="fav-add"
 
-}
+onclick="addToFavorites('${product.name}',${product.price},'${product.image}')">
 
-::-webkit-scrollbar{
+<i class="fa-solid fa-heart"></i>
 
-width:10px;
+</button>
 
-}
 
-::-webkit-scrollbar-thumb{
+</div>
 
-background:#2563eb;
-border-radius:20px;
 
-}
+</div>
 
-::-webkit-scrollbar-track{
 
-background:#e5e7eb;
+</div>
 
-}
+`;
 
-body.dark-mode ::-webkit-scrollbar-track{
+});
 
-background:#111827;
 
 }
 
-body.dark-mode ::-webkit-scrollbar-thumb{
 
-background:#3b82f6;
+loadProducts();
 
-}
 
-@media(max-width:480px){
 
-.products-grid{
 
-grid-template-columns:repeat(2,1fr);
-gap:15px;
+// إرسال الطلب واتساب
 
-}
+function sendWhatsApp(){
 
-.category-grid{
 
-grid-template-columns:repeat(2,1fr);
-gap:15px;
+let message="طلب جديد من مجمع حمزه الشطري:%0A%0A";
 
-}
 
-.product-card img{
+cart.forEach(item=>{
 
-height:160px;
 
-}
+message += 
+`${item.name} - ${item.qty} قطعة - ${item.price} د.ع%0A`;
 
-.category img{
 
-width:75px;
-height:75px;
+});
 
-}
 
-.hero-content h2{
+window.open(
 
-font-size:22px;
+"https://wa.me/9647813555538?text="+message,
 
-}
+"_blank"
 
-.hero-content p{
+);
 
-font-size:14px;
 
 }
-
-.offer-card{
-
-padding:25px 18px;
 
-}
 
-.offer-card h2{
 
-font-size:22px;
+// جعل الدوال متاحة للصفحات
 
-}
+window.addToCart=addToCart;
 
-.bottom-nav{
+window.addToFavorites=addToFavorites;
 
-height:70px;
+window.changeQty=changeQty;
 
-}
+window.removeItem=removeItem;
 
-}
+window.sendWhatsApp=sendWhatsApp;
