@@ -1498,3 +1498,129 @@ font-size:20px;
 }
 
 }
+
+/*========================
+تصميم دوائر الأقسام الاحترافي
+========================*/
+
+.category-item{
+
+min-width:110px;
+height:110px;
+
+border-radius:50%;
+
+padding:5px;
+
+background:white;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+position:relative;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.15);
+
+transition:.35s;
+
+}
+
+
+/* الصورة داخل الدائرة */
+
+.category-item img{
+
+width:100%;
+height:100%;
+
+border-radius:50%;
+
+object-fit:cover;
+
+}
+
+
+/* اسم القسم */
+
+.category-item span{
+
+position:absolute;
+
+bottom:8px;
+
+background:rgba(0,0,0,.65);
+
+color:white;
+
+border-radius:20px;
+
+padding:4px 12px;
+
+font-size:13px;
+
+font-weight:800;
+
+}
+
+
+/* ألوان الإطارات */
+
+.category-item.blue{
+border:5px solid #2563eb;
+}
+
+.category-item.pink{
+border:5px solid #ec4899;
+}
+
+.category-item.green{
+border:5px solid #22c55e;
+}
+
+.category-item.orange{
+border:5px solid #f97316;
+}
+
+.category-item.red{
+border:5px solid #ef4444;
+}
+
+.category-item.yellow{
+border:5px solid #eab308;
+}
+
+.category-item.purple{
+border:5px solid #8b5cf6;
+}
+
+.category-item.gold{
+border:5px solid #d4af37;
+}
+
+
+/* حركة */
+
+.category-item:hover{
+
+transform:translateY(-8px) scale(1.08);
+
+box-shadow:
+0 15px 35px rgba(0,0,0,.25);
+
+}
+
+
+/* موبايل */
+
+@media(max-width:768px){
+
+.category-item{
+
+min-width:90px;
+height:90px;
+
+}
+
+}
