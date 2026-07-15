@@ -44,7 +44,9 @@ margin-bottom:8px;
 font-weight:700;
 }
 
-input,select,textarea{
+input,
+select,
+textarea{
 padding:14px;
 border:1px solid #ddd;
 border-radius:12px;
@@ -99,6 +101,7 @@ padding:15px;
 <header class="header">
 
 <h1>مجمع حمزه الشطري</h1>
+
 <p>لوحة إدارة المنتجات</p>
 
 </header>
@@ -125,26 +128,26 @@ padding:15px;
 <label>القسم</label>
 
 <select id="category">
-  <option value="القسم الرجالي">القسم الرجالي</option>
 
-<option value="القسم النسائي">القسم النسائي</option>
+<option value="men">القسم الرجالي</option>
 
-<option value="القسم الولادي">القسم الولادي</option>
+<option value="women">القسم النسائي</option>
 
-<option value="القسم البناتي">القسم البناتي</option>
+<option value="boys">القسم الولادي</option>
 
-<option value="قسم البنطرونات">قسم البنطرونات</option>
+<option value="girls">القسم البناتي</option>
 
-<option value="قسم الداخليات الرجالي">قسم الداخليات الرجالي</option>
+<option value="pants">قسم البنطرونات</option>
 
-<option value="قسم الجوارب">قسم الجوارب</option>
+<option value="underwear">قسم الداخليات الرجالي</option>
 
-<option value="قسم الحقائب">قسم الحقائب</option>
+<option value="socks">قسم الجوارب</option>
 
-  <option value="قسم الحجابات والشالات">
+<option value="bags">قسم الحقائب</option>
+
+<option value="قسم الحجابات والشالات">
 قسم الحجابات والشالات
 </option>
-  
 </select>
 
 </div>
@@ -195,6 +198,8 @@ padding:15px;
 </div>
 
 </div>
+<script type="module" src="admin-guard.js"></script>
+
 <script type="module" src="admin-products.js"></script>
 
 </body>
