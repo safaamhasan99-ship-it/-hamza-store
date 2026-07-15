@@ -13,6 +13,9 @@
 
 <link rel="stylesheet" href="style.css">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
 <style>
 
 .msg{
@@ -23,6 +26,29 @@ font-weight:bold;
 grid-column:1/-1;
 }
 
+.product-actions{
+display:flex;
+gap:10px;
+margin-top:10px;
+}
+
+.fav-btn{
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:18px;
+width:45px;
+}
+
+.details-btn{
+display:block;
+margin-top:10px;
+text-align:center;
+padding:10px;
+border-radius:10px;
+text-decoration:none;
+}
+
 </style>
 
 </head>
@@ -31,11 +57,14 @@ grid-column:1/-1;
 <body>
 
 
+
 <header class="header">
+
 
 <div class="brand">
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
 
 <div>
 
@@ -49,9 +78,35 @@ grid-column:1/-1;
 
 </div>
 
+
 </div>
 
+
+<div class="header-icons">
+
+
+<a href="favorites.html">
+❤️
+</a>
+
+
+<a href="cart.html">
+🛒
+<span id="cartCount">0</span>
+</a>
+
+
+<button onclick="toggleDarkMode()">
+🌙
+</button>
+
+
+</div>
+
+
 </header>
+
+
 
 
 
@@ -66,9 +121,11 @@ grid-column:1/-1;
 
 <div id="products" class="products-grid">
 
+
 <div class="msg">
 جاري تحميل المنتجات...
 </div>
+
 
 </div>
 
@@ -77,11 +134,19 @@ grid-column:1/-1;
 
 
 
+
+
+
 <nav class="bottom-nav">
 
 
 <a href="index.html">
 🏠 الرئيسية
+</a>
+
+
+<a href="favorites.html">
+❤️ المفضلة
 </a>
 
 
@@ -99,20 +164,34 @@ grid-column:1/-1;
 
 
 
+
+
+
 <script src="script.js"></script>
+
+<script src="cart.js"></script>
+
+
 
 
 
 <script type="module">
 
+
 import { db } from "./firebase.js";
 
 
 import {
+
 collection,
 getDocs
+
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+from
+
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
 
 const box=document.getElementById("products");
@@ -148,20 +227,26 @@ const category=(p.category || "").trim();
 
 
 if(
+
 category==="قسم البنطرونات" ||
+
 category==="بنطرونات"
+
 ){
 
 
 found=true;
 
 
+
 box.innerHTML += `
+
 
 <div class="product-card">
 
 
-<img src="${p.image || 'https://via.placeholder.com/300x400?text=No+Image'}">
+<img src="${p.image || 'https://via.placeholder.com/300x400'}">
+
 
 
 <div class="product-info">
@@ -172,29 +257,80 @@ ${p.name || "بدون اسم"}
 </h3>
 
 
+
 <p>
 ${p.description || ""}
 </p>
 
 
+
 <p class="price">
+
 ${Number(p.price || 0).toLocaleString()} د.ع
+
 </p>
+
+
+
+<div class="product-actions">
+
 
 
 <button class="cart-btn"
 
-onclick="addToCart('${(p.name || '').replace(/'/g,"\\'")}',${Number(p.price || 0)},'${p.image || ''}')">
+onclick="addToCart(
+
+'${(p.name || '').replace(/'/g,"\\'")}',
+
+${Number(p.price || 0)},
+
+'${p.image || ''}'
+
+)">
 
 🛒 إضافة للسلة
 
 </button>
 
 
+
+
+<button class="fav-btn"
+
+onclick="addToFavorites(
+
+'${(p.name || '').replace(/'/g,"\\'")}',
+
+${Number(p.price || 0)},
+
+'${p.image || ''}'
+
+)">
+
+❤️
+
+</button>
+
+
+
+</div>
+
+
+
+
+<a class="details-btn" href="details.html?id=${doc.id}">
+
+عرض التفاصيل
+
+</a>
+
+
+
 </div>
 
 
 </div>
+
 
 `;
 
@@ -202,12 +338,18 @@ onclick="addToCart('${(p.name || '').replace(/'/g,"\\'")}',${Number(p.price || 0
 
 
 });
-  if(!found){
+
+
+
+if(!found){
+
 
 box.innerHTML=`
 
 <div class="msg">
+
 لا توجد منتجات في قسم البنطرونات
+
 </div>
 
 `;
@@ -215,15 +357,22 @@ box.innerHTML=`
 }
 
 
-}catch(error){
+
+}
+
+catch(error){
+
 
 console.error(error);
 
 
+
 box.innerHTML=`
 
 <div class="msg">
+
 حدث خطأ أثناء تحميل المنتجات
+
 </div>
 
 `;
@@ -231,13 +380,17 @@ box.innerHTML=`
 }
 
 
+
 }
+
 
 
 loadProducts();
 
 
+
 </script>
+
 
 
 </body>
