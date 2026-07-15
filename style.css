@@ -2447,16 +2447,11 @@ border:1px solid #4b5563;
 }
 
 /* عنوان المنتج داخل السلة */
-
 .cart-item h3{
-
 font-size:18px;
 font-weight:700;
-line-height:1.5;
-margin:0 0 8px;
-color:#111827;
-
 }
+
 
 body.dark .cart-item h3{
 
