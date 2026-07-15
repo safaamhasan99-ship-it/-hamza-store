@@ -1253,3 +1253,72 @@ margin-top:10px;
 font-size:14px;
 
 }
+/* تثبيت الأقسام الدائرية */
+
+.category-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+}
+
+
+.category{
+background:transparent !important;
+border-radius:0 !important;
+box-shadow:none !important;
+padding:0 !important;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+
+.category img{
+
+width:90px !important;
+height:90px !important;
+
+border-radius:50% !important;
+
+object-fit:cover;
+
+padding:4px;
+
+background:#fff;
+
+}
+
+
+
+.category span{
+
+margin-top:10px;
+
+font-weight:800;
+
+}
+
+
+
+/* موبايل */
+
+@media(max-width:768px){
+
+.category-grid{
+
+grid-template-columns:repeat(4,1fr);
+
+gap:12px;
+
+}
+
+
+.category img{
+
+width:70px !important;
+
+height:70px !important;
+
+}
+
+}
