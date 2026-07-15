@@ -87,13 +87,26 @@ let p = doc.data();
 
 
 
+let category = p.category || "";
+
+
+
+// عرض الداخليات الرجالي فقط
+
+if(
+category.includes("داخلي") &&
+category.includes("رجالي")
+){
+
+
+
 productsBox.innerHTML += `
+
 
 <div class="product-card">
 
 
 <img src="${p.image}" alt="${p.name}">
-
 
 
 <h3>
@@ -109,15 +122,19 @@ ${p.price} د.ع
 
 
 <button onclick="order('${p.name}')">
-طلب واتساب
-</button>
 
+طلب واتساب
+
+</button>
 
 
 </div>
 
 
 `;
+
+
+}
 
 
 
@@ -130,10 +147,9 @@ if(productsBox.innerHTML === ""){
 
 productsBox.innerHTML =
 
-"<h3>لا توجد منتجات حالياً</h3>";
+"<h3>لا توجد منتجات في هذا القسم</h3>";
 
 }
-
 
 
 }
@@ -157,11 +173,10 @@ productsBox.innerHTML =
 
 
 
+window.order=function(name){
 
-window.order = function(name){
 
-
-let phone = "964xxxxxxxxxx";
+let phone="964xxxxxxxxxx";
 
 
 let msg =
@@ -186,7 +201,6 @@ loadProducts();
 
 
 </script>
-
 
 
 </body>
