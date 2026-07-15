@@ -97,8 +97,17 @@ const product = doc.data();
 
 
 
-if(!category || product.category === category){
+const productCategory =
+product.category || "";
 
+
+
+// فلترة مرنة للأقسام
+
+if(
+!category ||
+productCategory.includes(category)
+){
 
 
 found=true;
@@ -135,6 +144,7 @@ card.className="product-card";
 
 card.innerHTML = `
 
+
 <img
 
 src="${image}"
@@ -154,10 +164,12 @@ onerror="this.onerror=null;this.src='./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'
 >
 
 
+
 <div class="product-info">
 
 
 <h3>${name}</h3>
+
 
 
 <p class="price">
@@ -167,6 +179,7 @@ ${price.toLocaleString()} د.ع
 </p>
 
 
+
 <button class="cart-btn">
 
 🛒 إضافة للسلة
@@ -174,9 +187,12 @@ ${price.toLocaleString()} د.ع
 </button>
 
 
+
 </div>
 
+
 `;
+
 
 
 
@@ -194,9 +210,11 @@ image
 );
 
 
+
 showCartMessage(
 "🛒 تمت إضافة المنتج إلى السلة"
 );
+
 
 
 }else{
@@ -215,6 +233,7 @@ showCartMessage(
 
 
 productsBox.appendChild(card);
+
 
 
 }
@@ -237,10 +256,12 @@ productsBox.innerHTML =
 
 }
 
+
 catch(error){
 
 
 console.error(error);
+
 
 
 productsBox.innerHTML =
