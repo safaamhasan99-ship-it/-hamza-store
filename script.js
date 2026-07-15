@@ -1,8 +1,7 @@
 /*==================================
 مجمع حمزه الشطري
-Professional Store JS v3
+Professional Store JS v4
 ==================================*/
-
 
 import { db } from "./firebase.js";
 
@@ -15,10 +14,7 @@ limit
 
 
 
-/*========================
-شاشة التحميل
-========================*/
-
+/* شاشة التحميل */
 
 window.addEventListener("load",()=>{
 
@@ -40,12 +36,7 @@ loader.style.display="none";
 
 
 
-
-
-/*========================
-السلة والمفضلة
-========================*/
-
+/* السلة والمفضلة */
 
 let cart=
 JSON.parse(localStorage.getItem("cart")) || [];
@@ -56,20 +47,14 @@ JSON.parse(localStorage.getItem("favorites")) || [];
 
 
 
-
-
 function updateCartCount(){
 
+const count=document.getElementById("cartCount");
 
-const count=
-document.getElementById("cartCount");
-
-
-if(!count) return;
+if(!count)return;
 
 
 let total=0;
-
 
 cart.forEach(item=>{
 
@@ -80,7 +65,6 @@ total += item.qty || 1;
 
 count.innerText=total;
 
-
 }
 
 
@@ -88,46 +72,34 @@ updateCartCount();
 
 
 
-
-
 function saveCart(){
-
 
 localStorage.setItem(
 "cart",
 JSON.stringify(cart)
 );
 
-
 updateCartCount();
-
 
 }
 
 
 
-
-
-/*========================
-إضافة للسلة
-========================*/
-
+/* إضافة للسلة */
 
 function addToCart(name,price,image){
 
 
-let item=
-cart.find(p=>p.name===name);
-
+let item=cart.find(
+p=>p.name===name
+);
 
 
 if(item){
 
 item.qty++;
 
-}
-
-else{
+}else{
 
 
 cart.push({
@@ -146,29 +118,24 @@ qty:1
 }
 
 
-
 saveCart();
 
 
-alert("🛒 تمت إضافة المنتج إلى السلة");
+alert("🛒 تمت إضافة المنتج للسلة");
 
 
 }
 
 
 
-
-
-/*========================
-إضافة للمفضلة
-========================*/
-
+/* إضافة للمفضلة */
 
 function addToFavorites(name,price,image){
 
 
-let item=
-favorites.find(p=>p.name===name);
+let item=favorites.find(
+p=>p.name===name
+);
 
 
 
@@ -195,11 +162,8 @@ image:image
 
 
 localStorage.setItem(
-
 "favorites",
-
 JSON.stringify(favorites)
-
 );
 
 
@@ -209,106 +173,21 @@ alert("❤️ تمت إضافة المنتج للمفضلة");
 
 }
 /*========================
-عرض المفضلة
-========================*/
-
-
-function renderFavorites(){
-
-
-const box=
-document.getElementById("favoritesGrid");
-
-
-if(!box) return;
-
-
-
-box.innerHTML="";
-
-
-
-favorites.forEach(item=>{
-
-
-box.innerHTML +=`
-
-
-<div class="product-card">
-
-
-<img src="${item.image}">
-
-
-
-<div class="product-info">
-
-
-<h3>${item.name}</h3>
-
-
-
-<p class="price">
-
-${item.price} د.ع
-
-</p>
-
-
-
-<button class="cart-add"
-
-onclick="addToCart('${item.name}',${item.price},'${item.image}')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-
-</div>
-
-
-</div>
-
-
-`;
-
-});
-
-
-}
-
-
-renderFavorites();
-
-
-
-
-
-/*========================
 عرض السلة
 ========================*/
 
 
 function renderCart(){
 
+const box=document.getElementById("cartItems");
 
-const box=
-document.getElementById("cartItems");
-
-
-
-if(!box) return;
-
+if(!box)return;
 
 
 box.innerHTML="";
 
 
-
 if(cart.length===0){
-
 
 box.innerHTML=`
 
@@ -324,13 +203,11 @@ box.innerHTML=`
 
 return;
 
-
 }
 
 
 
 let total=0;
-
 
 
 cart.forEach((item,index)=>{
@@ -339,9 +216,7 @@ cart.forEach((item,index)=>{
 total += item.price * item.qty;
 
 
-
-box.innerHTML +=`
-
+box.innerHTML+=`
 
 <div class="cart-item">
 
@@ -349,30 +224,18 @@ box.innerHTML +=`
 <img src="${item.image}">
 
 
-
-<div class="cart-info">
-
+<div>
 
 <h3>${item.name}</h3>
 
-
-
 <p>${item.price} د.ع</p>
-
-
-
-<div class="qty-box">
 
 
 <button onclick="changeQty(${index},-1)">
 -
 </button>
 
-
-<span>
-${item.qty}
-</span>
-
+<span>${item.qty}</span>
 
 <button onclick="changeQty(${index},1)">
 +
@@ -382,22 +245,14 @@ ${item.qty}
 </div>
 
 
-</div>
+<button onclick="removeItem(${index})">
 
-
-
-<button class="delete-cart"
-
-onclick="removeItem(${index})">
-
-<i class="fa-solid fa-trash"></i>
+🗑️
 
 </button>
 
 
-
 </div>
-
 
 `;
 
@@ -405,9 +260,7 @@ onclick="removeItem(${index})">
 
 
 
-const totalBox=
-document.getElementById("cartTotal");
-
+const totalBox=document.getElementById("cartTotal");
 
 if(totalBox){
 
@@ -420,27 +273,18 @@ totalBox.innerText=
 }
 
 
-
 renderCart();
 
 
 
 
 
-/*========================
-تعديل الكمية والحذف
-========================*/
-
-
 function changeQty(index,value){
 
-
-if(!cart[index]) return;
-
+if(!cart[index])return;
 
 
 cart[index].qty += value;
-
 
 
 if(cart[index].qty<=0){
@@ -450,27 +294,22 @@ cart.splice(index,1);
 }
 
 
-
 saveCart();
 
 renderCart();
-
 
 }
 
 
 
-function removeItem(index){
 
+function removeItem(index){
 
 cart.splice(index,1);
 
-
 saveCart();
 
-
 renderCart();
-
 
 }
 
@@ -483,13 +322,10 @@ renderCart();
 ========================*/
 
 
-const darkBtn=
-document.getElementById("darkBtn");
-
+const darkBtn=document.getElementById("darkBtn");
 
 
 if(darkBtn){
-
 
 
 if(localStorage.getItem("darkMode")==="on"){
@@ -506,7 +342,6 @@ darkBtn.onclick=()=>{
 document.body.classList.toggle("dark");
 
 
-
 if(document.body.classList.contains("dark")){
 
 
@@ -516,9 +351,7 @@ localStorage.setItem(
 );
 
 
-}
-
-else{
+}else{
 
 
 localStorage.setItem(
@@ -534,6 +367,11 @@ localStorage.setItem(
 
 
 }
+
+
+
+
+
 /*========================
 تحميل منتجات الرئيسية من Firebase
 ========================*/
@@ -542,12 +380,10 @@ localStorage.setItem(
 async function loadProducts(){
 
 
-const grid=
-document.getElementById("productsGrid");
+const grid=document.getElementById("productsGrid");
 
 
-
-if(!grid) return;
+if(!grid)return;
 
 
 
@@ -564,8 +400,7 @@ limit(8)
 
 
 
-const snap=
-await getDocs(q);
+const snap=await getDocs(q);
 
 
 
@@ -588,9 +423,7 @@ grid.innerHTML=`
 
 return;
 
-
 }
-
 
 
 
@@ -601,8 +434,7 @@ const p=doc.data();
 
 
 
-grid.innerHTML +=`
-
+grid.innerHTML+=`
 
 <div class="product-card">
 
@@ -614,11 +446,7 @@ grid.innerHTML +=`
 <div class="product-info">
 
 
-<h3>
-
-${p.name || "منتج"}
-
-</h3>
+<h3>${p.name || "منتج"}</h3>
 
 
 
@@ -635,7 +463,7 @@ ${Number(p.price || 0).toLocaleString()} د.ع
 
 <button class="cart-add"
 
-onclick="addToCart('${p.name || ''}',${Number(p.price || 0)},'${p.image || ''}')">
+onclick="addToCart('${p.name || ""}',${Number(p.price||0)},'${p.image||""}')">
 
 🛒 السلة
 
@@ -645,7 +473,7 @@ onclick="addToCart('${p.name || ''}',${Number(p.price || 0)},'${p.image || ''}')
 
 <button class="fav-add"
 
-onclick="addToFavorites('${p.name || ''}',${Number(p.price || 0)},'${p.image || ''}')">
+onclick="addToFavorites('${p.name || ""}',${Number(p.price||0)},'${p.image||""}')">
 
 ❤️
 
@@ -655,12 +483,10 @@ onclick="addToFavorites('${p.name || ''}',${Number(p.price || 0)},'${p.image || 
 </div>
 
 
-
 </div>
 
 
 </div>
-
 
 `;
 
@@ -671,16 +497,14 @@ onclick="addToFavorites('${p.name || ''}',${Number(p.price || 0)},'${p.image || 
 
 catch(error){
 
-
-console.error(error);
-
+console.log(error);
 
 
 grid.innerHTML=`
 
 <div class="loading-products">
 
-خطأ في تحميل المنتجات
+حدث خطأ في تحميل المنتجات
 
 </div>
 
@@ -695,46 +519,38 @@ grid.innerHTML=`
 
 
 loadProducts();
-
-
-
-
-
 /*========================
 البحث
 ========================*/
 
-
-const searchInput=
-document.getElementById("searchInput");
+const searchInput=document.getElementById("searchInput");
 
 
 if(searchInput){
 
-
 searchInput.addEventListener("input",()=>{
 
 
-let value=
-searchInput.value.toLowerCase();
+let value=searchInput.value.toLowerCase();
 
 
 
 document.querySelectorAll(".product-card").forEach(card=>{
 
 
-let text=
-card.innerText.toLowerCase();
+let text=card.innerText.toLowerCase();
 
 
 
-card.style.display=
-text.includes(value)
-?
-"block"
-:
-"none";
+if(text.includes(value)){
 
+card.style.display="block";
+
+}else{
+
+card.style.display="none";
+
+}
 
 
 });
@@ -754,8 +570,7 @@ text.includes(value)
 ========================*/
 
 
-const slides=
-document.querySelectorAll(".hero-slide");
+const slides=document.querySelectorAll(".hero-slide");
 
 
 let slideIndex=0;
@@ -765,9 +580,9 @@ let slideIndex=0;
 function showSlide(){
 
 
-slides.forEach(s=>{
+slides.forEach(slide=>{
 
-s.classList.remove("active");
+slide.classList.remove("active");
 
 });
 
@@ -812,8 +627,10 @@ showSlide();
 
 
 
+
+
 /*========================
-واتساب
+واتساب الطلب
 ========================*/
 
 
@@ -833,8 +650,6 @@ return;
 let msg=
 "طلب جديد من مجمع حمزه الشطري%0A%0A";
 
-
-
 let total=0;
 
 
@@ -842,7 +657,7 @@ let total=0;
 cart.forEach(item=>{
 
 
-msg+=
+msg +=
 `${item.name} × ${item.qty} - ${item.price} د.ع%0A`;
 
 
@@ -853,7 +668,7 @@ total += item.price * item.qty;
 
 
 
-msg+=
+msg +=
 `%0Aالمجموع: ${total} د.ع`;
 
 
@@ -895,8 +710,10 @@ e.target.src=
 
 
 
+
+
 /*========================
-ربط الدوال
+ربط الدوال للصفحات
 ========================*/
 
 
@@ -911,5 +728,3 @@ window.removeItem=removeItem;
 window.sendWhatsApp=sendWhatsApp;
 
 window.renderCart=renderCart;
-
-window.renderFavorites=renderFavorites;
