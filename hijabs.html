@@ -7,302 +7,289 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>الحجابات والشالات | مجمع حمزه الشطري</title>
+<meta name="description" content="مجمع حمزه الشطري للملابس الجاهزة والجملة">
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0f172a">
+
+<title>مجمع حمزه الشطري | الملابس الجاهزة والجملة</title>
+
+<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <link rel="stylesheet" href="style.css">
 
-<style>
-
-.msg{
-text-align:center;
-padding:40px;
-font-size:22px;
-font-weight:bold;
-grid-column:1/-1;
-}
-
-</style>
-
 </head>
-
 
 <body>
 
+<!-- شاشة التحميل -->
+
+<div id="loader">
+
+<div class="loader-content">
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" alt="Logo">
+
+<h2>مجمع حمزه الشطري</h2>
+
+<div class="loader-spinner"></div>
+
+<p>جاري تحميل المتجر...</p>
+
+</div>
+
+</div>
 
 <header class="header">
 
+<div class="top-header">
 
 <div class="brand">
 
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" alt="مجمع حمزه الشطري">
 
 <div>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-
-<p>
-قسم الحجابات والشالات
-</p>
-
+<p>للملابس الجاهزة والجملة</p>
 
 </div>
 
-
 </div>
 
+<div class="header-actions">
 
-</header>
+<a href="cart.html" class="cart-icon">
 
+<i class="fa-solid fa-cart-shopping"></i>
 
+<span id="cartCount">0</span>
 
-
-
-<section class="products">
-
-
-<h2 class="title">
-🧕 الحجابات والشالات
-</h2>
-
-
-<div id="products" class="products-grid">
-
-
-<div class="msg">
-جاري تحميل المنتجات...
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<nav class="bottom-nav">
-
-
-<a href="index.html">
-🏠 الرئيسية
 </a>
 
+<button id="darkBtn">
 
-<a href="products.html">
-🛍 المنتجات
-</a>
-
-
-<a href="cart.html">
-🛒 السلة
-</a>
-
-
-<a href="about.html">
-ℹ️ من نحن
-</a>
-
-
-</nav>
-
-
-
-
-
-<script src="script.js"></script>
-
-
-
-
-<script type="module">
-
-
-import { db } from "./firebase.js";
-
-
-import {
-
-collection,
-
-getDocs
-
-}
-
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-
-const box=document.getElementById("products");
-
-
-
-async function loadProducts(){
-
-
-try{
-
-
-const snap = await getDocs(
-collection(db,"products")
-);
-
-
-
-box.innerHTML="";
-
-
-let found=false;
-
-
-
-snap.forEach((doc)=>{
-
-
-const p=doc.data();
-
-
-const category=(p.category || "").trim();
-
-
-
-if(
-
-category==="قسم الحجابات والشالات" ||
-
-category==="حجابات" 
-
-){
-
-
-found=true;
-
-
-
-box.innerHTML += `
-
-
-<div class="product-card">
-
-
-<img src="${p.image || 'https://via.placeholder.com/300x400?text=No+Image'}">
-
-
-<div class="product-info">
-
-
-<h3>
-${p.name || "بدون اسم"}
-</h3>
-
-
-
-<p>
-${p.description || ""}
-</p>
-
-
-
-<p class="price">
-
-${Number(p.price || 0).toLocaleString()} د.ع
-
-</p>
-
-
-
-
-<div class="buttons">
-
-
-<button class="cart-btn"
-
-onclick="addToCart('${(p.name || '').replace(/'/g,"\\'")}',${Number(p.price || 0)},'${p.image || ''}')">
-
-🛒 إضافة للسلة
+<i class="fa-solid fa-moon"></i>
 
 </button>
 
-
+</div>
 
 </div>
 
+<div class="search">
 
+<i class="fa-solid fa-magnifying-glass"></i>
 
-</div>
-
-
-</div>
-
-
-`;
-
-
-}
-
-
-});
-
-
-
-if(!found){
-
-
-box.innerHTML=`
-
-<div class="msg">
-
-لا توجد منتجات في قسم الحجابات والشالات
+<input
+type="text"
+id="searchInput"
+placeholder="ابحث عن المنتج...">
 
 </div>
 
-`;
+</header>
 
-}
+<section class="hero-slider">
 
+<div class="hero-slide active">
 
-}
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
+<div class="hero-text">
 
-catch(error){
+<h2>أحدث موديلات الملابس التركية</h2>
 
+<p>بيع جملة فقط مع التوصيل إلى جميع محافظات العراق</p>
 
-console.error(error);
-
-
-box.innerHTML=`
-
-<div class="msg">
-
-حدث خطأ أثناء تحميل المنتجات
+<a href="products.html">تسوق الآن</a>
 
 </div>
 
-`;
+</div>
 
-}
+<div class="hero-slide">
 
+<img src="IMG_5661.jpeg">
 
-}
+<div class="hero-text">
 
+<h2>القسم الرجالي</h2>
 
+<p>موديلات تركية حديثة</p>
 
-loadProducts();
+</div>
 
+</div>
 
+<div class="hero-slide">
 
-</script>
+<img src="IMG_5662.jpeg">
 
+<div class="hero-text">
 
+<h2>القسم النسائي</h2>
 
-</body>
+<p>أحدث التشكيلات بالجملة</p>
 
-</html>
+</div>
+
+</div>
+
+</section>
+
+<section class="categories">
+
+<h2 class="title">أقسام المتجر</h2>
+
+<div class="category-list">
+
+<a href="men.html">
+
+<img src="IMG_5661.jpeg">
+
+<span>رجالي</span>
+
+</a>
+
+<a href="women.html">
+
+<img src="IMG_5662.jpeg">
+
+<span>نسائي</span>
+
+</a>
+
+<a href="boys.html">
+
+<img src="IMG_5663.jpeg">
+
+<span>ولادي</span>
+
+</a>
+
+<a href="girls.html">
+
+<img src="IMG_5664.jpeg">
+
+<span>بناتي</span>
+
+</a>
+
+<a href="socks.html">
+
+<img src="IMG_5665.jpeg">
+
+<span>جوارب</span>
+
+</a>
+
+<a href="pants.html">
+
+<img src="IMG_5666.jpeg">
+
+<span>بنطرونات</span>
+
+</a>
+
+<a href="underwear.html">
+
+<img src="IMG_5667.jpeg">
+
+<span>داخليات</span>
+
+</a>
+<a href="hijabs.html">
+
+<img src="IMG_5662.jpeg">
+
+<span>حجابات وشالات</span>
+
+</a>
+</div>
+
+</section>
+<!-- أحدث المنتجات -->
+
+<section class="products">
+
+<h2 class="title">
+🔥 أحدث المنتجات
+</h2>
+
+<div class="products-grid">
+
+<div class="product-card">
+
+<img src="IMG_5668.jpeg" alt="تشيرت رجالي">
+
+<div class="product-info">
+
+<h3>تشيرت رجالي تركي</h3>
+
+<p class="price">20,000 د.ع</p>
+
+<div class="buttons">
+
+<button class="cart-btn"
+onclick="addToCart('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
+
+<i class="fa-solid fa-cart-plus"></i>
+
+إضافة للسلة
+
+</button>
+
+<button class="details-btn"
+onclick="openProduct('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
+
+التفاصيل
+
+</button>
+
+<button class="favorite"
+onclick="addToFavorites('تشيرت رجالي تركي',20000,'IMG_5668.jpeg')">
+
+<i class="fa-solid fa-heart"></i>
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="product-card">
+
+<img src="IMG_5662.jpeg" alt="نسائي">
+
+<div class="product-info">
+
+<h3>موديلات نسائية</h3>
+
+<p class="price">25,000 د.ع</p>
+
+<div class="buttons">
+
+<button class="cart-btn"
+onclick="addToCart('موديلات نسائية',25000,'IMG_5662.jpeg')">
+
+<i class="fa-solid fa-cart-plus"></i>
+
+إضافة للسلة
+
+</button>
+
+<button class="details-btn"
+onclick="openProduct('موديلات نسائية',25000,'IMG_5662.jpeg')">
+
+التفاصيل
+
+</button>
+
+<button class="favorite"
