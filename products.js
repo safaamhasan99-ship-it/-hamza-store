@@ -9,6 +9,7 @@ import {
 const productsBox = document.getElementById("productsList");
 
 
+
 // رسالة السلة
 
 function showCartMessage(text){
@@ -29,7 +30,6 @@ msg.style.fontWeight="bold";
 msg.style.fontSize="16px";
 msg.style.zIndex="9999";
 msg.style.boxShadow="0 5px 20px #0003";
-msg.style.transition="0.5s";
 
 
 document.body.appendChild(msg);
@@ -49,35 +49,71 @@ msg.remove();
 
 },2000);
 
-
 }
 
 
 
 
-async function loadProducts() {
 
-if (!productsBox) return;
-
-
-productsBox.innerHTML = "<h3>جاري تحميل المنتجات...</h3>";
+async function loadProducts(){
 
 
-try {
+if(!productsBox) return;
 
 
-const snapshot = await getDocs(collection(db,"products"));
+
+productsBox.innerHTML =
+"<h3>جاري تحميل المنتجات...</h3>";
 
 
-productsBox.innerHTML = "";
+
+try{
+
+
+const snapshot = await getDocs(
+collection(db,"products")
+);
+
+
+
+productsBox.innerHTML="";
+
+
+
+// اسم القسم من الصفحة
+
+const pageCategory =
+document.body.dataset.category;
+
+
+
+// ربط أسماء الصفحات مع Firebase
+
+const categories = {
+
+
+socks:
+"قسم الجوراب",
+
+
+underwear:
+"قسم الداخليات الرجالي",
+
+
+hijab:
+"قسم الحجابات والشالات"
+
+
+};
+
 
 
 const category =
-document.body.dataset.category ||
-new URLSearchParams(window.location.search).get("category");
+categories[pageCategory];
 
 
-let found = false;
+
+let found=false;
 
 
 
@@ -87,24 +123,38 @@ snapshot.forEach((doc)=>{
 const product = doc.data();
 
 
-if(!category || product.category === category){
 
-
-found = true;
-
-
-const name = product.name || "منتج";
-
-const price = Number(product.price) || 0;
-
-
-const image = product.image
-? product.image.trim()
-: "./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png";
+if(product.category === category){
 
 
 
-const card = document.createElement("div");
+found=true;
+
+
+
+const name =
+product.name || "منتج";
+
+
+
+const price =
+Number(product.price) || 0;
+
+
+
+const image =
+product.image
+?
+product.image.trim()
+:
+"./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png";
+
+
+
+const card =
+document.createElement("div");
+
+
 
 card.className="product-card";
 
@@ -112,14 +162,25 @@ card.className="product-card";
 
 card.innerHTML = `
 
+
 <img
+
 src="${image}"
+
 alt="${name}"
+
 loading="lazy"
+
 decoding="async"
+
 referrerpolicy="no-referrer"
+
 crossorigin="anonymous"
-onerror="this.onerror=null;this.src='./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png';">
+
+onerror="this.onerror=null;this.src='./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png';"
+
+>
+
 
 
 <div class="product-info">
@@ -128,38 +189,58 @@ onerror="this.onerror=null;this.src='./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'
 <h3>${name}</h3>
 
 
+
 <p class="price">
+
 ${price.toLocaleString()} د.ع
+
 </p>
 
 
+
 <button class="cart-btn">
+
 🛒 إضافة للسلة
+
 </button>
 
 
+
 </div>
+
 
 `;
 
 
 
-card.querySelector(".cart-btn").addEventListener("click",()=>{
+
+card.querySelector(".cart-btn")
+.addEventListener("click",()=>{
 
 
 if(typeof addToCart === "function"){
 
 
-addToCart(name,price,image);
+addToCart(
+name,
+price,
+image
+);
 
 
-showCartMessage("🛒 تمت إضافة المنتج إلى السلة");
+showCartMessage(
+"🛒 تمت إضافة المنتج إلى السلة"
+);
+
 
 
 }else{
 
 
-showCartMessage("❌ تعذر إضافة المنتج للسلة");
+showCartMessage(
+"❌ تعذر إضافة المنتج للسلة"
+);
+
 
 
 }
@@ -172,16 +253,23 @@ showCartMessage("❌ تعذر إضافة المنتج للسلة");
 productsBox.appendChild(card);
 
 
+
 }
+
 
 
 });
 
 
 
+
 if(!found){
 
-productsBox.innerHTML="<h3>لا توجد منتجات في هذا القسم</h3>";
+
+productsBox.innerHTML =
+
+"<h3>لا توجد منتجات في هذا القسم</h3>";
+
 
 }
 
@@ -191,9 +279,13 @@ productsBox.innerHTML="<h3>لا توجد منتجات في هذا القسم</h3
 
 catch(error){
 
+
 console.error(error);
 
-productsBox.innerHTML="<h3>حدث خطأ أثناء تحميل المنتجات</h3>";
+
+productsBox.innerHTML =
+
+"<h3>حدث خطأ أثناء تحميل المنتجات</h3>";
 
 }
 
