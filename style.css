@@ -2372,7 +2372,13 @@ color:white;
 body.dark .cart-item{
 
 border-color:#374151;
+body.dark .qty-box span{
 
+background:#ffffff;
+color:#111827 !important;
+
+}
+   
 }
 
 
@@ -2437,5 +2443,48 @@ color:#ffffff !important;
 background:#374151 !important;
 
 border:1px solid #4b5563;
+
+}
+
+/* عنوان المنتج داخل السلة */
+
+.cart-item h3{
+
+font-size:18px;
+font-weight:700;
+line-height:1.5;
+margin:0 0 8px;
+color:#111827;
+
+}
+
+body.dark .cart-item h3{
+
+color:#ffffff;
+
+}
+.qty-box span{
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+width:52px;
+height:52px;
+
+background:#ffffff;
+color:#111827 !important;
+
+border-radius:12px;
+
+font-size:22px;
+font-weight:700;
+
+}
+
+body.dark .qty-box span{
+
+background:#ffffff;
+color:#111827 !important;
 
 }
