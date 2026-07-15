@@ -9,53 +9,56 @@
 
 <title>المفضلة | مجمع حمزه الشطري</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#111827">
+
+<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <link rel="stylesheet" href="style.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
 </head>
-
 
 <body>
 
+<div id="loader">
 
-
-<header class="header">
-
-
-<div class="top-header">
-
-
-<div class="brand">
-
+<div class="loader-box">
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
+<h2>مجمع حمزه الشطري</h2>
+
+<div class="loader-spinner"></div>
+
+<p>جاري تحميل المفضلة...</p>
+
+</div>
+
+</div>
+
+<header class="header">
+
+<div class="logo-box">
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
 <div>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-
-<p>
-المنتجات المفضلة ❤️
-</p>
-
+<span>للملابس الجاهزة والجملة</span>
 
 </div>
 
-
 </div>
 
+<div class="header-buttons">
 
-<div class="header-actions">
-
-
-<a href="cart.html">
+<a href="cart.html" class="cart-btn">
 
 <i class="fa-solid fa-cart-shopping"></i>
 
@@ -63,43 +66,30 @@
 
 </a>
 
+<button id="darkBtn" class="dark-btn">
+
+<i class="fa-solid fa-moon"></i>
+
+</button>
 
 </div>
-
-
-</div>
-
 
 </header>
 
-
-
-
-
-<section class="products">
-
+<section class="products-home">
 
 <h2 class="title">
-❤️ المفضلة
+
+❤️ المنتجات المفضلة
+
 </h2>
 
-
-
-<div class="products-grid" id="favoritesBox">
-
+<div id="favoritesBox" class="products-grid">
 
 </div>
 
-
 </section>
-
-
-
-
-
-
 <nav class="bottom-nav">
-
 
 <a href="index.html">
 
@@ -109,7 +99,6 @@
 
 </a>
 
-
 <a href="products.html">
 
 <i class="fa-solid fa-shop"></i>
@@ -117,7 +106,6 @@
 <span>المنتجات</span>
 
 </a>
-
 
 <a href="cart.html">
 
@@ -127,7 +115,6 @@
 
 </a>
 
-
 <a href="favorites.html" class="active">
 
 <i class="fa-solid fa-heart"></i>
@@ -136,214 +123,147 @@
 
 </a>
 
+<a href="about.html">
 
-</nav>
+<i class="fa-solid fa-circle-info"></i>
 
-
-
-
-
-
-
-<footer class="footer">
-
-
-<h3>
-مجمع حمزه الشطري
-</h3>
-
-
-<p>
-ذي قار - الشطرة
-</p>
-
-
-<p>
-📞 07813555538
-</p>
-
-
-<p>
-🚚 توصيل لجميع محافظات العراق
-</p>
-
-
-</footer>
-
-
-
-
-
-
-
-<script src="script.js"></script>
-
-
-
-<script>
-
-
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-
-let box = document.getElementById("favoritesBox");
-
-
-
-function showFavorites(){
-
-
-box.innerHTML="";
-
-
-
-if(favorites.length === 0){
-
-
-box.innerHTML = `
-
-
-<div class="about-box">
-
-
-<h2>
-لا توجد منتجات مفضلة ❤️
-</h2>
-
-
-<a href="products.html" class="wholesale">
-
-تصفح المنتجات
+<span>من نحن</span>
 
 </a>
 
+</nav>
+
+<footer class="footer">
+
+<div class="footer-box">
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
+class="footer-logo">
+
+<h3>مجمع حمزه الشطري</h3>
+
+<p>للملابس الجاهزة والجملة</p>
+
+<div class="footer-info">
+
+<p>
+<i class="fa-solid fa-location-dot"></i>
+ذي قار - الشطرة
+</p>
+
+<p>
+<i class="fa-solid fa-phone"></i>
+07813555538
+</p>
+
+<p>
+<i class="fa-solid fa-truck"></i>
+توصيل لجميع محافظات العراق
+</p>
 
 </div>
 
+<p class="copy">
 
-`;
-
-
-return;
-
-
-}
-
-
-
-
-favorites.forEach((item,index)=>{
-
-
-
-box.innerHTML += `
-
-
-
-<div class="product-card">
-
-
-<img src="${item.image}">
-
-
-
-<div class="product-info">
-
-
-
-<h3>
-
-${item.name}
-
-</h3>
-
-
-
-<p class="price">
-
-${item.price} د.ع
+© 2026 جميع الحقوق محفوظة | مجمع حمزه الشطري
 
 </p>
 
-
-
-
-<button class="cart-btn"
-
-onclick="addToCart('${item.name}',${item.price},'${item.image}')">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-
-
-<button class="details-btn"
-
-onclick="openProduct('${item.name}',${item.price},'${item.image}')">
-
-👁 عرض التفاصيل
-
-</button>
-
-
-
-
-<button class="favorite"
-
-onclick="removeFavorite(${index})">
-
-❌ حذف من المفضلة
-
-</button>
-
-
-
 </div>
 
+</footer>
+
+<script src="script.js"></script>
+
+<script>
+
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+const box = document.getElementById("favoritesBox");
+
+function showFavorites(){
+
+box.innerHTML="";
+
+if(favorites.length===0){
+
+box.innerHTML=`
+
+<div class="empty-cart">
+
+<i class="fa-solid fa-heart-crack"></i>
+
+<h3>لا توجد منتجات في المفضلة</h3>
 
 </div>
-
-
 
 `;
 
+return;
 
+}
+
+favorites.forEach((item,index)=>{
+
+box.innerHTML += `
+
+<div class="product-card">
+
+<img src="${item.image}">
+
+<div class="product-info">
+
+<h3>${item.name}</h3>
+
+<p class="price">${item.price} د.ع</p>
+
+<div class="product-actions">
+
+<button class="cart-add"
+
+onclick="addToCart('${item.name}',${item.price},'${item.image}')">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+السلة
+
+</button>
+
+<button class="fav-add"
+
+onclick="removeFavorite(${index})">
+
+<i class="fa-solid fa-trash"></i>
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
 
 });
 
-
 }
-
-
-
 
 function removeFavorite(index){
 
-
 favorites.splice(index,1);
-
 
 localStorage.setItem("favorites",JSON.stringify(favorites));
 
-
 showFavorites();
-
 
 }
 
-
-
 showFavorites();
-
 
 updateCartCount();
 
-
-
 </script>
-
 
 </body>
 
