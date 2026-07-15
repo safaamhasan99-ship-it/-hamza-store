@@ -9,385 +9,260 @@
 
 <title>السلة | مجمع حمزه الشطري</title>
 
+<meta name="theme-color" content="#111827">
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <link rel="stylesheet" href="style.css">
 
-
-<style>
-
-.cart-page{
-
-max-width:1100px;
-margin:auto;
-padding:20px;
-
-}
-
-
-
-.cart-title{
-
-text-align:center;
-font-size:28px;
-font-weight:800;
-margin-bottom:25px;
-
-}
-
-
-
-.cart-grid{
-
-display:grid;
-grid-template-columns:2fr 1fr;
-gap:20px;
-
-}
-
-
-
-.cart-box,
-.order-box{
-
-background:white;
-padding:20px;
-border-radius:20px;
-box-shadow:0 8px 25px rgba(0,0,0,.08);
-
-}
-
-
-
-.cart-item{
-
-display:flex;
-align-items:center;
-gap:15px;
-padding:15px;
-margin-bottom:15px;
-background:#fafafa;
-border-radius:15px;
-
-}
-
-
-
-.cart-item img{
-
-width:90px;
-height:90px;
-object-fit:cover;
-border-radius:15px;
-
-}
-
-
-
-.cart-info{
-
-flex:1;
-
-}
-
-
-
-.price{
-
-color:#c79b3b;
-font-weight:bold;
-
-}
-
-
-
-.qty{
-
-display:flex;
-align-items:center;
-gap:10px;
-margin-top:10px;
-
-}
-
-
-
-.qty button{
-
-width:35px;
-height:35px;
-border:0;
-border-radius:8px;
-background:#c79b3b;
-color:white;
-font-size:20px;
-
-}
-
-
-
-.remove-btn{
-
-background:#d9534f;
-color:white;
-border:0;
-padding:8px 12px;
-border-radius:8px;
-
-}
-
-
-
-.order-box input,
-.order-box textarea{
-
-width:100%;
-box-sizing:border-box;
-padding:13px;
-margin-bottom:12px;
-border-radius:12px;
-border:1px solid #ddd;
-font-family:Cairo;
-
-}
-
-
-
-.order-box textarea{
-
-height:100px;
-
-}
-
-
-
-.whatsapp-btn{
-
-width:100%;
-padding:15px;
-background:#25D366;
-color:white;
-border:0;
-border-radius:12px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-
-}
-
-
-
-#cartTotal{
-
-color:#c79b3b;
-font-size:22px;
-font-weight:bold;
-
-}
-
-
-
-
-@media(max-width:700px){
-
-.cart-grid{
-
-display:block;
-
-}
-
-
-.cart-box,
-.order-box{
-
-margin-bottom:20px;
-
-}
-
-
-.cart-item{
-
-flex-wrap:wrap;
-
-}
-
-}
-
-
-</style>
-
 </head>
-
-
 
 <body>
 
+<!-- شاشة التحميل -->
 
-<header class="header">
+<div id="loader">
 
+<div class="loader-box">
 
-<div class="brand">
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
+<h2>مجمع حمزه الشطري</h2>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<div class="loader-spinner"></div>
 
-
-<p>
-🛒 سلة المشتريات
-</p>
-
+<p>جاري تحميل السلة...</p>
 
 </div>
 
+</div>
+
+<!-- الهيدر -->
+
+<header class="header">
+
+<div class="logo-box">
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+<div>
+
+<h1>مجمع حمزه الشطري</h1>
+
+<span>للملابس الجاهزة والجملة</span>
+
+</div>
+
+</div>
+
+<div class="header-buttons">
+
+<a href="cart.html" class="cart-btn">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span id="cartCount">0</span>
+
+</a>
+
+<button id="darkBtn" class="dark-btn">
+
+<i class="fa-solid fa-moon"></i>
+
+</button>
+
+</div>
 
 </header>
 
-
-
-
-
 <section class="cart-page">
 
-
-<h2 class="cart-title">
+<h2 class="title">
 
 🛒 سلة الطلب
 
 </h2>
 
-
-
-
 <div class="cart-grid">
-
-
 
 <div class="cart-box">
 
-
-<h3>
-📦 المنتجات
-</h3>
-
+<h3>المنتجات</h3>
 
 <div id="cartItems"></div>
 
-
 </div>
-
-
-
-
-
 
 <div class="order-box">
 
-
-<h3>
-👤 معلومات الزبون
-</h3>
-
-
+<h3>معلومات الزبون</h3>
 
 <input
 id="customerName"
+type="text"
 placeholder="اسم الزبون">
-
-
 
 <input
 id="customerPhone"
+type="tel"
 placeholder="رقم الهاتف">
-
-
 
 <textarea
 id="customerAddress"
 placeholder="العنوان"></textarea>
 
+<div id="cartTotal" class="cart-total">
 
+المجموع: 0 د.ع
 
-
-
-<h3>
-
-💰 المجموع:
-
-<span id="cartTotal">
-0
-</span>
-
-د.ع
-
-</h3>
-
-
-
-
+</div>
 
 <button
 class="whatsapp-btn"
-onclick="sendWhatsAppOrder()">
+onclick="sendWhatsApp()">
 
-🟢 إرسال الطلب عبر واتساب
+<i class="fa-brands fa-whatsapp"></i>
+
+إرسال الطلب عبر واتساب
 
 </button>
 
-
-
 </div>
 
-
-
 </div>
-
-
 
 </section>
+<!-- زر واتساب ثابت -->
 
+<a class="whatsapp"
 
+href="https://wa.me/9647813555538"
 
+target="_blank">
 
+<i class="fa-brands fa-whatsapp"></i>
+
+</a>
+
+<!-- القائمة السفلية -->
 
 <nav class="bottom-nav">
 
-
 <a href="index.html">
-🏠 الرئيسية
-</a>
 
+<i class="fa-solid fa-house"></i>
+
+<span>الرئيسية</span>
+
+</a>
 
 <a href="products.html">
-🛍 المنتجات
+
+<i class="fa-solid fa-shop"></i>
+
+<span>المنتجات</span>
+
 </a>
 
+<a href="cart.html" class="active">
 
-<a href="cart.html">
-🛒 السلة
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span>السلة</span>
+
 </a>
-
 
 <a href="favorites.html">
-❤️ المفضلة
-</a>
 
+<i class="fa-solid fa-heart"></i>
+
+<span>المفضلة</span>
+
+</a>
 
 <a href="about.html">
-ℹ️ من نحن
-</a>
 
+<i class="fa-solid fa-circle-info"></i>
+
+<span>من نحن</span>
+
+</a>
 
 </nav>
 
+<!-- الفوتر -->
 
+<footer class="footer">
 
+<div class="footer-box">
 
+<img
+src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
+class="footer-logo">
 
-<script src="cart.js"></script>
+<h3>
+مجمع حمزه الشطري
+</h3>
 
+<p>
+للملابس الجاهزة والجملة
+</p>
+
+<div class="footer-info">
+
+<p>
+
+<i class="fa-solid fa-location-dot"></i>
+
+ذي قار - الشطرة
+
+</p>
+
+<p>
+
+<i class="fa-solid fa-phone"></i>
+
+07813555538
+
+</p>
+
+<p>
+
+<i class="fa-solid fa-truck"></i>
+
+توصيل لجميع محافظات العراق
+
+</p>
+
+</div>
+
+<div class="social">
+
+<a href="https://wa.me/9647813555538"
+target="_blank">
+
+<i class="fa-brands fa-whatsapp"></i>
+
+</a>
+
+</div>
+
+<p class="copy">
+
+© 2026 جميع الحقوق محفوظة | مجمع حمزه الشطري
+
+</p>
+
+</div>
+
+</footer>
+
+<script src="script.js"></script>
 
 </body>
 
