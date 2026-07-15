@@ -3,7 +3,7 @@ import { db } from "./firebase.js";
 import {
   collection,
   getDocs
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase_firestore.js";
 
 
 const productsBox = document.getElementById("productsList");
@@ -56,7 +56,6 @@ msg.remove();
 
 
 
-
 async function loadProducts(){
 
 
@@ -99,30 +98,15 @@ const product = doc.data();
 
 
 
-let searchText =
-
-(
-(product.name || "") +
-" " +
-(product.description || "") +
-" " +
-(product.category || "")
-);
-
-
-
-// تحويل إلى حروف صغيرة
-
-searchText =
-searchText.toLowerCase();
+const productCategory =
+(product.category || "").trim();
 
 
 
 if(
 !category ||
-searchText.includes(category.toLowerCase())
+productCategory.includes(category)
 ){
-
 
 
 found=true;
