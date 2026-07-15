@@ -902,74 +902,28 @@ card.style.display="none";
 
 
 /*========================
-السلايدر
+سلايدر الأقسام
 ========================*/
 
+const heroSlides = document.querySelectorAll(".hero-slide");
 
-const slides =
-document.querySelectorAll(".hero-slide");
+let heroIndex = 0;
 
+if (heroSlides.length > 1) {
 
+    setInterval(() => {
 
-let slideIndex=0;
+        heroSlides[heroIndex].classList.remove("active");
 
+        heroIndex++;
 
+        if (heroIndex >= heroSlides.length) {
+            heroIndex = 0;
+        }
 
-function showSlide(){
+        heroSlides[heroIndex].classList.add("active");
 
-
-slides.forEach(slide=>{
-
-
-slide.classList.remove("active");
-
-
-});
-
-
-
-if(slides[slideIndex]){
-
-
-slides[slideIndex]
-.classList.add("active");
-
-
-}
-
-
-}
-
-
-
-if(slides.length>1){
-
-
-
-setInterval(()=>{
-
-
-slideIndex++;
-
-
-
-if(slideIndex>=slides.length){
-
-
-slideIndex=0;
-
-
-}
-
-
-
-showSlide();
-
-
-
-},4000);
-
-
+    }, 3000);
 
 }
 
