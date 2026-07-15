@@ -21,7 +21,7 @@ msg.innerHTML = text;
 msg.style.position="fixed";
 msg.style.bottom="30px";
 msg.style.right="30px";
-msg.style.background="#c79b3b";
+msg.style.background="#c79e3b";
 msg.style.color="#fff";
 msg.style.padding="15px 25px";
 msg.style.borderRadius="15px";
@@ -33,6 +33,7 @@ msg.style.boxShadow="0 5px 20px #0003";
 
 
 document.body.appendChild(msg);
+
 
 
 setTimeout(()=>{
@@ -48,6 +49,7 @@ msg.remove();
 
 
 },2000);
+
 
 }
 
@@ -97,17 +99,30 @@ const product = doc.data();
 
 
 
-const productCategory =
-product.category || "";
+let searchText =
+
+(
+(product.name || "") +
+" " +
+(product.description || "") +
+" " +
+(product.category || "")
+);
 
 
 
-// فلترة مرنة للأقسام
+// تحويل إلى حروف صغيرة
+
+searchText =
+searchText.toLowerCase();
+
+
 
 if(
 !category ||
-productCategory.includes(category)
+searchText.includes(category.toLowerCase())
 ){
+
 
 
 found=true;
@@ -155,7 +170,7 @@ loading="lazy"
 
 decoding="async"
 
-referrerpolicy="no-referrer"
+referrerPolicy="no-referrer"
 
 crossorigin="anonymous"
 
