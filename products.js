@@ -21,7 +21,7 @@ msg.innerHTML = text;
 msg.style.position="fixed";
 msg.style.bottom="30px";
 msg.style.right="30px";
-msg.style.background="#c79e3b";
+msg.style.background="#c79b3b";
 msg.style.color="#fff";
 msg.style.padding="15px 25px";
 msg.style.borderRadius="15px";
@@ -82,9 +82,11 @@ productsBox.innerHTML="";
 
 
 const category =
-(document.body.dataset.category ||
+(
+document.body.dataset.category ||
 new URLSearchParams(window.location.search).get("category") ||
-"").trim();
+""
+).trim();
 
 
 
@@ -104,11 +106,16 @@ const productCategory =
 
 
 
-// فلترة القسم بشكل مطابق
+// فلترة مرنة للأقسام
 
 if(
+
 !category ||
-productCategory === category
+
+productCategory.includes(category) ||
+
+category.includes(productCategory)
+
 ){
 
 
