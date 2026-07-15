@@ -76,7 +76,7 @@ collection(db,"products")
 
 
 
-productsBox.innerHTML="";
+productsBox.innerHTML = "";
 
 
 
@@ -87,15 +87,7 @@ let p = doc.data();
 
 
 
-if(
-p.category &&
-p.category.includes("داخلي")
-){
-
-
-
 productsBox.innerHTML += `
-
 
 <div class="product-card">
 
@@ -103,7 +95,11 @@ productsBox.innerHTML += `
 <img src="${p.image}" alt="${p.name}">
 
 
-<h3>${p.name}</h3>
+
+<h3>
+${p.name}
+</h3>
+
 
 
 <p class="price">
@@ -113,9 +109,7 @@ ${p.price} د.ع
 
 
 <button onclick="order('${p.name}')">
-
 طلب واتساب
-
 </button>
 
 
@@ -127,25 +121,23 @@ ${p.price} د.ع
 
 
 
-}
-
-
-
 });
 
 
 
-if(productsBox.innerHTML===""){
+if(productsBox.innerHTML === ""){
 
 
-productsBox.innerHTML=
+productsBox.innerHTML =
 
 "<h3>لا توجد منتجات حالياً</h3>";
 
 }
 
 
+
 }
+
 
 catch(error){
 
@@ -153,7 +145,7 @@ catch(error){
 console.log(error);
 
 
-productsBox.innerHTML=
+productsBox.innerHTML =
 
 "<h3>حدث خطأ في تحميل المنتجات</h3>";
 
@@ -165,21 +157,22 @@ productsBox.innerHTML=
 
 
 
-window.order=function(name){
+
+window.order = function(name){
 
 
-let phone="964xxxxxxxxxx";
+let phone = "964xxxxxxxxxx";
 
 
-let msg=
-"السلام عليكم أريد طلب: "+name;
+let msg =
+"السلام عليكم أريد طلب: " + name;
 
 
 
 window.open(
 
-"https://wa.me/"+phone+
-"?text="+encodeURIComponent(msg)
+"https://wa.me/" + phone +
+"?text=" + encodeURIComponent(msg)
 
 );
 
