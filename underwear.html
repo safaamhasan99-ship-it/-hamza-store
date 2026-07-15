@@ -87,19 +87,6 @@ let p = doc.data();
 
 
 
-let category = p.category || "";
-
-
-
-// عرض الداخليات الرجالي فقط
-
-if(
-category.includes("داخلي") &&
-category.includes("رجالي")
-){
-
-
-
 productsBox.innerHTML += `
 
 
@@ -114,18 +101,18 @@ ${p.name}
 </h3>
 
 
-
-<p class="price">
-${p.price} د.ع
+<p>
+القسم: ${p.category || "غير موجود"}
 </p>
 
 
 
-<button onclick="order('${p.name}')">
+<p class="price">
 
-طلب واتساب
+${p.price} د.ع
 
-</button>
+</p>
+
 
 
 </div>
@@ -134,26 +121,20 @@ ${p.price} د.ع
 `;
 
 
-}
-
-
 
 });
 
 
 
-if(productsBox.innerHTML === ""){
+if(productsBox.innerHTML===""){
 
 
-productsBox.innerHTML =
-
-"<h3>لا توجد منتجات في هذا القسم</h3>";
+productsBox.innerHTML="<h3>لا توجد منتجات</h3>";
 
 }
 
 
 }
-
 
 catch(error){
 
@@ -161,35 +142,9 @@ catch(error){
 console.log(error);
 
 
-productsBox.innerHTML =
-
-"<h3>حدث خطأ في تحميل المنتجات</h3>";
+productsBox.innerHTML="<h3>حدث خطأ</h3>";
 
 }
-
-
-}
-
-
-
-
-window.order=function(name){
-
-
-let phone="964xxxxxxxxxx";
-
-
-let msg =
-"السلام عليكم أريد طلب: " + name;
-
-
-
-window.open(
-
-"https://wa.me/" + phone +
-"?text=" + encodeURIComponent(msg)
-
-);
 
 
 }
@@ -201,6 +156,7 @@ loadProducts();
 
 
 </script>
+
 
 
 </body>
