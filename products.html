@@ -9,96 +9,124 @@
 
 <title>المنتجات | مجمع حمزه الشطري</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<meta name="description" content="جميع منتجات مجمع حمزه الشطري">
+
+<meta name="theme-color" content="#111827">
+
+<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <link rel="stylesheet" href="style.css">
 
 </head>
 
-
 <body>
 
+<!-- شاشة التحميل -->
+
+<div id="loader">
+
+<div class="loader-box">
+
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
+<h2>مجمع حمزه الشطري</h2>
+
+<div class="loader-spinner"></div>
+
+<p>جاري تحميل المنتجات...</p>
+
+</div>
+
+</div>
+
+<!-- الهيدر -->
 
 <header class="header">
 
-<div class="brand">
+<div class="logo-box">
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
 <div>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-<p>
-المنتجات بالجملة
-</p>
+<span>للملابس الجاهزة والجملة</span>
 
 </div>
+
+</div>
+
+<div class="header-buttons">
+
+<a href="cart.html" class="cart-btn">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span id="cartCount">0</span>
+
+</a>
+
+<button id="darkBtn" class="dark-btn">
+
+<i class="fa-solid fa-moon"></i>
+
+</button>
 
 </div>
 
 </header>
 
+<!-- البحث -->
 
+<section class="search-box">
 
-<section class="products">
+<input
+id="searchInput"
+type="text"
+placeholder="ابحث عن منتج...">
 
-<h2 class="section-title">
-🛍 المنتجات
-</h2>
-
-
-<div id="productsList" class="products-grid">
-
-</div>
-
+<i class="fa-solid fa-magnifying-glass"></i>
 
 </section>
 
+<!-- المنتجات -->
 
+<section class="products-home">
 
+<h2 class="title">
 
+🛍 جميع المنتجات
 
-<nav class="bottom-nav">
+</h2>
 
+<div id="productsList" class="products-grid">
 
-<a href="index.html">
-🏠 الرئيسية
+<div class="loading-products">
+
+جاري تحميل المنتجات...
+
+</div>
+
+</div>
+
+</section>
+
+<!-- زر واتساب -->
+
+<a class="whatsapp"
+
+href="https://wa.me/9647813555538"
+
+target="_blank">
+
+<i class="fa-brands fa-whatsapp"></i>
+
 </a>
 
-
-<a href="products.html">
-🛍 المنتجات
-</a>
-
-
-<a href="cart.html">
-🛒 السلة
-</a>
-
-
-<a href="favorites.html">
-❤️ المفضلة
-</a>
-
-
-<a href="about.html">
-ℹ️ من نحن
-</a>
-
-
-</nav>
-
-
-
-
-<script src="script.js"></script>
-
-<script type="module" src="products.js"></script>
-
-
-</body>
-
-</html>
+<!--
