@@ -9,413 +9,255 @@
 
 <title>تفاصيل المنتج | مجمع حمزه الشطري</title>
 
+<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <link rel="stylesheet" href="style.css">
 
-
 </head>
-
 
 <body>
 
-
-
 <header class="header">
 
-<div class="brand">
+<div class="logo-box">
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
-
 <div>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-<p>
-تفاصيل المنتج
-</p>
+<span>تفاصيل المنتج</span>
 
 </div>
+
+</div>
+
+<div class="header-buttons">
+
+<a href="cart.html" class="cart-btn">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span id="cartCount">0</span>
+
+</a>
 
 </div>
 
 </header>
 
+<section class="product-details">
 
+<div class="details-card">
 
+<img id="detailsImage"
+src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
+class="details-image">
 
+<div class="details-info">
 
-<section class="products">
+<h2 id="detailsName">
+اسم المنتج
+</h2>
 
-<div id="productDetails">
+<h3 id="detailsPrice">
+0 د.ع
+</h3>
+
+<p>
+
+نوفر هذا المنتج بأفضل جودة وبأسعار الجملة مع إمكانية التوصيل إلى جميع محافظات العراق.
+
+</p>
+<div class="details-actions">
+
+<button class="cart-add"
+
+onclick="addToCart(
+document.getElementById('detailsName').innerText,
+Number(document.getElementById('detailsPrice').dataset.price),
+document.getElementById('detailsImage').src
+)">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+إضافة إلى السلة
+
+</button>
+
+<button class="fav-add"
+
+onclick="addToFavorites(
+document.getElementById('detailsName').innerText,
+Number(document.getElementById('detailsPrice').dataset.price),
+document.getElementById('detailsImage').src
+)">
+
+<i class="fa-solid fa-heart"></i>
+
+إضافة للمفضلة
+
+</button>
+
+<a class="wholesale-btn"
+
+href="https://wa.me/9647813555538"
+
+target="_blank">
+
+<i class="fa-brands fa-whatsapp"></i>
+
+استفسر عبر واتساب
+
+</a>
+
+</div>
+
+</div>
 
 </div>
 
 </section>
 
+<script type="module" src="script.js"></script>
+
+<script>
+
+const product = JSON.parse(localStorage.getItem("selectedProduct"));
+
+if(product){
+
+document.getElementById("detailsName").innerText = product.name;
+
+document.getElementById("detailsPrice").innerText =
+Number(product.price).toLocaleString()+" د.ع";
+
+document.getElementById("detailsPrice").dataset.price =
+product.price;
+
+document.getElementById("detailsImage").src =
+product.image;
+
+}
+
+</script>
+<!-- زر واتساب ثابت -->
+
+<a class="whatsapp"
+href="https://wa.me/9647813555538"
+target="_blank">
+
+<i class="fa-brands fa-whatsapp"></i>
+
+</a>
 
 
 
-
+<!-- القائمة السفلية -->
 
 <nav class="bottom-nav">
 
-
 <a href="index.html">
-🏠 الرئيسية
-</a>
 
+<i class="fa-solid fa-house"></i>
+
+<span>الرئيسية</span>
+
+</a>
 
 <a href="products.html">
-🛍 المنتجات
-</a>
 
+<i class="fa-solid fa-shop"></i>
+
+<span>المنتجات</span>
+
+</a>
 
 <a href="cart.html">
-🛒 السلة
-</a>
 
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span>السلة</span>
+
+</a>
 
 <a href="favorites.html">
-❤️ المفضلة
-</a>
 
+<i class="fa-solid fa-heart"></i>
+
+<span>المفضلة</span>
+
+</a>
 
 <a href="about.html">
-ℹ️ من نحن
-</a>
 
+<i class="fa-solid fa-circle-info"></i>
+
+<span>من نحن</span>
+
+</a>
 
 </nav>
 
 
 
+<!-- الفوتر -->
 
+<footer class="footer">
 
+<div class="footer-box">
 
-<script src="script.js"></script>
+<img
+src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
+class="footer-logo">
 
-
-
-
-
-<script>
-
-
-let product =
-JSON.parse(localStorage.getItem("product"));
-
-
-
-let box =
-document.getElementById("productDetails");
-
-
-
-
-if(product){
-
-
-
-box.innerHTML = `
-
-
-<div class="details-page">
-
-
-
-<div class="details-image">
-
-
-<img src="${product.image}" alt="${product.name}">
-
-
-</div>
-
-
-
-
-
-<div class="details-content">
-
-
-<h2>
-
-${product.name}
-
-</h2>
-
-
-
-
-<p class="price">
-
-${Number(product.price).toLocaleString()} د.ع
-
-</p>
-
-
-
-
-<p class="stock">
-
-✅ متوفر للبيع بالجملة
-
-</p>
-
-
-
-
-<p class="description">
-
-منتج أصلي بجودة عالية.
-<br>
-متوفر لدى مجمع حمزه الشطري.
-<br>
-البيع بالجملة فقط.
-<br>
-التوصيل متوفر لجميع محافظات العراق.
-
-</p>
-
-
-
-
-
-<div class="qty-box">
-
-
-<label>
-الكمية
-</label>
-
-
-<input 
-type="number"
-id="qty"
-value="1"
-min="1">
-
-
-</div>
-
-
-
-
-
-
-<div class="size-box">
-
-
-<label>
-القياس
-</label>
-
-
-<select id="size">
-
-
-<option>
-اختر القياس
-</option>
-
-
-<option>
-بيبي
-</option>
-
-
-<option>
-ولادي
-</option>
-
-
-<option>
-شبابي
-</option>
-
-
-<option>
-نسائي
-</option>
-
-
-<option>
-كبير
-</option>
-
-
-</select>
-
-
-</div>
-
-
-
-
-
-
-<div class="details-buttons">
-
-
-
-
-
-<button 
-class="cart-btn"
-onclick="addCartQty()">
-
-
-🛒 إضافة إلى السلة
-
-
-</button>
-
-
-
-
-
-
-
-<button
-class="fav-btn"
-onclick="addToFavorites(
-'${product.name}',
-${product.price},
-'${product.image}'
-)">
-
-
-❤️ إضافة للمفضلة
-
-
-</button>
-
-
-
-
-
-
-
-<a 
-class="wholesale"
-target="_blank"
-href="https://wa.me/9647813555538?text=${encodeURIComponent(
-'السلام عليكم، أرغب بطلب المنتج:\n\n'
-+
-product.name
-+
-'\nالسعر: '
-+
-product.price
-+
-' د.ع'
-)}">
-
-
-💬 طلب عبر واتساب
-
-
-</a>
-
-
-
-
-</div>
-
-
-</div>
-
-
-
-</div>
-
-
-
-`;
-
-
-
-}else{
-
-
-
-box.innerHTML = `
-
-
-<div class="about-box">
-
-
-<h2>
-لم يتم اختيار منتج
-</h2>
-
+<h3>
+مجمع حمزه الشطري
+</h3>
 
 <p>
-الرجاء العودة إلى المنتجات واختيار منتج.
+للملابس الجاهزة والجملة
 </p>
 
+<p>
+
+<i class="fa-solid fa-location-dot"></i>
+
+ذي قار - الشطرة
+
+</p>
+
+<p>
+
+<i class="fa-solid fa-phone"></i>
+
+07813555538
+
+</p>
+
+<p>
+
+<i class="fa-solid fa-truck"></i>
+
+توصيل لجميع محافظات العراق
+
+</p>
+
+<p class="copy">
+
+© 2026 جميع الحقوق محفوظة | مجمع حمزه الشطري
+
+</p>
 
 </div>
 
-
-`;
-
-
-
-}
-
-
-
-
-
-function addCartQty(){
-
-
-
-let qty =
-parseInt(
-document.getElementById("qty").value
-)
-||1;
-
-
-
-let size =
-document.getElementById("size").value;
-
-
-
-for(let i=0;i<qty;i++){
-
-
-addToCart(
-product.name + " - " + size,
-product.price,
-product.image
-);
-
-
-}
-
-
-
-alert("✅ تمت إضافة المنتج إلى السلة");
-
-
-}
-
-
-
-
-</script>
-
-
-
+</footer>
 
 </body>
 
