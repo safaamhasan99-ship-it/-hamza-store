@@ -186,6 +186,11 @@ productsList.innerHTML=
 
 
 loadProducts();
+
+alert("تم تشغيل admin-products.js");
+
+// حفظ المنتج
+
 // حفظ المنتج
 
 if(saveBtn){
