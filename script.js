@@ -681,11 +681,7 @@ try{
 
 const q =
 query(
-
-collection(db,"products"),
-
-limit(8)
-
+collection(db,"products")
 );
 
 
