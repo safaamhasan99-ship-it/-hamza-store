@@ -1,6 +1,6 @@
 /*==================================
 مجمع حمزه الشطري
-Admin Products JS Final
+Admin Products JS Final FIX
 ==================================*/
 
 
@@ -32,8 +32,6 @@ const imageInput = document.getElementById("image");
 
 const saveBtn = document.getElementById("saveBtn");
 
-
-// مهم: مطابق للـ HTML
 const productsList = document.getElementById("products");
 
 
@@ -41,7 +39,8 @@ let editId = null;
 
 
 
-// رسالة
+
+// رسالة نجاح
 
 function showMessage(text){
 
@@ -69,8 +68,8 @@ toast.remove();
 
 },2500);
 
-
 }
+
 
 
 
@@ -83,6 +82,7 @@ if(!url) return "";
 return url.trim();
 
 }
+
 
 
 
@@ -100,9 +100,12 @@ productsList.innerHTML="جاري تحميل المنتجات...";
 try{
 
 
-const snap = await getDocs(collection(db, "products"));
+const snap = await getDocs(
+collection(db,"products")
+);
 
-alert("عدد المنتجات: " + snap.size);
+
+console.log("عدد المنتجات:",snap.size);
 
 
 productsList.innerHTML="";
@@ -122,7 +125,6 @@ snap.forEach(item=>{
 
 
 const p=item.data();
-
 
 
 productsList.innerHTML += `
@@ -171,34 +173,29 @@ ${p.name || "منتج"}
 
 
 }
-
-catch(error){
+  catch(error){
 
 console.error(error);
 
-alert(error.message);
 
 productsList.innerHTML =
 "حدث خطأ: " + error.message;
 
-}
-
-console.log(error);
-
-productsList.innerHTML=
-"حدث خطأ في تحميل المنتجات: "+error.message;
 
 }
 
 
 }
 
+
+
+
+// تشغيل تحميل المنتجات
 
 loadProducts();
 
-alert("تم تشغيل admin-products.js");
 
-// حفظ المنتج
+
 
 // حفظ المنتج
 
@@ -235,8 +232,6 @@ image:cleanImageUrl(imageInput.value)
 try{
 
 
-// تعديل منتج موجود
-
 if(editId){
 
 
@@ -262,7 +257,7 @@ saveBtn.innerText="💾 حفظ المنتج";
 }
 
 
-// إضافة منتج جديد
+
 
 else{
 
@@ -290,7 +285,6 @@ showMessage("✅ تم إضافة المنتج بنجاح");
 
 
 
-// تفريغ الحقول
 
 nameInput.value="";
 
@@ -318,10 +312,11 @@ loadProducts();
 }
 
 
+
 catch(error){
 
 
-console.log(error);
+console.error(error);
 
 
 showMessage(
@@ -337,10 +332,6 @@ showMessage(
 
 
 }
-
-
-
-
 // حذف المنتج
 
 window.deleteProduct = async function(id){
@@ -374,7 +365,7 @@ loadProducts();
 catch(error){
 
 
-console.log(error);
+console.error(error);
 
 
 showMessage(
@@ -386,6 +377,7 @@ showMessage(
 
 
 };
+
 
 
 
@@ -435,7 +427,6 @@ imageInput.value=p.image || "";
 editId=id;
 
 
-
 saveBtn.innerText="💾 حفظ التعديلات";
 
 
@@ -459,10 +450,11 @@ behavior:"smooth"
 
 }
 
+
 catch(error){
 
 
-console.log(error);
+console.error(error);
 
 
 showMessage(
@@ -477,6 +469,8 @@ showMessage(
 
 
 
+
+
 // تحديث يدوي
 
 window.refreshProducts=function(){
@@ -484,15 +478,3 @@ window.refreshProducts=function(){
 loadProducts();
 
 };
-
-const refreshBtn = document.getElementById("refreshBtn");
-
-if(refreshBtn){
-
-refreshBtn.onclick = ()=>{
-
-loadProducts();
-
-};
-
-}
