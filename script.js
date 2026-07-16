@@ -834,7 +834,9 @@ grid.innerHTML=`
 
 
 
-loadProducts();
+if(document.body.classList.contains("home-page")){
+    loadProducts();
+} 
 /*========================
 البحث
 ========================*/
