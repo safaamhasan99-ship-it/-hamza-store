@@ -395,101 +395,106 @@ let total=0;
 
 
 
-cart.forEach((item,index)=>{
-
-
-total += item.price * item.qty;
-
-
-
-box.innerHTML+=`
-
-<div class="cart-item">
-
-
-<img src="${item.image}">
-
-
-
-<div class="cart-info">
-
-
-<h3>
-
-${item.name}
-
-</h3>
-
-
-
-<p>
-
-${item.price.toLocaleString()} د.ع
-
-</p>
-
-
-
-
-<div class="qty-box">
-
-
-
-<button onclick="changeQty(${index},-1)">
-
-−
-
-</button>
-
-
-
-
-<span>
-
-${item.qty}
-
-</span>
-
-
-
-
-<button onclick="changeQty(${index},1)">
-
-+
-
-</button>
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-<button class="delete-cart"
-
-onclick="removeItem(${index})">
-
-
-<i class="fa-solid fa-trash"></i>
-
-
-</button>
-
-
-
-</div>
-
-`;
-
-
-
-});
+.cart-item{
+display:flex;
+align-items:center;
+gap:20px;
+background:#fff;
+border-radius:22px;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.cart-image{
+width:140px;
+height:140px;
+border-radius:18px;
+object-fit:cover;
+flex-shrink:0;
+}
+
+.cart-info{
+flex:1;
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.cart-info h3{
+font-size:28px;
+font-weight:800;
+line-height:1.6;
+margin:0;
+}
+
+.cart-price{
+font-size:30px;
+font-weight:800;
+color:#16a34a;
+}
+
+.qty-box{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.qty-btn{
+width:52px;
+height:52px;
+border:none;
+border-radius:14px;
+background:#c99712;
+color:#fff;
+font-size:28px;
+cursor:pointer;
+}
+
+.qty-box span{
+font-size:24px;
+font-weight:700;
+min-width:30px;
+text-align:center;
+}
+
+.delete-cart{
+margin-top:10px;
+width:170px;
+height:50px;
+background:#dc2626;
+color:#fff;
+border:none;
+border-radius:12px;
+font-size:18px;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+}
+
+@media(max-width:768px){
+
+.cart-item{
+flex-direction:column;
+text-align:center;
+}
+
+.cart-image{
+width:180px;
+height:180px;
+}
+
+.cart-info{
+align-items:center;
+}
+
+.delete-cart{
+width:100%;
+}
+
+}
 
 
 
