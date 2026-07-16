@@ -23,21 +23,24 @@ const quantity = document.getElementById("quantity");
 const description = document.getElementById("description");
 const image = document.getElementById("image");
 
+
 const saveBtn = document.getElementById("saveBtn");
-const productsList = document.getElementById("productsList");
+
+// تم الإصلاح هنا
+const productsList = document.getElementById("products");
 
 
 let editId = null;
 
 
 
-// رسالة نجاح تختفي تلقائياً
+// رسالة
 
 function showMessage(text){
 
-let toast = document.createElement("div");
+let toast=document.createElement("div");
 
-toast.innerHTML = text;
+toast.innerHTML=text;
 
 toast.style.position="fixed";
 toast.style.bottom="30px";
@@ -46,31 +49,17 @@ toast.style.background="#198754";
 toast.style.color="#fff";
 toast.style.padding="15px 25px";
 toast.style.borderRadius="15px";
-toast.style.fontFamily="Cairo";
-toast.style.fontWeight="bold";
-toast.style.fontSize="16px";
 toast.style.zIndex="9999";
-toast.style.boxShadow="0 5px 20px #0003";
-toast.style.opacity="1";
-toast.style.transition="0.5s";
-
+toast.style.fontFamily="Cairo";
 
 document.body.appendChild(toast);
 
 
 setTimeout(()=>{
 
-toast.style.opacity="0";
-
-
-setTimeout(()=>{
-
 toast.remove();
 
-},500);
-
-
-},2000);
+},2500);
 
 
 }
@@ -83,23 +72,16 @@ function cleanImageUrl(url){
 
 if(!url) return "";
 
-
-let match = url.match(/src="([^"]+)"/);
-
-
-if(match){
-
-return match[1];
-
-}
-
-
 return url.trim();
 
 }
+
+
+
 // تحميل المنتجات
 
 async function loadProducts(){
+
 
 if(!productsList) return;
 
@@ -110,7 +92,8 @@ productsList.innerHTML="جاري تحميل المنتجات...";
 try{
 
 
-const snap = await getDocs(
+const snap =
+await getDocs(
 collection(db,"products")
 );
 
@@ -127,28 +110,26 @@ return;
 }
 
 
-
-snap.forEach((item)=>{
+snap.forEach(item=>{
 
 
 const p=item.data();
 
 
-productsList.innerHTML += `
 
-<div class="product-box">
+productsList.innerHTML+=`
+
+<div class="card">
 
 
-<img 
-src="${p.image || ''}" 
-width="120"
-loading="lazy"
-onerror="this.style.display='none'"
->
+<img src="${p.image || ''}">
+
+
+<div class="card-body">
 
 
 <h3>
-${p.name || ''}
+${p.name || ""}
 </h3>
 
 
@@ -158,7 +139,7 @@ ${p.name || ''}
 
 
 <p>
-القسم: ${p.category || ''}
+القسم: ${p.category || ""}
 </p>
 
 
@@ -174,7 +155,13 @@ ${p.name || ''}
 
 </div>
 
+
+</div>
+
+
 `;
+
+
 
 });
 
@@ -185,7 +172,8 @@ catch(error){
 
 console.log(error);
 
-productsList.innerHTML="حدث خطأ في تحميل المنتجات";
+productsList.innerHTML=
+"حدث خطأ في تحميل المنتجات";
 
 }
 
@@ -194,17 +182,12 @@ productsList.innerHTML="حدث خطأ في تحميل المنتجات";
 
 
 loadProducts();
-
-
-
-
-
 // حفظ المنتج
 
 if(saveBtn){
 
 
-saveBtn.onclick = async function(){
+saveBtn.onclick = async ()=>{
 
 
 const product={
@@ -248,7 +231,7 @@ product
 );
 
 
-showMessage("✅ تم تعديل المنتج بنجاح");
+showMessage("✅ تم تعديل المنتج");
 
 
 editId=null;
@@ -271,25 +254,43 @@ product
 );
 
 
-showMessage("✅ تم إضافة المنتج بنجاح");
+showMessage("✅ تم إضافة المنتج");
 
 
 }
 
 
+
+
+// تفريغ الحقول
+
+
 name.value="";
+
 price.value="";
+
 sizes.value="";
+
 colors.value="";
+
 quantity.value="";
+
 description.value="";
+
 image.value="";
+
+
+
+category.selectedIndex=0;
+
 
 
 loadProducts();
 
 
+
 }
+
 
 
 catch(error){
@@ -297,22 +298,37 @@ catch(error){
 
 console.log(error);
 
-showMessage("❌ حدث خطأ أثناء الحفظ");
+
+showMessage(
+"❌ حدث خطأ أثناء الحفظ"
+);
 
 
 }
+
 
 
 };
 
 
+
 }
-// حذف منتج
+
+
+
+
+
+
+// حذف المنتج
+
 
 window.deleteProduct = async function(id){
 
 
-if(!confirm("هل تريد حذف المنتج؟")) return;
+
+if(!confirm("هل تريد حذف المنتج؟"))
+return;
+
 
 
 try{
@@ -325,32 +341,36 @@ doc(db,"products",id)
 );
 
 
-showMessage("🗑 تم حذف المنتج بنجاح");
+
+showMessage(
+"🗑 تم حذف المنتج"
+);
+
 
 
 loadProducts();
+
 
 
 }
 
 catch(error){
 
+
 console.log(error);
 
-showMessage("❌ حدث خطأ أثناء الحذف");
+
+showMessage(
+"❌ حدث خطأ أثناء الحذف"
+);
+
 
 }
 
 
+
 };
-
-
-
-
-
-
-
-// تعديل منتج
+// تعديل المنتج
 
 window.editProduct = async function(id){
 
@@ -358,16 +378,17 @@ window.editProduct = async function(id){
 try{
 
 
-const snap = await getDocs(
+const snap =
+await getDocs(
 collection(db,"products")
 );
 
 
 
-snap.forEach((item)=>{
+snap.forEach(item=>{
 
 
-if(item.id===id){
+if(item.id === id){
 
 
 const p=item.data();
@@ -395,7 +416,9 @@ image.value=p.image || "";
 editId=id;
 
 
-saveBtn.innerText="💾 حفظ التعديلات";
+
+saveBtn.innerText=
+"💾 حفظ التعديلات";
 
 
 
@@ -408,7 +431,9 @@ behavior:"smooth"
 });
 
 
+
 }
+
 
 
 });
@@ -421,10 +446,14 @@ catch(error){
 
 console.log(error);
 
-showMessage("❌ حدث خطأ بجلب المنتج");
+
+showMessage(
+"❌ حدث خطأ بجلب المنتج"
+);
 
 
 }
+
 
 
 };
@@ -434,7 +463,7 @@ showMessage("❌ حدث خطأ بجلب المنتج");
 
 
 
-// تحديث المنتجات يدوياً
+// تحديث يدوي
 
 window.refreshProducts=function(){
 
