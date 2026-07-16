@@ -11,375 +11,328 @@
 
 <meta name="theme-color" content="#111827">
 
-<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="css/style.css">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
-
 <body>
-
-
-<!-- الهيدر -->
 
 <header class="header">
 
-
 <div class="brand">
 
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
+<img src="images/logo.png" alt="مجمع حمزه الشطري">
 
 <div>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-
-<p>
-للملابس الجاهزة والجملة
-</p>
-
+<p>سلة التسوق</p>
 
 </div>
 
-
 </div>
 
+<div class="header-icons">
 
+<a href="index.html" class="header-btn">
 
-<div class="header-actions">
-
-
-<button id="darkBtn" class="dark-btn">
-
-<i class="fa-solid fa-moon"></i>
-
-</button>
-
-
-
-<a href="cart.html" class="cart-icon">
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-<span id="cartCount">
-0
-</span>
+<i class="fa-solid fa-house"></i>
 
 </a>
 
+<a href="favorites.html" class="header-btn">
+
+<i class="fa-regular fa-heart"></i>
+
+</a>
 
 </div>
-
 
 </header>
 
+<section class="search-box">
 
+<i class="fa-solid fa-cart-shopping"></i>
 
+<input type="text" value="مراجعة الطلب" readonly>
 
+</section>
 
-<section class="cart-page">
+<main class="cart-page">
 
+<div id="cartItems" class="cart-list">
 
-<h2 class="title">
+<!-- يتم عرض المنتجات هنا -->
 
-🛒 سلة الطلب
+</div>
+<!-- ملخص الطلب -->
+
+<div class="cart-summary">
+
+<h2>
+ملخص الطلب
+</h2>
+
+<div class="summary-item">
+
+<span>عدد المنتجات</span>
+
+<strong id="itemsCount">0</strong>
+
+</div>
+
+<div class="summary-item">
+
+<span>الإجمالي</span>
+
+<strong id="totalPrice">0 د.ع</strong>
+
+</div>
+
+</div>
+
+<!-- بيانات العميل -->
+
+<section class="checkout-form">
+
+<h2 class="section-title">
+
+بيانات العميل
 
 </h2>
 
-
-
-<div class="cart-grid">
-
-
-
-<!-- المنتجات -->
-
-
-<div class="cart-box">
-
-
-<h3>
-المنتجات المختارة
-</h3>
-
-
-
-<div id="cartItems">
-
-
-<div class="loading-products">
-
-جاري تحميل السلة...
-
-</div>
-
-
-</div>
-
-
-</div>
-<!-- بيانات الزبون -->
-
-<div class="order-box">
-
-
-<h3>
-بيانات الزبون
-</h3>
-
-
+<div class="form-group">
 
 <label>
-الاسم الكامل
-</label>
 
+الاسم الكامل
+
+</label>
 
 <input
 type="text"
 id="customerName"
-placeholder="اكتب اسم الزبون">
+placeholder="اكتب الاسم الكامل">
 
+</div>
 
-
-
+<div class="form-group">
 
 <label>
-رقم الهاتف
-</label>
 
+رقم الهاتف
+
+</label>
 
 <input
 type="tel"
 id="customerPhone"
 placeholder="07xxxxxxxxx">
 
+</div>
 
-
-
+<div class="form-group">
 
 <label>
-العنوان
+
+المحافظة
+
 </label>
 
-
-<textarea
-id="customerAddress"
-placeholder="اكتب عنوان الزبون بالتفصيل"></textarea>
-
-
-
-
-
-<div id="cartTotal" class="cart-total">
-
-المجموع : 0 د.ع
+<input
+type="text"
+id="customerCity"
+placeholder="مثال: بغداد">
 
 </div>
 
+<div class="form-group">
 
+<label>
 
+العنوان
 
+</label>
+
+<input
+type="text"
+id="customerAddress"
+placeholder="المنطقة / الشارع">
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+ملاحظات
+
+</label>
+
+<textarea
+id="customerNotes"
+placeholder="أي ملاحظات إضافية..."></textarea>
+
+</div>
 
 <button
-class="whatsapp-btn"
-onclick="sendWhatsApp()">
-
+id="checkoutBtn"
+class="checkout-btn">
 
 <i class="fa-brands fa-whatsapp"></i>
-
 
 إرسال الطلب عبر واتساب
 
+</button>
+
+</section>
+<!-- قالب عنصر السلة -->
+
+<template id="cartItemTemplate">
+
+<div class="cart-item">
+
+<div class="cart-image">
+
+<img class="cart-product-image"
+src="images/no-image.png"
+alt="">
+
+</div>
+
+<div class="cart-content">
+
+<h3 class="cart-product-name">
+اسم المنتج
+</h3>
+
+<p class="cart-product-price">
+0 د.ع
+</p>
+
+<div class="cart-qty">
+
+<button class="qty-minus">
+
+<i class="fa-solid fa-minus"></i>
 
 </button>
 
+<span class="qty-value">
+1
+</span>
+
+<button class="qty-plus">
+
+<i class="fa-solid fa-plus"></i>
+
+</button>
 
 </div>
 
+</div>
+
+<button class="delete-item">
+
+<i class="fa-solid fa-trash"></i>
+
+</button>
 
 </div>
 
+</template>
 
-</section>
+<!-- السلة الفارغة -->
 
+<div
+id="emptyCart"
+class="empty-state"
+style="display:none;">
 
+<i class="fa-solid fa-cart-shopping"></i>
 
+<h2>
+السلة فارغة
+</h2>
 
+<p>
+لم تقم بإضافة أي منتج بعد.
+</p>
 
-<!-- زر واتساب العائم -->
+<a href="products.html" class="hero-btn">
 
-
-<a class="whatsapp"
-
-href="https://wa.me/9647813555538"
-
-target="_blank">
-
-
-<i class="fa-brands fa-whatsapp"></i>
-
+ابدأ التسوق
 
 </a>
 
+</div>
 
+</main>
 
+<!-- إشعارات -->
 
+<div class="toast" id="toast">
+
+تمت إضافة المنتج
+
+</div>
+
+<!-- زر العودة للأعلى -->
+
+<button class="scroll-top">
+
+<i class="fa-solid fa-arrow-up"></i>
+
+</button>
 
 <!-- القائمة السفلية -->
 
-
 <nav class="bottom-nav">
-
 
 <a href="index.html">
 
 <i class="fa-solid fa-house"></i>
 
-<span>
-الرئيسية
-</span>
+<span>الرئيسية</span>
 
 </a>
-
-
-
 
 <a href="products.html">
 
-<i class="fa-solid fa-shop"></i>
+<i class="fa-solid fa-store"></i>
 
-<span>
-المنتجات
-</span>
+<span>المنتجات</span>
 
 </a>
 
+<a href="favorites.html">
 
+<i class="fa-regular fa-heart"></i>
 
+<span>المفضلة</span>
+
+</a>
 
 <a href="cart.html" class="active">
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-<span>
-السلة
-</span>
+<span>السلة</span>
 
 </a>
-
-
-
-
-<a href="favorites.html">
-
-<i class="fa-solid fa-heart"></i>
-
-<span>
-المفضلة
-</span>
-
-</a>
-
-
-
-
-<a href="about.html">
-
-<i class="fa-solid fa-circle-info"></i>
-
-<span>
-من نحن
-</span>
-
-</a>
-
-
 
 </nav>
-<!-- الفوتر -->
 
-<footer class="footer">
-
-
-<img 
-src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-
-<h3>
-مجمع حمزه الشطري
-</h3>
-
-
-
-<p>
-للملابس الجاهزة والجملة
-</p>
-
-
-
-<p>
-
-<i class="fa-solid fa-location-dot"></i>
-
-ذي قار - الشطرة
-
-</p>
-
-
-
-
-<p>
-
-<i class="fa-solid fa-phone"></i>
-
-07813555538
-
-</p>
-
-
-
-
-<p>
-
-<i class="fa-solid fa-truck"></i>
-
-توصيل لجميع محافظات العراق
-
-</p>
-
-
-
-
-<p class="copy">
-
-© 2026 جميع الحقوق محفوظة
-
-</p>
-
-
-</footer>
-
-
-
-
-
-<!-- السكربت -->
-
-<script type="module" src="script.js"></script>
-
+<script src="js/cart.js"></script>
 
 </body>
 
