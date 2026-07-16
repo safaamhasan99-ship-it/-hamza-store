@@ -4,568 +4,276 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>جميع المنتجات | مجمع حمزه الشطري</title>
 
+<link rel="stylesheet" href="css/style.css">
 
-<meta name="description" content="جميع منتجات مجمع حمزه الشطري">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
-<link rel="stylesheet" href="style.css">
-
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
+<body>
 
-<body class="products-page">
+  <!-- أدوات الفلترة -->
+
+<section class="filters">
+
+<div class="filter-box">
+
+<select id="categoryFilter">
+
+<option value="">جميع الأقسام</option>
+
+<option value="رجالي">رجالي</option>
+
+<option value="نسائي">نسائي</option>
+
+<option value="ولادي">ولادي</option>
+
+<option value="بناتي">بناتي</option>
+
+<option value="بنطرونات">بنطرونات</option>
+
+<option value="جوارب">جوارب</option>
+
+<option value="حجابات">حجابات</option>
+
+<option value="داخليات">داخليات</option>
+
+</select>
+
+<select id="sortProducts">
+
+<option value="new">الأحدث</option>
+
+<option value="low">السعر: الأقل أولاً</option>
+
+<option value="high">السعر: الأعلى أولاً</option>
+
+<option value="name">الاسم</option>
+
+</select>
+
+</div>
+
+</section>
 
 
 
-<div id="loader">
+<!-- عنوان الصفحة -->
 
-<div class="loader-box">
-
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
+<section class="section-head">
 
 <h2>
-مجمع حمزه الشطري
+
+جميع المنتجات
+
 </h2>
-
-
-<div class="loader-spinner"></div>
-
 
 <p>
-جاري تحميل المنتجات...
+
+اكتشف أحدث موديلات مجمع حمزه الشطري
+
 </p>
-
-
-</div>
-
-</div>
-
-
-
-
-<header class="header">
-
-
-<div class="logo-box">
-
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-
-<div>
-
-<h1>
-مجمع حمزه الشطري
-</h1>
-
-
-<span>
-للملابس الجاهزة والجملة
-</span>
-
-
-</div>
-
-
-</div>
-
-
-
-
-<div class="header-buttons">
-
-
-<a href="cart.html" class="cart-btn">
-
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-
-<span id="cartCount">
-0
-</span>
-
-
-</a>
-
-
-
-
-<button id="darkBtn" class="dark-btn">
-
-
-<i class="fa-solid fa-moon"></i>
-
-
-</button>
-
-
-
-</div>
-
-
-</header>
-<section class="search-box">
-
-
-<input
-id="searchInput"
-type="text"
-placeholder="ابحث عن منتج...">
-
-
-<i class="fa-solid fa-magnifying-glass"></i>
-
 
 </section>
 
 
 
+<!-- المنتجات -->
 
+<section class="products-section">
 
-<section class="products-home">
+<div
+id="productsContainer"
+class="products-grid">
 
-
-<h2 class="title">
-
-🛍 جميع المنتجات
-
-</h2>
-
-
-
-<div id="productsGrid" class="products-grid">
-
-
-<div class="loading-products">
-
-جاري تحميل المنتجات...
+<!-- يتم تحميل المنتجات من Firebase -->
 
 </div>
-
-
-</div>
-
-
 
 </section>
 
 
 
+<!-- زر العودة للأعلى -->
 
+<button
+class="scroll-top">
 
-
-<script type="module">
-
-
-import { db } from "./firebase.js";
-
-
-import {
-
-collection,
-getDocs
-
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-
-const grid = document.getElementById("productsGrid");
-
-
-
-async function loadAllProducts(){
-
-
-
-grid.innerHTML = `
-
-<div class="loading-products">
-
-جاري تحميل المنتجات...
-
-</div>
-
-`;
-
-
-
-try{
-
-
-const snap = await getDocs(
-collection(db,"products")
-);
-
-
-
-grid.innerHTML = "";
-
-
-
-if(snap.empty){
-
-
-grid.innerHTML = `
-
-<div class="loading-products">
-
-لا توجد منتجات حالياً
-
-</div>
-
-`;
-
-return;
-
-
-}
-
-
-
-
-snap.forEach(doc=>{
-
-
-
-const p = doc.data();
-
-
-
-grid.innerHTML += `
-
-
-<div class="product-card">
-
-
-
-<img src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}">
-
-
-
-<div class="product-info">
-
-
-<h3>
-
-${p.name || "منتج"}
-
-</h3>
-
-
-
-<p class="price">
-
-${Number(p.price || 0).toLocaleString()} د.ع
-
-</p>
-
-
-
-<div class="product-actions">
-
-
-
-<button class="cart-add"
-
-onclick="addToCart('${p.name}',${Number(p.price||0)},'${p.image}')">
-
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-السلة
-
+<i class="fa-solid fa-arrow-up"></i>
 
 </button>
 
 
 
-
-
-<button class="fav-add"
-
-onclick="addToFavorites('${p.name}',${Number(p.price||0)},'${p.image}')">
-
-
-<i class="fa-solid fa-heart"></i>
-
-
-</button>
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-`;
-
-
-
-});
-
-
-
-}catch(error){
-
-
-console.log(error);
-
-
-
-grid.innerHTML = `
-
-<div class="loading-products">
-
-حدث خطأ في تحميل المنتجات
-
-</div>
-
-`;
-
-
-
-}
-
-
-
-}
-
-
-
-loadAllProducts();
-
-
-
-</script>
-<!-- زر واتساب -->
-
-
-<a class="whatsapp"
-
-href="https://wa.me/9647813555538"
-
-target="_blank">
-
-
-<i class="fa-brands fa-whatsapp"></i>
-
-
-</a>
-
-
-
-
-
-<!-- القائمة السفلية -->
-
+<!-- شريط التنقل السفلي -->
 
 <nav class="bottom-nav">
 
-
-
 <a href="index.html">
-
 
 <i class="fa-solid fa-house"></i>
 
-
-<span>
-
-الرئيسية
-
-</span>
-
+<span>الرئيسية</span>
 
 </a>
-
-
-
-
 
 <a href="products.html" class="active">
 
+<i class="fa-solid fa-store"></i>
 
-<i class="fa-solid fa-shop"></i>
-
-
-<span>
-
-المنتجات
-
-</span>
-
+<span>المنتجات</span>
 
 </a>
-
-
-
-
-
-<a href="cart.html">
-
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-
-<span>
-
-السلة
-
-</span>
-
-
-</a>
-
-
-
-
 
 <a href="favorites.html">
 
+<i class="fa-regular fa-heart"></i>
 
-<i class="fa-solid fa-heart"></i>
-
-
-<span>
-
-المفضلة
-
-</span>
-
+<span>المفضلة</span>
 
 </a>
 
+<a href="cart.html">
 
+<i class="fa-solid fa-cart-shopping"></i>
 
-
-
-<a href="about.html">
-
-
-<i class="fa-solid fa-circle-info"></i>
-
-
-<span>
-
-من نحن
-
-</span>
-
+<span>السلة</span>
 
 </a>
-
-
 
 </nav>
-<footer class="footer">
-
-
-<div class="footer-box">
 
 
 
-<img 
-src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
-class="footer-logo">
-
-
-
-<h3>
-
-مجمع حمزه الشطري
-
-</h3>
-
-
-
-<p>
-
-للملابس الجاهزة والجملة
-
-</p>
-
-
-
-
-<p>
-
-<i class="fa-solid fa-location-dot"></i>
-
-ذي قار - الشطرة
-
-</p>
-
-
-
-
-<p>
-
-<i class="fa-solid fa-phone"></i>
-
-07813555538
-
-</p>
-
-
-
-
-<p>
-
-<i class="fa-solid fa-truck"></i>
-
-توصيل لجميع محافظات العراق
-
-</p>
-
-
-
-
-<p class="copy">
-
-© 2026 جميع الحقوق محفوظة
-
-</p>
-
-
-
-</div>
-
-
-</footer>
-
-
-
-<script type="module" src="script.js"></script>
-
+<script type="module" src="js/app.js"></script>
 
 </body>
 
 </html>
+<!-- Product Template -->
+
+<template id="productTemplate">
+
+<div class="product-card fade-up">
+
+<div class="product-image">
+
+<img class="product-img"
+src=""
+alt=""
+loading="lazy">
+
+<div class="product-badges">
+
+<span class="badge new">
+
+جديد
+
+</span>
+
+<span class="badge stock">
+
+متوفر
+
+</span>
+
+</div>
+
+<button class="favorite-btn">
+
+<i class="fa-regular fa-heart"></i>
+
+</button>
+
+</div>
+
+<div class="product-content">
+
+<h3 class="product-name">
+
+اسم المنتج
+
+</h3>
+
+<div class="rating">
+
+<i class="fa-solid fa-star"></i>
+<i class="fa-solid fa-star"></i>
+<i class="fa-solid fa-star"></i>
+<i class="fa-solid fa-star"></i>
+<i class="fa-solid fa-star-half-stroke"></i>
+
+<span>4.9</span>
+
+</div>
+
+<div class="price-box">
+
+<span class="price">
+
+0 د.ع
+
+</span>
+
+<span class="old-price">
+
+</span>
+
+</div>
+
+<div class="product-buttons">
+
+<button class="details-btn">
+
+<i class="fa-solid fa-eye"></i>
+
+عرض
+
+</button>
+
+<button class="cart-btn">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+إضافة للسلة
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</template>
+
+<!-- Toast -->
+
+<div class="toast">
+
+تمت إضافة المنتج إلى السلة
+
+</div>
+
+<!-- Loading -->
+
+<div id="loadingProducts"
+
+style="display:none"
+
+class="loading">
+
+جاري تحميل المنتجات...
+
+</div>
