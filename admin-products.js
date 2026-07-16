@@ -105,7 +105,7 @@ collection(db,"products")
 );
 
 
-console.log("عدد المنتجات:",snap.size);
+alert("عدد المنتجات: " + snap.size);
 
 
 productsList.innerHTML="";
