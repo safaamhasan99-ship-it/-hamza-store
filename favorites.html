@@ -4,440 +4,256 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>المفضلة | مجمع حمزه الشطري</title>
 
-
 <meta name="theme-color" content="#111827">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="css/style.css">
 
 <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
-<link rel="stylesheet" href="style.css">
-
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 </head>
 
-
 <body>
-
-
-<!-- الهيدر -->
 
 <header class="header">
 
-
 <div class="brand">
 
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
+<img src="images/logo.png" alt="مجمع حمزه الشطري">
 
 <div>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-
-<p>
-للملابس الجاهزة والجملة
-</p>
-
+<p>المنتجات المفضلة</p>
 
 </div>
 
-
 </div>
 
+<div class="header-icons">
 
-
-<div class="header-actions">
-
-
-<button id="darkBtn" class="dark-btn">
-
-<i class="fa-solid fa-moon"></i>
-
-</button>
-
-
-
-<a href="cart.html" class="cart-icon">
-
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-
-<span id="cartCount">
-0
-</span>
-
-
-</a>
-
-
-</div>
-
-
-</header>
-<section class="products-home">
-
-
-<h2 class="title">
-
-❤️ المنتجات المفضلة
-
-</h2>
-
-
-
-<div id="favoritesBox" class="products-grid">
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<!-- القائمة السفلية -->
-
-
-<nav class="bottom-nav">
-
-
-<a href="index.html">
-
+<a href="index.html" class="header-btn">
 
 <i class="fa-solid fa-house"></i>
 
-
-<span>
-الرئيسية
-</span>
-
-
 </a>
 
-
-
-
-
-<a href="products.html">
-
-
-<i class="fa-solid fa-shop"></i>
-
-
-<span>
-المنتجات
-</span>
-
-
-</a>
-
-
-
-
-
-<a href="cart.html">
-
+<a href="cart.html" class="header-btn">
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-
-<span>
-السلة
-</span>
-
+<span id="cartCount">0</span>
 
 </a>
 
+</div>
 
+</header>
 
-
-
-<a href="favorites.html" class="active">
-
+<section class="search-box">
 
 <i class="fa-solid fa-heart"></i>
 
+<input
+type="text"
+value="قائمة المنتجات المفضلة"
+readonly>
 
-<span>
-المفضلة
-</span>
+</section>
 
+<main>
 
-</a>
+<div
+id="favoritesContainer"
+class="products-grid">
 
-
-
-
-
-<a href="about.html">
-
-
-<i class="fa-solid fa-circle-info"></i>
-
-
-<span>
-من نحن
-</span>
-
-
-</a>
-
-
-</nav>
-<!-- الفوتر -->
-
-<footer class="footer">
-
-
-<img 
-src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-
-<h3>
-مجمع حمزه الشطري
-</h3>
-
-
-
-<p>
-للملابس الجاهزة والجملة
-</p>
-
-
-
-<p>
-
-<i class="fa-solid fa-location-dot"></i>
-
-ذي قار - الشطرة
-
-</p>
-
-
-
-<p>
-
-<i class="fa-solid fa-phone"></i>
-
-07813555538
-
-</p>
-
-
-
-<p>
-
-<i class="fa-solid fa-truck"></i>
-
-توصيل لجميع محافظات العراق
-
-</p>
-
-
-
-<p class="copy">
-
-© 2026 جميع الحقوق محفوظة
-
-</p>
-
-
-</footer>
-
-
-
-
-
-<script type="module" src="script.js"></script>
-
-
-
-<script>
-
-
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-const box = document.getElementById("favoritesBox");
-
-
-
-function showFavorites(){
-
-
-if(!box) return;
-
-
-box.innerHTML="";
-
-
-
-if(favorites.length===0){
-
-
-box.innerHTML=`
-
-<div class="empty-cart">
-
-
-<i class="fa-solid fa-heart-crack"></i>
-
-
-<h3>
-لا توجد منتجات في المفضلة
-</h3>
-
+<!-- سيتم تحميل المنتجات هنا -->
 
 </div>
 
-`;
+<div
+id="emptyFavorites"
+class="empty-state"
+style="display:none;">
 
-return;
+<i class="fa-regular fa-heart"></i>
 
-}
+<h2>
 
+لا توجد منتجات مفضلة
 
+</h2>
 
+<p>
 
-favorites.forEach((item,index)=>{
-
-
-box.innerHTML += `
-
-
-<div class="product-card">
-
-
-
-<img src="${item.image}">
-
-
-
-<div class="product-info">
-
-
-
-<h3>
-${item.name}
-</h3>
-
-
-
-<p class="price">
-
-${Number(item.price).toLocaleString()} د.ع
+قم بإضافة منتجات إلى المفضلة لتظهر هنا.
 
 </p>
 
+<a
+href="products.html"
+class="hero-btn">
 
+تصفح المنتجات
 
+</a>
 
-<div class="product-actions">
+</div>
+<!-- قالب المنتج -->
 
+<template id="favoriteTemplate">
 
+<div class="product-card fade-up">
 
-<button class="cart-btn"
+<div class="product-image">
 
-onclick="addToCart('${item.name}',${item.price},'${item.image}')">
+<img class="product-img"
+src="images/no-image.png"
+alt="">
 
+<div class="product-badges">
+
+<span class="badge new">
+
+مفضل
+
+</span>
+
+</div>
+
+<button class="favorite-btn active">
+
+<i class="fa-solid fa-heart"></i>
+
+</button>
+
+</div>
+
+<div class="product-content">
+
+<h3 class="product-name">
+
+اسم المنتج
+
+</h3>
+
+<div class="rating">
+
+<i class="fa-solid fa-star"></i>
+<i class="fa-solid fa-star"></i>
+<i class="fa-solid fa-star"></i>
+<i class="fa-solid fa-star"></i>
+<i class="fa-solid fa-star-half-stroke"></i>
+
+<span>4.9</span>
+
+</div>
+
+<div class="price-box">
+
+<span class="price">
+
+0 د.ع
+
+</span>
+
+<span class="old-price">
+
+</span>
+
+</div>
+
+<div class="product-buttons">
+
+<button class="details-btn">
+
+<i class="fa-solid fa-eye"></i>
+
+عرض
+
+</button>
+
+<button class="cart-btn">
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-السلة
-
-
-</button>
-
-
-
-
-
-<button class="fav-btn"
-
-onclick="removeFavorite(${index})">
-
-
-<i class="fa-solid fa-trash"></i>
-
+إضافة للسلة
 
 </button>
 
-
+</div>
 
 </div>
 
+</div>
 
+</template>
+
+<!-- Toast -->
+
+<div id="toast" class="toast">
+
+تمت العملية بنجاح
 
 </div>
 
+<!-- زر العودة للأعلى -->
 
+<button class="scroll-top">
 
-</div>
+<i class="fa-solid fa-arrow-up"></i>
 
+</button>
 
+<!-- القائمة السفلية -->
 
-`;
+<nav class="bottom-nav">
 
-});
+<a href="index.html">
 
+<i class="fa-solid fa-house"></i>
 
-}
+<span>الرئيسية</span>
 
+</a>
 
+<a href="products.html">
 
+<i class="fa-solid fa-store"></i>
 
+<span>المنتجات</span>
 
-function removeFavorite(index){
+</a>
 
+<a href="favorites.html" class="active">
 
-favorites.splice(index,1);
+<i class="fa-solid fa-heart"></i>
 
+<span>المفضلة</span>
 
-localStorage.setItem(
+</a>
 
-"favorites",
+<a href="cart.html">
 
-JSON.stringify(favorites)
+<i class="fa-solid fa-cart-shopping"></i>
 
-);
+<span>السلة</span>
 
+</a>
 
+</nav>
 
-showFavorites();
-
-
-}
-
-
-
-
-
-showFavorites();
-
-
-</script>
-
-
+<script type="module" src="js/favorites.js"></script>
 
 </body>
-
 </html>
