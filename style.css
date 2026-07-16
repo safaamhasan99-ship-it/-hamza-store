@@ -1763,3 +1763,41 @@ background:#374151;
 color:#fff;
 
 }
+/* إزالة أي غلاف من صفحة السلة */
+.cart-page .hero-slider,
+.cart-page .hero,
+.cart-page .banner{
+display:none;
+}
+
+
+/* تحسين عرض صور السلة */
+.cart-image{
+
+width:220px;
+height:220px;
+object-fit:contain;
+background:#fff;
+border-radius:25px;
+padding:10px;
+
+}
+
+
+/* بالجوال */
+@media(max-width:768px){
+
+.cart-image{
+
+width:280px;
+height:280px;
+
+}
+
+.cart-item{
+
+padding:15px;
+
+}
+
+}
