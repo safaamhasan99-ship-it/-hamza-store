@@ -174,6 +174,15 @@ ${p.name || "منتج"}
 
 catch(error){
 
+console.error(error);
+
+alert(error.message);
+
+productsList.innerHTML =
+"حدث خطأ: " + error.message;
+
+}
+
 console.log(error);
 
 productsList.innerHTML=
