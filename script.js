@@ -834,9 +834,12 @@ grid.innerHTML=`
 
 
 
-if(document.body.classList.contains("home-page")){
+if(
+document.body.classList.contains("home-page") ||
+document.body.classList.contains("products-page")
+){
     loadProducts();
-} 
+}
 /*========================
 البحث
 ========================*/
