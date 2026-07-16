@@ -1640,3 +1640,48 @@ height:320px;
 
 
 }
+/*========================
+تعميم الوضع الليلي لكل الصفحات
+========================*/
+
+body.dark .about,
+body.dark .about-box,
+body.dark .about-card,
+body.dark .favorites,
+body.dark .favorite-card,
+body.dark .fav-card,
+body.dark .page-box{
+
+background:#1f2937 !important;
+
+color:white !important;
+
+}
+
+
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark p,
+body.dark span{
+
+color:inherit;
+
+}
+
+
+body.dark .card,
+body.dark .box{
+
+background:#1f2937 !important;
+
+color:white !important;
+
+}
+
+
+body.dark .favorite-card img{
+
+background:#374151;
+
+}
