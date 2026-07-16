@@ -1,3 +1,9 @@
+/*==================================
+مجمع حمزه الشطري
+Admin Products JS Final
+==================================*/
+
+
 import { db } from "./firebase.js";
 
 import {
@@ -10,6 +16,7 @@ updateDoc,
 serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
 
 // عناصر الصفحة
@@ -25,13 +32,16 @@ const imageInput = document.getElementById("image");
 
 const saveBtn = document.getElementById("saveBtn");
 
-// مهم: نفس id الموجود في صفحة HTML
-const productsList = document.getElementById("productsGrid");
+
+// مهم: مطابق للـ HTML
+const productsList = document.getElementById("products");
 
 
 let editId = null;
 
 
+
+// رسالة
 
 function showMessage(text){
 
@@ -59,10 +69,12 @@ toast.remove();
 
 },2500);
 
+
 }
 
 
 
+// تنظيف رابط الصورة
 
 function cleanImageUrl(url){
 
@@ -71,6 +83,9 @@ if(!url) return "";
 return url.trim();
 
 }
+
+
+
 // تحميل المنتجات
 
 async function loadProducts(){
@@ -119,8 +134,9 @@ productsList.innerHTML += `
 
 <div class="card-body">
 
-
-<h3>${p.name || ""}</h3>
+<h3>
+${p.name || "منتج"}
+</h3>
 
 
 <p>
@@ -160,7 +176,8 @@ catch(error){
 
 console.log(error);
 
-productsList.innerHTML="حدث خطأ في تحميل المنتجات";
+productsList.innerHTML=
+"حدث خطأ في تحميل المنتجات: "+error.message;
 
 }
 
@@ -169,12 +186,6 @@ productsList.innerHTML="حدث خطأ في تحميل المنتجات";
 
 
 loadProducts();
-
-
-
-
-
-
 // حفظ المنتج
 
 if(saveBtn){
@@ -202,6 +213,7 @@ description:descriptionInput.value.trim(),
 
 image:cleanImageUrl(imageInput.value)
 
+
 };
 
 
@@ -209,10 +221,10 @@ image:cleanImageUrl(imageInput.value)
 try{
 
 
+// تعديل منتج موجود
+
 if(editId){
 
-
-// تعديل
 
 await updateDoc(
 
@@ -223,7 +235,8 @@ product
 );
 
 
-showMessage("✅ تم تعديل المنتج");
+
+showMessage("✅ تم تعديل المنتج بنجاح");
 
 
 editId=null;
@@ -234,10 +247,11 @@ saveBtn.innerText="💾 حفظ المنتج";
 
 }
 
+
+// إضافة منتج جديد
+
 else{
 
-
-// إضافة جديد
 
 await addDoc(
 
@@ -254,34 +268,44 @@ time:serverTimestamp()
 );
 
 
-showMessage("✅ تم إضافة المنتج");
+
+showMessage("✅ تم إضافة المنتج بنجاح");
 
 
 }
 
 
 
-
-// تفريغ
+// تفريغ الحقول
 
 nameInput.value="";
+
 priceInput.value="";
+
 sizesInput.value="";
+
 colorsInput.value="";
+
 quantityInput.value="";
+
 descriptionInput.value="";
+
 imageInput.value="";
+
 
 categoryInput.selectedIndex=0;
 
 
+
 loadProducts();
+
 
 
 }
 
 
 catch(error){
+
 
 console.log(error);
 
@@ -299,6 +323,10 @@ showMessage(
 
 
 }
+
+
+
+
 // حذف المنتج
 
 window.deleteProduct = async function(id){
@@ -306,6 +334,7 @@ window.deleteProduct = async function(id){
 
 if(!confirm("هل تريد حذف المنتج؟"))
 return;
+
 
 
 try{
@@ -318,10 +347,12 @@ doc(db,"products",id)
 );
 
 
+
 showMessage("🗑 تم حذف المنتج بنجاح");
 
 
 loadProducts();
+
 
 
 }
@@ -340,10 +371,7 @@ showMessage(
 }
 
 
-
 };
-
-
 
 
 
@@ -411,6 +439,7 @@ behavior:"smooth"
 }
 
 
+
 });
 
 
@@ -430,11 +459,7 @@ showMessage(
 }
 
 
-
 };
-
-
-
 
 
 
