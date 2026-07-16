@@ -2100,12 +2100,22 @@ font-size:20px;
 
 
 .delete-cart{
+    margin-top:18px;
+    width:130px;
+    height:45px;
+    border:none;
+    border-radius:15px;
+    background:#ef4444;
+    color:white;
+    font-weight:900;
+    cursor:pointer;
+}
 
-   /* إخفاء الهيرو في صفحة المنتجات فقط */
+/* إخفاء الهيرو في صفحة المنتجات فقط */
 .products-page .hero-slider,
 .products-page .hero,
 .products-page .banner,
 .products-page #hero,
 .products-page .hero-section{
-    display: none !important;
+    display:none !important;
 }
