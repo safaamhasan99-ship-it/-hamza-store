@@ -11,7 +11,6 @@ import {
 collection,
 getDocs,
 query,
-limit
 
 }
 
