@@ -1,0 +1,238 @@
+/*==================================
+مجمع حمزه الشطري
+Favorites JS V5
+==================================*/
+
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const favoritesContainer =
+document.getElementById("favoritesContainer");
+
+const emptyFavorites =
+document.getElementById("emptyFavorites");
+
+const cartCount =
+document.getElementById("cartCount");
+
+let favorites =
+JSON.parse(localStorage.getItem("favorites")) || [];
+
+let cart =
+JSON.parse(localStorage.getItem("cart")) || [];
+
+updateCartCount();
+
+loadFavorites();
+
+/*=========================
+تحميل المفضلة
+=========================*/
+
+async function loadFavorites(){
+
+try{
+
+const snap =
+await getDocs(collection(db,"products"));
+
+favoritesContainer.innerHTML = "";
+
+let found = false;
+
+snap.forEach(doc=>{
+
+const product = {
+
+id:doc.id,
+...doc.data()
+
+};
+
+if(favorites.includes(product.id)){
+
+found = true;
+
+favoritesContainer.innerHTML += createCard(product);
+
+}
+
+});
+
+if(found){
+
+emptyFavorites.style.display="none";
+
+}else{
+
+emptyFavorites.style.display="block";
+
+}
+
+}catch(err){
+
+console.log(err);
+
+}
+
+}
+/*=========================
+بطاقة المنتج
+=========================*/
+
+function createCard(product){
+
+return `
+
+<div class="product-card fade-up">
+
+<div class="product-image">
+
+<img
+src="${product.image||'images/no-image.png'}"
+class="product-img"
+loading="lazy">
+
+<div class="product-badges">
+
+<span class="badge new">
+
+مفضل
+
+</span>
+
+</div>
+
+<button
+class="favorite-btn active"
+onclick="removeFavorite('${product.id}')">
+
+<i class="fa-solid fa-heart"></i>
+
+</button>
+
+</div>
+
+<div class="product-content">
+
+<h3 class="product-name">
+
+${product.name||""}
+
+</h3>
+
+<div class="price-box">
+
+<span class="price">
+
+${Number(product.price||0).toLocaleString()} د.ع
+
+</span>
+
+</div>
+
+<div class="product-buttons">
+
+<button
+class="details-btn"
+onclick="location.href='details.html?id=${product.id}'">
+
+<i class="fa-solid fa-eye"></i>
+
+عرض
+
+</button>
+
+<button
+class="cart-btn"
+onclick="addToCart('${product.id}')">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+إضافة للسلة
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+/*=========================
+إضافة للسلة
+=========================*/
+
+window.addToCart=function(id){
+
+const index=favorites.findIndex(x=>x===id);
+
+if(index===-1) return;
+
+showToast("تمت إضافة المنتج إلى السلة");
+
+};
+
+/*=========================
+حذف من المفضلة
+=========================*/
+
+window.removeFavorite=function(id){
+
+favorites=favorites.filter(x=>x!==id);
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(favorites)
+);
+
+loadFavorites();
+
+showToast("تمت إزالة المنتج من المفضلة");
+
+};
+
+/*=========================
+عداد السلة
+=========================*/
+
+function updateCartCount(){
+
+if(!cartCount) return;
+
+const total=cart.reduce((a,b)=>a+b.qty,0);
+
+cartCount.textContent=total;
+
+}
+
+/*=========================
+Toast
+=========================*/
+
+function showToast(message){
+
+const toast=document.getElementById("toast");
+
+if(!toast) return;
+
+toast.textContent=message;
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+
+toast.classList.remove("show");
+
+},2500);
+
+}
