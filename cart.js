@@ -1,10 +1,13 @@
-// cart.js
+//==================================
+// مجمع حمزه الشطري
+// Professional Cart JS
+//==================================
 
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
-// إصلاح بيانات السلة
+// تنظيف بيانات السلة
 
 cart = cart.map(item => ({
 
@@ -51,15 +54,30 @@ function renderCart(){
     if(cart.length === 0){
 
 
-        cartItems.innerHTML =
-        "<h3>السلة فارغة 🛒</h3>";
+        cartItems.innerHTML = `
+
+        <div class="empty-cart">
+
+        <h3>
+        السلة فارغة 🛒
+        </h3>
+
+        </div>
+
+        `;
 
 
-        cartTotal.innerText = "0";
+        if(cartTotal){
+
+            cartTotal.innerText = "0 د.ع";
+
+        }
+
 
         return;
 
     }
+
 
 
 
@@ -74,60 +92,90 @@ function renderCart(){
 
 
 
+
         cartItems.innerHTML += `
 
 
         <div class="cart-item">
 
 
-        <img src="${item.image}">
 
-
-        <div class="cart-info">
-
-
-        <h3>
-        ${item.name}
-        </h3>
-
-
-        <p class="price">
-        ${item.price.toLocaleString()} د.ع
-        </p>
+            <img 
+            class="cart-image"
+            src="${item.image}"
+            >
 
 
 
-        <div class="qty">
 
-
-        <button onclick="changeQty(${index},1)">
-        +
-        </button>
-
-
-        <span>
-        ${item.qty}
-        </span>
-
-
-        <button onclick="changeQty(${index},-1)">
-        -
-        </button>
-
-
-        </div>
-
-
-        </div>
+            <div class="cart-info">
 
 
 
-        <button class="remove-btn"
-        onclick="removeItem(${index})">
+                <h3>
+                ${item.name}
+                </h3>
 
-        🗑 حذف
 
-        </button>
+
+
+                <p class="cart-price">
+
+                ${item.price.toLocaleString()} د.ع
+
+                </p>
+
+
+
+
+                <div class="qty-box">
+
+
+
+                    <button 
+                    class="qty-btn"
+                    onclick="changeQty(${index},1)">
+                    +
+                    </button>
+
+
+
+
+                    <span>
+
+                    ${item.qty}
+
+                    </span>
+
+
+
+
+                    <button 
+                    class="qty-btn"
+                    onclick="changeQty(${index},-1)">
+                    -
+                    </button>
+
+
+
+                </div>
+
+
+
+
+                <button 
+                class="delete-cart"
+                onclick="removeItem(${index})">
+
+                🗑 حذف
+
+                </button>
+
+
+
+
+            </div>
+
 
 
         </div>
@@ -136,15 +184,23 @@ function renderCart(){
         `;
 
 
+
     });
 
 
 
-    cartTotal.innerText =
-    total.toLocaleString();
+
+    if(cartTotal){
+
+        cartTotal.innerText =
+        total.toLocaleString() + " د.ع";
+
+    }
 
 
 }
+
+
 
 
 
@@ -155,7 +211,9 @@ function renderCart(){
 window.changeQty = function(index,amount){
 
 
+
     cart[index].qty += amount;
+
 
 
     if(cart[index].qty < 1){
@@ -171,7 +229,10 @@ window.changeQty = function(index,amount){
     renderCart();
 
 
+
 };
+
+
 
 
 
@@ -182,7 +243,9 @@ window.changeQty = function(index,amount){
 window.removeItem = function(index){
 
 
+
     cart.splice(index,1);
+
 
 
     saveCart();
@@ -190,7 +253,10 @@ window.removeItem = function(index){
     renderCart();
 
 
+
 };
+
+
 
 
 
@@ -202,8 +268,11 @@ function saveCart(){
 
 
     localStorage.setItem(
+
         "cart",
+
         JSON.stringify(cart)
+
     );
 
 
@@ -215,7 +284,7 @@ function saveCart(){
 
 
 
-// إرسال الطلب واتساب + حفظ الطلب
+// إرسال الطلب واتساب
 
 window.sendWhatsAppOrder = function(){
 
@@ -226,10 +295,10 @@ window.sendWhatsAppOrder = function(){
 
         alert("السلة فارغة");
 
-
         return;
 
     }
+
 
 
 
@@ -237,8 +306,10 @@ window.sendWhatsAppOrder = function(){
     document.getElementById("customerName").value;
 
 
+
     let phone =
     document.getElementById("customerPhone").value;
+
 
 
     let address =
@@ -263,10 +334,12 @@ window.sendWhatsAppOrder = function(){
 
 
 
-    // حفظ الطلب
 
     let orders =
+
     JSON.parse(localStorage.getItem("orders")) || [];
+
+
 
 
 
@@ -286,15 +359,20 @@ window.sendWhatsAppOrder = function(){
 
 
         total:cart.reduce(
-            (sum,item)=>
-            sum + (item.price * item.qty),
-            0
-        ),
+
+        (sum,item)=>{
+
+        return sum + (item.price * item.qty);
+
+        },0),
 
 
         date:new Date().toLocaleString()
 
+
     };
+
+
 
 
 
@@ -315,7 +393,6 @@ window.sendWhatsAppOrder = function(){
 
 
 
-    // رسالة الواتساب
 
 
     let message =
@@ -335,9 +412,9 @@ ${phone}
 ${address}
 
 
-
 📦 المنتجات:
 `;
+
 
 
 
@@ -347,12 +424,14 @@ ${address}
 
         message += `
 
+
 ${item.name}
 
 الكمية: ${item.qty}
 
 السعر:
 ${(item.price * item.qty).toLocaleString()} د.ع
+
 
 `;
 
@@ -361,17 +440,17 @@ ${(item.price * item.qty).toLocaleString()} د.ع
 
 
 
-    let total =
-    order.total;
-
-
 
     message += `
 
+
 💰 المجموع:
-${total.toLocaleString()} د.ع
+
+${order.total.toLocaleString()} د.ع
 
 `;
+
+
 
 
 
@@ -384,10 +463,15 @@ ${total.toLocaleString()} د.ع
 
 
 
+
+
     window.open(url,"_blank");
 
 
+
 };
+
+
 
 
 
