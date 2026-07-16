@@ -100,9 +100,9 @@ productsList.innerHTML="جاري تحميل المنتجات...";
 try{
 
 
-const snap = await getDocs(
-collection(db,"products")
-);
+const snap = await getDocs(collection(db, "products"));
+
+alert("عدد المنتجات: " + snap.size);
 
 
 productsList.innerHTML="";
