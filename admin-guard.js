@@ -1,31 +1,23 @@
-// admin-guard.js
+/*==================================
+مجمع حمزه الشطري
+Admin Guard
+==================================*/
 
-import { app } from "./firebase.js";
-
+import { auth } from "./firebase.js";
 
 import {
-getAuth,
 onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+onAuthStateChanged(auth, (user) => {
 
+    if (!user) {
 
+        window.location.href = "admin-login.html";
+        return;
 
-const auth = getAuth(app);
+    }
 
-
-
-onAuthStateChanged(auth, (user)=>{
-
-
-if(!user){
-
-
-window.location.href = "admin-login.html";
-
-
-}
-
-
+    console.log("✅ تم تسجيل الدخول:", user.email);
 
 });
