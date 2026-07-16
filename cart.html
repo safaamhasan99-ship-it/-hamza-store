@@ -7,62 +7,60 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="theme-color" content="#111827">
-
-<meta name="description" content="مجمع حمزه الشطري للملابس الجاهزة والجملة">
-
 <title>السلة | مجمع حمزه الشطري</title>
+
+<meta name="theme-color" content="#111827">
 
 <link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 
 <link rel="stylesheet" href="style.css">
 
 </head>
 
+
 <body>
 
-<!-- شاشة التحميل -->
-
-<div id="loader">
-
-<div class="loader-box">
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-<h2>مجمع حمزه الشطري</h2>
-
-<div class="loader-spinner"></div>
-
-<p>جاري تحميل السلة...</p>
-
-</div>
-
-</div>
 
 <!-- الهيدر -->
 
 <header class="header">
 
-<div class="logo-box">
+
+<div class="brand">
+
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
+
 <div>
 
-<h1>مجمع حمزه الشطري</h1>
+<h1>
+مجمع حمزه الشطري
+</h1>
 
-<span>للملابس الجاهزة والجملة</span>
+
+<p>
+للملابس الجاهزة والجملة
+</p>
+
 
 </div>
 
+
 </div>
+
+
 
 <div class="header-actions">
+
 
 <button id="darkBtn" class="dark-btn">
 
@@ -70,19 +68,30 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </button>
 
-<a href="cart.html" class="cart-btn">
+
+
+<a href="cart.html" class="cart-icon">
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-<span id="cartCount">0</span>
+<span id="cartCount">
+0
+</span>
 
 </a>
 
+
 </div>
+
 
 </header>
 
+
+
+
+
 <section class="cart-page">
+
 
 <h2 class="title">
 
@@ -90,19 +99,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </h2>
 
+
+
 <div class="cart-grid">
+
+
 
 <!-- المنتجات -->
 
+
 <div class="cart-box">
 
+
 <h3>
-
 المنتجات المختارة
-
 </h3>
 
+
+
 <div id="cartItems">
+
 
 <div class="loading-products">
 
@@ -110,51 +126,62 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </div>
 
-</div>
 
 </div>
 
+
+</div>
 <!-- بيانات الزبون -->
 
 <div class="order-box">
 
+
 <h3>
-
 بيانات الزبون
-
 </h3>
 
+
+
 <label>
-
 الاسم الكامل
-
 </label>
+
 
 <input
 type="text"
 id="customerName"
 placeholder="اكتب اسم الزبون">
 
+
+
+
+
 <label>
-
 رقم الهاتف
-
 </label>
+
 
 <input
 type="tel"
 id="customerPhone"
 placeholder="07xxxxxxxxx">
 
+
+
+
+
 <label>
-
 العنوان
-
 </label>
+
 
 <textarea
 id="customerAddress"
 placeholder="اكتب عنوان الزبون بالتفصيل"></textarea>
+
+
+
+
 
 <div id="cartTotal" class="cart-total">
 
@@ -162,22 +189,38 @@ placeholder="اكتب عنوان الزبون بالتفصيل"></textarea>
 
 </div>
 
+
+
+
+
 <button
 class="whatsapp-btn"
 onclick="sendWhatsApp()">
 
+
 <i class="fa-brands fa-whatsapp"></i>
+
 
 إرسال الطلب عبر واتساب
 
+
 </button>
 
-</div>
 
 </div>
+
+
+</div>
+
 
 </section>
-<!-- زر واتساب -->
+
+
+
+
+
+<!-- زر واتساب العائم -->
+
 
 <a class="whatsapp"
 
@@ -185,75 +228,107 @@ href="https://wa.me/9647813555538"
 
 target="_blank">
 
+
 <i class="fa-brands fa-whatsapp"></i>
+
 
 </a>
 
+
+
+
+
 <!-- القائمة السفلية -->
 
+
 <nav class="bottom-nav">
+
 
 <a href="index.html">
 
 <i class="fa-solid fa-house"></i>
 
-<span>الرئيسية</span>
+<span>
+الرئيسية
+</span>
 
 </a>
+
+
+
 
 <a href="products.html">
 
 <i class="fa-solid fa-shop"></i>
 
-<span>المنتجات</span>
+<span>
+المنتجات
+</span>
 
 </a>
+
+
+
 
 <a href="cart.html" class="active">
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-<span>السلة</span>
+<span>
+السلة
+</span>
 
 </a>
+
+
+
 
 <a href="favorites.html">
 
 <i class="fa-solid fa-heart"></i>
 
-<span>المفضلة</span>
+<span>
+المفضلة
+</span>
 
 </a>
+
+
+
 
 <a href="about.html">
 
 <i class="fa-solid fa-circle-info"></i>
 
-<span>من نحن</span>
+<span>
+من نحن
+</span>
 
 </a>
 
-</nav>
 
+
+</nav>
 <!-- الفوتر -->
 
 <footer class="footer">
 
-<img
-src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
-class="footer-logo">
+
+<img 
+src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+
 
 <h3>
-
 مجمع حمزه الشطري
-
 </h3>
 
+
+
 <p>
-
 للملابس الجاهزة والجملة
-
 </p>
+
+
 
 <p>
 
@@ -263,6 +338,9 @@ class="footer-logo">
 
 </p>
 
+
+
+
 <p>
 
 <i class="fa-solid fa-phone"></i>
@@ -270,6 +348,9 @@ class="footer-logo">
 07813555538
 
 </p>
+
+
+
 
 <p>
 
@@ -279,17 +360,26 @@ class="footer-logo">
 
 </p>
 
+
+
+
 <p class="copy">
 
 © 2026 جميع الحقوق محفوظة
 
 </p>
 
+
 </footer>
 
-<!-- السكربتات -->
+
+
+
+
+<!-- السكربت -->
 
 <script type="module" src="script.js"></script>
+
 
 </body>
 
