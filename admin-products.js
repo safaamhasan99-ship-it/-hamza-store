@@ -470,3 +470,15 @@ window.refreshProducts=function(){
 loadProducts();
 
 };
+
+const refreshBtn = document.getElementById("refreshBtn");
+
+if(refreshBtn){
+
+refreshBtn.onclick = ()=>{
+
+loadProducts();
+
+};
+
+}
