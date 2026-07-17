@@ -9,6 +9,7 @@
 <title>مجمع حمزه الشطري</title>
 
 <meta name="theme-color" content="#111827">
+<meta name="description" content="مجمع حمزه الشطري - بيع الملابس بالجملة لجميع محافظات العراق">
 
 <link rel="icon" href="images/logo.png">
 
@@ -17,36 +18,97 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
 
-  <!-- Hero Slider -->
+<header class="header">
+
+<div class="brand">
+
+<img src="images/logo.png" alt="مجمع حمزه الشطري">
+
+<div>
+
+<h1>مجمع حمزه الشطري</h1>
+
+<p>بيع الجملة لجميع محافظات العراق</p>
+
+</div>
+
+</div>
+
+<div class="header-icons">
+
+<a href="favorites.html" class="header-btn">
+
+<i class="fa-regular fa-heart"></i>
+
+</a>
+
+<a href="cart.html" class="header-btn">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span id="cartCount">0</span>
+
+</a>
+
+<button id="darkBtn" class="header-btn">
+
+<i class="fa-solid fa-moon"></i>
+
+</button>
+
+</div>
+
+</header>
+
+<section class="search-box">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input
+id="searchInput"
+type="search"
+placeholder="ابحث عن منتج...">
+
+</section>
+<!-- =========================
+Hero Slider
+========================= -->
 
 <section class="hero-slider">
 
 <div class="hero-slide active">
 
-<img src="images/banner1.jpg" alt="">
+<img src="images/banner1.jpg" alt="عروض">
 
 <div class="hero-overlay">
 
 <span class="hero-badge">
+
 🔥 عروض الأسبوع
+
 </span>
 
 <h2>
+
 أحدث موديلات الملابس التركية
+
 </h2>
 
 <p>
+
 أفضل جودة وأسعار الجملة لجميع محافظات العراق
+
 </p>
+
+<div class="hero-buttons">
 
 <a href="products.html" class="hero-btn">
 
@@ -56,13 +118,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 </a>
 
+<a href="offers.html" class="hero-btn-outline">
+
+العروض
+
+</a>
+
+</div>
+
 </div>
 
 </div>
 
 <div class="hero-slide">
 
-<img src="images/banner2.jpg" alt="">
+<img src="images/banner2.jpg" alt="موديلات جديدة">
 
 <div class="hero-overlay">
 
@@ -74,15 +144,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <h2>
 
-وصلت تشكيلات الموسم
+تشكيلة الموسم وصلت
 
 </h2>
 
 <p>
 
-تخفيضات خاصة على كميات الجملة
+موديلات رجالية ونسائية وولادية بأسعار الجملة
 
 </p>
+
+<div class="hero-buttons">
 
 <a href="products.html" class="hero-btn">
 
@@ -94,16 +166,366 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 </div>
 
+</div>
+
+<div class="hero-slide">
+
+<img src="images/banner3.jpg" alt="خصومات">
+
+<div class="hero-overlay">
+
+<span class="hero-badge">
+
+💎 جودة مميزة
+
+</span>
+
+<h2>
+
+أفضل الأسعار للتجار
+
+</h2>
+
+<p>
+
+توصيل لجميع محافظات العراق
+
+</p>
+
+<div class="hero-buttons">
+
+<a href="about.html" class="hero-btn">
+
+من نحن
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
 <div class="hero-dots">
 
 <span class="hero-dot active"></span>
 
 <span class="hero-dot"></span>
 
+<span class="hero-dot"></span>
+
 </div>
 
 </section>
-<!-- Product Card Template -->
+<!--==================================
+الأقسام
+===================================-->
+
+<section class="categories-section">
+
+<div class="section-head">
+
+<h2>
+
+<i class="fa-solid fa-layer-group"></i>
+
+الأقسام
+
+</h2>
+
+<a href="products.html">
+
+عرض الكل
+
+<i class="fa-solid fa-arrow-left"></i>
+
+</a>
+
+</div>
+
+<div class="categories-grid">
+
+<a href="men.html" class="category-card">
+
+<div class="category-image">
+
+<img src="images/men.png" alt="رجالي">
+
+</div>
+
+<h3>رجالي</h3>
+
+<p>أحدث الموديلات</p>
+
+</a>
+
+<a href="women.html" class="category-card">
+
+<div class="category-image">
+
+<img src="images/women.png" alt="نسائي">
+
+</div>
+
+<h3>نسائي</h3>
+
+<p>موديلات تركية</p>
+
+</a>
+
+<a href="boys.html" class="category-card">
+
+<div class="category-image">
+
+<img src="images/boys.png" alt="ولادي">
+
+</div>
+
+<h3>ولادي</h3>
+
+<p>جميع الأعمار</p>
+
+</a>
+
+<a href="girls.html" class="category-card">
+
+<div class="category-image">
+
+<img src="images/girls.png" alt="بناتي">
+
+</div>
+
+<h3>بناتي</h3>
+
+<p>أحدث التصاميم</p>
+
+</a>
+
+<a href="pants.html" class="category-card">
+
+<div class="category-image">
+
+<img src="images/pants.png" alt="بنطرونات">
+
+</div>
+
+<h3>بنطرونات</h3>
+
+<p>جميع القياسات</p>
+
+</a>
+
+<a href="hijabs.html" class="category-card">
+
+<div class="category-image">
+
+<img src="images/hijab.png" alt="حجابات">
+
+</div>
+
+<h3>حجابات</h3>
+
+<p>ألوان متنوعة</p>
+
+</a>
+
+<a href="socks.html" class="category-card">
+
+<div class="category-image">
+
+<img src="images/socks.png" alt="جوارب">
+
+</div>
+
+<h3>جوارب</h3>
+
+<p>خامات ممتازة</p>
+
+</a>
+
+<a href="underwear.html" class="category-card">
+
+<div class="category-image">
+
+<img src="images/underwear.png" alt="داخليات">
+
+</div>
+
+<h3>داخليات</h3>
+
+<p>جودة عالية</p>
+
+</a>
+
+</div>
+
+</section>
+<!--==================================
+الإحصائيات
+===================================-->
+
+<section class="store-info">
+
+<div class="info-card">
+
+<i class="fa-solid fa-shirt"></i>
+
+<h3>+5000</h3>
+
+<p>منتج</p>
+
+</div>
+
+<div class="info-card">
+
+<i class="fa-solid fa-truck-fast"></i>
+
+<h3>18</h3>
+
+<p>محافظة</p>
+
+</div>
+
+<div class="info-card">
+
+<i class="fa-solid fa-users"></i>
+
+<h3>+1000</h3>
+
+<p>تاجر</p>
+
+</div>
+
+<div class="info-card">
+
+<i class="fa-solid fa-award"></i>
+
+<h3>10+</h3>
+
+<p>سنوات خبرة</p>
+
+</div>
+
+</section>
+<!--==================================
+أحدث المنتجات
+===================================-->
+
+<section class="products-section">
+
+<div class="section-head">
+
+<h2>
+
+<i class="fa-solid fa-fire"></i>
+
+أحدث المنتجات
+
+</h2>
+
+<a href="products.html">
+
+عرض الكل
+
+<i class="fa-solid fa-arrow-left"></i>
+
+</a>
+
+</div>
+
+<div id="productsContainer" class="products-grid">
+
+<!-- يتم تحميل المنتجات من Firebase -->
+
+</div>
+
+</section>
+<!--==================================
+عروض المتجر
+===================================-->
+
+<section class="offers-section">
+
+<div class="section-head">
+
+<h2>
+
+<i class="fa-solid fa-tags"></i>
+
+عروض خاصة
+
+</h2>
+
+<a href="offers.html">
+
+كل العروض
+
+</a>
+
+</div>
+
+<div class="offers-grid">
+
+<div class="offer-card">
+
+<i class="fa-solid fa-percent"></i>
+
+<h3>
+
+خصومات مميزة
+
+</h3>
+
+<p>
+
+أفضل أسعار الجملة
+
+</p>
+
+</div>
+
+<div class="offer-card">
+
+<i class="fa-solid fa-truck-fast"></i>
+
+<h3>
+
+توصيل سريع
+
+</h3>
+
+<p>
+
+إلى جميع محافظات العراق
+
+</p>
+
+</div>
+
+<div class="offer-card">
+
+<i class="fa-solid fa-shield-heart"></i>
+
+<h3>
+
+جودة مضمونة
+
+</h3>
+
+<p>
+
+منتجات أصلية وخامات ممتازة
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+<!--==================================
+قالب المنتج
+===================================-->
 
 <template id="productTemplate">
 
@@ -111,13 +533,24 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <div class="product-image">
 
-<img src="" class="product-img" loading="lazy">
+<img class="product-img"
+src=""
+alt=""
+loading="lazy">
 
 <div class="product-badges">
 
-<span class="badge new">جديد</span>
+<span class="badge new">
 
-<span class="badge stock">متوفر</span>
+جديد
+
+</span>
+
+<span class="badge stock">
+
+متوفر
+
+</span>
 
 </div>
 
@@ -141,7 +574,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 <i class="fa-solid fa-star"></i>
 <i class="fa-solid fa-star-half-stroke"></i>
 
-<span>(4.8)</span>
+<span>4.9</span>
 
 </div>
 
@@ -178,3 +611,188 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 </div>
 
 </template>
+<!--==================================
+مميزات المتجر
+===================================-->
+
+<section class="features-section">
+
+<div class="section-head">
+
+<h2>
+
+لماذا تختار مجمع حمزه الشطري؟
+
+</h2>
+
+</div>
+
+<div class="features-grid">
+
+<div class="feature-card">
+
+<i class="fa-solid fa-award"></i>
+
+<h3>جودة عالية</h3>
+
+<p>منتجات مختارة بعناية وخامات ممتازة.</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-truck-fast"></i>
+
+<h3>توصيل سريع</h3>
+
+<p>توصيل لجميع محافظات العراق.</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-tags"></i>
+
+<h3>أسعار الجملة</h3>
+
+<p>أفضل الأسعار للتجار وأصحاب المحلات.</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-headset"></i>
+
+<h3>دعم مستمر</h3>
+
+<p>نرد على جميع الاستفسارات عبر واتساب.</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!--==================================
+تواصل معنا
+===================================-->
+
+<section class="contact-section">
+
+<h2>تواصل معنا</h2>
+
+<p>
+
+للطلب والاستفسار عبر واتساب
+
+</p>
+
+<a
+href="https://wa.me/9647813555538"
+class="hero-btn">
+
+<i class="fa-brands fa-whatsapp"></i>
+
+07813555538
+
+</a>
+
+</section>
+
+<!--==================================
+Footer
+===================================-->
+
+<footer class="footer">
+
+<div class="footer-logo">
+
+<img src="images/logo.png" alt="">
+
+<h2>مجمع حمزه الشطري</h2>
+
+<p>
+
+بيع الملابس بالجملة لجميع محافظات العراق
+
+</p>
+
+</div>
+
+<div class="footer-links">
+
+<a href="index.html">الرئيسية</a>
+
+<a href="products.html">المنتجات</a>
+
+<a href="offers.html">العروض</a>
+
+<a href="about.html">من نحن</a>
+
+</div>
+
+<div class="footer-copy">
+
+© 2026 جميع الحقوق محفوظة
+
+</div>
+
+</footer>
+
+<!--==================================
+Bottom Navigation
+===================================-->
+
+<nav class="bottom-nav">
+
+<a href="index.html" class="active">
+
+<i class="fa-solid fa-house"></i>
+
+<span>الرئيسية</span>
+
+</a>
+
+<a href="products.html">
+
+<i class="fa-solid fa-store"></i>
+
+<span>المنتجات</span>
+
+</a>
+
+<a href="favorites.html">
+
+<i class="fa-regular fa-heart"></i>
+
+<span>المفضلة</span>
+
+</a>
+
+<a href="cart.html">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span>السلة</span>
+
+</a>
+
+</nav>
+
+<!-- Toast -->
+
+<div id="toast" class="toast"></div>
+
+<!-- زر العودة للأعلى -->
+
+<button class="scroll-top">
+
+<i class="fa-solid fa-arrow-up"></i>
+
+</button>
+
+<script type="module" src="js/app.js"></script>
+
+</body>
+
+</html>
