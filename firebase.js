@@ -9,7 +9,6 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 
-
 import {
 
 getFirestore
@@ -22,23 +21,30 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 
-// ضع بيانات Firebase الخاصة بك هنا
+/*==================================
+Firebase Configuration
+==================================*/
 
 
 const firebaseConfig = {
 
 
-apiKey:"ضع_api_key",
+apiKey:"ضع_API_KEY_هنا",
 
-authDomain:"ضع_auth_domain",
 
-projectId:"ضع_project_id",
+authDomain:"ضع_AUTH_DOMAIN_هنا",
 
-storageBucket:"ضع_storage_bucket",
 
-messagingSenderId:"ضع_sender_id",
+projectId:"ضع_PROJECT_ID_هنا",
 
-appId:"ضع_app_id"
+
+storageBucket:"ضع_STORAGE_BUCKET_هنا",
+
+
+messagingSenderId:"ضع_MESSAGING_SENDER_ID_هنا",
+
+
+appId:"ضع_APP_ID_هنا"
 
 
 };
@@ -46,6 +52,10 @@ appId:"ضع_app_id"
 
 
 
+
+/*==================================
+Initialize Firebase
+==================================*/
 
 
 const app = initializeApp(firebaseConfig);
@@ -55,6 +65,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 
+
+
+
+/*==================================
+Exports
+==================================*/
 
 
 export {
@@ -67,4 +83,23 @@ db
 
 
 
-console.log("Firebase Connected ✅");
+
+
+/*==================================
+Collections
+==================================*/
+
+
+export const PRODUCTS = "products";
+
+export const ORDERS = "orders";
+
+export const CATEGORIES = "categories";
+
+export const OFFERS = "offers";
+
+
+
+
+
+console.log("🔥 Hamza Store Firebase Ready");
