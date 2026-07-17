@@ -1,6 +1,6 @@
 /*==================================
-Hamza Store V8
-Utils JS
+Hamza Store V9
+Professional Utils JS
 ==================================*/
 
 
@@ -10,11 +10,19 @@ CART
 
 export function getCart(){
 
+try{
+
 return JSON.parse(
 
-localStorage.getItem("cart")||"[]"
+localStorage.getItem("cart") || "[]"
 
 );
+
+}catch{
+
+return [];
+
+}
 
 }
 
@@ -48,7 +56,7 @@ item=>item.id===product.id
 
 if(index>-1){
 
-cart[index].qty++;
+cart[index].qty=(cart[index].qty||1)+1;
 
 }else{
 
@@ -68,11 +76,13 @@ showToast("تمت إضافة المنتج إلى السلة 🛒");
 
 }
 
-
+/*========================
+REMOVE FROM CART
+========================*/
 
 export function removeFromCart(id){
 
-let cart=getCart().filter(
+const cart=getCart().filter(
 
 item=>item.id!==id
 
@@ -86,9 +96,13 @@ showToast("تم حذف المنتج من السلة");
 
 
 
+/*========================
+CHANGE QTY
+========================*/
+
 export function changeQty(id,value){
 
-let cart=getCart();
+const cart=getCart();
 
 const item=cart.find(
 
@@ -98,9 +112,9 @@ p=>p.id===id
 
 if(!item) return;
 
-item.qty+=value;
+item.qty=(item.qty||1)+value;
 
-if(item.qty<1){
+if(item.qty<=0){
 
 removeFromCart(id);
 
@@ -109,6 +123,20 @@ return;
 }
 
 saveCart(cart);
+
+}
+
+
+
+/*========================
+CLEAR CART
+========================*/
+
+export function clearCart(){
+
+localStorage.removeItem("cart");
+
+updateCartCount();
 
 }
 
@@ -126,7 +154,7 @@ if(!badge) return;
 
 const total=getCart().reduce(
 
-(sum,item)=>sum+item.qty,
+(sum,item)=>sum+(item.qty||1),
 
 0
 
@@ -134,19 +162,28 @@ const total=getCart().reduce(
 
 badge.textContent=total;
 
-}
+badge.style.display=total>0?"flex":"none";
 
+}
 /*========================
 FAVORITES
 ========================*/
 
 export function getFavorites(){
 
+try{
+
 return JSON.parse(
 
-localStorage.getItem("favorites")||"[]"
+localStorage.getItem("favorites") || "[]"
 
 );
+
+}catch{
+
+return [];
+
+}
 
 }
 
@@ -197,6 +234,22 @@ saveFavorites(list);
 
 
 /*========================
+CHECK FAVORITE
+========================*/
+
+export function isFavorite(id){
+
+return getFavorites().some(
+
+item=>item.id===id
+
+);
+
+}
+
+
+
+/*========================
 TOAST
 ========================*/
 
@@ -220,25 +273,81 @@ toast.textContent=message;
 
 toast.classList.add("show");
 
-setTimeout(()=>{
+clearTimeout(window.toastTimer);
+
+window.toastTimer=setTimeout(()=>{
 
 toast.classList.remove("show");
 
 },2500);
 
 }
-
-
-
 /*========================
-IMAGE
+SAFE IMAGE V2
 ========================*/
 
 export function safeImage(url){
 
-if(!url) return "./images/no-image.png";
+const fallback="./IMG_5661.jpeg";
+
+if(!url) return fallback;
+
+try{
+
+url=String(url).trim();
+
+if(url==="") return fallback;
+
+/* إذا تم لصق كود HTML بدلاً من الرابط */
+
+if(url.includes('src="')){
+
+const match=url.match(/src="([^"]+)"/);
+
+if(match) url=match[1];
+
+}
+
+/* معالجة الروابط التي تبدأ بـ // */
+
+if(url.startsWith("//")){
+
+url="https:"+url;
+
+}
+
+/* يجب أن يكون الرابط http أو https */
+
+if(
+!url.startsWith("http://") &&
+!url.startsWith("https://")
+){
+
+return fallback;
+
+}
+
+/* تحويل روابط Google Drive */
+
+if(url.includes("drive.google.com/file/d/")){
+
+const id=url.split("/d/")[1]?.split("/")[0];
+
+if(id){
+
+url=`https://drive.google.com/uc?export=view&id=${id}`;
+
+}
+
+}
 
 return url;
+
+}catch{
+
+return fallback;
+
+}
 
 }
 
@@ -250,7 +359,11 @@ PRICE
 
 export function formatPrice(price){
 
-return Number(price).toLocaleString("ar-IQ")+" د.ع";
+const value=Number(price);
+
+if(isNaN(value)) return "0 د.ع";
+
+return value.toLocaleString("ar-IQ")+" د.ع";
 
 }
 
@@ -262,6 +375,14 @@ DATE
 
 export function formatDate(date){
 
+try{
+
 return new Date(date).toLocaleDateString("ar-IQ");
+
+}catch{
+
+return "";
+
+}
 
 }
