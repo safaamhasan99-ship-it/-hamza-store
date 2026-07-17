@@ -1,31 +1,171 @@
-// firebase.js
+/*==================================
+Hamza Store V5
+Firebase Config
+==================================*/
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-import {
-  getFirestore
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-import {
-  getStorage
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+/*==================================
+Firebase Config
+==================================*/
 
-import {
-  getAuth
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const firebaseConfig={
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCcaOIwNodH5IESCShyYQkpHBFiywzIi-4",
-  authDomain: "hamza-shatri-store.firebaseapp.com",
-  projectId: "hamza-shatri-store",
-  storageBucket: "hamza-shatri-store.firebasestorage.app",
-  messagingSenderId: "372483512160",
-  appId: "1:372483512160:web:b594dd13f4774db6d13005",
-  measurementId: "G-B98RK4FDZ9"
+apiKey:"",
+
+authDomain:"",
+
+projectId:"",
+
+storageBucket:"",
+
+messagingSenderId:"",
+
+appId:""
+
 };
 
-const app = initializeApp(firebaseConfig);
+const app=initializeApp(firebaseConfig);
 
-export const db = getFirestore(app);
-export const storage = getStorage(app);
-export const auth = getAuth(app);
+export const db=getFirestore(app);
+/*==================================
+Exports
+==================================*/
+
+export { app };
+
+/*==================================
+Collections
+==================================*/
+
+export const COLLECTIONS={
+
+products:"products",
+
+orders:"orders",
+
+categories:"categories",
+
+offers:"offers",
+
+settings:"settings"
+
+};
+
+/*==================================
+Helpers
+==================================*/
+
+export function productsRef(){
+
+return COLLECTIONS.products;
+
+}
+
+export function ordersRef(){
+
+return COLLECTIONS.orders;
+
+}
+
+export function categoriesRef(){
+
+return COLLECTIONS.categories;
+
+}
+
+export function offersRef(){
+
+return COLLECTIONS.offers;
+
+}
+
+export function settingsRef(){
+
+return COLLECTIONS.settings;
+
+}
+
+/*==================================
+Version
+==================================*/
+
+export const APP_NAME="Hamza Store";
+
+export const APP_VERSION="5.0 Ultimate";
+
+console.log(
+`${APP_NAME} ${APP_VERSION} Loaded`
+);
+/*==================================
+Firestore Helpers
+==================================*/
+
+import{
+
+collection,
+doc
+
+}from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/*========== Collections ==========*/
+
+export function productsCollection(){
+
+return collection(db,COLLECTIONS.products);
+
+}
+
+export function ordersCollection(){
+
+return collection(db,COLLECTIONS.orders);
+
+}
+
+export function categoriesCollection(){
+
+return collection(db,COLLECTIONS.categories);
+
+}
+
+export function offersCollection(){
+
+return collection(db,COLLECTIONS.offers);
+
+}
+
+/*========== Documents ==========*/
+
+export function productDoc(id){
+
+return doc(db,COLLECTIONS.products,id);
+
+}
+
+export function orderDoc(id){
+
+return doc(db,COLLECTIONS.orders,id);
+
+}
+
+export function categoryDoc(id){
+
+return doc(db,COLLECTIONS.categories,id);
+
+}
+
+export function offerDoc(id){
+
+return doc(db,COLLECTIONS.offers,id);
+
+}
+
+/*==================================
+Ready
+==================================*/
+
+console.log("Firebase Ready ✅");
