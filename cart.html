@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>السلة | مجمع حمزه الشطري</title>
@@ -14,12 +13,12 @@
 <link rel="icon" href="./IMG_5661.jpeg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 <link rel="stylesheet" href="./style.css">
 
@@ -37,7 +36,7 @@
 
 <h1>سلة التسوق</h1>
 
-<p>راجع طلبك قبل الإرسال</p>
+<p>راجع طلبك قبل إرسال الطلب</p>
 
 </div>
 
@@ -55,8 +54,6 @@
 
 </header>
 
-
-
 <section class="cart-page">
 
 <div class="section-head">
@@ -71,23 +68,16 @@
 
 </div>
 
-
-
 <div id="cartItems" class="cart-items">
 
-<!-- سيتم تحميل المنتجات هنا -->
+<!-- يتم تحميل المنتجات هنا -->
 
 </div>
-
-  <div class="cart-summary">
+<div class="cart-summary">
 
 <div class="summary-card">
 
-<h3>
-
-ملخص الطلب
-
-</h3>
+<h3>ملخص الطلب</h3>
 
 <div class="summary-row">
 
@@ -101,7 +91,7 @@
 
 <span>الإجمالي</span>
 
-<strong id="cartTotal">0 د.ع</strong>
+<strong id="totalPrice">0 د.ع</strong>
 
 </div>
 
@@ -135,10 +125,7 @@ class="continue-shopping">
 
 </div>
 
-</section>
-
-
-
+</div>
 <template id="emptyCartTemplate">
 
 <div class="empty-cart">
@@ -146,15 +133,11 @@ class="continue-shopping">
 <i class="fa-solid fa-cart-shopping"></i>
 
 <h2>
-
 السلة فارغة
-
 </h2>
 
 <p>
-
 لم تقم بإضافة أي منتج بعد
-
 </p>
 
 <a
@@ -168,10 +151,6 @@ class="hero-btn">
 </div>
 
 </template>
-
-  <!--========================
-FOOTER
-=========================-->
 
 <footer class="footer">
 
@@ -196,14 +175,6 @@ FOOTER
 </p>
 
 </footer>
-
-
-
-
-
-<!--========================
-BOTTOM NAVIGATION
-=========================-->
 
 <nav class="bottom-nav">
 
@@ -249,40 +220,18 @@ BOTTOM NAVIGATION
 
 </nav>
 
-
-
-
-
-<!--========================
-LOADER
-=========================-->
-
 <div id="loader" class="loader">
 
 <div class="loader-spinner"></div>
 
 </div>
 
-
-
-
-
-<!--========================
-TOAST
-=========================-->
-
 <div id="toast" class="toast"></div>
-
-
-
-
-
 <!--========================
 SCRIPTS
 =========================-->
 
 <script type="module" src="./js/utils.js"></script>
-
 <script type="module" src="./js/cart.js"></script>
 
 </body>
