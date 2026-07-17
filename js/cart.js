@@ -1,5 +1,5 @@
 /*==================================
-Hamza Store V5
+Hamza Store V6
 Cart Page
 ==================================*/
 
@@ -10,27 +10,39 @@ saveCart,
 removeFromCart,
 formatPrice,
 showToast,
-updateCartCount
+updateCartCount,
+imageOrDefault
 
-}from"./utils.js";
+}from "./utils.js";
 
-const cartItems=
-document.getElementById("cartItems");
+/*==================================
+Elements
+==================================*/
 
-const itemsCount=
-document.getElementById("itemsCount");
+const cartItems=document.getElementById("cartItems");
 
-const totalPrice=
-document.getElementById("totalPrice");
+const emptyCart=document.getElementById("emptyCart");
 
-const checkoutBtn=
-document.getElementById("checkoutBtn");
+const itemsCount=document.getElementById("itemsCount");
+
+const totalPrice=document.getElementById("totalPrice");
+
+const checkoutBtn=document.getElementById("checkoutBtn");
 
 let cart=getCart();
 
+/*==================================
+Start
+==================================*/
+
 updateCartCount();
 
+if(cartItems){
+
 renderCart();
+
+}
+
 /*==================================
 Render Cart
 ==================================*/
@@ -39,21 +51,39 @@ function renderCart(){
 
 cart=getCart();
 
+if(!cartItems) return;
+
 cartItems.innerHTML="";
 
 if(cart.length===0){
 
-document.getElementById("emptyCart").style.display="block";
+if(emptyCart){
+
+emptyCart.style.display="block";
+
+}
+
+if(itemsCount){
 
 itemsCount.textContent="0";
 
-totalPrice.textContent="0 د.ع";
+}
+
+if(totalPrice){
+
+totalPrice.textContent=formatPrice(0);
+
+}
 
 return;
 
 }
 
-document.getElementById("emptyCart").style.display="none";
+if(emptyCart){
+
+emptyCart.style.display="none";
+
+}
 
 let total=0;
 
@@ -63,7 +93,7 @@ cart.forEach(item=>{
 
 qty+=item.qty;
 
-total+=item.price*item.qty;
+total+=Number(item.price)*item.qty;
 
 cartItems.innerHTML+=`
 
@@ -71,7 +101,10 @@ cartItems.innerHTML+=`
 
 <div class="cart-image">
 
-<img src="${item.image}">
+<img
+src="${imageOrDefault(item.image)}"
+alt="${item.name||''}"
+loading="lazy">
 
 </div>
 
@@ -93,11 +126,7 @@ ${formatPrice(item.price)}
 
 </button>
 
-<span>
-
-${item.qty}
-
-</span>
+<span>${item.qty}</span>
 
 <button onclick="changeQty('${item.id}',1)">
 
@@ -110,6 +139,7 @@ ${item.qty}
 </div>
 
 <button
+
 class="delete-item"
 
 onclick="deleteItem('${item.id}')">
@@ -128,11 +158,12 @@ itemsCount.textContent=qty;
 
 totalPrice.textContent=formatPrice(total);
 
-}/*==================================
+}
+/*==================================
 Cart Actions
 ==================================*/
 
-window.changeQty=function(id,change){
+window.changeQty=(id,change)=>{
 
 const index=cart.findIndex(item=>item.id===id);
 
@@ -158,7 +189,7 @@ updateCartCount();
 Delete Item
 ==================================*/
 
-window.deleteItem=function(id){
+window.deleteItem=(id)=>{
 
 if(!confirm("هل تريد حذف هذا المنتج من السلة؟")) return;
 
@@ -178,6 +209,8 @@ showToast("تم حذف المنتج من السلة");
 Checkout
 ==================================*/
 
+if(checkoutBtn){
+
 checkoutBtn.onclick=()=>{
 
 cart=getCart();
@@ -190,17 +223,17 @@ return;
 
 }
 
-const name=document.getElementById("customerName").value.trim();
+const name=document.getElementById("customerName")?.value.trim()||"";
 
-const phone=document.getElementById("customerPhone").value.trim();
+const phone=document.getElementById("customerPhone")?.value.trim()||"";
 
-const city=document.getElementById("customerCity").value.trim();
+const city=document.getElementById("customerCity")?.value.trim()||"";
 
-const address=document.getElementById("customerAddress").value.trim();
+const address=document.getElementById("customerAddress")?.value.trim()||"";
 
-const notes=document.getElementById("customerNotes").value.trim();
+const notes=document.getElementById("customerNotes")?.value.trim()||"";
 
-if(name==="" || phone===""){
+if(name===""||phone===""){
 
 showToast("يرجى إدخال الاسم ورقم الهاتف");
 
@@ -208,12 +241,22 @@ return;
 
 }
 
-let message=`🛍️ طلب جديد من متجر مجمع حمزه الشطري\n\n`;
+let message="🛍️ طلب جديد من متجر مجمع حمزه الشطري\n\n";
 
 message+=`👤 الاسم: ${name}\n`;
 message+=`📞 الهاتف: ${phone}\n`;
+
+if(city){
+
 message+=`📍 المحافظة: ${city}\n`;
+
+}
+
+if(address){
+
 message+=`🏠 العنوان: ${address}\n`;
+
+}
 
 if(notes){
 
@@ -221,15 +264,15 @@ message+=`📝 ملاحظات: ${notes}\n`;
 
 }
 
-message+=`\n-------------------------\n`;
+message+="\n-------------------------\n\n";
 
 let total=0;
 
 cart.forEach(item=>{
 
-const sub=item.price*item.qty;
+const subtotal=Number(item.price)*item.qty;
 
-total+=sub;
+total+=subtotal;
 
 message+=`${item.name}\n`;
 
@@ -237,22 +280,26 @@ message+=`الكمية: ${item.qty}\n`;
 
 message+=`السعر: ${formatPrice(item.price)}\n`;
 
-message+=`المجموع: ${formatPrice(sub)}\n\n`;
+message+=`المجموع: ${formatPrice(subtotal)}\n\n`;
 
 });
 
 message+=`💰 الإجمالي: ${formatPrice(total)}`;
 
-const whatsappUrl=
+window.open(
 
-`https://wa.me/9647813555538?text=${encodeURIComponent(message)}`;
+`https://wa.me/9647813555538?text=${encodeURIComponent(message)}`,
 
-window.open(whatsappUrl,"_blank");
+"_blank"
+
+);
 
 };
 
+}
+
 /*==================================
-Page Ready
+Ready
 ==================================*/
 
-console.log("Cart Ready ✅");
+console.log("Cart Page Ready ✅");
