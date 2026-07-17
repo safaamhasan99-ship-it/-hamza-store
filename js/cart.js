@@ -1,28 +1,49 @@
 /*==================================
-مجمع حمزه الشطري
-Professional Cart V5
+Hamza Store V5
+Cart Page
 ==================================*/
 
-const cartItems=document.getElementById("cartItems");
-const itemsCount=document.getElementById("itemsCount");
-const totalPrice=document.getElementById("totalPrice");
-const checkoutBtn=document.getElementById("checkoutBtn");
+import{
 
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
+getCart,
+saveCart,
+removeFromCart,
+formatPrice,
+showToast,
+updateCartCount
+
+}from"./utils.js";
+
+const cartItems=
+document.getElementById("cartItems");
+
+const itemsCount=
+document.getElementById("itemsCount");
+
+const totalPrice=
+document.getElementById("totalPrice");
+
+const checkoutBtn=
+document.getElementById("checkoutBtn");
+
+let cart=getCart();
+
+updateCartCount();
 
 renderCart();
-
-/*=========================
-عرض السلة
-=========================*/
+/*==================================
+Render Cart
+==================================*/
 
 function renderCart(){
+
+cart=getCart();
+
+cartItems.innerHTML="";
 
 if(cart.length===0){
 
 document.getElementById("emptyCart").style.display="block";
-
-cartItems.style.display="none";
 
 itemsCount.textContent="0";
 
@@ -34,26 +55,23 @@ return;
 
 document.getElementById("emptyCart").style.display="none";
 
-cartItems.style.display="block";
-
-cartItems.innerHTML="";
-
 let total=0;
-let count=0;
 
-cart.forEach((item,index)=>{
+let qty=0;
+
+cart.forEach(item=>{
+
+qty+=item.qty;
 
 total+=item.price*item.qty;
 
-count+=item.qty;
-
 cartItems.innerHTML+=`
 
-<div class="cart-item fade-up">
+<div class="cart-item">
 
 <div class="cart-image">
 
-<img src="${item.image}" alt="">
+<img src="${item.image}">
 
 </div>
 
@@ -63,29 +81,25 @@ cartItems.innerHTML+=`
 
 <p class="cart-product-price">
 
-${Number(item.price).toLocaleString()} د.ع
+${formatPrice(item.price)}
 
 </p>
 
 <div class="cart-qty">
 
-<button class="qty-minus"
-
-onclick="changeQty(${index},-1)">
+<button onclick="changeQty('${item.id}',-1)">
 
 <i class="fa-solid fa-minus"></i>
 
 </button>
 
-<span class="qty-value">
+<span>
 
 ${item.qty}
 
 </span>
 
-<button class="qty-plus"
-
-onclick="changeQty(${index},1)">
+<button onclick="changeQty('${item.id}',1)">
 
 <i class="fa-solid fa-plus"></i>
 
@@ -95,9 +109,10 @@ onclick="changeQty(${index},1)">
 
 </div>
 
-<button class="delete-item"
+<button
+class="delete-item"
 
-onclick="removeItem(${index})">
+onclick="deleteItem('${item.id}')">
 
 <i class="fa-solid fa-trash"></i>
 
@@ -109,17 +124,19 @@ onclick="removeItem(${index})">
 
 });
 
-itemsCount.textContent=count;
+itemsCount.textContent=qty;
 
-totalPrice.textContent=
-`${total.toLocaleString()} د.ع`;
+totalPrice.textContent=formatPrice(total);
 
-}
-/*=========================
-تغيير الكمية
-=========================*/
+}/*==================================
+Cart Actions
+==================================*/
 
-window.changeQty=function(index,change){
+window.changeQty=function(id,change){
+
+const index=cart.findIndex(item=>item.id===id);
+
+if(index===-1) return;
 
 cart[index].qty+=change;
 
@@ -129,70 +146,41 @@ cart.splice(index,1);
 
 }
 
-saveCart();
-
-};
-
-/*=========================
-حذف منتج
-=========================*/
-
-window.removeItem=function(index){
-
-if(confirm("هل تريد حذف هذا المنتج من السلة؟")){
-
-cart.splice(index,1);
-
-saveCart();
-
-showToast("تم حذف المنتج");
-
-}
-
-};
-
-/*=========================
-حفظ السلة
-=========================*/
-
-function saveCart(){
-
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
+saveCart(cart);
 
 renderCart();
 
-}
+updateCartCount();
 
-/*=========================
-Toast
-=========================*/
+};
 
-function showToast(message){
+/*==================================
+Delete Item
+==================================*/
 
-const toast=document.getElementById("toast");
+window.deleteItem=function(id){
 
-if(!toast) return;
+if(!confirm("هل تريد حذف هذا المنتج من السلة؟")) return;
 
-toast.textContent=message;
+removeFromCart(id);
 
-toast.classList.add("show");
+cart=getCart();
 
-setTimeout(()=>{
+renderCart();
 
-toast.classList.remove("show");
+updateCartCount();
 
-},2500);
+showToast("تم حذف المنتج من السلة");
 
-}
+};
 
-/*=========================
-إرسال الطلب
-=========================*/
+/*==================================
+Checkout
+==================================*/
 
 checkoutBtn.onclick=()=>{
+
+cart=getCart();
 
 if(cart.length===0){
 
@@ -203,12 +191,16 @@ return;
 }
 
 const name=document.getElementById("customerName").value.trim();
+
 const phone=document.getElementById("customerPhone").value.trim();
+
 const city=document.getElementById("customerCity").value.trim();
+
 const address=document.getElementById("customerAddress").value.trim();
+
 const notes=document.getElementById("customerNotes").value.trim();
 
-if(!name || !phone){
+if(name==="" || phone===""){
 
 showToast("يرجى إدخال الاسم ورقم الهاتف");
 
@@ -216,20 +208,20 @@ return;
 
 }
 
-let message="🛍️ *طلب جديد*%0A%0A";
+let message=`🛍️ طلب جديد من متجر مجمع حمزه الشطري\n\n`;
 
-message+=`👤 الاسم: ${name}%0A`;
-message+=`📞 الهاتف: ${phone}%0A`;
-message+=`📍 المحافظة: ${city}%0A`;
-message+=`🏠 العنوان: ${address}%0A`;
+message+=`👤 الاسم: ${name}\n`;
+message+=`📞 الهاتف: ${phone}\n`;
+message+=`📍 المحافظة: ${city}\n`;
+message+=`🏠 العنوان: ${address}\n`;
 
 if(notes){
 
-message+=`📝 الملاحظات: ${notes}%0A`;
+message+=`📝 ملاحظات: ${notes}\n`;
 
 }
 
-message+="%0A📦 المنتجات:%0A";
+message+=`\n-------------------------\n`;
 
 let total=0;
 
@@ -239,17 +231,28 @@ const sub=item.price*item.qty;
 
 total+=sub;
 
-message+=`• ${item.name}%0A`;
-message+=`الكمية: ${item.qty}%0A`;
-message+=`السعر: ${item.price.toLocaleString()} د.ع%0A`;
-message+=`المجموع: ${sub.toLocaleString()} د.ع%0A%0A`;
+message+=`${item.name}\n`;
+
+message+=`الكمية: ${item.qty}\n`;
+
+message+=`السعر: ${formatPrice(item.price)}\n`;
+
+message+=`المجموع: ${formatPrice(sub)}\n\n`;
 
 });
 
-message+=`💰 الإجمالي: ${total.toLocaleString()} د.ع`;
+message+=`💰 الإجمالي: ${formatPrice(total)}`;
 
-window.open(
-`https://wa.me/9647813555538?text=${message}`,
-"_blank"
-);
+const whatsappUrl=
+
+`https://wa.me/9647813555538?text=${encodeURIComponent(message)}`;
+
+window.open(whatsappUrl,"_blank");
+
 };
+
+/*==================================
+Page Ready
+==================================*/
+
+console.log("Cart Ready ✅");
