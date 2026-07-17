@@ -1,5 +1,5 @@
 /*==================================
-Hamza Store V8
+Hamza Store V11
 Products JS
 ==================================*/
 
@@ -13,20 +13,37 @@ getDocs
 import {
 addToCart,
 toggleFavorite,
+isFavorite,
 formatPrice,
 safeImage,
 updateCartCount
 } from "./utils.js";
 
-const container=document.getElementById("productsContainer");
+/*========================
+ELEMENTS
+========================*/
 
-const searchInput=document.getElementById("searchInput");
+const productsContainer =
+document.getElementById("productsContainer") ||
+document.getElementById("latestProducts");
 
-const categoryFilter=document.getElementById("categoryFilter");
+const bestProductsContainer =
+document.getElementById("bestProducts");
 
-const sortProducts=document.getElementById("sortProducts");
+const searchInput =
+document.getElementById("searchInput");
+
+const categoryFilter =
+document.getElementById("categoryFilter");
+
+const sortProducts =
+document.getElementById("sortProducts");
 
 let products=[];
+
+/*========================
+START
+========================*/
 
 document.addEventListener("DOMContentLoaded",()=>{
 
@@ -36,24 +53,23 @@ loadProducts();
 
 if(searchInput){
 
-searchInput.oninput=filterProducts;
+searchInput.addEventListener("input",filterProducts);
 
 }
 
 if(categoryFilter){
 
-categoryFilter.onchange=filterProducts;
+categoryFilter.addEventListener("change",filterProducts);
 
 }
 
 if(sortProducts){
 
-sortProducts.onchange=filterProducts;
+sortProducts.addEventListener("change",filterProducts);
 
 }
 
 });
-
 /*========================
 LOAD PRODUCTS
 ========================*/
@@ -71,7 +87,6 @@ snap.forEach(doc=>{
 products.push({
 
 id:doc.id,
-
 ...doc.data()
 
 });
@@ -80,24 +95,36 @@ id:doc.id,
 
 filterProducts();
 
-}catch(err){
+renderBestProducts();
 
-console.error(err);
+}catch(error){
 
-container.innerHTML=`
+console.error("Products Error:",error);
 
-<div style="text-align:center;padding:40px">
+if(productsContainer){
 
-حدث خطأ أثناء تحميل المنتجات
-
+productsContainer.innerHTML=`
+<div class="empty-products">
+<i class="fa-solid fa-circle-exclamation"></i>
+<h3>تعذر تحميل المنتجات</h3>
+<p>تحقق من اتصال الإنترنت أو إعدادات Firebase.</p>
 </div>
-
 `;
+}
+
+}finally{
+
+const loader=document.getElementById("loader");
+
+if(loader){
+
+loader.classList.add("hidden");
 
 }
 
 }
 
+}
 /*========================
 CREATE PRODUCT CARD
 ========================*/
@@ -108,20 +135,24 @@ const card=document.createElement("div");
 
 card.className="product-card";
 
+const fav=isFavorite(product.id);
+
 card.innerHTML=`
 
 <div class="product-image">
 
 <img
 src="${safeImage(product.image)}"
-alt="${product.name}"
+alt="${product.name||''}"
 loading="lazy">
 
-${product.offer?'<span class="product-badge">عرض</span>':''}
+${product.offer?
+'<span class="product-badge">عرض</span>'
+:''}
 
 <button class="favorite-btn">
 
-<i class="fa-regular fa-heart"></i>
+<i class="fa-${fav?'solid':'regular'} fa-heart"></i>
 
 </button>
 
@@ -131,7 +162,7 @@ ${product.offer?'<span class="product-badge">عرض</span>':''}
 
 <h3 class="product-title">
 
-${product.name||""}
+${product.name||'بدون اسم'}
 
 </h3>
 
@@ -164,117 +195,45 @@ class="details-btn">
 </div>
 
 `;
-
-card.querySelector(".add-cart").onclick=()=>{
-
-addToCart(product);
-
-};
-
-card.querySelector(".favorite-btn").onclick=()=>{
-
-toggleFavorite(product);
-
-card.querySelector(".favorite-btn i").classList.remove("fa-regular");
-
-card.querySelector(".favorite-btn i").classList.add("fa-solid");
-
-};
-
-return card;
-
-}
-
-/*========================
-SEARCH + FILTER + SORT
+  /*========================
+RENDER PRODUCTS
 ========================*/
 
-function filterProducts(){
+function renderProducts(list){
 
-let list=[...products];
+if(!productsContainer) return;
 
-/* البحث */
+productsContainer.innerHTML="";
 
-const keyword=(searchInput?.value||"").trim().toLowerCase();
+if(!list.length){
 
-if(keyword){
+productsContainer.innerHTML=`
 
-list=list.filter(product=>{
+<div class="empty-products">
 
-return(
+<i class="fa-solid fa-box-open"></i>
 
-(product.name||"").toLowerCase().includes(keyword) ||
+<h3>لا توجد منتجات</h3>
 
-(product.description||"").toLowerCase().includes(keyword)
+<p>لم يتم العثور على أي منتج.</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+list.forEach(product=>{
+
+productsContainer.appendChild(
+
+createCard(product)
 
 );
 
 });
 
 }
-
-/* القسم */
-
-const category=categoryFilter?.value||"";
-
-if(category){
-
-list=list.filter(product=>{
-
-const value=(product.category||"").trim();
-
-return value===category;
-
-});
-
-}
-
-/* الترتيب */
-
-switch(sortProducts?.value){
-
-case "low":
-
-list.sort((a,b)=>
-
-Number(a.price||0)-Number(b.price||0)
-
-);
-
-break;
-
-case "high":
-
-list.sort((a,b)=>
-
-Number(b.price||0)-Number(a.price||0)
-
-);
-
-break;
-
-case "name":
-
-list.sort((a,b)=>
-
-(a.name||"").localeCompare(
-
-b.name||"",
-
-"ar"
-
-)
-
-);
-
-break;
-
-default:
-
-break;
-
-}
-
-renderProducts(list);
-
-}
+  
