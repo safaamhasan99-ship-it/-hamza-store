@@ -1,211 +1,145 @@
 /*==================================
-Hamza Store V7
-Favorites
+Hamza Store V8
+Favorites JS
 ==================================*/
 
-
-import { db } from "./firebase.js";
-
-
 import {
-
-collection,
-getDocs
-
-}
-
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-import {
-
 getFavorites,
-toggleFavorite,
+saveFavorites,
 addToCart,
+updateCartCount,
 formatPrice,
-imageOrDefault,
-updateCartCount
+safeImage
+} from "./utils.js";
 
-}
+const container = document.getElementById("favoritesContainer");
 
-from "./utils.js";
+let favorites = getFavorites();
 
-
-
-
-
-const container =
-
-document.getElementById("favoritesContainer");
-
-
-
-const empty =
-
-document.getElementById("emptyFavorites");
-
-
-
-const template =
-
-document.getElementById("favoriteTemplate");
-
-
-
+document.addEventListener("DOMContentLoaded",()=>{
 
 updateCartCount();
 
-
-
-loadFavorites();
-
-
-
-
-
-
-async function loadFavorites(){
-
-
-if(!container)
-return;
-
-
-
-const favs=getFavorites();
-
-
-
-const snap=
-
-await getDocs(
-
-collection(db,"products")
-
-);
-
-
-
-container.innerHTML="";
-
-
-
-let found=false;
-
-
-
-snap.forEach(doc=>{
-
-
-const product={
-
-id:doc.id,
-
-...doc.data()
-
-};
-
-
-
-if(favs.includes(product.id)){
-
-
-found=true;
-
-
-
-const card=
-
-template.content.cloneNode(true);
-
-
-
-card.querySelector(".product-img").src=
-
-imageOrDefault(product.image);
-
-
-
-card.querySelector(".product-name").textContent=
-
-product.name;
-
-
-
-card.querySelector(".price").textContent=
-
-formatPrice(product.price);
-
-
-
-
-
-card.querySelector(".cart-btn").onclick=()=>{
-
-
-addToCart(product);
-
-
-};
-
-
-
-
-
-card.querySelector(".details-btn").onclick=()=>{
-
-
-location.href=
-
-"details.html?id="+product.id;
-
-
-};
-
-
-
-
-card.querySelector(".favorite-btn").onclick=()=>{
-
-
-toggleFavorite(product);
-
-
-loadFavorites();
-
-
-};
-
-
-
-
-container.appendChild(card);
-
-
-
-}
-
-
+renderFavorites();
 
 });
 
 
+/*========================
+RENDER FAVORITES
+========================*/
 
-if(empty){
+function renderFavorites(){
 
+if(!favorites.length){
 
-empty.style.display=
+const template=document.getElementById("emptyFavoritesTemplate");
 
-found ? "none":"block";
+container.innerHTML=template.innerHTML;
 
+return;
 
 }
 
+container.innerHTML="";
 
+favorites.forEach(product=>{
+
+container.appendChild(createCard(product));
+
+});
 
 }
+/*========================
+CREATE CARD
+========================*/
 
+function createCard(product){
 
+const card=document.createElement("div");
 
+card.className="product-card";
 
-console.log("Favorites Ready ✅");
+card.innerHTML=`
+
+<div class="product-image">
+
+<img src="${safeImage(product.image)}"
+alt="${product.name}">
+
+</div>
+
+<div class="product-info">
+
+<h3 class="product-title">
+
+${product.name}
+
+</h3>
+
+<div class="product-price">
+
+${formatPrice(product.price)}
+
+</div>
+
+<div class="product-actions">
+
+<button class="add-cart">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+إضافة للسلة
+
+</button>
+
+<a
+href="details.html?id=${product.id}"
+class="details-btn">
+
+التفاصيل
+
+</a>
+
+</div>
+
+<button class="remove-favorite">
+
+<i class="fa-solid fa-trash"></i>
+
+إزالة من المفضلة
+
+</button>
+
+</div>
+
+`;
+
+card.querySelector(".add-cart").onclick=()=>{
+
+addToCart(product);
+
+};
+
+card.querySelector(".remove-favorite").onclick=()=>{
+
+removeFavorite(product.id);
+
+};
+
+return card;
+
+}
+/*========================
+REMOVE FAVORITE
+========================*/
+
+function removeFavorite(id){
+
+favorites = favorites.filter(item=>item.id!==id);
+
+saveFavorites(favorites);
+
+renderFavorites();
+
+}
