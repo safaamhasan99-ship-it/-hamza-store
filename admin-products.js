@@ -101,6 +101,8 @@ LOAD PRODUCTS
 
 async function loadProducts(){
 
+  alert("بدأ تحميل المنتجات");
+  
     if(!productsList) return;
 
     productsList.innerHTML = "<p>جاري تحميل المنتجات...</p>";
