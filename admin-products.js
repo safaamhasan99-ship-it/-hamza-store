@@ -403,4 +403,4 @@ document.addEventListener("DOMContentLoaded", () => {
     loadProducts();
 });
 
-});
+
