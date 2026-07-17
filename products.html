@@ -4,50 +4,108 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>جميع المنتجات | مجمع حمزه الشطري</title>
 
-<link rel="stylesheet" href="css/style.css">
+<meta name="theme-color" content="#111827">
+
+<link rel="icon" href="./IMG_5661.jpeg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<link rel="stylesheet" href="./style.css">
 
 </head>
 
 <body>
 
-  <!-- أدوات الفلترة -->
+<header class="header">
+
+<div class="brand">
+
+<img src="./IMG_5661.jpeg" alt="مجمع حمزه الشطري">
+
+<div class="brand-info">
+
+<h1>جميع المنتجات</h1>
+
+<p>تصفح جميع منتجات مجمع حمزه الشطري</p>
+
+</div>
+
+</div>
+
+<div class="header-icons">
+
+<a href="index.html" class="header-btn">
+
+<i class="fa-solid fa-house"></i>
+
+</a>
+
+<a href="favorites.html" class="header-btn">
+
+<i class="fa-solid fa-heart"></i>
+
+</a>
+
+<a href="cart.html" class="header-btn cart-icon">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span id="cartCount">0</span>
+
+</a>
+
+</div>
+
+</header>
+
+<section class="search-box">
+
+<input
+id="searchInput"
+type="search"
+placeholder="ابحث عن منتج...">
+
+<button class="search-btn">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+</button>
+
+</section>
 
 <section class="filters">
-
-<div class="filter-box">
 
 <select id="categoryFilter">
 
 <option value="">جميع الأقسام</option>
 
-<option value="رجالي">رجالي</option>
+<option value="men">رجالي</option>
 
-<option value="نسائي">نسائي</option>
+<option value="women">نسائي</option>
 
-<option value="ولادي">ولادي</option>
+<option value="boys">ولادي</option>
 
-<option value="بناتي">بناتي</option>
+<option value="girls">بناتي</option>
 
-<option value="بنطرونات">بنطرونات</option>
+<option value="pants">بنطرونات</option>
 
-<option value="جوارب">جوارب</option>
+<option value="socks">جوارب</option>
 
-<option value="حجابات">حجابات</option>
+<option value="underwear">داخليات</option>
 
-<option value="داخليات">داخليات</option>
+<option value="hijabs">حجابات</option>
 
 </select>
 
@@ -55,41 +113,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <option value="new">الأحدث</option>
 
-<option value="low">السعر: الأقل أولاً</option>
+<option value="low">السعر الأقل</option>
 
-<option value="high">السعر: الأعلى أولاً</option>
+<option value="high">السعر الأعلى</option>
 
 <option value="name">الاسم</option>
 
 </select>
 
-</div>
-
 </section>
-
-
-
-<!-- عنوان الصفحة -->
-
-<section class="section-head">
-
-<h2>
-
-جميع المنتجات
-
-</h2>
-
-<p>
-
-اكتشف أحدث موديلات مجمع حمزه الشطري
-
-</p>
-
-</section>
-
-
-
-<!-- المنتجات -->
 
 <section class="products-section">
 
@@ -97,26 +129,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 id="productsContainer"
 class="products-grid">
 
-<!-- يتم تحميل المنتجات من Firebase -->
-
 </div>
 
 </section>
-
-
-
-<!-- زر العودة للأعلى -->
-
-<button
-class="scroll-top">
-
-<i class="fa-solid fa-arrow-up"></i>
-
-</button>
-
-
-
-<!-- شريط التنقل السفلي -->
+<!--========================
+BOTTOM NAVIGATION
+=========================-->
 
 <nav class="bottom-nav">
 
@@ -138,7 +156,7 @@ class="scroll-top">
 
 <a href="favorites.html">
 
-<i class="fa-regular fa-heart"></i>
+<i class="fa-solid fa-heart"></i>
 
 <span>المفضلة</span>
 
@@ -152,128 +170,48 @@ class="scroll-top">
 
 </a>
 
+<a href="about.html">
+
+<i class="fa-solid fa-user"></i>
+
+<span>من نحن</span>
+
+</a>
+
 </nav>
 
 
 
-<script type="module" src="js/app.js"></script>
+<!--========================
+LOADER
+=========================-->
+
+<div id="loader" class="loader">
+
+<div class="loader-spinner"></div>
+
+</div>
+
+
+
+<!--========================
+TOAST
+=========================-->
+
+<div id="toast" class="toast"></div>
+
+
+
+<!--========================
+SCRIPTS
+=========================-->
+
+<script type="module" src="./js/utils.js"></script>
+
+<script type="module" src="./js/products.js"></script>
+
+<script type="module" src="./js/main.js"></script>
 
 </body>
 
 </html>
-<!-- Product Template -->
-
-<template id="productTemplate">
-
-<div class="product-card fade-up">
-
-<div class="product-image">
-
-<img class="product-img"
-src=""
-alt=""
-loading="lazy">
-
-<div class="product-badges">
-
-<span class="badge new">
-
-جديد
-
-</span>
-
-<span class="badge stock">
-
-متوفر
-
-</span>
-
-</div>
-
-<button class="favorite-btn">
-
-<i class="fa-regular fa-heart"></i>
-
-</button>
-
-</div>
-
-<div class="product-content">
-
-<h3 class="product-name">
-
-اسم المنتج
-
-</h3>
-
-<div class="rating">
-
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star-half-stroke"></i>
-
-<span>4.9</span>
-
-</div>
-
-<div class="price-box">
-
-<span class="price">
-
-0 د.ع
-
-</span>
-
-<span class="old-price">
-
-</span>
-
-</div>
-
-<div class="product-buttons">
-
-<button class="details-btn">
-
-<i class="fa-solid fa-eye"></i>
-
-عرض
-
-</button>
-
-<button class="cart-btn">
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-إضافة للسلة
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</template>
-
-<!-- Toast -->
-
-<div class="toast">
-
-تمت إضافة المنتج إلى السلة
-
-</div>
-
-<!-- Loading -->
-
-<div id="loadingProducts"
-
-style="display:none"
-
-class="loading">
-
-جاري تحميل المنتجات...
-
-</div>
