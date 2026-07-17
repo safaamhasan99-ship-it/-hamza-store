@@ -27,7 +27,7 @@ content="مجمع حمزه الشطري - بيع الملابس بالجملة">
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="style.css">
 
 
 </head>
@@ -36,14 +36,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 <body>
 
 
-
 <header class="header">
 
 
 <div class="brand">
 
 
-<img src="images/logo.png">
+<img src="images/logo.png" alt="logo">
 
 
 <div>
@@ -89,11 +88,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-
 <span id="cartCount">
 0
 </span>
-
 
 </a>
 
@@ -106,20 +103,25 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 
 
+
 <section class="search-box">
 
 
-<i class="fa-solid fa-search"></i>
+<i class="fa-solid fa-magnifying-glass"></i>
 
 
-<input id="searchInput"
+<input 
+id="searchInput"
+type="search"
 placeholder="ابحث عن منتج...">
 
 
 </section>
-<!--========================
-HERO
-=========================-->
+
+
+
+
+<!-- HERO -->
 
 <section class="hero-slider">
 
@@ -134,7 +136,9 @@ HERO
 
 
 <span class="hero-badge">
+
 🔥 عروض الأسبوع
+
 </span>
 
 
@@ -148,12 +152,9 @@ HERO
 </p>
 
 
-
 <a href="products.html" class="hero-btn">
 
 تسوق الآن
-
-<i class="fa-solid fa-arrow-left"></i>
 
 </a>
 
@@ -162,6 +163,7 @@ HERO
 
 
 </div>
+
 
 
 
@@ -176,7 +178,9 @@ HERO
 
 
 <span class="hero-badge">
+
 ⭐ موديلات جديدة
+
 </span>
 
 
@@ -186,9 +190,8 @@ HERO
 
 
 <p>
-رجالي ونسائي وولادي بأسعار الجملة
+موديلات رجالية ونسائية وولادية
 </p>
-
 
 
 <a href="products.html" class="hero-btn">
@@ -204,68 +207,8 @@ HERO
 </div>
 
 
-
-
-
-<div class="hero-slide">
-
-
-<img src="images/socks/product1.jpg">
-
-
-<div class="hero-overlay">
-
-
-<span class="hero-badge">
-💎 جودة مميزة
-</span>
-
-
-<h2>
-أفضل الأسعار للتجار
-</h2>
-
-
-<p>
-توصيل لجميع محافظات العراق
-</p>
-
-
-<a href="offers.html" class="hero-btn">
-
-العروض
-
-</a>
-
-
-</div>
-
-
-</div>
-
-
-
-<div class="hero-dots">
-
-<span class="hero-dot active"></span>
-
-<span class="hero-dot"></span>
-
-<span class="hero-dot"></span>
-
-</div>
-
-
 </section>
-
-
-
-
-
-
-<!--========================
-الأقسام
-=========================-->
+<!-- الأقسام -->
 
 <section class="categories-section">
 
@@ -282,9 +225,10 @@ HERO
 </h2>
 
 
-
 <a href="products.html">
+
 عرض الكل
+
 </a>
 
 
@@ -293,72 +237,87 @@ HERO
 
 
 
-<div class="categories-slider">
+
+<div class="categories-grid">
 
 
 
-<a href="men.html" class="category-item">
+<a href="men.html" class="category-card">
+
 
 <img src="images/men/product1.jpg">
 
-<span>
+
+<h3>
 رجالي
-</span>
+</h3>
+
 
 </a>
 
 
 
 
-<a href="women.html" class="category-item">
+<a href="women.html" class="category-card">
+
 
 <img src="images/women/product1.jpg">
 
-<span>
+
+<h3>
 نسائي
-</span>
+</h3>
+
 
 </a>
 
 
 
 
-<a href="boys.html" class="category-item">
+<a href="boys.html" class="category-card">
+
 
 <img src="images/boys/product1.jpg">
 
-<span>
+
+<h3>
 ولادي
-</span>
+</h3>
+
 
 </a>
 
 
 
 
-<a href="girls.html" class="category-item">
+<a href="girls.html" class="category-card">
+
 
 <img src="images/girls/product1.jpg">
 
-<span>
+
+<h3>
 بناتي
-</span>
+</h3>
+
 
 </a>
 
 
 
 
-<a href="socks.html" class="category-item">
+<a href="socks.html" class="category-card">
+
 
 <img src="images/socks/product1.jpg">
 
-<span>
+
+<h3>
 جوارب
-</span>
+</h3>
+
 
 </a>
-
 
 
 
@@ -366,9 +325,13 @@ HERO
 
 
 </section>
-<!--========================
-أحدث المنتجات
-=========================-->
+
+
+
+
+
+
+<!-- أحدث المنتجات -->
 
 <section class="products-section">
 
@@ -397,10 +360,12 @@ HERO
 
 
 
+
+
 <div id="productsContainer" class="products-grid">
 
-</div>
 
+</div>
 
 
 </section>
@@ -409,9 +374,9 @@ HERO
 
 
 
-<!--========================
-قالب المنتج
-=========================-->
+
+<!-- قالب المنتج -->
+
 
 <template id="productTemplate">
 
@@ -419,37 +384,22 @@ HERO
 <div class="product-card">
 
 
+
 <div class="product-image">
 
 
-<img class="product-img"
+<img 
+class="product-img"
 src=""
-alt="منتج">
+alt="product">
 
 
 
 <button class="favorite-btn">
 
-
 <i class="fa-regular fa-heart"></i>
 
-
 </button>
-
-
-
-<div class="product-badges">
-
-
-<span class="badge new">
-
-جديد
-
-</span>
-
-
-</div>
-
 
 
 </div>
@@ -467,7 +417,6 @@ alt="منتج">
 
 <div class="rating">
 
-
 <i class="fa-solid fa-star"></i>
 
 <i class="fa-solid fa-star"></i>
@@ -477,7 +426,6 @@ alt="منتج">
 <i class="fa-solid fa-star"></i>
 
 <i class="fa-solid fa-star"></i>
-
 
 </div>
 
@@ -495,16 +443,13 @@ alt="منتج">
 
 
 
+
 <div class="product-buttons">
 
 
 <button class="details-btn">
 
-
-<i class="fa-solid fa-eye"></i>
-
 عرض
-
 
 </button>
 
@@ -512,181 +457,9 @@ alt="منتج">
 
 <button class="cart-btn">
 
-
 <i class="fa-solid fa-cart-shopping"></i>
-
-إضافة للس
-  <!--========================
-أحدث المنتجات
-=========================-->
-
-<section class="products-section">
-
-
-<div class="section-head">
-
-
-<h2>
-
-<i class="fa-solid fa-fire"></i>
-
-أحدث المنتجات
-
-</h2>
-
-
-<a href="products.html">
-
-عرض الكل
-
-</a>
-
-
-</div>
-
-
-
-
-<div id="productsContainer" class="products-grid">
-
-
-<!-- Firebase loads products here -->
-
-
-</div>
-
-
-
-</section>
-
-
-
-
-
-<!--========================
-PRODUCT TEMPLATE
-=========================-->
-
-<template id="productTemplate">
-
-
-<div class="product-card">
-
-
-
-<div class="product-image">
-
-
-<img
-class="product-img"
-src=""
-alt=""
-loading="lazy">
-
-
-
-<div class="product-badges">
-
-
-<span class="badge new">
-
-جديد
-
-</span>
-
-
-</div>
-
-
-
-<button class="favorite-btn">
-
-
-<i class="fa-regular fa-heart"></i>
-
-
-</button>
-
-
-</div>
-
-
-
-
-
-<div class="product-content">
-
-
-
-<h3 class="product-name">
-
-</h3>
-
-
-
-
-
-<div class="rating">
-
-
-<i class="fa-solid fa-star"></i>
-
-<i class="fa-solid fa-star"></i>
-
-<i class="fa-solid fa-star"></i>
-
-<i class="fa-solid fa-star"></i>
-
-<i class="fa-solid fa-star"></i>
-
-
-</div>
-
-
-
-
-
-<div class="price-box">
-
-
-<span class="price">
-
-</span>
-
-
-</div>
-
-
-
-
-
-<div class="product-buttons">
-
-
-
-<button class="details-btn">
-
-
-<i class="fa-solid fa-eye"></i>
-
-
-عرض
-
-
-</button>
-
-
-
-
-
-<button class="cart-btn">
-
-
-<i class="fa-solid fa-cart-shopping"></i>
-
 
 إضافة للسلة
-
 
 </button>
 
@@ -704,15 +477,7 @@ loading="lazy">
 
 
 </template>
-
-
-
-
-
-
-<!--========================
-العروض
-=========================-->
+<!-- العروض -->
 
 <section class="offers-section">
 
@@ -733,7 +498,7 @@ loading="lazy">
 
 
 
-<div class="offers-slider">
+<div class="offers-grid">
 
 
 
@@ -744,21 +509,16 @@ loading="lazy">
 
 
 <h3>
-
 خصومات الجملة
-
 </h3>
 
 
 <p>
-
 أفضل الأسعار للتجار
-
 </p>
 
 
 </div>
-
 
 
 
@@ -770,16 +530,12 @@ loading="lazy">
 
 
 <h3>
-
 توصيل سريع
-
 </h3>
 
 
 <p>
-
 جميع محافظات العراق
-
 </p>
 
 
@@ -796,16 +552,12 @@ loading="lazy">
 
 
 <h3>
-
 جودة مضمونة
-
 </h3>
 
 
 <p>
-
 منتجات مختارة بعناية
-
 </p>
 
 
@@ -818,9 +570,13 @@ loading="lazy">
 
 </section>
 
-  <!--========================
-CONTACT
-=========================-->
+
+
+
+
+
+<!-- التواصل -->
+
 
 <section class="contact-section">
 
@@ -849,17 +605,20 @@ class="hero-btn">
 </a>
 
 
+
 </section>
 
 
 
 
 
-<!--========================
-FOOTER
-=========================-->
+
+
+<!-- FOOTER -->
+
 
 <footer class="footer">
+
 
 
 <div class="footer-logo">
@@ -868,9 +627,11 @@ FOOTER
 <img src="images/logo.png">
 
 
+
 <h2>
 مجمع حمزه الشطري
 </h2>
+
 
 
 <p>
@@ -878,7 +639,9 @@ FOOTER
 </p>
 
 
+
 </div>
+
 
 
 
@@ -891,9 +654,11 @@ FOOTER
 </a>
 
 
+
 <a href="products.html">
 المنتجات
 </a>
+
 
 
 <a href="offers.html">
@@ -901,12 +666,15 @@ FOOTER
 </a>
 
 
+
 <a href="about.html">
 من نحن
 </a>
 
 
+
 </div>
+
 
 
 
@@ -918,22 +686,16 @@ FOOTER
 </div>
 
 
+
 </footer>
+<!-- Bottom Navigation -->
 
-
-
-
-
-
-<!--========================
-BOTTOM NAV
-=========================-->
 
 <nav class="bottom-nav">
 
 
-
 <a href="index.html" class="active">
+
 
 <i class="fa-solid fa-house"></i>
 
@@ -941,47 +703,59 @@ BOTTOM NAV
 الرئيسية
 </span>
 
+
 </a>
+
 
 
 
 
 <a href="products.html">
 
+
 <i class="fa-solid fa-store"></i>
+
 
 <span>
 المنتجات
 </span>
 
+
 </a>
+
 
 
 
 
 <a href="favorites.html">
 
+
 <i class="fa-solid fa-heart"></i>
+
 
 <span>
 المفضلة
 </span>
 
+
 </a>
+
 
 
 
 
 <a href="cart.html">
 
+
 <i class="fa-solid fa-cart-shopping"></i>
+
 
 <span>
 السلة
 </span>
 
-</a>
 
+</a>
 
 
 </nav>
@@ -990,24 +764,37 @@ BOTTOM NAV
 
 
 
+
+<!-- Toast -->
+
+
 <div id="toast" class="toast"></div>
 
 
 
 
+
+<!-- Scroll Top -->
+
+
 <button class="scroll-top">
 
+
 <i class="fa-solid fa-arrow-up"></i>
+
 
 </button>
 
 
 
 
-<script type="module" src="js/app.js"></script>
+
+
+<script type="module" src="script.js"></script>
 
 
 
 </body>
+
 
 </html>
