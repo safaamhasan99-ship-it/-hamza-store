@@ -1,21 +1,18 @@
 /*==================================
-Hamza Store V5
+Hamza Store V6
 Main App
 ==================================*/
 
 import { db } from "./firebase.js";
 
 import {
-
 collection,
 getDocs,
 query,
 orderBy
-
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import{
-
 addToCart,
 toggleFavorite,
 isFavorite,
@@ -24,31 +21,35 @@ imageOrDefault,
 updateCartCount,
 filterProducts,
 sortProducts
-
 }from"./utils.js";
 
-const productsContainer=
-document.getElementById("productsContainer");
+/*==================================
+Elements
+==================================*/
 
-const productTemplate=
-document.getElementById("productTemplate");
+const productsContainer=document.getElementById("productsContainer");
+const productTemplate=document.getElementById("productTemplate");
 
-const searchInput=
-document.getElementById("searchInput");
-
-const sortSelect=
-document.getElementById("sortProducts");
-
-const categoryFilter=
-document.getElementById("categoryFilter");
+const searchInput=document.getElementById("searchInput");
+const sortSelect=document.getElementById("sortProducts");
+const categoryFilter=document.getElementById("categoryFilter");
 
 let products=[];
 
+/*==================================
+Start
+==================================*/
+
 updateCartCount();
 
+if(productsContainer){
+
 loadProducts();
+
+}
+
 /*==================================
-تحميل المنتجات
+Load Products
 ==================================*/
 
 async function loadProducts(){
@@ -81,9 +82,9 @@ id:doc.id,
 
 renderProducts(products);
 
-}catch(err){
+}catch(error){
 
-console.error(err);
+console.error(error);
 
 productsContainer.innerHTML=`
 
@@ -93,7 +94,11 @@ productsContainer.innerHTML=`
 
 <h2>تعذر تحميل المنتجات</h2>
 
-<p>يرجى المحاولة مرة أخرى.</p>
+<p>
+
+تحقق من اتصال Firebase أو الإنترنت.
+
+</p>
 
 </div>
 
@@ -104,7 +109,7 @@ productsContainer.innerHTML=`
 }
 
 /*==================================
-عرض المنتجات
+Render Products
 ==================================*/
 
 function renderProducts(list){
@@ -121,7 +126,11 @@ productsContainer.innerHTML=`
 
 <h2>لا توجد منتجات</h2>
 
-<p>لم يتم العثور على أي منتج.</p>
+<p>
+
+لا توجد منتجات حالياً.
+
+</p>
 
 </div>
 
@@ -133,7 +142,9 @@ return;
 
 list.forEach(product=>{
 
-const card=productTemplate.content.cloneNode(true);
+const card=
+
+productTemplate.content.cloneNode(true);
 
 card.querySelector(".product-img").src=
 
@@ -147,23 +158,22 @@ card.querySelector(".price").textContent=
 
 formatPrice(product.price);
 
-const oldPrice=
+const old=
 
 card.querySelector(".old-price");
 
 if(product.oldPrice){
 
-oldPrice.textContent=
+old.textContent=
 
 formatPrice(product.oldPrice);
 
 }else{
 
-oldPrice.style.display="none";
+old.style.display="none";
 
 }
-
-const favBtn=
+  const favBtn=
 
 card.querySelector(".favorite-btn");
 
@@ -171,19 +181,31 @@ if(isFavorite(product.id)){
 
 favBtn.classList.add("active");
 
-favBtn.innerHTML=`
+favBtn.innerHTML=
 
-<i class="fa-solid fa-heart"></i>
-
-`;
+'<i class="fa-solid fa-heart"></i>';
 
 }
 
 favBtn.onclick=()=>{
 
+const state=
+
 toggleFavorite(product);
 
-favBtn.classList.toggle("active");
+favBtn.classList.toggle(
+
+"active",
+
+state
+
+);
+
+favBtn.innerHTML=state
+
+?'<i class="fa-solid fa-heart"></i>'
+
+:'<i class="fa-regular fa-heart"></i>';
 
 };
 
@@ -195,7 +217,9 @@ addToCart(product);
 
 card.querySelector(".details-btn").onclick=()=>{
 
-location.href=`details.html?id=${product.id}`;
+location.href=
+
+`details.html?id=${product.id}`;
 
 };
 
@@ -203,8 +227,10 @@ productsContainer.appendChild(card);
 
 });
 
-}/*==================================
-البحث والفلترة والترتيب
+}
+
+/*==================================
+Search + Filter + Sort
 ==================================*/
 
 function applyFilters(){
@@ -225,11 +251,13 @@ searchInput.value
 
 if(categoryFilter && categoryFilter.value){
 
-list=list.filter(product=>{
+list=list.filter(item=>
 
-return (product.category||"")==categoryFilter.value;
+(item.category||"")
 
-});
+===categoryFilter.value
+
+);
 
 }
 
@@ -255,7 +283,11 @@ searchInput.addEventListener(
 
 "input",
 
-applyFilters
+()=>{
+
+applyFilters();
+
+}
 
 );
 
@@ -284,7 +316,6 @@ applyFilters
 );
 
 }
-
 /*==================================
 Hero Slider
 ==================================*/
@@ -324,6 +355,20 @@ dots[index].classList.add("active");
 
 if(slides.length){
 
+showSlide(0);
+
+dots.forEach((dot,index)=>{
+
+dot.onclick=()=>{
+
+currentSlide=index;
+
+showSlide(currentSlide);
+
+};
+
+});
+
 setInterval(()=>{
 
 currentSlide++;
@@ -341,12 +386,12 @@ showSlide(currentSlide);
 }
 
 /*==================================
-الوضع الليلي
+Dark Mode
 ==================================*/
 
 const darkBtn=document.getElementById("darkBtn");
 
-if(localStorage.getItem("theme")=="dark"){
+if(localStorage.getItem("theme")==="dark"){
 
 document.body.classList.add("dark");
 
@@ -373,7 +418,7 @@ document.body.classList.contains("dark")
 }
 
 /*==================================
-زر العودة للأعلى
+Scroll To Top
 ==================================*/
 
 const scrollBtn=document.querySelector(".scroll-top");
@@ -409,3 +454,9 @@ behavior:"smooth"
 };
 
 }
+
+/*==================================
+Ready
+==================================*/
+
+console.log("Hamza Store V6 Ready ✅");
