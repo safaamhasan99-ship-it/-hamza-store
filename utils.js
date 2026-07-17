@@ -1,32 +1,20 @@
 /*==================================
-Hamza Store V7
-Utils
+Hamza Store V8
+Utils JS
 ==================================*/
 
 
-// =============================
-// Format Price
-// =============================
-
-export function formatPrice(price){
-
-return Number(price || 0)
-.toLocaleString("ar-IQ") + " د.ع";
-
-}
-
-
-
-// =============================
-// Cart
-// =============================
-
+/*========================
+CART
+========================*/
 
 export function getCart(){
 
 return JSON.parse(
-localStorage.getItem("cart")
-) || [];
+
+localStorage.getItem("cart")||"[]"
+
+);
 
 }
 
@@ -35,10 +23,12 @@ localStorage.getItem("cart")
 export function saveCart(cart){
 
 localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
 
+"cart",
+
+JSON.stringify(cart)
+
+);
 
 updateCartCount();
 
@@ -46,313 +36,232 @@ updateCartCount();
 
 
 
-
-export function updateCartCount(){
-
-const badge =
-document.getElementById("cartCount");
-
-
-if(!badge) return;
-
-
-const cart=getCart();
-
-
-const count=cart.reduce(
-(sum,item)=>sum+(item.qty||1),
-0
-);
-
-
-badge.textContent=count;
-
-
-badge.style.display =
-count>0 ? "flex":"none";
-
-}
-
-
-
-
-
 export function addToCart(product){
 
 let cart=getCart();
 
+const index=cart.findIndex(
 
-
-let found=cart.find(
 item=>item.id===product.id
+
 );
 
+if(index>-1){
 
-
-if(found){
-
-found.qty++;
-
+cart[index].qty++;
 
 }else{
 
-
 cart.push({
 
-id:product.id,
-
-name:product.name || "منتج",
-
-price:Number(product.price || 0),
-
-image:imageOrDefault(product.image),
+...product,
 
 qty:1
 
 });
 
-
 }
-
-
 
 saveCart(cart);
 
-
-showToast("تمت إضافة المنتج للسلة");
-
+showToast("تمت إضافة المنتج إلى السلة 🛒");
 
 }
-
-
-
 
 
 
 export function removeFromCart(id){
 
+let cart=getCart().filter(
 
-let cart=getCart();
-
-
-cart=cart.filter(
 item=>item.id!==id
-);
 
+);
 
 saveCart(cart);
 
+showToast("تم حذف المنتج من السلة");
 
 }
 
 
 
+export function changeQty(id,value){
+
+let cart=getCart();
+
+const item=cart.find(
+
+p=>p.id===id
+
+);
+
+if(!item) return;
+
+item.qty+=value;
+
+if(item.qty<1){
+
+removeFromCart(id);
+
+return;
+
+}
+
+saveCart(cart);
+
+}
 
 
-// =============================
-// Favorites
-// =============================
 
+/*========================
+CART COUNT
+========================*/
+
+export function updateCartCount(){
+
+const badge=document.getElementById("cartCount");
+
+if(!badge) return;
+
+const total=getCart().reduce(
+
+(sum,item)=>sum+item.qty,
+
+0
+
+);
+
+badge.textContent=total;
+
+}
+
+/*========================
+FAVORITES
+========================*/
 
 export function getFavorites(){
 
 return JSON.parse(
-localStorage.getItem("favorites")
-) || [];
 
-}
+localStorage.getItem("favorites")||"[]"
 
-
-
-
-
-export function saveFavorites(data){
-
-localStorage.setItem(
-"favorites",
-JSON.stringify(data)
 );
 
-
 }
 
 
 
+export function saveFavorites(list){
 
+localStorage.setItem(
 
-export function isFavorite(id){
+"favorites",
 
-return getFavorites()
-.includes(id);
+JSON.stringify(list)
+
+);
 
 }
-
-
 
 
 
 export function toggleFavorite(product){
 
+let list=getFavorites();
 
-let fav=getFavorites();
+const index=list.findIndex(
 
+item=>item.id===product.id
 
-
-if(fav.includes(product.id)){
-
-
-fav=fav.filter(
-id=>id!==product.id
 );
 
+if(index>-1){
 
-saveFavorites(fav);
+list.splice(index,1);
 
-
-showToast("تم حذف المنتج من المفضلة");
-
-
-return false;
-
-
+showToast("تمت إزالة المنتج من المفضلة ❤️");
 
 }else{
 
+list.push(product);
 
-fav.push(product.id);
-
-
-saveFavorites(fav);
-
-
-showToast("تمت إضافة المنتج للمفضلة");
-
-
-return true;
-
+showToast("تمت إضافة المنتج إلى المفضلة ❤️");
 
 }
 
+saveFavorites(list);
 
 }
 
 
 
+/*========================
+TOAST
+========================*/
 
+export function showToast(message){
 
+let toast=document.getElementById("toast");
 
-// =============================
-// Image Fix
-// =============================
+if(!toast){
 
+toast=document.createElement("div");
 
-export function imageOrDefault(image){
+toast.id="toast";
 
+toast.className="toast";
 
-const fallback =
-"./images/no-image.png";
-
-
-
-if(!image){
-
-return fallback;
+document.body.appendChild(toast);
 
 }
 
-
-
-let url =
-String(image).trim();
-
-
-
-
-// رابط خارجي
-
-if(
-url.startsWith("http://") ||
-url.startsWith("https://")
-){
-
-return url;
-
-}
-
-
-
-// مسار يبدأ images
-
-if(url.startsWith("images/")){
-
-return "./"+url;
-
-}
-
-
-
-// مسار يبدأ ./images
-
-if(url.startsWith("./images")){
-
-return url;
-
-}
-
-
-
-// اسم صورة فقط
-
-return "./images/"+url;
-
-
-
-}
-
-
-
-
-
-
-
-// =============================
-// Toast
-// =============================
-
-
-export function showToast(text){
-
-
-let toast =
-document.getElementById("toast");
-
-
-if(!toast) return;
-
-
-
-toast.textContent=text;
-
+toast.textContent=message;
 
 toast.classList.add("show");
 
-
-
 setTimeout(()=>{
-
 
 toast.classList.remove("show");
 
-
 },2500);
-
-
 
 }
 
 
 
+/*========================
+IMAGE
+========================*/
+
+export function safeImage(url){
+
+if(!url) return "./images/no-image.png";
+
+return url;
+
+}
 
 
 
-console.log("Utils Ready V7 ✅");
+/*========================
+PRICE
+========================*/
+
+export function formatPrice(price){
+
+return Number(price).toLocaleString("ar-IQ")+" د.ع";
+
+}
+
+
+
+/*========================
+DATE
+========================*/
+
+export function formatDate(date){
+
+return new Date(date).toLocaleDateString("ar-IQ");
+
+}
