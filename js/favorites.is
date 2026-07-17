@@ -1,63 +1,101 @@
 /*==================================
-Hamza Store V6
-Favorites Page
+Hamza Store V7
+Favorites
 ==================================*/
+
 
 import { db } from "./firebase.js";
 
+
 import {
+
 collection,
 getDocs
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-import{
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+import {
+
 getFavorites,
 toggleFavorite,
 addToCart,
 formatPrice,
 imageOrDefault,
 updateCartCount
-}from "./utils.js";
-
-/*==================================
-Elements
-==================================*/
-
-const container=document.getElementById("favoritesContainer");
-
-const empty=document.getElementById("emptyFavorites");
-
-const template=document.getElementById("favoriteTemplate");
-
-let products=[];
-
-/*==================================
-Start
-==================================*/
-
-updateCartCount();
-
-if(container){
-
-loadFavorites();
 
 }
 
-/*==================================
-Load Favorites
-==================================*/
+from "./utils.js";
+
+
+
+
+
+const container =
+
+document.getElementById("favoritesContainer");
+
+
+
+const empty =
+
+document.getElementById("emptyFavorites");
+
+
+
+const template =
+
+document.getElementById("favoriteTemplate");
+
+
+
+
+updateCartCount();
+
+
+
+loadFavorites();
+
+
+
+
+
 
 async function loadFavorites(){
 
-try{
 
-const favorites=getFavorites();
+if(!container)
+return;
 
-const snap=await getDocs(collection(db,"products"));
 
-products=[];
+
+const favs=getFavorites();
+
+
+
+const snap=
+
+await getDocs(
+
+collection(db,"products")
+
+);
+
+
+
+container.innerHTML="";
+
+
+
+let found=false;
+
+
 
 snap.forEach(doc=>{
+
 
 const product={
 
@@ -67,141 +105,107 @@ id:doc.id,
 
 };
 
-if(favorites.includes(product.id)){
 
-products.push(product);
 
-}
+if(favs.includes(product.id)){
 
-});
 
-renderFavorites();
+found=true;
 
-}catch(error){
 
-console.error(error);
 
-if(container){
+const card=
 
-container.innerHTML=`
+template.content.cloneNode(true);
 
-<div class="empty-state">
 
-<i class="fa-solid fa-triangle-exclamation"></i>
-
-<h2>تعذر تحميل المفضلة</h2>
-
-</div>
-
-`;
-
-}
-
-}
-
-}
-/*==================================
-Render Favorites
-==================================*/
-
-function renderFavorites(){
-
-if(!container) return;
-
-container.innerHTML="";
-
-if(products.length===0){
-
-if(empty){
-
-empty.style.display="block";
-
-}
-
-return;
-
-}
-
-if(empty){
-
-empty.style.display="none";
-
-}
-
-products.forEach(product=>{
-
-const card=template.content.cloneNode(true);
 
 card.querySelector(".product-img").src=
 
 imageOrDefault(product.image);
 
-card.querySelector(".product-img").alt=
 
-product.name||"منتج";
 
 card.querySelector(".product-name").textContent=
 
-product.name||"بدون اسم";
+product.name;
+
+
 
 card.querySelector(".price").textContent=
 
 formatPrice(product.price);
 
-const oldPrice=
 
-card.querySelector(".old-price");
 
-if(product.oldPrice){
 
-oldPrice.textContent=
-
-formatPrice(product.oldPrice);
-
-}else{
-
-oldPrice.style.display="none";
-
-}
-
-const favBtn=
-
-card.querySelector(".favorite-btn");
-
-favBtn.classList.add("active");
-
-favBtn.innerHTML=
-
-'<i class="fa-solid fa-heart"></i>';
-
-favBtn.onclick=()=>{
-
-toggleFavorite(product);
-
-loadFavorites();
-
-};
 
 card.querySelector(".cart-btn").onclick=()=>{
 
+
 addToCart(product);
 
+
 };
+
+
+
+
 
 card.querySelector(".details-btn").onclick=()=>{
 
-location.href=`details.html?id=${product.id}`;
+
+location.href=
+
+"details.html?id="+product.id;
+
 
 };
 
+
+
+
+card.querySelector(".favorite-btn").onclick=()=>{
+
+
+toggleFavorite(product);
+
+
+loadFavorites();
+
+
+};
+
+
+
+
 container.appendChild(card);
 
-});
+
 
 }
 
-/*==================================
-Ready
-==================================*/
 
-console.log("Favorites Page Ready ✅");
+
+});
+
+
+
+if(empty){
+
+
+empty.style.display=
+
+found ? "none":"block";
+
+
+}
+
+
+
+}
+
+
+
+
+console.log("Favorites Ready ✅");
