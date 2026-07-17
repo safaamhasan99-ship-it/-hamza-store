@@ -1,273 +1,77 @@
 /*==================================
-Hamza Store V7
-Details Page
+Hamza Store V8
+Details JS
 ==================================*/
 
-
-import { db } from "./firebase.js";
-
+import { db } from "../firebase.js";
 
 import {
-
 doc,
-getDoc
-
-}
-
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
+getDoc,
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
-
 addToCart,
 toggleFavorite,
-isFavorite,
 formatPrice,
-imageOrDefault,
+safeImage,
 updateCartCount
+} from "./utils.js";
 
-}
+const params = new URLSearchParams(window.location.search);
+const productId = params.get("id");
 
-from "./utils.js";
+let currentProduct = null;
 
+document.addEventListener("DOMContentLoaded", async ()=>{
 
+    updateCartCount();
 
+    if(!productId) return;
 
+    await loadProduct();
 
+    await loadRelated();
 
-const params = new URLSearchParams(location.search);
-
-
-const id = params.get("id");
-
-
-
-const image =
-
-document.getElementById("productImage");
+});
 
 
-const name =
-
-document.getElementById("productName");
-
-
-const price =
-
-document.getElementById("productPrice");
-
-
-const description =
-
-document.getElementById("productDescription");
-
-
-
-const addBtn =
-
-document.getElementById("addCartBtn");
-
-
-
-const favBtn =
-
-document.getElementById("favoriteBtn");
-
-
-
-
-let product=null;
-
-
-
-updateCartCount();
-
-
-
-loadProduct();
-
-
-
-
-
+/*========================
+LOAD PRODUCT
+========================*/
 
 async function loadProduct(){
 
+    try{
 
-try{
+        const ref = doc(db,"products",productId);
 
+        const snap = await getDoc(ref);
 
-const ref=
+        if(!snap.exists()){
 
-doc(db,"products",id);
+            document.getElementById("productName").textContent="المنتج غير موجود";
 
+            return;
 
+        }
 
-const snap=
+        currentProduct = {
 
-await getDoc(ref);
+            id:snap.id,
 
+            ...snap.data()
 
+        };
 
-if(!snap.exists()){
+        renderProduct();
 
+    }catch(err){
 
-if(name)
+        console.error(err);
 
-name.textContent="المنتج غير موجود";
-
-
-return;
-
-
-}
-
-
-
-
-product={
-
-id:snap.id,
-
-...snap.data()
-
-};
-
-
-
-
-
-showProduct();
-
-
-
-
-}catch(error){
-
-
-console.log(error);
-
+    }
 
 }
-
-
-}
-
-
-
-
-
-
-
-function showProduct(){
-
-
-
-if(image)
-
-image.src=
-
-imageOrDefault(product.image);
-
-
-
-
-
-if(name)
-
-name.textContent=
-
-product.name || "منتج";
-
-
-
-
-
-if(price)
-
-price.textContent=
-
-formatPrice(product.price);
-
-
-
-
-
-if(description)
-
-description.textContent=
-
-product.description ||
-
-"لا يوجد وصف";
-
-
-
-
-
-
-if(isFavorite(product.id)){
-
-
-favBtn.classList.add("active");
-
-
-}
-
-
-
-
-
-if(addBtn){
-
-
-addBtn.onclick=()=>{
-
-
-addToCart(product);
-
-
-};
-
-
-}
-
-
-
-
-
-
-
-if(favBtn){
-
-
-favBtn.onclick=()=>{
-
-
-toggleFavorite(product);
-
-
-
-favBtn.classList.toggle(
-
-"active"
-
-);
-
-
-
-};
-
-
-}
-
-
-
-
-
-}
-
-
-
-console.log("Details Ready ✅");
