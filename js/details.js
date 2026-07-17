@@ -1,6 +1,6 @@
 /*==================================
-مجمع حمزه الشطري
-Details JS
+Hamza Store V5
+Details Page
 ==================================*/
 
 import { db } from "./firebase.js";
@@ -10,12 +10,22 @@ doc,
 getDoc,
 collection,
 getDocs
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import{
+
+addToCart,
+toggleFavorite,
+isFavorite,
+formatPrice,
+imageOrDefault,
+updateCartCount
+
+}from"./utils.js";
 
 const params=new URLSearchParams(location.search);
 
-const id=params.get("id");
+const productId=params.get("id");
 
 const productImage=document.getElementById("productImage");
 const productName=document.getElementById("productName");
@@ -29,23 +39,18 @@ const relatedProducts=document.getElementById("relatedProducts");
 
 let product=null;
 
-let cart=
-JSON.parse(localStorage.getItem("cart"))||[];
-
-let favorites=
-JSON.parse(localStorage.getItem("favorites"))||[];
+updateCartCount();
 
 loadProduct();
-
-/*====================
+/*==================================
 تحميل المنتج
-====================*/
+==================================*/
 
 async function loadProduct(){
 
 try{
 
-const ref=doc(db,"products",id);
+const ref=doc(db,"products",productId);
 
 const snap=await getDoc(ref);
 
@@ -58,39 +63,53 @@ return;
 }
 
 product={
+
 id:snap.id,
+
 ...snap.data()
+
 };
 
-showProduct();
+renderProduct();
 
-loadRelated();
+loadRelatedProducts();
 
-}catch(err){
+}catch(error){
 
-console.log(err);
+console.error(error);
+
+}
 
 }
 
-}
-/*====================
+/*==================================
 عرض المنتج
-====================*/
+==================================*/
 
-function showProduct(){
+function renderProduct(){
 
-productImage.src=
-product.image||"images/no-image.png";
+productImage.src=imageOrDefault(product.image);
 
-productName.textContent=
-product.name||"بدون اسم";
+productName.textContent=product.name||"بدون اسم";
 
-productPrice.textContent=
-`${Number(product.price||0).toLocaleString()} د.ع`;
+productPrice.textContent=formatPrice(product.price);
 
 productDescription.textContent=
+
 product.description||
+
 "لا يوجد وصف لهذا المنتج.";
+
+if(isFavorite(product.id)){
+
+favoriteBtn.classList.add("active");
+
+favoriteBtn.innerHTML=`
+<i class="fa-solid fa-heart"></i>
+في المفضلة
+`;
+
+}
 
 addCartBtn.onclick=()=>{
 
@@ -100,74 +119,18 @@ addToCart(product);
 
 favoriteBtn.onclick=()=>{
 
-toggleFavorite(product.id);
+const state=toggleFavorite(product);
 
-};
-
-if(favorites.includes(product.id)){
-
-favoriteBtn.innerHTML=`
-<i class="fa-solid fa-heart"></i>
-المفضلة
-`;
+if(state){
 
 favoriteBtn.classList.add("active");
 
-}
-
-}
-
-/*====================
-إضافة للسلة
-====================*/
-
-function addToCart(product){
-
-const index=
-cart.findIndex(i=>i.id===product.id);
-
-if(index>-1){
-
-cart[index].qty++;
+favoriteBtn.innerHTML=`
+<i class="fa-solid fa-heart"></i>
+في المفضلة
+`;
 
 }else{
-
-cart.push({
-
-id:product.id,
-
-name:product.name,
-
-price:Number(product.price||0),
-
-image:product.image,
-
-qty:1
-
-});
-
-}
-
-localStorage.setItem(
-"cart",
-JSON.stringify(cart)
-);
-
-showToast("تمت إضافة المنتج إلى السلة");
-
-}
-
-/*====================
-المفضلة
-====================*/
-
-function toggleFavorite(id){
-
-const index=favorites.indexOf(id);
-
-if(index>-1){
-
-favorites.splice(index,1);
 
 favoriteBtn.classList.remove("active");
 
@@ -176,79 +139,39 @@ favoriteBtn.innerHTML=`
 المفضلة
 `;
 
-showToast("تمت إزالة المنتج من المفضلة");
-
-}else{
-
-favorites.push(id);
-
-favoriteBtn.classList.add("active");
-
-favoriteBtn.innerHTML=`
-<i class="fa-solid fa-heart"></i>
-المفضلة
-`;
-
-showToast("تمت إضافة المنتج إلى المفضلة");
-
 }
 
-localStorage.setItem(
-"favorites",
-JSON.stringify(favorites)
-);
+};
 
-}
+}/*==================================
+المنتجات المشابهة
+==================================*/
 
-/*====================
-Toast
-====================*/
+async function loadRelatedProducts(){
 
-function showToast(message){
+try{
 
-let toast=document.querySelector(".toast");
-
-if(!toast){
-
-toast=document.createElement("div");
-
-toast.className="toast";
-
-document.body.appendChild(toast);
-
-}
-
-toast.textContent=message;
-
-toast.classList.add("show");
-
-setTimeout(()=>{
-
-toast.classList.remove("show");
-
-},2500);
-
-}
-
-/*====================
-منتجات مشابهة
-====================*/
-
-async function loadRelated(){
-
-const snap=
-await getDocs(collection(db,"products"));
+const snap=await getDocs(collection(db,"products"));
 
 relatedProducts.innerHTML="";
 
+let count=0;
+
 snap.forEach(doc=>{
 
-if(doc.id===id) return;
+if(count>=4) return;
 
-const p={
+const item={
+
 id:doc.id,
+
 ...doc.data()
+
 };
+
+if(item.id===product.id) return;
+
+count++;
 
 relatedProducts.innerHTML+=`
 
@@ -256,28 +179,54 @@ relatedProducts.innerHTML+=`
 
 <div class="product-image">
 
-<img src="${p.image||''}">
+<img
+src="${imageOrDefault(item.image)}"
+class="product-img"
+loading="lazy">
 
 </div>
 
 <div class="product-content">
 
-<h3>${p.name||''}</h3>
+<h3 class="product-name">
 
-<div class="price">
+${item.name||""}
 
-${Number(p.price||0).toLocaleString()} د.ع
+</h3>
+
+<div class="price-box">
+
+<span class="price">
+
+${formatPrice(item.price)}
+
+</span>
 
 </div>
 
+<div class="product-buttons">
+
 <button
-class="cart-btn"
+class="details-btn"
+onclick="location.href='details.html?id=${item.id}'">
 
-onclick="location.href='details.html?id=${p.id}'">
+<i class="fa-solid fa-eye"></i>
 
-عرض المنتج
+عرض
 
 </button>
+
+<button
+class="cart-btn"
+onclick="window.addRelatedToCart('${item.id}')">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+إضافة للسلة
+
+</button>
+
+</div>
 
 </div>
 
@@ -287,4 +236,32 @@ onclick="location.href='details.html?id=${p.id}'">
 
 });
 
+window.addRelatedToCart=function(id){
+
+const selected=snap.docs.find(d=>d.id===id);
+
+if(!selected) return;
+
+addToCart({
+
+id:selected.id,
+
+...selected.data()
+
+});
+
+};
+
+}catch(error){
+
+console.error(error);
+
 }
+
+}
+
+/*==================================
+Page Ready
+==================================*/
+
+console.log("Details Page Ready ✅");
