@@ -4,31 +4,22 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 
 <title>القسم الرجالي | مجمع حمزه الشطري</title>
 
-
 <link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <link rel="stylesheet" href="style.css">
 
-
 </head>
 
-
 <body>
-
-
 
 <div id="loader">
 
@@ -36,74 +27,41 @@
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
-
-<h2>
-مجمع حمزه الشطري
-</h2>
-
+<h2>مجمع حمزه الشطري</h2>
 
 <div class="loader-spinner"></div>
 
-
-<p>
-جاري تحميل القسم...
-</p>
-
+<p>جاري تحميل القسم...</p>
 
 </div>
 
 </div>
-
-
-
 
 <header class="header">
 
-
 <div class="logo-box">
-
 
 <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
-
 <div>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-
-<span>
-القسم الرجالي
-</span>
-
+<span>القسم الرجالي</span>
 
 </div>
 
-
 </div>
-
-
-
 
 <div class="header-buttons">
 
-
 <a href="cart.html" class="cart-btn">
-
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-
-<span id="cartCount">
-0
-</span>
-
+<span id="cartCount">0</span>
 
 </a>
-
-
-
 
 <button id="darkBtn" class="dark-btn">
 
@@ -111,12 +69,10 @@
 
 </button>
 
-
-
 </div>
 
-
 </header>
+
 <section class="search-box">
 
 <input
@@ -128,64 +84,37 @@ placeholder="ابحث داخل القسم الرجالي...">
 
 </section>
 
-
-
-
 <section class="products-home">
 
-
 <h2 class="title">
-
 👔 القسم الرجالي
-
 </h2>
-
-
 
 <div id="productsGrid" class="products-grid">
 
-
 <div class="loading-products">
-
 جاري تحميل المنتجات...
-
 </div>
 
-
 </div>
-
-
 
 </section>
 
-
-
-
-
 <script type="module">
-
 
 import { db } from "./firebase.js";
 
-
 import {
-
 collection,
 getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const grid=document.getElementById("productsGrid");
+const loader=document.getElementById("loader");
+  async function loadMenProducts(){
 
-
-
-const grid = document.getElementById("productsGrid");
-
-
-
-async function loadMenProducts(){
-
-
-
-grid.innerHTML = `
+grid.innerHTML=`
 
 <div class="loading-products">
 
@@ -195,345 +124,165 @@ grid.innerHTML = `
 
 `;
 
-
-
 try{
 
+const snap=await getDocs(collection(db,"products"));
 
-const snap = await getDocs(
-collection(db,"products")
-);
+console.log("عدد المنتجات:",snap.size);
 
+grid.innerHTML="";
 
-
-grid.innerHTML = "";
-
-
-let found = false;
-
-
+let found=false;
 
 snap.forEach(doc=>{
 
+const p={
+id:doc.id,
+...doc.data()
+};
 
-const p = doc.data();
+console.log("Category:",p.category);
 
+if((p.category||"").trim().toLowerCase()!=="men") return;
 
+found=true;
 
-/* قسم الرجالي فقط */
-
-if(
-(p.category || "").trim() !== "men"
-) return;
-
-
-
-found = true;
-
-
-
-grid.innerHTML += `
-
+grid.innerHTML+=`
 
 <div class="product-card">
 
-
-
-<img src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}">
-
-
+<img
+src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}"
+alt="${p.name}">
 
 <div class="product-info">
 
-
-
-<h3>
-
-${p.name}
-
-</h3>
-
-
+<h3>${p.name}</h3>
 
 <p class="price">
 
-${Number(p.price || 0).toLocaleString()} د.ع
+${Number(p.price||0).toLocaleString()} د.ع
 
 </p>
-
-
 
 <div class="product-actions">
 
+<a
+href="details.html?id=${p.id}"
+class="details-btn">
 
+التفاصيل
 
-<button class="cart-add"
+</a>
 
-onclick="addToCart('${p.name}',${p.price},'${p.image}')">
-
+<button
+class="cart-add">
 
 <i class="fa-solid fa-cart-shopping"></i>
 
 السلة
 
-
 </button>
 
-
-
-
-
-<button class="fav-add"
-
-onclick="addToFavorites('${p.name}',${p.price},'${p.image}')">
-
-
-<i class="fa-solid fa-heart"></i>
-
-
-</button>
-
-
+</div>
 
 </div>
 
-
-
 </div>
-
-
-
-</div>
-
-
 
 `;
-
-
 
 });
 
-
-
+loader.style.display="none";
 
 if(!found){
 
-
-grid.innerHTML = `
-
+grid.innerHTML=`
 
 <div class="loading-products">
-
 
 لا توجد منتجات في القسم الرجالي
 
-
 </div>
-
 
 `;
 
-
 }
-
-
 
 }catch(e){
 
+loader.style.display="none";
 
-console.log(e);
+alert(e.message);
 
+console.error(e);
 
-
-grid.innerHTML = `
-
+grid.innerHTML=`
 
 <div class="loading-products">
 
-حدث خطأ في تحميل المنتجات
+${e.message}
 
 </div>
-
 
 `;
 
-
 }
 
-
-
 }
-
-
+  /*========================
+تشغيل الصفحة
+========================*/
 
 loadMenProducts();
 
+/*========================
+البحث
+========================*/
 
+const searchInput=document.getElementById("searchInput");
 
-</script>
-<!-- زر واتساب -->
+searchInput.addEventListener("input",()=>{
 
-<a class="whatsapp"
-href="https://wa.me/9647813555538"
-target="_blank">
+const keyword=searchInput.value.trim().toLowerCase();
 
-<i class="fa-brands fa-whatsapp"></i>
+document.querySelectorAll(".product-card").forEach(card=>{
 
-</a>
+const text=card.innerText.toLowerCase();
 
+card.style.display=text.includes(keyword) ? "" : "none";
 
+});
 
+});
 
+/*========================
+إخفاء شاشة التحميل
+========================*/
 
-<!-- القائمة السفلية -->
+window.addEventListener("load",()=>{
 
+if(loader){
 
-<nav class="bottom-nav">
+loader.style.display="none";
 
+}
 
+});
 
-<a href="index.html">
+/*========================
+تحديث عدد السلة
+========================*/
 
-<i class="fa-solid fa-house"></i>
+const cart=JSON.parse(localStorage.getItem("cart")||"[]");
 
-<span>
-الرئيسية
-</span>
+const count=cart.reduce((sum,item)=>sum+(item.qty||1),0);
 
-</a>
+const cartCount=document.getElementById("cartCount");
 
+if(cartCount){
 
+cartCount.textContent=count;
 
-
-<a href="products.html" class="active">
-
-<i class="fa-solid fa-shop"></i>
-
-<span>
-المنتجات
-</span>
-
-</a>
-
-
-
-
-
-<a href="cart.html">
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-<span>
-السلة
-</span>
-
-</a>
-
-
-
-
-
-<a href="favorites.html">
-
-<i class="fa-solid fa-heart"></i>
-
-<span>
-المفضلة
-</span>
-
-</a>
-
-
-
-
-
-<a href="about.html">
-
-<i class="fa-solid fa-circle-info"></i>
-
-<span>
-من نحن
-</span>
-
-</a>
-
-
-
-</nav>
-<footer class="footer">
-
-
-<div class="footer-box">
-
-
-<img 
-src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" 
-class="footer-logo">
-
-
-
-<h3>
-مجمع حمزه الشطري
-</h3>
-
-
-
-<p>
-للملابس الجاهزة والجملة
-</p>
-
-
-
-<p>
-
-<i class="fa-solid fa-location-dot"></i>
-
-ذي قار - الشطرة
-
-</p>
-
-
-
-
-<p>
-
-<i class="fa-solid fa-phone"></i>
-
-07813555538
-
-</p>
-
-
-
-
-<p>
-
-<i class="fa-solid fa-truck"></i>
-
-توصيل لجميع محافظات العراق
-
-</p>
-
-
-
-
-<p class="copy">
-
-© 2026 جميع الحقوق محفوظة
-
-</p>
-
-
-
-</div>
-
-
-
-</footer>
-
-
-
-
-</body>
-
-</html>
+}
