@@ -1,287 +1,259 @@
+/*==================================
+Hamza Store V5
+Products Page
+==================================*/
+
 import { db } from "./firebase.js";
 
 import {
-  collection,
-  getDocs
+
+collection,
+getDocs,
+query,
+orderBy
+
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+import{
 
-const productsBox = document.getElementById("productsList");
+addToCart,
+toggleFavorite,
+isFavorite,
+formatPrice,
+imageOrDefault,
+filterProducts,
+sortProducts,
+updateCartCount
 
+}from"./utils.js";
 
+const productsContainer=
+document.getElementById("productsContainer");
 
-// رسالة السلة
+const productTemplate=
+document.getElementById("productTemplate");
 
-function showCartMessage(text){
+const searchInput=
+document.getElementById("searchInput");
 
-let msg = document.createElement("div");
+const categoryFilter=
+document.getElementById("categoryFilter");
 
-msg.innerHTML = text;
+const sortProductsSelect=
+document.getElementById("sortProducts");
 
-msg.style.position="fixed";
-msg.style.bottom="30px";
-msg.style.right="30px";
-msg.style.background="#c79b3b";
-msg.style.color="#fff";
-msg.style.padding="15px 25px";
-msg.style.borderRadius="15px";
-msg.style.fontFamily="Cairo";
-msg.style.fontWeight="bold";
-msg.style.fontSize="16px";
-msg.style.zIndex="9999";
-msg.style.boxShadow="0 5px 20px #0003";
+let products=[];
 
+updateCartCount();
 
-document.body.appendChild(msg);
-
-
-
-setTimeout(()=>{
-
-msg.style.opacity="0";
-
-
-setTimeout(()=>{
-
-msg.remove();
-
-},500);
-
-
-},2000);
-
-}
-
-
-
-
-
+loadProducts();
 async function loadProducts(){
-
-
-if(!productsBox) return;
-
-
-
-productsBox.innerHTML =
-"<h3>جاري تحميل المنتجات...</h3>";
-
-
 
 try{
 
+const q=query(
 
-const snapshot = await getDocs(
-collection(db,"products")
+collection(db,"products"),
+
+orderBy("createdAt","desc")
+
 );
 
+const snap=await getDocs(q);
 
+products=[];
 
-productsBox.innerHTML="";
+snap.forEach(doc=>{
 
+products.push({
 
+id:doc.id,
 
-const category =
-(
-document.body.dataset.category ||
-new URLSearchParams(window.location.search).get("category") ||
-""
-).trim();
+...doc.data()
 
+});
 
+});
 
-let found=false;
+applyFilters();
 
+}catch(err){
 
+console.log(err);
 
-snapshot.forEach((doc)=>{
+}
 
+}
+function applyFilters(){
 
-const product = doc.data();
+let list=[...products];
 
+if(searchInput){
 
+list=filterProducts(
 
-const productCategory =
-(product.category || "").trim();
+list,
 
+searchInput.value
 
+);
 
-// فلترة مرنة للأقسام
+}
 
-if(
+if(categoryFilter && categoryFilter.value){
 
-!category ||
+list=list.filter(product=>{
 
-productCategory.includes(category) ||
+return product.category==categoryFilter.value;
 
-category.includes(productCategory)
+});
 
-){
+}
 
+if(sortProductsSelect){
 
-found=true;
+list=sortProducts(
 
+list,
 
+sortProductsSelect.value
 
-const name =
-product.name || "منتج";
+);
 
+}
 
+renderProducts(list);
 
-const price =
-Number(product.price) || 0;
+}
+function renderProducts(list){
 
+productsContainer.innerHTML="";
 
+if(list.length===0){
 
-const image =
-product.image
-?
-product.image.trim()
-:
-"./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png";
+productsContainer.innerHTML=`
 
+<div class="empty-state">
 
+<i class="fa-solid fa-box-open"></i>
 
-const card =
-document.createElement("div");
+<h2>
 
+لا توجد منتجات
 
-
-card.className="product-card";
-
-
-
-card.innerHTML = `
-
-
-<img
-
-src="${image}"
-
-alt="${name}"
-
-loading="lazy"
-
-decoding="async"
-
-referrerPolicy="no-referrer"
-
-crossorigin="anonymous"
-
-onerror="this.onerror=null;this.src='./5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png';"
-
->
-
-
-
-<div class="product-info">
-
-
-<h3>${name}</h3>
-
-
-
-<p class="price">
-
-${price.toLocaleString()} د.ع
-
-</p>
-
-
-
-<button class="cart-btn">
-
-🛒 إضافة للسلة
-
-</button>
-
-
+</h2>
 
 </div>
 
-
 `;
 
+return;
 
+}
 
+list.forEach(product=>{
 
+const card=
 
-card.querySelector(".cart-btn")
-.addEventListener("click",()=>{
+productTemplate.content.cloneNode(true);
 
+card.querySelector(".product-img").src=
 
-if(typeof addToCart === "function"){
+imageOrDefault(product.image);
 
+card.querySelector(".product-name").textContent=
 
-addToCart(
-name,
-price,
-image
-);
+product.name;
 
+card.querySelector(".price").textContent=
 
+formatPrice(product.price);
 
-showCartMessage(
-"🛒 تمت إضافة المنتج إلى السلة"
-);
+const old=
 
+card.querySelector(".old-price");
 
+if(product.oldPrice){
+
+old.textContent=
+
+formatPrice(product.oldPrice);
 
 }else{
 
+old.style.display="none";
 
-showCartMessage(
-"❌ تعذر إضافة المنتج للسلة"
+}
+
+const fav=
+
+card.querySelector(".favorite-btn");
+
+if(isFavorite(product.id)){
+
+fav.classList.add("active");
+
+}
+
+fav.onclick=()=>{
+
+toggleFavorite(product);
+
+fav.classList.toggle("active");
+
+};
+
+card.querySelector(".cart-btn").onclick=()=>{
+
+addToCart(product);
+
+};
+
+card.querySelector(".details-btn").onclick=()=>{
+
+location.href=
+
+`details.html?id=${product.id}`;
+
+};
+
+productsContainer.appendChild(card);
+
+});
+
+}
+if(searchInput){
+
+searchInput.addEventListener(
+
+"input",
+
+applyFilters
+
 );
 
+}
+
+if(categoryFilter){
+
+categoryFilter.addEventListener(
+
+"change",
+
+applyFilters
+
+);
 
 }
 
+if(sortProductsSelect){
 
-});
+sortProductsSelect.addEventListener(
 
+"change",
 
+applyFilters
 
-productsBox.appendChild(card);
-
-
-
-}
-
-
-
-});
-
-
-
-if(!found){
-
-
-productsBox.innerHTML =
-"<h3>لا توجد منتجات في هذا القسم</h3>";
+);
 
 }
-
-
-
-}
-
-
-catch(error){
-
-
-console.error(error);
-
-
-
-productsBox.innerHTML =
-"<h3>حدث خطأ أثناء تحميل المنتجات</h3>";
-
-}
-
-
-}
-
-
-
-loadProducts();
