@@ -7,160 +7,60 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title>تفاصيل المنتج | مجمع حمزه الشطري</title>
 
+<meta name="theme-color" content="#111827">
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="./IMG_5661.jpeg">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-
-<style>
-
-.details-page{
-
-max-width:600px;
-margin:30px auto;
-padding:20px;
-
-}
-
-
-.details-card{
-
-background:white;
-border-radius:20px;
-padding:20px;
-text-align:center;
-
-}
-
-
-.details-card img{
-
-width:100%;
-height:400px;
-object-fit:contain;
-border-radius:15px;
-
-}
-
-
-.details-card h1{
-
-font-size:28px;
-margin:15px 0;
-
-}
-
-
-.details-price{
-
-font-size:25px;
-font-weight:bold;
-
-}
-
-
-.details-buttons{
-
-display:flex;
-gap:10px;
-margin-top:20px;
-
-}
-
-
-.details-buttons button,
-.details-buttons a{
-
-flex:1;
-padding:14px;
-border-radius:12px;
-border:none;
-text-decoration:none;
-cursor:pointer;
-font-size:16px;
-
-}
-
-
-.loading{
-
-text-align:center;
-font-size:22px;
-padding:40px;
-
-}
-
-
-</style>
-
+<link rel="stylesheet" href="./style.css">
 
 </head>
 
-
-
 <body>
-
-
 
 <header class="header">
 
-
 <div class="brand">
 
+<img src="./IMG_5661.jpeg" alt="مجمع حمزه الشطري">
 
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+<div class="brand-info">
 
+<h1>تفاصيل المنتج</h1>
 
-<div>
-
-<h1>
-مجمع حمزه الشطري
-</h1>
-
-
-<p>
-تفاصيل المنتج
-</p>
-
+<p>مجمع حمزه الشطري</p>
 
 </div>
 
-
 </div>
-
-
-
 
 <div class="header-icons">
 
+<a href="index.html" class="header-btn">
 
-<a href="cart.html">
+<i class="fa-solid fa-house"></i>
 
-🛒
+</a>
+
+<a href="cart.html" class="header-btn cart-icon">
+
+<i class="fa-solid fa-cart-shopping"></i>
 
 <span id="cartCount">0</span>
 
 </a>
 
-
-
-<button onclick="toggleDarkMode()">
-
-🌙
-
-</button>
-
-
 </div>
-
 
 </header>
 
@@ -168,22 +68,127 @@ padding:40px;
 
 
 
-
 <section class="details-page">
 
+<div class="details-gallery">
 
-<div id="productDetails" class="details-card">
-
-
-<div class="loading">
-
-جاري تحميل المنتج...
-
-</div>
-
+<img
+id="productImage"
+class="details-image"
+src=""
+alt="">
 
 </div>
 
+<div class="details-content">
+
+<span
+id="productCategory"
+class="details-category">
+
+القسم
+
+</span>
+
+<h1 id="productName">
+
+جاري التحميل...
+
+</h1>
+
+<div
+id="productPrice"
+class="details-price">
+
+0 د.ع
+
+</div>
+
+  <p
+id="productDescription"
+class="details-description">
+
+جاري تحميل تفاصيل المنتج...
+
+</p>
+
+<div class="details-meta">
+
+<div class="meta-item">
+
+<strong>المقاسات</strong>
+
+<span id="productSizes">
+
+غير محدد
+
+</span>
+
+</div>
+
+<div class="meta-item">
+
+<strong>الألوان</strong>
+
+<span id="productColors">
+
+غير محدد
+
+</span>
+
+</div>
+
+<div class="meta-item">
+
+<strong>الكمية المتوفرة</strong>
+
+<span id="productQty">
+
+0
+
+</span>
+
+</div>
+
+</div>
+
+<div class="details-actions">
+
+<button
+id="addCartBtn"
+class="add-cart">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+إضافة إلى السلة
+
+</button>
+
+<button
+id="favoriteBtn"
+class="details-favorite">
+
+<i class="fa-regular fa-heart"></i>
+
+إضافة للمفضلة
+
+</button>
+
+<a
+id="whatsappBtn"
+href="#"
+target="_blank"
+class="details-whatsapp">
+
+<i class="fa-brands fa-whatsapp"></i>
+
+اطلب عبر واتساب
+
+</a>
+
+</div>
+
+</div>
 
 </section>
 
@@ -191,29 +196,106 @@ padding:40px;
 
 
 
+<section class="products-section">
+
+<div class="section-head">
+
+<h2>
+
+<i class="fa-solid fa-layer-group"></i>
+
+منتجات مشابهة
+
+</h2>
+
+</div>
+
+<div
+id="relatedProducts"
+class="products-grid">
+
+<!-- يتم تحميلها من Firebase -->
+
+</div>
+
+</section>
+<!--========================
+FOOTER
+=========================-->
+
+<footer class="footer">
+
+<div class="footer-logo">
+
+<img src="./IMG_5661.jpeg" alt="مجمع حمزه الشطري">
+
+<h3>مجمع حمزه الشطري</h3>
+
+</div>
+
+<p>
+
+بيع الملابس بالجملة لجميع محافظات العراق
+
+</p>
+
+<p class="copyright">
+
+© 2026 جميع الحقوق محفوظة - مجمع حمزه الشطري
+
+</p>
+
+</footer>
+
+
+
+
+
+<!--========================
+BOTTOM NAVIGATION
+=========================-->
 
 <nav class="bottom-nav">
 
-
 <a href="index.html">
-🏠 الرئيسية
+
+<i class="fa-solid fa-house"></i>
+
+<span>الرئيسية</span>
+
 </a>
 
+<a href="products.html">
+
+<i class="fa-solid fa-store"></i>
+
+<span>المنتجات</span>
+
+</a>
 
 <a href="favorites.html">
-❤️ المفضلة
-</a>
 
+<i class="fa-solid fa-heart"></i>
+
+<span>المفضلة</span>
+
+</a>
 
 <a href="cart.html">
-🛒 السلة
-</a>
 
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span>السلة</span>
+
+</a>
 
 <a href="about.html">
-ℹ️ من نحن
-</a>
 
+<i class="fa-solid fa-user"></i>
+
+<span>من نحن</span>
+
+</a>
 
 </nav>
 
@@ -221,169 +303,13 @@ padding:40px;
 
 
 
+<!--========================
+LOADER
+=========================-->
 
-<script src="script.js"></script>
+<div id="loader" class="loader">
 
-<script src="cart.js"></script>
-
-
-
-
-
-<script type="module">
-
-
-import { db } from "./firebase.js";
-
-
-import {
-
-doc,
-getDoc
-
-}
-
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-
-
-
-const box=document.getElementById("productDetails");
-
-
-
-const params=new URLSearchParams(location.search);
-
-
-const id=params.get("id");
-
-
-
-
-
-async function loadProduct(){
-
-
-try{
-
-
-
-if(!id){
-
-
-box.innerHTML="لا يوجد منتج";
-
-return;
-
-
-}
-
-
-
-
-const ref=doc(db,"products",id);
-
-
-
-const snap=await getDoc(ref);
-
-
-
-
-
-if(!snap.exists()){
-
-
-box.innerHTML="المنتج غير موجود";
-
-return;
-
-
-}
-
-
-
-
-const p=snap.data();
-
-
-
-
-
-box.innerHTML=`
-
-
-
-<img src="${p.image || 'https://via.placeholder.com/400'}">
-
-
-
-<h1>
-
-${p.name || "بدون اسم"}
-
-</h1>
-
-
-
-<p>
-
-${p.description || "لا يوجد وصف"}
-
-</p>
-
-
-
-
-<div class="details-price">
-
-${Number(p.price || 0).toLocaleString()} د.ع
-
-</div>
-
-
-
-
-<div class="details-buttons">
-
-
-
-<button onclick="addToCart(
-
-'${(p.name || '').replace(/'/g,"\\'")}',
-
-${Number(p.price || 0)},
-
-'${p.image || ''}'
-
-)">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-
-
-
-<button onclick="addToFavorites(
-
-'${(p.name || '').replace(/'/g,"\\'")}',
-
-${Number(p.price || 0)},
-
-'${p.image || ''}'
-
-)">
-
-❤️
-
-</button>
-
-
+<div class="loader-spinner"></div>
 
 </div>
 
@@ -391,47 +317,23 @@ ${Number(p.price || 0)},
 
 
 
-<a href="https://wa.me/9647813555538?text=السلام عليكم أريد طلب ${p.name}"
+<!--========================
+TOAST
+=========================-->
 
-target="_blank">
-
-📱 طلب عبر واتساب
-
-</a>
-
-
-
-`;
-
-
-
-}
-
-catch(error){
-
-
-console.error(error);
-
-
-box.innerHTML="حدث خطأ في تحميل المنتج";
-
-
-}
-
-
-
-}
+<div id="toast" class="toast"></div>
 
 
 
 
-loadProduct();
 
+<!--========================
+SCRIPTS
+=========================-->
 
+<script type="module" src="./js/utils.js"></script>
 
-</script>
-
-
+<script type="module" src="./js/details.js"></script>
 
 </body>
 
