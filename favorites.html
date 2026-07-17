@@ -4,89 +4,150 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>المفضلة | مجمع حمزه الشطري</title>
+
+<title>
+المفضلة | مجمع حمزه الشطري
+</title>
+
 
 <meta name="theme-color" content="#111827">
 
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css">
+
+
+<!-- CSS الصحيح -->
+
+<link rel="stylesheet" href="./style.css">
+
+
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
+
 </head>
+
 
 <body>
 
+
 <header class="header">
+
 
 <div class="brand">
 
-<img src="images/logo.png" alt="مجمع حمزه الشطري">
+
+<img src="./images/logo.png"
+alt="مجمع حمزه الشطري">
+
+
 
 <div>
 
-<h1>مجمع حمزه الشطري</h1>
 
-<p>المنتجات المفضلة</p>
+<h1>
+مجمع حمزه الشطري
+</h1>
+
+
+<p>
+المنتجات المفضلة
+</p>
+
 
 </div>
 
+
 </div>
+
+
 
 <div class="header-icons">
 
-<a href="index.html" class="header-btn">
+
+<a href="index.html"
+class="header-btn">
+
 
 <i class="fa-solid fa-house"></i>
 
+
 </a>
 
-<a href="cart.html" class="header-btn">
+
+
+<a href="cart.html"
+class="header-btn">
+
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-<span id="cartCount">0</span>
+
+<span id="cartCount">
+0
+</span>
+
 
 </a>
 
+
 </div>
+
 
 </header>
 
+
+
+
 <section class="search-box">
 
+
 <i class="fa-solid fa-heart"></i>
+
 
 <input
 type="text"
 value="قائمة المنتجات المفضلة"
 readonly>
 
-</section>
 
+</section>
 <main>
+
 
 <div
 id="favoritesContainer"
 class="products-grid">
 
-<!-- سيتم تحميل المنتجات هنا -->
+
+<!-- يتم تحميل المنتجات هنا -->
+
 
 </div>
+
+
+
 
 <div
 id="emptyFavorites"
 class="empty-state"
 style="display:none;">
 
+
+
 <i class="fa-regular fa-heart"></i>
+
+
 
 <h2>
 
@@ -94,34 +155,61 @@ style="display:none;">
 
 </h2>
 
+
+
 <p>
 
 قم بإضافة منتجات إلى المفضلة لتظهر هنا.
 
 </p>
 
-<a
-href="products.html"
+
+
+
+<a href="products.html"
 class="hero-btn">
+
 
 تصفح المنتجات
 
+
 </a>
 
+
+
 </div>
+
+
+
+
+
 <!-- قالب المنتج -->
+
 
 <template id="favoriteTemplate">
 
+
+
 <div class="product-card fade-up">
+
+
 
 <div class="product-image">
 
+
+
 <img class="product-img"
-src="images/no-image.png"
-alt="">
+
+src="./images/no-image.png"
+
+alt="منتج">
+
+
+
+
 
 <div class="product-badges">
+
 
 <span class="badge new">
 
@@ -129,17 +217,31 @@ alt="">
 
 </span>
 
+
 </div>
+
+
+
 
 <button class="favorite-btn active">
 
+
 <i class="fa-solid fa-heart"></i>
+
 
 </button>
 
+
+
 </div>
 
+
+
+
+
 <div class="product-content">
+
+
 
 <h3 class="product-name">
 
@@ -147,19 +249,39 @@ alt="">
 
 </h3>
 
+
+
+
+
 <div class="rating">
 
+
 <i class="fa-solid fa-star"></i>
+
 <i class="fa-solid fa-star"></i>
+
 <i class="fa-solid fa-star"></i>
+
 <i class="fa-solid fa-star"></i>
+
 <i class="fa-solid fa-star-half-stroke"></i>
 
-<span>4.9</span>
+
+<span>
+
+4.9
+
+</span>
+
 
 </div>
 
+
+
+
+
 <div class="price-box">
+
 
 <span class="price">
 
@@ -167,38 +289,60 @@ alt="">
 
 </span>
 
+
 <span class="old-price">
 
 </span>
 
+
 </div>
+
+
+
+
 
 <div class="product-buttons">
 
+
+
 <button class="details-btn">
+
 
 <i class="fa-solid fa-eye"></i>
 
+
 عرض
 
+
 </button>
+
+
+
+
 
 <button class="cart-btn">
 
+
 <i class="fa-solid fa-cart-shopping"></i>
+
 
 إضافة للسلة
 
+
 </button>
 
-</div>
+
 
 </div>
 
+
 </div>
+
+
+</div>
+
 
 </template>
-
 <!-- Toast -->
 
 <div id="toast" class="toast">
@@ -207,53 +351,120 @@ alt="">
 
 </div>
 
+
+
+
+
 <!-- زر العودة للأعلى -->
+
 
 <button class="scroll-top">
 
+
 <i class="fa-solid fa-arrow-up"></i>
+
 
 </button>
 
+
+
+
+
+
 <!-- القائمة السفلية -->
+
 
 <nav class="bottom-nav">
 
+
+
 <a href="index.html">
+
 
 <i class="fa-solid fa-house"></i>
 
-<span>الرئيسية</span>
+
+<span>
+
+الرئيسية
+
+</span>
+
 
 </a>
+
+
+
+
 
 <a href="products.html">
 
+
 <i class="fa-solid fa-store"></i>
 
-<span>المنتجات</span>
+
+<span>
+
+المنتجات
+
+</span>
+
 
 </a>
+
+
+
+
 
 <a href="favorites.html" class="active">
 
+
 <i class="fa-solid fa-heart"></i>
 
-<span>المفضلة</span>
+
+<span>
+
+المفضلة
+
+</span>
+
 
 </a>
+
+
+
+
 
 <a href="cart.html">
 
+
 <i class="fa-solid fa-cart-shopping"></i>
 
-<span>السلة</span>
+
+<span>
+
+السلة
+
+</span>
+
 
 </a>
 
+
+
 </nav>
 
-<script type="module" src="js/favorites.js"></script>
+
+
+
+
+<!-- JavaScript -->
+
+
+<script type="module" src="./js/favorites.js"></script>
+
+
 
 </body>
+
 </html>
