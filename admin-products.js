@@ -396,8 +396,9 @@ window.refreshProducts = function(){
 START
 ========================*/
 
-document.addEventListener("DOMContentLoaded",()=>{
-
+document.addEventListener("DOMContentLoaded", () => {
+    alert("admin-products.js يعمل");
     loadProducts();
+});
 
 });
