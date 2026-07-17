@@ -11,15 +11,17 @@
 
 <meta name="theme-color" content="#111827">
 
+<link rel="icon" href="./IMG_5661.jpeg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<link rel="stylesheet" href="./style.css">
 
 </head>
 
@@ -29,13 +31,13 @@
 
 <div class="brand">
 
-<img src="images/logo.png" alt="مجمع حمزه الشطري">
+<img src="./IMG_5661.jpeg" alt="مجمع حمزه الشطري">
 
-<div>
+<div class="brand-info">
 
-<h1>مجمع حمزه الشطري</h1>
+<h1>سلة التسوق</h1>
 
-<p>سلة التسوق</p>
+<p>راجع طلبك قبل الإرسال</p>
 
 </div>
 
@@ -49,40 +51,45 @@
 
 </a>
 
-<a href="favorites.html" class="header-btn">
-
-<i class="fa-regular fa-heart"></i>
-
-</a>
-
 </div>
 
 </header>
 
-<section class="search-box">
+
+
+<section class="cart-page">
+
+<div class="section-head">
+
+<h2>
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-<input type="text" value="مراجعة الطلب" readonly>
+سلة التسوق
 
-</section>
-
-<main class="cart-page">
-
-<div id="cartItems" class="cart-list">
-
-<!-- يتم عرض المنتجات هنا -->
-
-</div>
-<!-- ملخص الطلب -->
-
-<div class="cart-summary">
-
-<h2>
-ملخص الطلب
 </h2>
 
-<div class="summary-item">
+</div>
+
+
+
+<div id="cartItems" class="cart-items">
+
+<!-- سيتم تحميل المنتجات هنا -->
+
+</div>
+
+  <div class="cart-summary">
+
+<div class="summary-card">
+
+<h3>
+
+ملخص الطلب
+
+</h3>
+
+<div class="summary-row">
 
 <span>عدد المنتجات</span>
 
@@ -90,97 +97,19 @@
 
 </div>
 
-<div class="summary-item">
+<div class="summary-row">
 
 <span>الإجمالي</span>
 
-<strong id="totalPrice">0 د.ع</strong>
+<strong id="cartTotal">0 د.ع</strong>
 
 </div>
 
-</div>
+<div class="summary-row">
 
-<!-- بيانات العميل -->
+<span>التوصيل</span>
 
-<section class="checkout-form">
-
-<h2 class="section-title">
-
-بيانات العميل
-
-</h2>
-
-<div class="form-group">
-
-<label>
-
-الاسم الكامل
-
-</label>
-
-<input
-type="text"
-id="customerName"
-placeholder="اكتب الاسم الكامل">
-
-</div>
-
-<div class="form-group">
-
-<label>
-
-رقم الهاتف
-
-</label>
-
-<input
-type="tel"
-id="customerPhone"
-placeholder="07xxxxxxxxx">
-
-</div>
-
-<div class="form-group">
-
-<label>
-
-المحافظة
-
-</label>
-
-<input
-type="text"
-id="customerCity"
-placeholder="مثال: بغداد">
-
-</div>
-
-<div class="form-group">
-
-<label>
-
-العنوان
-
-</label>
-
-<input
-type="text"
-id="customerAddress"
-placeholder="المنطقة / الشارع">
-
-</div>
-
-<div class="form-group">
-
-<label>
-
-ملاحظات
-
-</label>
-
-<textarea
-id="customerNotes"
-placeholder="أي ملاحظات إضافية..."></textarea>
+<strong>حسب المحافظة</strong>
 
 </div>
 
@@ -194,107 +123,87 @@ class="checkout-btn">
 
 </button>
 
-</section>
-<!-- قالب عنصر السلة -->
+<a
+href="products.html"
+class="continue-shopping">
 
-<template id="cartItemTemplate">
+<i class="fa-solid fa-store"></i>
 
-<div class="cart-item">
-
-<div class="cart-image">
-
-<img class="cart-product-image"
-src="images/no-image.png"
-alt="">
-
-</div>
-
-<div class="cart-content">
-
-<h3 class="cart-product-name">
-اسم المنتج
-</h3>
-
-<p class="cart-product-price">
-0 د.ع
-</p>
-
-<div class="cart-qty">
-
-<button class="qty-minus">
-
-<i class="fa-solid fa-minus"></i>
-
-</button>
-
-<span class="qty-value">
-1
-</span>
-
-<button class="qty-plus">
-
-<i class="fa-solid fa-plus"></i>
-
-</button>
-
-</div>
-
-</div>
-
-<button class="delete-item">
-
-<i class="fa-solid fa-trash"></i>
-
-</button>
-
-</div>
-
-</template>
-
-<!-- السلة الفارغة -->
-
-<div
-id="emptyCart"
-class="empty-state"
-style="display:none;">
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-<h2>
-السلة فارغة
-</h2>
-
-<p>
-لم تقم بإضافة أي منتج بعد.
-</p>
-
-<a href="products.html" class="hero-btn">
-
-ابدأ التسوق
+متابعة التسوق
 
 </a>
 
 </div>
 
-</main>
+</section>
 
-<!-- إشعارات -->
 
-<div class="toast" id="toast">
 
-تمت إضافة المنتج
+<template id="emptyCartTemplate">
+
+<div class="empty-cart">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<h2>
+
+السلة فارغة
+
+</h2>
+
+<p>
+
+لم تقم بإضافة أي منتج بعد
+
+</p>
+
+<a
+href="products.html"
+class="hero-btn">
+
+تصفح المنتجات
+
+</a>
 
 </div>
 
-<!-- زر العودة للأعلى -->
+</template>
 
-<button class="scroll-top">
+  <!--========================
+FOOTER
+=========================-->
 
-<i class="fa-solid fa-arrow-up"></i>
+<footer class="footer">
 
-</button>
+<div class="footer-logo">
 
-<!-- القائمة السفلية -->
+<img src="./IMG_5661.jpeg" alt="مجمع حمزه الشطري">
+
+<h3>مجمع حمزه الشطري</h3>
+
+</div>
+
+<p>
+
+بيع الملابس بالجملة لجميع محافظات العراق
+
+</p>
+
+<p class="copyright">
+
+© 2026 جميع الحقوق محفوظة
+
+</p>
+
+</footer>
+
+
+
+
+
+<!--========================
+BOTTOM NAVIGATION
+=========================-->
 
 <nav class="bottom-nav">
 
@@ -316,7 +225,7 @@ style="display:none;">
 
 <a href="favorites.html">
 
-<i class="fa-regular fa-heart"></i>
+<i class="fa-solid fa-heart"></i>
 
 <span>المفضلة</span>
 
@@ -330,10 +239,51 @@ style="display:none;">
 
 </a>
 
+<a href="about.html">
+
+<i class="fa-solid fa-user"></i>
+
+<span>من نحن</span>
+
+</a>
+
 </nav>
 
-<script src="js/cart.js"></script>
+
+
+
+
+<!--========================
+LOADER
+=========================-->
+
+<div id="loader" class="loader">
+
+<div class="loader-spinner"></div>
+
+</div>
+
+
+
+
+
+<!--========================
+TOAST
+=========================-->
+
+<div id="toast" class="toast"></div>
+
+
+
+
+
+<!--========================
+SCRIPTS
+=========================-->
+
+<script type="module" src="./js/utils.js"></script>
+
+<script type="module" src="./js/cart.js"></script>
 
 </body>
-
 </html>
