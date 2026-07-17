@@ -1,13 +1,15 @@
 /*==================================
-Hamza Store V5
-Firebase Config
+Hamza Store V6
+Firebase
 ==================================*/
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-import { getFirestore }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+getFirestore,
+collection,
+doc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /*==================================
 Firebase Config
@@ -29,15 +31,15 @@ appId:""
 
 };
 
+/*
+ضع بيانات مشروع Firebase هنا
+*/
+
 const app=initializeApp(firebaseConfig);
 
-export const db=getFirestore(app);
-/*==================================
-Exports
-==================================*/
+const db=getFirestore(app);
 
-export { app };
-
+export { app, db };
 /*==================================
 Collections
 ==================================*/
@@ -57,115 +59,88 @@ settings:"settings"
 };
 
 /*==================================
-Helpers
+Collection References
 ==================================*/
 
-export function productsRef(){
+export const productsCollection=()=>
 
-return COLLECTIONS.products;
+collection(db,COLLECTIONS.products);
 
-}
+export const ordersCollection=()=>
 
-export function ordersRef(){
+collection(db,COLLECTIONS.orders);
 
-return COLLECTIONS.orders;
+export const categoriesCollection=()=>
 
-}
+collection(db,COLLECTIONS.categories);
 
-export function categoriesRef(){
+export const offersCollection=()=>
 
-return COLLECTIONS.categories;
+collection(db,COLLECTIONS.offers);
 
-}
+export const settingsCollection=()=>
 
-export function offersRef(){
+collection(db,COLLECTIONS.settings);
 
-return COLLECTIONS.offers;
+/*==================================
+Document References
+==================================*/
 
-}
+export const productDoc=(id)=>
 
-export function settingsRef(){
+doc(db,COLLECTIONS.products,id);
 
-return COLLECTIONS.settings;
+export const orderDoc=(id)=>
 
-}
+doc(db,COLLECTIONS.orders,id);
 
+export const categoryDoc=(id)=>
+
+doc(db,COLLECTIONS.categories,id);
+
+export const offerDoc=(id)=>
+
+doc(db,COLLECTIONS.offers,id);
+
+export const settingsDoc=(id)=>
+
+doc(db,COLLECTIONS.settings,id);
 /*==================================
 Version
 ==================================*/
 
 export const APP_NAME="Hamza Store";
 
-export const APP_VERSION="5.0 Ultimate";
+export const APP_VERSION="6.0 Ultimate";
+
+/*==================================
+Firebase Status
+==================================*/
+
+export function firebaseReady(){
+
+return !!db;
+
+}
 
 console.log(
+
 `${APP_NAME} ${APP_VERSION} Loaded`
+
 );
-/*==================================
-Firestore Helpers
-==================================*/
 
-import{
+if(firebaseReady()){
 
-collection,
-doc
+console.log("✅ Firebase Connected");
 
-}from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+}else{
 
-/*========== Collections ==========*/
-
-export function productsCollection(){
-
-return collection(db,COLLECTIONS.products);
-
-}
-
-export function ordersCollection(){
-
-return collection(db,COLLECTIONS.orders);
-
-}
-
-export function categoriesCollection(){
-
-return collection(db,COLLECTIONS.categories);
-
-}
-
-export function offersCollection(){
-
-return collection(db,COLLECTIONS.offers);
-
-}
-
-/*========== Documents ==========*/
-
-export function productDoc(id){
-
-return doc(db,COLLECTIONS.products,id);
-
-}
-
-export function orderDoc(id){
-
-return doc(db,COLLECTIONS.orders,id);
-
-}
-
-export function categoryDoc(id){
-
-return doc(db,COLLECTIONS.categories,id);
-
-}
-
-export function offerDoc(id){
-
-return doc(db,COLLECTIONS.offers,id);
+console.error("❌ Firebase Not Connected");
 
 }
 
 /*==================================
-Ready
+Default Export
 ==================================*/
 
-console.log("Firebase Ready ✅");
+export default db;
