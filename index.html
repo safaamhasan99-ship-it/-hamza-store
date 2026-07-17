@@ -14,20 +14,23 @@
 
 
 <meta name="description"
-content="مجمع حمزه الشطري بيع الملابس بالجملة لجميع محافظات العراق">
+content="مجمع حمزه الشطري - بيع الملابس بالجملة لجميع محافظات العراق">
 
 
 <link rel="icon" href="./images/logo.png">
 
 
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
 
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 
-<link rel="stylesheet" href="./css/style.css">
+
+<link rel="stylesheet" href="./style.css">
 
 
 </head>
@@ -36,7 +39,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 <body>
 
 
-<!-- HEADER -->
 
 <header class="header">
 
@@ -44,8 +46,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 <div class="brand">
 
 
-<img src="./images/logo.png"
-alt="logo">
+<img src="./images/logo.png" alt="logo">
+
 
 
 <div>
@@ -67,11 +69,12 @@ alt="logo">
 
 
 
+
+
 <div class="header-icons">
 
 
-<button id="darkBtn"
-class="header-btn">
+<button id="darkBtn" class="header-btn">
 
 <i class="fa-solid fa-moon"></i>
 
@@ -79,8 +82,8 @@ class="header-btn">
 
 
 
-<a href="favorites.html"
-class="header-btn">
+
+<a href="favorites.html" class="header-btn">
 
 <i class="fa-solid fa-heart"></i>
 
@@ -89,8 +92,7 @@ class="header-btn">
 
 
 
-<a href="cart.html"
-class="header-btn cart-icon">
+<a href="cart.html" class="header-btn">
 
 
 <i class="fa-solid fa-cart-shopping"></i>
@@ -113,17 +115,19 @@ class="header-btn cart-icon">
 
 
 
-<!-- SEARCH -->
-
 
 <section class="search-box">
 
 
-<i class="fa-solid fa-search"></i>
+<i class="fa-solid fa-magnifying-glass"></i>
 
 
-<input id="searchInput"
+
+<input 
+id="searchInput"
+type="search"
 placeholder="ابحث عن منتج...">
+
 
 
 </section>
@@ -138,7 +142,7 @@ HERO SLIDER
 
 
 <img src="./images/women/product1.jpg"
-alt="عروض نسائية">
+alt="موديلات نسائية">
 
 
 
@@ -186,7 +190,7 @@ class="hero-btn">
 
 
 <img src="./images/men/product1.jpg"
-alt="ملابس رجالية">
+alt="موديلات رجالية">
 
 
 
@@ -206,7 +210,7 @@ alt="ملابس رجالية">
 
 
 <p>
-رجالي ونسائي وولادي بأسعار الجملة
+موديلات رجالية ونسائية وولادية
 </p>
 
 
@@ -273,18 +277,25 @@ class="hero-btn">
 
 
 
+
 <div class="hero-dots">
+
 
 <span class="hero-dot active"></span>
 
-<span class="hero-dot"></span>
 
 <span class="hero-dot"></span>
+
+
+<span class="hero-dot"></span>
+
 
 </div>
 
 
 </section>
+
+
 
 
 
@@ -310,7 +321,9 @@ class="hero-btn">
 
 
 <a href="products.html">
+
 عرض الكل
+
 </a>
 
 
@@ -320,20 +333,19 @@ class="hero-btn">
 
 
 
-<div class="categories-slider">
+<div class="categories-grid">
 
 
 
-<a href="men.html"
-class="category-item">
+<a href="men.html" class="category-card">
 
 
 <img src="./images/men/product1.jpg">
 
 
-<span>
+<h3>
 رجالي
-</span>
+</h3>
 
 
 </a>
@@ -342,16 +354,15 @@ class="category-item">
 
 
 
-<a href="women.html"
-class="category-item">
+<a href="women.html" class="category-card">
 
 
 <img src="./images/women/product1.jpg">
 
 
-<span>
+<h3>
 نسائي
-</span>
+</h3>
 
 
 </a>
@@ -360,16 +371,15 @@ class="category-item">
 
 
 
-<a href="boys.html"
-class="category-item">
+<a href="boys.html" class="category-card">
 
 
 <img src="./images/boys/product1.jpg">
 
 
-<span>
+<h3>
 ولادي
-</span>
+</h3>
 
 
 </a>
@@ -378,16 +388,15 @@ class="category-item">
 
 
 
-<a href="girls.html"
-class="category-item">
+<a href="girls.html" class="category-card">
 
 
 <img src="./images/girls/product1.jpg">
 
 
-<span>
+<h3>
 بناتي
-</span>
+</h3>
 
 
 </a>
@@ -396,19 +405,19 @@ class="category-item">
 
 
 
-<a href="socks.html"
-class="category-item">
+<a href="socks.html" class="category-card">
 
 
 <img src="./images/socks/product1.jpg">
 
 
-<span>
+<h3>
 جوارب
-</span>
+</h3>
 
 
 </a>
+
 
 
 
@@ -435,6 +444,7 @@ class="category-item">
 </h2>
 
 
+
 <a href="products.html">
 
 عرض الكل
@@ -447,8 +457,8 @@ class="category-item">
 
 
 
-<div id="productsContainer"
-class="products-grid">
+
+<div id="productsContainer" class="products-grid">
 
 
 </div>
@@ -456,6 +466,7 @@ class="products-grid">
 
 
 </section>
+
 
 
 
@@ -475,9 +486,10 @@ PRODUCT TEMPLATE
 <div class="product-image">
 
 
-<img class="product-img"
+<img 
+class="product-img"
 src=""
-alt="منتج"
+alt="product"
 loading="lazy">
 
 
@@ -494,7 +506,6 @@ loading="lazy">
 
 
 
-
 <div class="product-badges">
 
 
@@ -508,8 +519,8 @@ loading="lazy">
 </div>
 
 
-
 </div>
+
 
 
 
@@ -547,6 +558,7 @@ loading="lazy">
 
 
 
+
 <div class="price-box">
 
 
@@ -562,7 +574,6 @@ loading="lazy">
 
 
 <div class="product-buttons">
-
 
 
 <button class="details-btn">
@@ -590,7 +601,6 @@ loading="lazy">
 
 
 </button>
-
 
 
 </div>
@@ -628,21 +638,25 @@ OFFERS
 
 
 
-<div class="offers-grid">
 
+<div class="offers-grid">
 
 
 <div class="offer-card">
 
+
 <i class="fa-solid fa-percent"></i>
+
 
 <h3>
 خصومات الجملة
 </h3>
 
+
 <p>
 أفضل الأسعار للتجار
 </p>
+
 
 </div>
 
@@ -652,15 +666,19 @@ OFFERS
 
 <div class="offer-card">
 
+
 <i class="fa-solid fa-truck-fast"></i>
+
 
 <h3>
 توصيل سريع
 </h3>
 
+
 <p>
 جميع محافظات العراق
 </p>
+
 
 </div>
 
@@ -670,15 +688,19 @@ OFFERS
 
 <div class="offer-card">
 
+
 <i class="fa-solid fa-award"></i>
+
 
 <h3>
 جودة مضمونة
 </h3>
 
+
 <p>
 منتجات مختارة بعناية
 </p>
+
 
 </div>
 
@@ -724,7 +746,6 @@ class="hero-btn">
 
 
 </section>
-
 
 
 
@@ -788,7 +809,9 @@ alt="logo">
 </p>
 
 
+
 </footer>
+
 
 
 
@@ -802,56 +825,69 @@ BOTTOM NAV
 <nav class="bottom-nav">
 
 
-<a href="index.html"
-class="active">
+<a href="index.html" class="active">
+
 
 <i class="fa-solid fa-house"></i>
+
 
 <span>
 الرئيسية
 </span>
 
+
 </a>
+
 
 
 
 
 <a href="products.html">
 
+
 <i class="fa-solid fa-store"></i>
+
 
 <span>
 المنتجات
 </span>
 
+
 </a>
+
 
 
 
 
 <a href="favorites.html">
 
+
 <i class="fa-solid fa-heart"></i>
+
 
 <span>
 المفضلة
 </span>
 
+
 </a>
+
 
 
 
 
 <a href="cart.html">
 
+
 <i class="fa-solid fa-cart-shopping"></i>
+
 
 <span>
 السلة
 </span>
 
-</a>
 
+</a>
 
 
 </nav>
@@ -861,16 +897,17 @@ class="active">
 
 
 
-<div id="toast"
-class="toast">
-</div>
+<div id="toast" class="toast"></div>
+
 
 
 
 
 <button class="scroll-top">
 
+
 <i class="fa-solid fa-arrow-up"></i>
+
 
 </button>
 
@@ -880,6 +917,7 @@ class="toast">
 
 
 <script type="module" src="./script.js"></script>
+
 
 <script type="module" src="./products.js"></script>
 
