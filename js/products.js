@@ -184,3 +184,97 @@ card.querySelector(".favorite-btn i").classList.add("fa-solid");
 return card;
 
 }
+
+/*========================
+SEARCH + FILTER + SORT
+========================*/
+
+function filterProducts(){
+
+let list=[...products];
+
+/* البحث */
+
+const keyword=(searchInput?.value||"").trim().toLowerCase();
+
+if(keyword){
+
+list=list.filter(product=>{
+
+return(
+
+(product.name||"").toLowerCase().includes(keyword) ||
+
+(product.description||"").toLowerCase().includes(keyword)
+
+);
+
+});
+
+}
+
+/* القسم */
+
+const category=categoryFilter?.value||"";
+
+if(category){
+
+list=list.filter(product=>{
+
+const value=(product.category||"").trim();
+
+return value===category;
+
+});
+
+}
+
+/* الترتيب */
+
+switch(sortProducts?.value){
+
+case "low":
+
+list.sort((a,b)=>
+
+Number(a.price||0)-Number(b.price||0)
+
+);
+
+break;
+
+case "high":
+
+list.sort((a,b)=>
+
+Number(b.price||0)-Number(a.price||0)
+
+);
+
+break;
+
+case "name":
+
+list.sort((a,b)=>
+
+(a.name||"").localeCompare(
+
+b.name||"",
+
+"ar"
+
+)
+
+);
+
+break;
+
+default:
+
+break;
+
+}
+
+renderProducts(list);
+
+}
