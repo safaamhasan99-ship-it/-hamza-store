@@ -4,7 +4,7 @@ Admin Products
 Part 1
 ==================================*/
 
-import { db } from "./firebase.js";
+import { db } from "./js/firebase.js";
 
 import {
   collection,
