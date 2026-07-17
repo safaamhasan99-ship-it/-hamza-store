@@ -1,305 +1,370 @@
 /*==================================
-Hamza Store V6
-Cart Page
+Hamza Store V7
+Cart
 ==================================*/
 
-import{
+
+import {
 
 getCart,
 saveCart,
 removeFromCart,
 formatPrice,
 showToast,
-updateCartCount,
-imageOrDefault
+updateCartCount
 
-}from "./utils.js";
+}
 
-/*==================================
-Elements
-==================================*/
+from "./utils.js";
 
-const cartItems=document.getElementById("cartItems");
 
-const emptyCart=document.getElementById("emptyCart");
 
-const itemsCount=document.getElementById("itemsCount");
 
-const totalPrice=document.getElementById("totalPrice");
 
-const checkoutBtn=document.getElementById("checkoutBtn");
+const cartItems =
 
-let cart=getCart();
+document.getElementById("cartItems");
 
-/*==================================
-Start
-==================================*/
+
+const totalPrice =
+
+document.getElementById("totalPrice");
+
+
+const itemsCount =
+
+document.getElementById("itemsCount");
+
+
+const checkoutBtn =
+
+document.getElementById("checkoutBtn");
+
+
+
 
 updateCartCount();
 
-if(cartItems){
 
 renderCart();
 
-}
 
-/*==================================
-Render Cart
-==================================*/
+
+
+
 
 function renderCart(){
 
-cart=getCart();
 
-if(!cartItems) return;
+if(!cartItems)
+return;
+
+
+
+const cart=getCart();
+
+
 
 cartItems.innerHTML="";
 
-if(cart.length===0){
 
-if(emptyCart){
-
-emptyCart.style.display="block";
-
-}
-
-if(itemsCount){
-
-itemsCount.textContent="0";
-
-}
-
-if(totalPrice){
-
-totalPrice.textContent=formatPrice(0);
-
-}
-
-return;
-
-}
-
-if(emptyCart){
-
-emptyCart.style.display="none";
-
-}
 
 let total=0;
 
-let qty=0;
+let count=0;
+
+
+
+
+if(cart.length===0){
+
+
+cartItems.innerHTML=`
+
+<h3>
+
+السلة فارغة
+
+</h3>
+
+`;
+
+
+if(totalPrice)
+
+totalPrice.textContent="0 د.ع";
+
+
+return;
+
+
+}
+
+
+
 
 cart.forEach(item=>{
 
-qty+=item.qty;
 
-total+=Number(item.price)*item.qty;
 
-cartItems.innerHTML+=`
+count += item.qty;
+
+
+total += item.price * item.qty;
+
+
+
+
+
+cartItems.innerHTML += `
+
 
 <div class="cart-item">
 
-<div class="cart-image">
 
-<img
-src="${imageOrDefault(item.image)}"
-alt="${item.name||''}"
-loading="lazy">
+<img src="${item.image}">
 
-</div>
 
-<div class="cart-content">
+<div>
 
-<h3>${item.name}</h3>
 
-<p class="cart-product-price">
+<h3>
+
+${item.name}
+
+</h3>
+
+
+<p>
 
 ${formatPrice(item.price)}
 
 </p>
 
-<div class="cart-qty">
 
-<button onclick="changeQty('${item.id}',-1)">
-
-<i class="fa-solid fa-minus"></i>
-
-</button>
-
-<span>${item.qty}</span>
 
 <button onclick="changeQty('${item.id}',1)">
++
+</button>
 
-<i class="fa-solid fa-plus"></i>
+
+<span>
+${item.qty}
+</span>
+
+
+<button onclick="changeQty('${item.id}',-1)">
+-
+</button>
+
+
+
+</div>
+
+
+
+<button onclick="deleteItem('${item.id}')">
+
+🗑️
 
 </button>
 
-</div>
 
 </div>
 
-<button
 
-class="delete-item"
-
-onclick="deleteItem('${item.id}')">
-
-<i class="fa-solid fa-trash"></i>
-
-</button>
-
-</div>
 
 `;
 
+
+
 });
 
-itemsCount.textContent=qty;
+
+
+if(itemsCount)
+
+itemsCount.textContent=count;
+
+
+
+if(totalPrice)
 
 totalPrice.textContent=formatPrice(total);
 
-}
-/*==================================
-Cart Actions
-==================================*/
 
-window.changeQty=(id,change)=>{
-
-const index=cart.findIndex(item=>item.id===id);
-
-if(index===-1) return;
-
-cart[index].qty+=change;
-
-if(cart[index].qty<=0){
-
-cart.splice(index,1);
 
 }
+
+
+
+
+
+
+window.changeQty=function(id,value){
+
+
+let cart=getCart();
+
+
+
+let item=cart.find(
+
+x=>x.id===id
+
+);
+
+
+
+if(!item)
+return;
+
+
+
+item.qty += value;
+
+
+
+if(item.qty<=0){
+
+
+cart=
+
+cart.filter(
+
+x=>x.id!==id
+
+);
+
+
+}
+
+
 
 saveCart(cart);
 
+
 renderCart();
 
-updateCartCount();
 
 };
 
-/*==================================
-Delete Item
-==================================*/
 
-window.deleteItem=(id)=>{
 
-if(!confirm("هل تريد حذف هذا المنتج من السلة؟")) return;
+
+
+
+
+
+window.deleteItem=function(id){
+
 
 removeFromCart(id);
 
-cart=getCart();
 
 renderCart();
 
-updateCartCount();
 
-showToast("تم حذف المنتج من السلة");
+showToast("تم حذف المنتج");
+
 
 };
 
-/*==================================
-Checkout
-==================================*/
+
+
+
+
+
+
+
 
 if(checkoutBtn){
 
+
+
 checkoutBtn.onclick=()=>{
 
-cart=getCart();
+
+const cart=getCart();
+
+
 
 if(cart.length===0){
 
+
 showToast("السلة فارغة");
 
-return;
-
-}
-
-const name=document.getElementById("customerName")?.value.trim()||"";
-
-const phone=document.getElementById("customerPhone")?.value.trim()||"";
-
-const city=document.getElementById("customerCity")?.value.trim()||"";
-
-const address=document.getElementById("customerAddress")?.value.trim()||"";
-
-const notes=document.getElementById("customerNotes")?.value.trim()||"";
-
-if(name===""||phone===""){
-
-showToast("يرجى إدخال الاسم ورقم الهاتف");
 
 return;
 
-}
-
-let message="🛍️ طلب جديد من متجر مجمع حمزه الشطري\n\n";
-
-message+=`👤 الاسم: ${name}\n`;
-message+=`📞 الهاتف: ${phone}\n`;
-
-if(city){
-
-message+=`📍 المحافظة: ${city}\n`;
 
 }
 
-if(address){
 
-message+=`🏠 العنوان: ${address}\n`;
 
-}
+let message=
 
-if(notes){
+"🛒 طلب جديد من مجمع حمزه الشطري\n\n";
 
-message+=`📝 ملاحظات: ${notes}\n`;
 
-}
-
-message+="\n-------------------------\n\n";
 
 let total=0;
 
+
+
 cart.forEach(item=>{
 
-const subtotal=Number(item.price)*item.qty;
 
-total+=subtotal;
+let sum=item.price*item.qty;
 
-message+=`${item.name}\n`;
 
-message+=`الكمية: ${item.qty}\n`;
+total+=sum;
 
-message+=`السعر: ${formatPrice(item.price)}\n`;
 
-message+=`المجموع: ${formatPrice(subtotal)}\n\n`;
+
+message+=
+
+`${item.name}\n`;
+
+message+=
+
+`الكمية: ${item.qty}\n`;
+
+message+=
+
+`السعر: ${formatPrice(sum)}\n\n`;
+
+
 
 });
 
-message+=`💰 الإجمالي: ${formatPrice(total)}`;
+
+
+message+=
+
+`الإجمالي: ${formatPrice(total)}`;
+
+
 
 window.open(
 
-`https://wa.me/9647813555538?text=${encodeURIComponent(message)}`,
+"https://wa.me/9647813555538?text="+
+
+encodeURIComponent(message),
 
 "_blank"
 
 );
 
+
+
 };
+
+
 
 }
 
-/*==================================
-Ready
-==================================*/
 
-console.log("Cart Page Ready ✅");
+
+
+console.log("Cart Ready ✅");
