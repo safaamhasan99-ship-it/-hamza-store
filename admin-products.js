@@ -402,5 +402,3 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("admin-products.js يعمل");
     loadProducts();
 });
-
-
