@@ -1,22 +1,21 @@
 /*==================================
-Hamza Store V13
-Admin Products JS
+Hamza Store V14
+Admin Products
 Part 1
 ==================================*/
 
 import { db } from "./firebase.js";
 
 import {
-collection,
-addDoc,
-getDocs,
-doc,
-deleteDoc,
-updateDoc,
-getDoc,
-serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  doc,
+  updateDoc,
+  deleteDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /*========================
 ELEMENTS
@@ -33,44 +32,38 @@ const imageInput = document.getElementById("image");
 const offerInput = document.getElementById("offer");
 
 const saveBtn = document.getElementById("saveBtn");
-
-/* إصلاح الخطأ */
 const productsList = document.getElementById("productsList");
 
 let editId = null;
 
 /*========================
-TOAST
+MESSAGE
 ========================*/
 
-function showMessage(text, success = true) {
+function showMessage(message, success = true){
 
     const toast = document.createElement("div");
 
-    toast.className = "toast";
+    toast.textContent = message;
 
     toast.style.position = "fixed";
     toast.style.left = "20px";
     toast.style.bottom = "20px";
-    toast.style.padding = "15px 22px";
+    toast.style.padding = "14px 22px";
     toast.style.borderRadius = "12px";
+    toast.style.background = success ? "#16a34a" : "#dc2626";
     toast.style.color = "#fff";
     toast.style.fontFamily = "Cairo";
     toast.style.fontWeight = "700";
     toast.style.zIndex = "999999";
-    toast.style.background = success
-        ? "#16a34a"
-        : "#dc2626";
-
-    toast.textContent = text;
 
     document.body.appendChild(toast);
 
-    setTimeout(() => {
+    setTimeout(()=>{
 
         toast.remove();
 
-    }, 2500);
+    },2500);
 
 }
 
@@ -78,17 +71,17 @@ function showMessage(text, success = true) {
 IMAGE
 ========================*/
 
-function cleanImageUrl(url){
+function cleanImage(url){
 
     if(!url) return "";
 
-    url = String(url).trim();
+    url = url.trim();
 
-    const html = url.match(/src=['"]([^'"]+)['"]/i);
+    const match = url.match(/src=['"]([^'"]+)['"]/i);
 
-    if(html){
+    if(match){
 
-        url = html[1];
+        url = match[1];
 
     }
 
@@ -101,6 +94,7 @@ function cleanImageUrl(url){
     return url;
 
 }
+
 /*========================
 LOAD PRODUCTS
 ========================*/
@@ -120,44 +114,57 @@ async function loadProducts(){
         if(snap.empty){
 
             productsList.innerHTML = `
-            <div class="empty-products">
+            <div class="product-box">
                 لا توجد منتجات
             </div>`;
             return;
+
         }
 
         snap.forEach(item=>{
 
             const p = item.data();
 
+            const image = cleanImage(p.image || "");
+
             productsList.innerHTML += `
 
             <div class="product-box">
 
                 <img
-                    src="${cleanImageUrl(p.image)}"
+                    src="${image}"
+                    alt="${p.name || ""}"
                     style="
                         width:100%;
-                        max-height:220px;
+                        height:220px;
                         object-fit:cover;
                         border-radius:12px;
+                        margin-bottom:10px;
                     ">
 
                 <h3>${p.name || "بدون اسم"}</h3>
 
-                <p><b>السعر:</b> ${p.price || 0} د.ع</p>
+                <p><strong>السعر:</strong> ${p.price || 0} د.ع</p>
 
-                <p><b>القسم:</b> ${p.category || ""}</p>
+                <p><strong>القسم:</strong> ${p.category || ""}</p>
 
-                <p><b>الكمية:</b> ${p.quantity || ""}</p>
+                <p><strong>الكمية:</strong> ${p.quantity || ""}</p>
 
-                <button onclick="editProduct('${item.id}')">
-                    ✏️ تعديل
-                </button>
+                <div style="display:flex;gap:10px;margin-top:15px;">
 
-                <button onclick="deleteProduct('${item.id}')">
-                    🗑 حذف
-                </button>
+                    <button
+                        onclick="editProduct('${item.id}')"
+                        style="flex:1;background:#2563eb;color:#fff;">
+                        ✏️ تعديل
+                    </button>
+
+                    <button
+                        onclick="deleteProduct('${item.id}')"
+                        style="flex:1;background:#dc2626;color:#fff;">
+                        🗑 حذف
+                    </button>
+
+                </div>
 
             </div>
 
@@ -172,20 +179,21 @@ async function loadProducts(){
         console.error(error);
 
         productsList.innerHTML = `
-        <div class="empty-products">
+        <div class="product-box">
+            <b>حدث خطأ</b><br>
             ${error.message}
         </div>`;
+
     }
 
 }
-
 /*========================
 SAVE PRODUCT
 ========================*/
 
 if(saveBtn){
 
-saveBtn.onclick = async ()=>{
+saveBtn.addEventListener("click", async()=>{
 
     const product={
 
@@ -203,15 +211,15 @@ saveBtn.onclick = async ()=>{
 
         description:descriptionInput.value.trim(),
 
-        image:cleanImageUrl(imageInput.value),
+        image:cleanImage(imageInput.value),
 
         offer:offerInput ? offerInput.checked : false
 
     };
 
-    if(!product.name){
+    if(product.name===""){
 
-        showMessage("اكتب اسم المنتج",false);
+        showMessage("يرجى إدخال اسم المنتج",false);
 
         return;
 
@@ -233,11 +241,9 @@ saveBtn.onclick = async ()=>{
 
             editId=null;
 
-            saveBtn.innerHTML="💾 حفظ المنتج";
+            saveBtn.textContent="💾 حفظ المنتج";
 
-        }
-
-        else{
+        }else{
 
             await addDoc(
 
@@ -253,7 +259,7 @@ saveBtn.onclick = async ()=>{
 
             );
 
-            showMessage("✅ تمت إضافة المنتج");
+            showMessage("✅ تم حفظ المنتج");
 
         }
 
@@ -273,7 +279,7 @@ saveBtn.onclick = async ()=>{
 
         categoryInput.selectedIndex=0;
 
-        loadProducts();
+        await loadProducts();
 
     }
 
@@ -285,10 +291,9 @@ saveBtn.onclick = async ()=>{
 
     }
 
-};
+});
 
 }
-
 /*========================
 DELETE PRODUCT
 ========================*/
@@ -303,11 +308,9 @@ window.deleteProduct = async function(id){
 
         showMessage("🗑 تم حذف المنتج");
 
-        loadProducts();
+        await loadProducts();
 
-    }
-
-    catch(error){
+    }catch(error){
 
         console.error(error);
 
@@ -341,19 +344,12 @@ window.editProduct = async function(id){
         const p = snap.data();
 
         nameInput.value = p.name || "";
-
         priceInput.value = p.price || "";
-
         categoryInput.value = p.category || "";
-
         sizesInput.value = p.sizes || "";
-
         colorsInput.value = p.colors || "";
-
         quantityInput.value = p.quantity || "";
-
         descriptionInput.value = p.description || "";
-
         imageInput.value = p.image || "";
 
         if(offerInput){
@@ -364,7 +360,7 @@ window.editProduct = async function(id){
 
         editId = id;
 
-        saveBtn.innerHTML = "💾 حفظ التعديلات";
+        saveBtn.textContent = "💾 حفظ التعديلات";
 
         window.scrollTo({
 
@@ -374,9 +370,7 @@ window.editProduct = async function(id){
 
         });
 
-    }
-
-    catch(error){
+    }catch(error){
 
         console.error(error);
 
