@@ -5,452 +5,197 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-<title>
-المفضلة | مجمع حمزه الشطري
-</title>
-
+<title>المفضلة | مجمع حمزه الشطري</title>
 
 <meta name="theme-color" content="#111827">
 
+<link rel="icon" href="./IMG_5661.jpeg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-
-
-
-<!-- CSS الصحيح -->
-
-<link rel="stylesheet" href="./style.css">
-
-
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
+<link rel="stylesheet" href="./style.css">
 
 </head>
 
-
 <body>
-
 
 <header class="header">
 
-
 <div class="brand">
 
+<img src="./IMG_5661.jpeg" alt="مجمع حمزه الشطري">
 
-<img src="./images/logo.png"
-alt="مجمع حمزه الشطري">
+<div class="brand-info">
 
+<h1>المفضلة</h1>
 
-
-<div>
-
-
-<h1>
-مجمع حمزه الشطري
-</h1>
-
-
-<p>
-المنتجات المفضلة
-</p>
-
+<p>المنتجات التي قمت بحفظها</p>
 
 </div>
 
-
 </div>
-
-
 
 <div class="header-icons">
 
-
-<a href="index.html"
-class="header-btn">
-
+<a href="index.html" class="header-btn">
 
 <i class="fa-solid fa-house"></i>
 
-
 </a>
 
-
-
-<a href="cart.html"
-class="header-btn">
-
+<a href="cart.html" class="header-btn cart-icon">
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-
-<span id="cartCount">
-0
-</span>
-
+<span id="cartCount">0</span>
 
 </a>
 
-
 </div>
-
 
 </header>
 
+<section class="favorites-page">
 
-
-
-<section class="search-box">
-
-
-<i class="fa-solid fa-heart"></i>
-
-
-<input
-type="text"
-value="قائمة المنتجات المفضلة"
-readonly>
-
-
-</section>
-<main>
-
-
-<div
-id="favoritesContainer"
-class="products-grid">
-
-
-<!-- يتم تحميل المنتجات هنا -->
-
-
-</div>
-
-
-
-
-<div
-id="emptyFavorites"
-class="empty-state"
-style="display:none;">
-
-
-
-<i class="fa-regular fa-heart"></i>
-
-
+<div class="section-head">
 
 <h2>
 
-لا توجد منتجات مفضلة
+<i class="fa-solid fa-heart"></i>
+
+قائمة المفضلة
 
 </h2>
 
+</div>
 
+<div id="favoritesContainer" class="products-grid">
+
+<!-- يتم تحميل المنتجات هنا -->
+
+</div>
+
+</section>
+<template id="emptyFavoritesTemplate">
+
+<div class="empty-cart">
+
+<i class="fa-solid fa-heart-crack"></i>
+
+<h2>
+
+لا توجد منتجات في المفضلة
+
+</h2>
 
 <p>
 
-قم بإضافة منتجات إلى المفضلة لتظهر هنا.
+قم بإضافة المنتجات التي تعجبك لتظهر هنا.
 
 </p>
 
-
-
-
-<a href="products.html"
+<a
+href="products.html"
 class="hero-btn">
-
 
 تصفح المنتجات
 
-
 </a>
 
-
-
 </div>
-
-
-
-
-
-<!-- قالب المنتج -->
-
-
-<template id="favoriteTemplate">
-
-
-
-<div class="product-card fade-up">
-
-
-
-<div class="product-image">
-
-
-
-<img class="product-img"
-
-src="./images/no-image.png"
-
-alt="منتج">
-
-
-
-
-
-<div class="product-badges">
-
-
-<span class="badge new">
-
-مفضل
-
-</span>
-
-
-</div>
-
-
-
-
-<button class="favorite-btn active">
-
-
-<i class="fa-solid fa-heart"></i>
-
-
-</button>
-
-
-
-</div>
-
-
-
-
-
-<div class="product-content">
-
-
-
-<h3 class="product-name">
-
-اسم المنتج
-
-</h3>
-
-
-
-
-
-<div class="rating">
-
-
-<i class="fa-solid fa-star"></i>
-
-<i class="fa-solid fa-star"></i>
-
-<i class="fa-solid fa-star"></i>
-
-<i class="fa-solid fa-star"></i>
-
-<i class="fa-solid fa-star-half-stroke"></i>
-
-
-<span>
-
-4.9
-
-</span>
-
-
-</div>
-
-
-
-
-
-<div class="price-box">
-
-
-<span class="price">
-
-0 د.ع
-
-</span>
-
-
-<span class="old-price">
-
-</span>
-
-
-</div>
-
-
-
-
-
-<div class="product-buttons">
-
-
-
-<button class="details-btn">
-
-
-<i class="fa-solid fa-eye"></i>
-
-
-عرض
-
-
-</button>
-
-
-
-
-
-<button class="cart-btn">
-
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-
-إضافة للسلة
-
-
-</button>
-
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
 
 </template>
-<!-- Toast -->
 
-<div id="toast" class="toast">
 
-تمت العملية بنجاح
+
+
+
+<!--========================
+FOOTER
+=========================-->
+
+<footer class="footer">
+
+<div class="footer-logo">
+
+<img src="./IMG_5661.jpeg" alt="مجمع حمزه الشطري">
+
+<h3>مجمع حمزه الشطري</h3>
 
 </div>
 
+<p>
 
+بيع الملابس بالجملة لجميع محافظات العراق
 
+</p>
 
+<p class="copyright">
 
-<!-- زر العودة للأعلى -->
+© 2026 جميع الحقوق محفوظة - مجمع حمزه الشطري
 
+</p>
 
-<button class="scroll-top">
-
-
-<i class="fa-solid fa-arrow-up"></i>
-
-
-</button>
-
+</footer>
 
 
 
 
 
-<!-- القائمة السفلية -->
-
+<!--========================
+BOTTOM NAVIGATION
+=========================-->
 
 <nav class="bottom-nav">
 
-
-
 <a href="index.html">
-
 
 <i class="fa-solid fa-house"></i>
 
-
-<span>
-
-الرئيسية
-
-</span>
-
+<span>الرئيسية</span>
 
 </a>
-
-
-
-
 
 <a href="products.html">
 
-
 <i class="fa-solid fa-store"></i>
 
-
-<span>
-
-المنتجات
-
-</span>
-
+<span>المنتجات</span>
 
 </a>
-
-
-
-
 
 <a href="favorites.html" class="active">
 
-
 <i class="fa-solid fa-heart"></i>
 
-
-<span>
-
-المفضلة
-
-</span>
-
+<span>المفضلة</span>
 
 </a>
-
-
-
-
 
 <a href="cart.html">
 
-
 <i class="fa-solid fa-cart-shopping"></i>
 
-
-<span>
-
-السلة
-
-</span>
-
+<span>السلة</span>
 
 </a>
 
+<a href="about.html">
 
+<i class="fa-solid fa-user"></i>
+
+<span>من نحن</span>
+
+</a>
 
 </nav>
 
@@ -458,13 +203,37 @@ alt="منتج">
 
 
 
-<!-- JavaScript -->
+<!--========================
+LOADER
+=========================-->
 
+<div id="loader" class="loader">
+
+<div class="loader-spinner"></div>
+
+</div>
+
+
+
+
+
+<!--========================
+TOAST
+=========================-->
+
+<div id="toast" class="toast"></div>
+
+
+
+
+
+<!--========================
+SCRIPTS
+=========================-->
+
+<script type="module" src="./js/utils.js"></script>
 
 <script type="module" src="./js/favorites.js"></script>
 
-
-
 </body>
-
 </html>
