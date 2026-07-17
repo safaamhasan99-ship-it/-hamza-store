@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>تفاصيل المنتج | مجمع حمزه الشطري</title>
@@ -14,7 +13,6 @@
 <link rel="icon" href="./IMG_5661.jpeg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -52,6 +50,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 </a>
 
+<a href="favorites.html" class="header-btn">
+
+<i class="fa-solid fa-heart"></i>
+
+</a>
+
 <a href="cart.html" class="header-btn cart-icon">
 
 <i class="fa-solid fa-cart-shopping"></i>
@@ -64,19 +68,23 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 </header>
 
-
-
-
-
 <section class="details-page">
 
 <div class="details-gallery">
+
+<div class="image-wrapper">
 
 <img
 id="productImage"
 class="details-image"
 src=""
 alt="">
+
+<span id="discountBadge" class="discount-badge" style="display:none;">
+خصم
+</span>
+
+</div>
 
 </div>
 
@@ -96,6 +104,8 @@ class="details-category">
 
 </h1>
 
+<div class="price-area">
+
 <div
 id="productPrice"
 class="details-price">
@@ -104,7 +114,28 @@ class="details-price">
 
 </div>
 
-  <p
+<div
+id="oldPrice"
+class="old-price">
+
+</div>
+
+</div>
+
+<div
+id="productRating"
+class="rating">
+
+★★★★★
+
+<span>
+
+(5.0)
+
+</span>
+
+</div>
+<p
 id="productDescription"
 class="details-description">
 
@@ -118,11 +149,11 @@ class="details-description">
 
 <strong>المقاسات</strong>
 
-<span id="productSizes">
+<div id="productSizes" class="option-list">
 
 غير محدد
 
-</span>
+</div>
 
 </div>
 
@@ -130,11 +161,11 @@ class="details-description">
 
 <strong>الألوان</strong>
 
-<span id="productColors">
+<div id="productColors" class="option-list">
 
 غير محدد
 
-</span>
+</div>
 
 </div>
 
@@ -165,12 +196,32 @@ class="add-cart">
 </button>
 
 <button
+id="buyNowBtn"
+class="buy-now">
+
+<i class="fa-solid fa-bolt"></i>
+
+اشترِ الآن
+
+</button>
+
+<button
 id="favoriteBtn"
 class="details-favorite">
 
-<i class="fa-regular fa-heart"></i>
+<i class="fa-solid fa-heart"></i>
 
-إضافة للمفضلة
+المفضلة
+
+</button>
+
+<button
+id="shareBtn"
+class="details-share">
+
+<i class="fa-solid fa-share-nodes"></i>
+
+مشاركة
 
 </button>
 
@@ -188,15 +239,42 @@ class="details-whatsapp">
 
 </div>
 
+<div class="details-features">
+
+<div>
+
+<i class="fa-solid fa-truck-fast"></i>
+
+توصيل لجميع محافظات العراق
+
+</div>
+
+<div>
+
+<i class="fa-solid fa-shield-halved"></i>
+
+منتجات أصلية بجودة عالية
+
+</div>
+
+<div>
+
+<i class="fa-solid fa-headset"></i>
+
+دعم سريع عبر واتساب
+
+</div>
+
+</div>
+
 </div>
 
 </section>
+<!--========================
+منتجات مشابهة
+=========================-->
 
-
-
-
-
-<section class="products-section">
+<section class="products-section related-section">
 
 <div class="section-head">
 
@@ -207,6 +285,12 @@ class="details-whatsapp">
 منتجات مشابهة
 
 </h2>
+
+<a href="products.html" class="view-all">
+
+عرض الكل
+
+</a>
 
 </div>
 
@@ -219,6 +303,7 @@ class="products-grid">
 </div>
 
 </section>
+
 <!--========================
 FOOTER
 =========================-->
@@ -239,6 +324,18 @@ FOOTER
 
 </p>
 
+<p>
+
+📍 ذي قار - الشطرة
+
+</p>
+
+<p>
+
+📞 07813555538
+
+</p>
+
 <p class="copyright">
 
 © 2026 جميع الحقوق محفوظة - مجمع حمزه الشطري
@@ -246,10 +343,6 @@ FOOTER
 </p>
 
 </footer>
-
-
-
-
 
 <!--========================
 BOTTOM NAVIGATION
@@ -291,17 +384,13 @@ BOTTOM NAVIGATION
 
 <a href="about.html">
 
-<i class="fa-solid fa-user"></i>
+<i class="fa-solid fa-circle-info"></i>
 
 <span>من نحن</span>
 
 </a>
 
 </nav>
-
-
-
-
 
 <!--========================
 LOADER
@@ -313,19 +402,11 @@ LOADER
 
 </div>
 
-
-
-
-
 <!--========================
 TOAST
 =========================-->
 
 <div id="toast" class="toast"></div>
-
-
-
-
 
 <!--========================
 SCRIPTS
