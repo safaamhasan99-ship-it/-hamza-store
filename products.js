@@ -1,21 +1,18 @@
 /*==================================
-Hamza Store V5
+Hamza Store V6
 Products Page
 ==================================*/
 
 import { db } from "./firebase.js";
 
 import {
-
 collection,
 getDocs,
 query,
 orderBy
-
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import{
-
 addToCart,
 toggleFavorite,
 isFavorite,
@@ -24,29 +21,40 @@ imageOrDefault,
 filterProducts,
 sortProducts,
 updateCartCount
+}from "./utils.js";
 
-}from"./utils.js";
+/*==================================
+Elements
+==================================*/
 
-const productsContainer=
-document.getElementById("productsContainer");
+const productsContainer=document.getElementById("productsContainer");
 
-const productTemplate=
-document.getElementById("productTemplate");
+const productTemplate=document.getElementById("productTemplate");
 
-const searchInput=
-document.getElementById("searchInput");
+const searchInput=document.getElementById("searchInput");
 
-const categoryFilter=
-document.getElementById("categoryFilter");
+const categoryFilter=document.getElementById("categoryFilter");
 
-const sortProductsSelect=
-document.getElementById("sortProducts");
+const sortProductsSelect=document.getElementById("sortProducts");
 
 let products=[];
 
+/*==================================
+Start
+==================================*/
+
 updateCartCount();
 
+if(productsContainer){
+
 loadProducts();
+
+}
+
+/*==================================
+Load Products
+==================================*/
+
 async function loadProducts(){
 
 try{
@@ -79,11 +87,33 @@ applyFilters();
 
 }catch(err){
 
-console.log(err);
+console.error(err);
+
+productsContainer.innerHTML=`
+
+<div class="empty-state">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+<h2>تعذر تحميل المنتجات</h2>
+
+<p>
+
+تحقق من اتصال Firebase أو الإنترنت.
+
+</p>
+
+</div>
+
+`;
 
 }
 
 }
+/*==================================
+Filter + Search + Sort
+==================================*/
+
 function applyFilters(){
 
 let list=[...products];
@@ -102,11 +132,11 @@ searchInput.value
 
 if(categoryFilter && categoryFilter.value){
 
-list=list.filter(product=>{
+list=list.filter(product=>
 
-return product.category==categoryFilter.value;
+(product.category||"")===categoryFilter.value
 
-});
+);
 
 }
 
@@ -125,6 +155,11 @@ sortProductsSelect.value
 renderProducts(list);
 
 }
+
+/*==================================
+Render Products
+==================================*/
+
 function renderProducts(list){
 
 productsContainer.innerHTML="";
@@ -137,11 +172,9 @@ productsContainer.innerHTML=`
 
 <i class="fa-solid fa-box-open"></i>
 
-<h2>
+<h2>لا توجد منتجات</h2>
 
-لا توجد منتجات
-
-</h2>
+<p>لم يتم العثور على أي منتج.</p>
 
 </div>
 
@@ -163,43 +196,50 @@ imageOrDefault(product.image);
 
 card.querySelector(".product-name").textContent=
 
-product.name;
+product.name||"بدون اسم";
 
 card.querySelector(".price").textContent=
 
 formatPrice(product.price);
 
-const old=
+const oldPrice=
 
 card.querySelector(".old-price");
 
 if(product.oldPrice){
 
-old.textContent=
+oldPrice.textContent=
 
 formatPrice(product.oldPrice);
 
 }else{
 
-old.style.display="none";
+oldPrice.style.display="none";
 
 }
 
-const fav=
+const favBtn=
 
 card.querySelector(".favorite-btn");
 
 if(isFavorite(product.id)){
 
-fav.classList.add("active");
+favBtn.classList.add("active");
+
+favBtn.innerHTML=
+
+'<i class="fa-solid fa-heart"></i>';
 
 }
+  favBtn.onclick=()=>{
 
-fav.onclick=()=>{
+const state=toggleFavorite(product);
 
-toggleFavorite(product);
+favBtn.classList.toggle("active",state);
 
-fav.classList.toggle("active");
+favBtn.innerHTML=state
+?'<i class="fa-solid fa-heart"></i>'
+:'<i class="fa-regular fa-heart"></i>';
 
 };
 
@@ -211,9 +251,7 @@ addToCart(product);
 
 card.querySelector(".details-btn").onclick=()=>{
 
-location.href=
-
-`details.html?id=${product.id}`;
+location.href=`details.html?id=${product.id}`;
 
 };
 
@@ -222,38 +260,43 @@ productsContainer.appendChild(card);
 });
 
 }
+
+/*==================================
+Events
+==================================*/
+
 if(searchInput){
 
-searchInput.addEventListener(
+searchInput.addEventListener("input",()=>{
 
-"input",
+applyFilters();
 
-applyFilters
-
-);
+});
 
 }
 
 if(categoryFilter){
 
-categoryFilter.addEventListener(
+categoryFilter.addEventListener("change",()=>{
 
-"change",
+applyFilters();
 
-applyFilters
-
-);
+});
 
 }
 
 if(sortProductsSelect){
 
-sortProductsSelect.addEventListener(
+sortProductsSelect.addEventListener("change",()=>{
 
-"change",
+applyFilters();
 
-applyFilters
-
-);
+});
 
 }
+
+/*==================================
+Ready
+==================================*/
+
+console.log("Products Page Ready ✅");
