@@ -1,5 +1,5 @@
 /*==================================
-Hamza Store V11
+Hamza Store V12
 Products JS
 ==================================*/
 
@@ -39,90 +39,86 @@ document.getElementById("categoryFilter");
 const sortProducts =
 document.getElementById("sortProducts");
 
-let products=[];
+let products = [];
 
 /*========================
 START
 ========================*/
 
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
-updateCartCount();
+    updateCartCount();
 
-loadProducts();
+    loadProducts();
 
-if(searchInput){
+    if (searchInput) {
+        searchInput.addEventListener("input", filterProducts);
+    }
 
-searchInput.addEventListener("input",filterProducts);
+    if (categoryFilter) {
+        categoryFilter.addEventListener("change", filterProducts);
+    }
 
-}
-
-if(categoryFilter){
-
-categoryFilter.addEventListener("change",filterProducts);
-
-}
-
-if(sortProducts){
-
-sortProducts.addEventListener("change",filterProducts);
-
-}
+    if (sortProducts) {
+        sortProducts.addEventListener("change", filterProducts);
+    }
 
 });
+
 /*========================
 LOAD PRODUCTS
 ========================*/
 
-async function loadProducts(){
+async function loadProducts() {
 
-try{
+    try {
 
-const snap=await getDocs(collection(db,"products"));
+        const snap = await getDocs(collection(db, "products"));
 
-products=[];
+        products = [];
 
-snap.forEach(doc=>{
+        snap.forEach(doc => {
 
-products.push({
+            products.push({
 
-id:doc.id,
-...doc.data()
+                id: doc.id,
+                ...doc.data()
 
-});
+            });
 
-});
+        });
 
-filterProducts();
+        filterProducts();
 
-renderBestProducts();
+        renderBestProducts();
 
-}catch(error){
+    } catch (error) {
 
-console.error("Products Error:",error);
+        console.error(error);
 
-if(productsContainer){
+        if (productsContainer) {
 
-productsContainer.innerHTML=`
-<div class="empty-products">
-<i class="fa-solid fa-circle-exclamation"></i>
-<h3>تعذر تحميل المنتجات</h3>
-<p>تحقق من اتصال الإنترنت أو إعدادات Firebase.</p>
-</div>
-`;
-}
+            productsContainer.innerHTML = `
+            <div class="empty-products">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <h3>تعذر تحميل المنتجات</h3>
+                <p>تحقق من إعدادات Firebase.</p>
+            </div>
+            `;
 
-}finally{
+        }
 
-const loader=document.getElementById("loader");
+    } finally {
 
-if(loader){
+        const loader = document.getElementById("loader");
 
-loader.classList.add("hidden");
+        if (loader) {
 
-}
+            loader.classList.add("hidden");
 
-}
+        }
+
+    }
 
 }
 /*========================
@@ -131,109 +127,286 @@ CREATE PRODUCT CARD
 
 function createCard(product){
 
-const card=document.createElement("div");
+    const card=document.createElement("div");
 
-card.className="product-card";
+    card.className="product-card";
 
-const fav=isFavorite(product.id);
+    const fav=isFavorite(product.id);
 
-card.innerHTML=`
+    card.innerHTML=`
 
-<div class="product-image">
+    <div class="product-image">
 
-<img
-src="${safeImage(product.image)}"
-alt="${product.name||''}"
-loading="lazy">
+        <img
+        src="${safeImage(product.image)}"
+        alt="${product.name||''}"
+        loading="lazy">
 
-${product.offer?
-'<span class="product-badge">عرض</span>'
-:''}
+        ${product.offer?
+        '<span class="product-badge">عرض</span>'
+        :''}
 
-<button class="favorite-btn">
+        <button class="favorite-btn">
 
-<i class="fa-${fav?'solid':'regular'} fa-heart"></i>
+            <i class="fa-${fav?'solid':'regular'} fa-heart"></i>
 
-</button>
+        </button>
 
-</div>
+    </div>
 
-<div class="product-info">
+    <div class="product-info">
 
-<h3 class="product-title">
+        <h3 class="product-title">
 
-${product.name||'بدون اسم'}
+            ${product.name||'بدون اسم'}
 
-</h3>
+        </h3>
 
-<div class="product-price">
+        <div class="product-price">
 
-${formatPrice(product.price||0)}
+            ${formatPrice(product.price||0)}
 
-</div>
+        </div>
 
-<div class="product-actions">
+        <div class="product-actions">
 
-<button class="add-cart">
+            <button class="add-cart">
 
-<i class="fa-solid fa-cart-shopping"></i>
+                <i class="fa-solid fa-cart-shopping"></i>
 
-إضافة للسلة
+                إضافة للسلة
 
-</button>
+            </button>
 
-<a
-href="details.html?id=${product.id}"
-class="details-btn">
+            <a
+            href="details.html?id=${product.id}"
+            class="details-btn">
 
-التفاصيل
+                التفاصيل
 
-</a>
+            </a>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-`;
-  /*========================
+    `;
+
+    card.querySelector(".add-cart").onclick=()=>{
+
+        addToCart(product);
+
+    };
+
+    card.querySelector(".favorite-btn").onclick=(e)=>{
+
+        e.preventDefault();
+
+        const active=toggleFavorite(product);
+
+        e.currentTarget.innerHTML=
+
+        `<i class="fa-${active?'solid':'regular'} fa-heart"></i>`;
+
+    };
+
+    return card;
+
+}
+
+/*========================
 RENDER PRODUCTS
 ========================*/
 
 function renderProducts(list){
 
-if(!productsContainer) return;
+    if(!productsContainer) return;
 
-productsContainer.innerHTML="";
+    productsContainer.innerHTML="";
 
-if(!list.length){
+    if(!list.length){
 
-productsContainer.innerHTML=`
+        productsContainer.innerHTML=`
 
-<div class="empty-products">
+        <div class="empty-products">
 
-<i class="fa-solid fa-box-open"></i>
+            <i class="fa-solid fa-box-open"></i>
 
-<h3>لا توجد منتجات</h3>
+            <h3>لا توجد منتجات</h3>
 
-<p>لم يتم العثور على أي منتج.</p>
+            <p>لم يتم العثور على أي منتج.</p>
 
-</div>
+        </div>
 
-`;
+        `;
 
-return;
+        return;
+
+    }
+
+    list.forEach(product=>{
+
+        productsContainer.appendChild(
+
+            createCard(product)
+
+        );
+
+    });
 
 }
 
-list.forEach(product=>{
+/*========================
+FILTER PRODUCTS
+========================*/
 
-productsContainer.appendChild(
+function filterProducts(){
 
-createCard(product)
+    let list=[...products];
 
-);
+    // البحث
+    if(searchInput){
+
+        const keyword=searchInput.value
+            .trim()
+            .toLowerCase();
+
+        if(keyword){
+
+            list=list.filter(product=>
+
+                (product.name||"")
+                .toLowerCase()
+                .includes(keyword)
+
+            );
+
+        }
+
+    }
+
+    // القسم
+    if(categoryFilter && categoryFilter.value){
+
+        list=list.filter(product=>
+
+            product.category===categoryFilter.value
+
+        );
+
+    }
+
+    // الترتيب
+    if(sortProducts){
+
+        switch(sortProducts.value){
+
+            case "priceAsc":
+
+                list.sort((a,b)=>
+
+                    Number(a.price||0)-Number(b.price||0)
+
+                );
+
+            break;
+
+            case "priceDesc":
+
+                list.sort((a,b)=>
+
+                    Number(b.price||0)-Number(a.price||0)
+
+                );
+
+            break;
+
+            case "name":
+
+                list.sort((a,b)=>
+
+                    (a.name||"").localeCompare(
+                        b.name||"",
+                        "ar"
+                    )
+
+                );
+
+            break;
+
+            case "new":
+
+            default:
+
+                list.reverse();
+
+        }
+
+    }
+
+    renderProducts(list);
+
+}
+
+/*========================
+BEST PRODUCTS
+========================*/
+
+function renderBestProducts(){
+
+    if(!bestProductsContainer) return;
+
+    bestProductsContainer.innerHTML="";
+
+    const best=[...products].slice(0,8);
+
+    best.forEach(product=>{
+
+        bestProductsContainer.appendChild(
+
+            createCard(product)
+
+        );
+
+    });
+
+}
+
+/*========================
+REFRESH CART COUNT
+========================*/
+
+window.addEventListener("storage",()=>{
+
+    updateCartCount();
 
 });
 
-}
-  
+/*========================
+PRELOAD PRODUCT IMAGES
+========================*/
+
+products.forEach(product=>{
+
+    if(product.image){
+
+        const img=new Image();
+
+        img.src=safeImage(product.image);
+
+    }
+
+});
+
+/*========================
+EXPORTS
+========================*/
+
+export{
+
+    loadProducts,
+    filterProducts,
+    renderProducts,
+    renderBestProducts
+
+};
