@@ -6,150 +6,181 @@ Products JS
 import { db } from "../firebase.js";
 
 import {
-  collection,
-  getDocs
+collection,
+getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
-  addToCart,
-  toggleFavorite,
-  formatPrice,
-  safeImage
+addToCart,
+toggleFavorite,
+formatPrice,
+safeImage,
+updateCartCount
 } from "./utils.js";
 
-const latestContainer = document.getElementById("latestProducts");
-const bestContainer = document.getElementById("bestProducts");
+const container=document.getElementById("productsContainer");
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadProducts();
+const searchInput=document.getElementById("searchInput");
+
+const categoryFilter=document.getElementById("categoryFilter");
+
+const sortProducts=document.getElementById("sortProducts");
+
+let products=[];
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+updateCartCount();
+
+loadProducts();
+
+if(searchInput){
+
+searchInput.oninput=filterProducts;
+
+}
+
+if(categoryFilter){
+
+categoryFilter.onchange=filterProducts;
+
+}
+
+if(sortProducts){
+
+sortProducts.onchange=filterProducts;
+
+}
+
 });
 
 /*========================
 LOAD PRODUCTS
 ========================*/
 
-async function loadProducts() {
+async function loadProducts(){
 
-  try {
+try{
 
-    const snap = await getDocs(collection(db, "products"));
+const snap=await getDocs(collection(db,"products"));
 
-    alert("عدد المنتجات: " + snap.size);
+products=[];
 
-    const products = [];
+snap.forEach(doc=>{
 
-    snap.forEach(doc => {
-      products.push({
-        id: doc.id,
-        ...doc.data()
-      });
-    });
+products.push({
 
-    console.log(products);
+id:doc.id,
 
-    renderLatest(products);
-    renderBest(products);
+...doc.data()
 
-  } catch (err) {
+});
 
-    alert("خطأ:\n" + err.message);
-    console.error(err);
+});
 
-  }
+filterProducts();
+
+}catch(err){
+
+console.error(err);
+
+container.innerHTML=`
+
+<div style="text-align:center;padding:40px">
+
+حدث خطأ أثناء تحميل المنتجات
+
+</div>
+
+`;
+
+}
 
 }
 
 /*========================
-PRODUCT CARD
+CREATE PRODUCT CARD
 ========================*/
 
-function createCard(product) {
+function createCard(product){
 
-  const card = document.createElement("div");
+const card=document.createElement("div");
 
-  card.className = "product-card";
+card.className="product-card";
 
-  card.innerHTML = `
-    <div class="product-image">
-      <img
-        src="${safeImage(product.image)}"
-        alt="${product.name}"
-        loading="lazy">
+card.innerHTML=`
 
-      ${product.offer ? '<span class="product-badge">عرض</span>' : ''}
+<div class="product-image">
 
-      <button class="favorite-btn">
-        <i class="fa-regular fa-heart"></i>
-      </button>
-    </div>
+<img
+src="${safeImage(product.image)}"
+alt="${product.name}"
+loading="lazy">
 
-    <div class="product-info">
+${product.offer?'<span class="product-badge">عرض</span>':''}
 
-      <h3 class="product-title">
-        ${product.name || ""}
-      </h3>
+<button class="favorite-btn">
 
-      <div class="product-price">
-        ${formatPrice(product.price || 0)}
-      </div>
+<i class="fa-regular fa-heart"></i>
 
-      <div class="product-actions">
+</button>
 
-        <button class="add-cart">
-          أضف للسلة
-        </button>
+</div>
 
-        <a
-          href="details.html?id=${product.id}"
-          class="details-btn">
-          التفاصيل
-        </a>
+<div class="product-info">
 
-      </div>
+<h3 class="product-title">
 
-    </div>
-  `;
+${product.name||""}
 
-  card.querySelector(".add-cart").onclick = () => {
-    addToCart(product);
-  };
+</h3>
 
-  card.querySelector(".favorite-btn").onclick = () => {
-    toggleFavorite(product);
-  };
+<div class="product-price">
 
-  return card;
+${formatPrice(product.price||0)}
 
-}
+</div>
 
-/*========================
-LATEST
-========================*/
+<div class="product-actions">
 
-function renderLatest(products) {
+<button class="add-cart">
 
-  if (!latestContainer) return;
+<i class="fa-solid fa-cart-shopping"></i>
 
-  latestContainer.innerHTML = "";
+إضافة للسلة
 
-  products.slice(0, 8).forEach(product => {
-    latestContainer.appendChild(createCard(product));
-  });
+</button>
 
-}
+<a
+href="details.html?id=${product.id}"
+class="details-btn">
 
-/*========================
-BEST
-========================*/
+التفاصيل
 
-function renderBest(products) {
+</a>
 
-  if (!bestContainer) return;
+</div>
 
-  bestContainer.innerHTML = "";
+</div>
 
-  products.slice(0, 8).forEach(product => {
-    bestContainer.appendChild(createCard(product));
-  });
+`;
+
+card.querySelector(".add-cart").onclick=()=>{
+
+addToCart(product);
+
+};
+
+card.querySelector(".favorite-btn").onclick=()=>{
+
+toggleFavorite(product);
+
+card.querySelector(".favorite-btn i").classList.remove("fa-regular");
+
+card.querySelector(".favorite-btn i").classList.add("fa-solid");
+
+};
+
+return card;
 
 }
