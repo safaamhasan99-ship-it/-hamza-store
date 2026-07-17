@@ -6,75 +6,54 @@ Products JS
 import { db } from "../firebase.js";
 
 import {
-
-collection,
-getDocs,
-query,
-orderBy
-
+  collection,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
-
-addToCart,
-toggleFavorite,
-formatPrice,
-safeImage
-
+  addToCart,
+  toggleFavorite,
+  formatPrice,
+  safeImage
 } from "./utils.js";
 
+const latestContainer = document.getElementById("latestProducts");
+const bestContainer = document.getElementById("bestProducts");
 
-const latestContainer=document.getElementById("latestProducts");
-const bestContainer=document.getElementById("bestProducts");
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-loadProducts();
-
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts();
 });
-
 
 /*========================
 LOAD PRODUCTS
 ========================*/
 
-async function loadProducts(){
+async function loadProducts() {
 
-try{
+  try {
 
-const q=query(
+    const snap = await getDocs(collection(db, "products"));
 
-collection(db,"products"),
+    const products = [];
 
-orderBy("createdAt","desc")
+    snap.forEach(doc => {
 
-);
+      products.push({
+        id: doc.id,
+        ...doc.data()
+      });
 
-const snap=await getDocs(q);
+    });
 
-const products=[];
+    renderLatest(products);
 
-snap.forEach(doc=>{
+    renderBest(products);
 
-products.push({
+  } catch (err) {
 
-id:doc.id,
+    console.error("Products Error:", err);
 
-...doc.data()
-
-});
-
-});
-
-renderLatest(products);
-
-renderBest(products);
-
-}catch(err){
-
-console.error(err);
-
-}
+  }
 
 }
 
@@ -82,22 +61,21 @@ console.error(err);
 PRODUCT CARD
 ========================*/
 
-function createCard(product){
+function createCard(product) {
 
-const card=document.createElement("div");
+  const card = document.createElement("div");
 
-card.className="product-card";
+  card.className = "product-card";
 
-card.innerHTML=`
+  card.innerHTML = `
 
 <div class="product-image">
 
 <img src="${safeImage(product.image)}"
-alt="${product.name}">
+alt="${product.name}"
+loading="lazy">
 
-${product.offer?
-'<span class="product-badge">عرض</span>'
-:''}
+${product.offer ? '<span class="product-badge">عرض</span>' : ''}
 
 <button class="favorite-btn">
 
@@ -111,13 +89,13 @@ ${product.offer?
 
 <h3 class="product-title">
 
-${product.name}
+${product.name || ""}
 
 </h3>
 
 <div class="product-price">
 
-${formatPrice(product.price)}
+${formatPrice(product.price || 0)}
 
 </div>
 
@@ -130,8 +108,8 @@ ${formatPrice(product.price)}
 </button>
 
 <a
-class="details-btn"
-href="details.html?id=${product.id}">
+href="details.html?id=${product.id}"
+class="details-btn">
 
 التفاصيل
 
@@ -143,18 +121,54 @@ href="details.html?id=${product.id}">
 
 `;
 
-card.querySelector(".add-cart").onclick=()=>{
+  card.querySelector(".add-cart").onclick = () => {
 
-addToCart(product);
+    addToCart(product);
 
-};
+  };
 
-card.querySelector(".favorite-btn").onclick=()=>{
+  card.querySelector(".favorite-btn").onclick = () => {
 
-toggleFavorite(product);
+    toggleFavorite(product);
 
-};
+  };
 
-return card;
+  return card;
+
+}
+
+/*========================
+LATEST
+========================*/
+
+function renderLatest(products) {
+
+  if (!latestContainer) return;
+
+  latestContainer.innerHTML = "";
+
+  products.slice(0, 8).forEach(product => {
+
+    latestContainer.appendChild(createCard(product));
+
+  });
+
+}
+
+/*========================
+BEST
+========================*/
+
+function renderBest(products) {
+
+  if (!bestContainer) return;
+
+  bestContainer.innerHTML = "";
+
+  products.slice(0, 8).forEach(product => {
+
+    bestContainer.appendChild(createCard(product));
+
+  });
 
 }
