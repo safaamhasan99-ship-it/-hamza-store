@@ -17,7 +17,6 @@ return Number(price || 0)
 
 
 
-
 // =============================
 // Cart
 // =============================
@@ -26,9 +25,7 @@ return Number(price || 0)
 export function getCart(){
 
 return JSON.parse(
-
 localStorage.getItem("cart")
-
 ) || [];
 
 }
@@ -38,11 +35,8 @@ localStorage.getItem("cart")
 export function saveCart(cart){
 
 localStorage.setItem(
-
 "cart",
-
 JSON.stringify(cart)
-
 );
 
 
@@ -55,7 +49,6 @@ updateCartCount();
 
 export function updateCartCount(){
 
-
 const badge =
 document.getElementById("cartCount");
 
@@ -63,51 +56,40 @@ document.getElementById("cartCount");
 if(!badge) return;
 
 
-
 const cart=getCart();
 
 
-
 const count=cart.reduce(
-
 (sum,item)=>sum+(item.qty||1),
-
 0
-
 );
-
 
 
 badge.textContent=count;
 
 
-badge.style.display=
-
+badge.style.display =
 count>0 ? "flex":"none";
-
 
 }
 
 
 
 
-export function addToCart(product){
 
+export function addToCart(product){
 
 let cart=getCart();
 
 
 
 let found=cart.find(
-
 item=>item.id===product.id
-
 );
 
 
 
 if(found){
-
 
 found.qty++;
 
@@ -119,11 +101,11 @@ cart.push({
 
 id:product.id,
 
-name:product.name,
+name:product.name || "منتج",
 
-price:Number(product.price||0),
+price:Number(product.price || 0),
 
-image:product.image,
+image:imageOrDefault(product.image),
 
 qty:1
 
@@ -145,6 +127,8 @@ showToast("تمت إضافة المنتج للسلة");
 
 
 
+
+
 export function removeFromCart(id){
 
 
@@ -152,9 +136,7 @@ let cart=getCart();
 
 
 cart=cart.filter(
-
 item=>item.id!==id
-
 );
 
 
@@ -162,8 +144,6 @@ saveCart(cart);
 
 
 }
-
-
 
 
 
@@ -177,9 +157,7 @@ saveCart(cart);
 export function getFavorites(){
 
 return JSON.parse(
-
 localStorage.getItem("favorites")
-
 ) || [];
 
 }
@@ -187,15 +165,12 @@ localStorage.getItem("favorites")
 
 
 
+
 export function saveFavorites(data){
 
-
 localStorage.setItem(
-
 "favorites",
-
 JSON.stringify(data)
-
 );
 
 
@@ -207,13 +182,11 @@ JSON.stringify(data)
 
 export function isFavorite(id){
 
-
 return getFavorites()
-
 .includes(id);
 
-
 }
+
 
 
 
@@ -229,9 +202,7 @@ if(fav.includes(product.id)){
 
 
 fav=fav.filter(
-
 id=>id!==product.id
-
 );
 
 
@@ -242,6 +213,7 @@ showToast("تم حذف المنتج من المفضلة");
 
 
 return false;
+
 
 
 }else{
@@ -268,27 +240,75 @@ return true;
 
 
 
+
 // =============================
-// Image
+// Image Fix
 // =============================
 
 
 export function imageOrDefault(image){
 
 
-if(image && image.trim()){
+const fallback =
+"./images/no-image.png";
 
 
-return image;
 
+if(!image){
+
+return fallback;
+
+}
+
+
+
+let url =
+String(image).trim();
+
+
+
+
+// رابط خارجي
+
+if(
+url.startsWith("http://") ||
+url.startsWith("https://")
+){
+
+return url;
 
 }
 
 
-return "images/no-image.png";
+
+// مسار يبدأ images
+
+if(url.startsWith("images/")){
+
+return "./"+url;
+
+}
+
+
+
+// مسار يبدأ ./images
+
+if(url.startsWith("./images")){
+
+return url;
+
+}
+
+
+
+// اسم صورة فقط
+
+return "./images/"+url;
+
 
 
 }
+
 
 
 
@@ -303,7 +323,8 @@ return "images/no-image.png";
 export function showToast(text){
 
 
-let toast=document.getElementById("toast");
+let toast =
+document.getElementById("toast");
 
 
 if(!toast) return;
@@ -326,10 +347,12 @@ toast.classList.remove("show");
 },2500);
 
 
+
 }
 
 
 
 
 
-console.log("Utils Ready ✅");
+
+console.log("Utils Ready V7 ✅");
