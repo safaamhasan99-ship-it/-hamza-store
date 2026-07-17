@@ -300,11 +300,11 @@ ERROR IMAGE
 
 document.querySelectorAll("img").forEach(img=>{
 
-img.onerror=()=>{
+    img.onerror=()=>{
 
-img.src="./images/no-image.png";
+        img.src="./IMG_5661.jpeg";
 
-};
+    };
 
 });
 
