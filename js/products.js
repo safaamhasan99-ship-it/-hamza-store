@@ -3,7 +3,7 @@ Hamza Store V12
 Products JS
 ==================================*/
 
-import { db } from "../firebase.js";
+import { db } from "./firebase.js";
 
 import {
 collection,
