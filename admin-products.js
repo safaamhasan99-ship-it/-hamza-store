@@ -1,8 +1,8 @@
 /*==================================
-مجمع حمزه الشطري
-Admin Products JS Final FIX
+Hamza Store V13
+Admin Products JS
+Part 1
 ==================================*/
-
 
 import { db } from "./firebase.js";
 
@@ -13,13 +13,14 @@ getDocs,
 doc,
 deleteDoc,
 updateDoc,
+getDoc,
 serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
-
-// عناصر الصفحة
+/*========================
+ELEMENTS
+========================*/
 
 const nameInput = document.getElementById("name");
 const priceInput = document.getElementById("price");
@@ -29,452 +30,380 @@ const colorsInput = document.getElementById("colors");
 const quantityInput = document.getElementById("quantity");
 const descriptionInput = document.getElementById("description");
 const imageInput = document.getElementById("image");
+const offerInput = document.getElementById("offer");
 
 const saveBtn = document.getElementById("saveBtn");
 
-const productsList = document.getElementById("products");
-
+/* إصلاح الخطأ */
+const productsList = document.getElementById("productsList");
 
 let editId = null;
 
+/*========================
+TOAST
+========================*/
 
+function showMessage(text, success = true) {
 
+    const toast = document.createElement("div");
 
-// رسالة نجاح
+    toast.className = "toast";
 
-function showMessage(text){
+    toast.style.position = "fixed";
+    toast.style.left = "20px";
+    toast.style.bottom = "20px";
+    toast.style.padding = "15px 22px";
+    toast.style.borderRadius = "12px";
+    toast.style.color = "#fff";
+    toast.style.fontFamily = "Cairo";
+    toast.style.fontWeight = "700";
+    toast.style.zIndex = "999999";
+    toast.style.background = success
+        ? "#16a34a"
+        : "#dc2626";
 
-const toast=document.createElement("div");
+    toast.textContent = text;
 
-toast.innerHTML=text;
+    document.body.appendChild(toast);
 
-toast.style.position="fixed";
-toast.style.bottom="30px";
-toast.style.right="30px";
-toast.style.background="#198754";
-toast.style.color="#fff";
-toast.style.padding="15px 25px";
-toast.style.borderRadius="15px";
-toast.style.zIndex="9999";
-toast.style.fontFamily="Cairo";
-toast.style.fontWeight="bold";
+    setTimeout(() => {
 
-document.body.appendChild(toast);
+        toast.remove();
 
-
-setTimeout(()=>{
-
-toast.remove();
-
-},2500);
+    }, 2500);
 
 }
 
-
-
-
-// تنظيف رابط الصورة
+/*========================
+IMAGE
+========================*/
 
 function cleanImageUrl(url){
 
-if(!url) return "";
+    if(!url) return "";
 
-return url.trim();
+    url = String(url).trim();
+
+    const html = url.match(/src=['"]([^'"]+)['"]/i);
+
+    if(html){
+
+        url = html[1];
+
+    }
+
+    if(url.startsWith("//")){
+
+        url = "https:" + url;
+
+    }
+
+    return url;
 
 }
-
-
-
-
-// تحميل المنتجات
+/*========================
+LOAD PRODUCTS
+========================*/
 
 async function loadProducts(){
 
+    if(!productsList) return;
 
-if(!productsList) return;
+    productsList.innerHTML = "<p>جاري تحميل المنتجات...</p>";
 
+    try{
 
-productsList.innerHTML="جاري تحميل المنتجات...";
+        const snap = await getDocs(collection(db,"products"));
 
+        productsList.innerHTML = "";
 
-try{
+        if(snap.empty){
 
+            productsList.innerHTML = `
+            <div class="empty-products">
+                لا توجد منتجات
+            </div>`;
+            return;
+        }
 
-const snap = await getDocs(
-collection(db,"products")
-);
+        snap.forEach(item=>{
 
+            const p = item.data();
 
-alert("عدد المنتجات: " + snap.size);
+            productsList.innerHTML += `
 
+            <div class="product-box">
 
-productsList.innerHTML="";
+                <img
+                    src="${cleanImageUrl(p.image)}"
+                    style="
+                        width:100%;
+                        max-height:220px;
+                        object-fit:cover;
+                        border-radius:12px;
+                    ">
 
+                <h3>${p.name || "بدون اسم"}</h3>
 
-if(snap.empty){
+                <p><b>السعر:</b> ${p.price || 0} د.ع</p>
 
-productsList.innerHTML="لا توجد منتجات";
+                <p><b>القسم:</b> ${p.category || ""}</p>
 
-return;
+                <p><b>الكمية:</b> ${p.quantity || ""}</p>
 
-}
+                <button onclick="editProduct('${item.id}')">
+                    ✏️ تعديل
+                </button>
 
+                <button onclick="deleteProduct('${item.id}')">
+                    🗑 حذف
+                </button>
 
+            </div>
 
-snap.forEach(item=>{
+            `;
 
+        });
 
-const p=item.data();
+    }
 
+    catch(error){
 
-productsList.innerHTML += `
+        console.error(error);
 
-<div class="card">
-
-<img src="${p.image || ''}">
-
-
-<div class="card-body">
-
-<h3>
-${p.name || "منتج"}
-</h3>
-
-
-<p>
-السعر: ${p.price || 0} د.ع
-</p>
-
-
-<p>
-القسم: ${p.category || ""}
-</p>
-
-
-<button onclick="editProduct('${item.id}')">
-✏️ تعديل
-</button>
-
-
-<button onclick="deleteProduct('${item.id}')">
-🗑 حذف
-</button>
-
-
-</div>
-
-</div>
-
-`;
-
-
-
-});
-
-
-}
-  catch(error){
-
-console.error(error);
-
-
-productsList.innerHTML =
-"حدث خطأ: " + error.message;
-
+        productsList.innerHTML = `
+        <div class="empty-products">
+            ${error.message}
+        </div>`;
+    }
 
 }
 
-
-}
-
-
-
-
-// تشغيل تحميل المنتجات
-
-loadProducts();
-
-
-
-
-// حفظ المنتج
+/*========================
+SAVE PRODUCT
+========================*/
 
 if(saveBtn){
 
-
 saveBtn.onclick = async ()=>{
 
+    const product={
 
-const product={
+        name:nameInput.value.trim(),
 
+        price:Number(priceInput.value)||0,
 
-name:nameInput.value.trim(),
+        category:categoryInput.value,
 
-price:priceInput.value.trim(),
+        sizes:sizesInput.value.trim(),
 
-category:categoryInput.value,
+        colors:colorsInput.value.trim(),
 
-sizes:sizesInput.value.trim(),
+        quantity:Number(quantityInput.value)||0,
 
-colors:colorsInput.value.trim(),
+        description:descriptionInput.value.trim(),
 
-quantity:quantityInput.value.trim(),
+        image:cleanImageUrl(imageInput.value),
 
-description:descriptionInput.value.trim(),
+        offer:offerInput ? offerInput.checked : false
 
-image:cleanImageUrl(imageInput.value)
+    };
 
+    if(!product.name){
+
+        showMessage("اكتب اسم المنتج",false);
+
+        return;
+
+    }
+
+    try{
+
+        if(editId){
+
+            await updateDoc(
+
+                doc(db,"products",editId),
+
+                product
+
+            );
+
+            showMessage("✅ تم تعديل المنتج");
+
+            editId=null;
+
+            saveBtn.innerHTML="💾 حفظ المنتج";
+
+        }
+
+        else{
+
+            await addDoc(
+
+                collection(db,"products"),
+
+                {
+
+                    ...product,
+
+                    time:serverTimestamp()
+
+                }
+
+            );
+
+            showMessage("✅ تمت إضافة المنتج");
+
+        }
+
+        nameInput.value="";
+        priceInput.value="";
+        sizesInput.value="";
+        colorsInput.value="";
+        quantityInput.value="";
+        descriptionInput.value="";
+        imageInput.value="";
+
+        if(offerInput){
+
+            offerInput.checked=false;
+
+        }
+
+        categoryInput.selectedIndex=0;
+
+        loadProducts();
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        showMessage(error.message,false);
+
+    }
 
 };
 
-
-
-try{
-
-
-if(editId){
-
-
-await updateDoc(
-
-doc(db,"products",editId),
-
-product
-
-);
-
-
-
-showMessage("✅ تم تعديل المنتج بنجاح");
-
-
-editId=null;
-
-
-saveBtn.innerText="💾 حفظ المنتج";
-
-
 }
 
-
-
-
-else{
-
-
-await addDoc(
-
-collection(db,"products"),
-
-{
-
-...product,
-
-time:serverTimestamp()
-
-}
-
-);
-
-
-
-showMessage("✅ تم إضافة المنتج بنجاح");
-
-
-}
-
-
-
-
-nameInput.value="";
-
-priceInput.value="";
-
-sizesInput.value="";
-
-colorsInput.value="";
-
-quantityInput.value="";
-
-descriptionInput.value="";
-
-imageInput.value="";
-
-
-categoryInput.selectedIndex=0;
-
-
-
-loadProducts();
-
-
-
-}
-
-
-
-catch(error){
-
-
-console.error(error);
-
-
-showMessage(
-"❌ حدث خطأ أثناء الحفظ: "+error.message
-);
-
-
-}
-
-
-
-};
-
-
-}
-// حذف المنتج
+/*========================
+DELETE PRODUCT
+========================*/
 
 window.deleteProduct = async function(id){
 
+    if(!confirm("هل تريد حذف المنتج؟")) return;
 
-if(!confirm("هل تريد حذف المنتج؟"))
-return;
+    try{
 
+        await deleteDoc(doc(db,"products",id));
 
+        showMessage("🗑 تم حذف المنتج");
 
-try{
+        loadProducts();
 
+    }
 
-await deleteDoc(
+    catch(error){
 
-doc(db,"products",id)
+        console.error(error);
 
-);
+        showMessage(error.message,false);
 
-
-
-showMessage("🗑 تم حذف المنتج بنجاح");
-
-
-loadProducts();
-
-
-
-}
-
-catch(error){
-
-
-console.error(error);
-
-
-showMessage(
-"❌ حدث خطأ أثناء الحذف: "+error.message
-);
-
-
-}
-
+    }
 
 };
 
 
-
-
-
-// تعديل المنتج
+/*========================
+EDIT PRODUCT
+========================*/
 
 window.editProduct = async function(id){
 
+    try{
 
-try{
+        const ref = doc(db,"products",id);
 
+        const snap = await getDoc(ref);
 
-const snap = await getDocs(
-collection(db,"products")
-);
+        if(!snap.exists()){
 
+            showMessage("المنتج غير موجود",false);
 
+            return;
 
-snap.forEach(item=>{
+        }
 
+        const p = snap.data();
 
-if(item.id === id){
+        nameInput.value = p.name || "";
 
+        priceInput.value = p.price || "";
 
-const p=item.data();
+        categoryInput.value = p.category || "";
 
+        sizesInput.value = p.sizes || "";
 
+        colorsInput.value = p.colors || "";
 
-nameInput.value=p.name || "";
+        quantityInput.value = p.quantity || "";
 
-priceInput.value=p.price || "";
+        descriptionInput.value = p.description || "";
 
-categoryInput.value=p.category || "";
+        imageInput.value = p.image || "";
 
-sizesInput.value=p.sizes || "";
+        if(offerInput){
 
-colorsInput.value=p.colors || "";
+            offerInput.checked = p.offer || false;
 
-quantityInput.value=p.quantity || "";
+        }
 
-descriptionInput.value=p.description || "";
+        editId = id;
 
-imageInput.value=p.image || "";
+        saveBtn.innerHTML = "💾 حفظ التعديلات";
 
+        window.scrollTo({
 
+            top:0,
 
-editId=id;
+            behavior:"smooth"
 
+        });
 
-saveBtn.innerText="💾 حفظ التعديلات";
+    }
 
+    catch(error){
 
+        console.error(error);
 
-window.scrollTo({
+        showMessage(error.message,false);
 
-top:0,
-
-behavior:"smooth"
-
-});
-
-
-
-}
-
-
-
-});
-
-
-}
-
-
-catch(error){
-
-
-console.error(error);
-
-
-showMessage(
-"❌ حدث خطأ بجلب المنتج: "+error.message
-);
-
-
-}
-
+    }
 
 };
 
 
+/*========================
+REFRESH
+========================*/
 
+window.refreshProducts = function(){
 
-
-// تحديث يدوي
-
-window.refreshProducts=function(){
-
-loadProducts();
+    loadProducts();
 
 };
+
+
+/*========================
+START
+========================*/
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    loadProducts();
+
+});
