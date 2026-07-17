@@ -34,24 +34,26 @@ async function loadProducts() {
 
     const snap = await getDocs(collection(db, "products"));
 
+    alert("عدد المنتجات: " + snap.size);
+
     const products = [];
 
     snap.forEach(doc => {
-
       products.push({
         id: doc.id,
         ...doc.data()
       });
-
     });
 
-    renderLatest(products);
+    console.log(products);
 
+    renderLatest(products);
     renderBest(products);
 
   } catch (err) {
 
-    console.error("Products Error:", err);
+    alert("خطأ:\n" + err.message);
+    console.error(err);
 
   }
 
@@ -68,69 +70,52 @@ function createCard(product) {
   card.className = "product-card";
 
   card.innerHTML = `
+    <div class="product-image">
+      <img
+        src="${safeImage(product.image)}"
+        alt="${product.name}"
+        loading="lazy">
 
-<div class="product-image">
+      ${product.offer ? '<span class="product-badge">عرض</span>' : ''}
 
-<img src="${safeImage(product.image)}"
-alt="${product.name}"
-loading="lazy">
+      <button class="favorite-btn">
+        <i class="fa-regular fa-heart"></i>
+      </button>
+    </div>
 
-${product.offer ? '<span class="product-badge">عرض</span>' : ''}
+    <div class="product-info">
 
-<button class="favorite-btn">
+      <h3 class="product-title">
+        ${product.name || ""}
+      </h3>
 
-<i class="fa-regular fa-heart"></i>
+      <div class="product-price">
+        ${formatPrice(product.price || 0)}
+      </div>
 
-</button>
+      <div class="product-actions">
 
-</div>
+        <button class="add-cart">
+          أضف للسلة
+        </button>
 
-<div class="product-info">
+        <a
+          href="details.html?id=${product.id}"
+          class="details-btn">
+          التفاصيل
+        </a>
 
-<h3 class="product-title">
+      </div>
 
-${product.name || ""}
-
-</h3>
-
-<div class="product-price">
-
-${formatPrice(product.price || 0)}
-
-</div>
-
-<div class="product-actions">
-
-<button class="add-cart">
-
-أضف للسلة
-
-</button>
-
-<a
-href="details.html?id=${product.id}"
-class="details-btn">
-
-التفاصيل
-
-</a>
-
-</div>
-
-</div>
-
-`;
+    </div>
+  `;
 
   card.querySelector(".add-cart").onclick = () => {
-
     addToCart(product);
-
   };
 
   card.querySelector(".favorite-btn").onclick = () => {
-
     toggleFavorite(product);
-
   };
 
   return card;
@@ -148,9 +133,7 @@ function renderLatest(products) {
   latestContainer.innerHTML = "";
 
   products.slice(0, 8).forEach(product => {
-
     latestContainer.appendChild(createCard(product));
-
   });
 
 }
@@ -166,9 +149,7 @@ function renderBest(products) {
   bestContainer.innerHTML = "";
 
   products.slice(0, 8).forEach(product => {
-
     bestContainer.appendChild(createCard(product));
-
   });
 
 }
