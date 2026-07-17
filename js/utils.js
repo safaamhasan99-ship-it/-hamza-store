@@ -1,5 +1,5 @@
 /*==================================
-Hamza Store V9
+Hamza Store V10
 Professional Utils JS
 ==================================*/
 
@@ -76,9 +76,7 @@ showToast("تمت إضافة المنتج إلى السلة 🛒");
 
 }
 
-/*========================
-REMOVE FROM CART
-========================*/
+
 
 export function removeFromCart(id){
 
@@ -93,9 +91,6 @@ saveCart(cart);
 showToast("تم حذف المنتج من السلة");
 
 }
-
-
-
 /*========================
 CHANGE QTY
 ========================*/
@@ -162,7 +157,9 @@ const total=getCart().reduce(
 
 badge.textContent=total;
 
-badge.style.display=total>0?"flex":"none";
+badge.style.display=
+
+total>0 ? "flex" : "none";
 
 }
 /*========================
@@ -217,17 +214,21 @@ if(index>-1){
 
 list.splice(index,1);
 
+saveFavorites(list);
+
 showToast("تمت إزالة المنتج من المفضلة ❤️");
 
-}else{
-
-list.push(product);
-
-showToast("تمت إضافة المنتج إلى المفضلة ❤️");
+return false;
 
 }
 
+list.push(product);
+
 saveFavorites(list);
+
+showToast("تمت إضافة المنتج إلى المفضلة ❤️");
+
+return true;
 
 }
 
@@ -246,69 +247,45 @@ item=>item.id===id
 );
 
 }
-
-
-
 /*========================
-TOAST
-========================*/
-
-export function showToast(message){
-
-let toast=document.getElementById("toast");
-
-if(!toast){
-
-toast=document.createElement("div");
-
-toast.id="toast";
-
-toast.className="toast";
-
-document.body.appendChild(toast);
-
-}
-
-toast.textContent=message;
-
-toast.classList.add("show");
-
-clearTimeout(window.toastTimer);
-
-window.toastTimer=setTimeout(()=>{
-
-toast.classList.remove("show");
-
-},2500);
-
-}
-/*========================
-SAFE IMAGE V2
+SAFE IMAGE V10
 ========================*/
 
 export function safeImage(url){
 
 const fallback="./IMG_5661.jpeg";
 
-if(!url) return fallback;
-
 try{
 
-url=String(url).trim();
+if(url===null || url===undefined){
 
-if(url==="") return fallback;
-
-/* إذا تم لصق كود HTML بدلاً من الرابط */
-
-if(url.includes('src="')){
-
-const match=url.match(/src="([^"]+)"/);
-
-if(match) url=match[1];
+return fallback;
 
 }
 
-/* معالجة الروابط التي تبدأ بـ // */
+url=String(url).trim();
+
+if(url===""){
+
+return fallback;
+
+}
+
+/* إذا تم لصق كود HTML */
+
+const html=url.match(/src=['"]([^'"]+)['"]/i);
+
+if(html){
+
+url=html[1];
+
+}
+
+/* إزالة الفراغات */
+
+url=url.replace(/\s+/g,"");
+
+/* تحويل // إلى https */
 
 if(url.startsWith("//")){
 
@@ -316,18 +293,7 @@ url="https:"+url;
 
 }
 
-/* يجب أن يكون الرابط http أو https */
-
-if(
-!url.startsWith("http://") &&
-!url.startsWith("https://")
-){
-
-return fallback;
-
-}
-
-/* تحويل روابط Google Drive */
+/* Google Drive */
 
 if(url.includes("drive.google.com/file/d/")){
 
@@ -338,6 +304,36 @@ if(id){
 url=`https://drive.google.com/uc?export=view&id=${id}`;
 
 }
+
+}
+
+/* Dropbox */
+
+if(url.includes("dropbox.com")){
+
+url=url.replace("?dl=0","?raw=1");
+
+}
+
+/* روابط ibb الخاطئة */
+
+if(url.includes("ibb.co/") && !url.includes("i.ibb.co")){
+
+return fallback;
+
+}
+
+/* السماح فقط بروابط مباشرة */
+
+if(
+
+!url.startsWith("https://") &&
+
+!url.startsWith("http://")
+
+){
+
+return fallback;
 
 }
 
@@ -354,6 +350,20 @@ return fallback;
 
 
 /*========================
+PRELOAD IMAGE
+========================*/
+
+export function preloadImage(url){
+
+const img=new Image();
+
+img.src=safeImage(url);
+
+}
+
+
+
+/*========================
 PRICE
 ========================*/
 
@@ -361,7 +371,11 @@ export function formatPrice(price){
 
 const value=Number(price);
 
-if(isNaN(value)) return "0 د.ع";
+if(isNaN(value)){
+
+return "0 د.ع";
+
+}
 
 return value.toLocaleString("ar-IQ")+" د.ع";
 
