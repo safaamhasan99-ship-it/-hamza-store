@@ -151,3 +151,210 @@ return;
 found=true;
 
 grid.innerHTML+=`
+
+<div class="product-card">
+
+<img
+src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}"
+alt="${p.name}">
+
+<div class="product-info">
+
+<h3>${p.name || ""}</h3>
+
+<p class="price">
+
+${Number(p.price || 0).toLocaleString()} د.ع
+
+</p>
+
+<div class="product-actions">
+
+<a
+href="details.html?id=${p.id}"
+class="details-btn">
+
+التفاصيل
+
+</a>
+
+<button
+class="cart-add"
+data-id="${p.id}"
+data-name="${p.name}"
+data-price="${p.price}"
+data-image="${p.image}">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+السلة
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+if(!found){
+
+grid.innerHTML=`
+
+<div class="loading-products">
+
+لا توجد منتجات في القسم الرجالي
+
+</div>
+
+`;
+
+}
+
+loader.style.display="none";
+
+bindCartButtons();
+
+}catch(e){
+
+loader.style.display="none";
+
+console.error(e);
+
+grid.innerHTML=`
+
+<div class="loading-products">
+
+حدث خطأ أثناء تحميل المنتجات
+
+</div>
+
+`;
+
+}
+
+}
+
+function bindCartButtons(){
+
+document.querySelectorAll(".cart-add").forEach(btn=>{
+
+btn.onclick=()=>{
+
+let cart=JSON.parse(localStorage.getItem("cart")||"[]");
+
+const id=btn.dataset.id;
+
+const item=cart.find(x=>x.id===id);
+
+if(item){
+
+item.qty++;
+
+}else{
+
+cart.push({
+
+id:id,
+
+name:btn.dataset.name,
+
+price:Number(btn.dataset.price),
+
+image:btn.dataset.image,
+
+qty:1
+
+});
+
+}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+updateCartCount();
+
+alert("تمت إضافة المنتج إلى السلة");
+
+};
+
+});
+
+}
+
+function updateCartCount(){
+
+const cart=JSON.parse(localStorage.getItem("cart")||"[]");
+
+const count=cart.reduce((sum,item)=>sum+(item.qty||1),0);
+
+document.getElementById("cartCount").textContent=count;
+
+}
+
+loadProducts();
+
+updateCartCount();
+
+const searchInput=document.getElementById("searchInput");
+
+searchInput.addEventListener("input",()=>{
+
+const keyword=searchInput.value.trim().toLowerCase();
+
+document.querySelectorAll(".product-card").forEach(card=>{
+
+const text=card.innerText.toLowerCase();
+
+card.style.display=text.includes(keyword) ? "" : "none";
+
+});
+
+});
+  window.addEventListener("load",()=>{
+
+if(loader){
+
+loader.style.display="none";
+
+}
+
+});
+
+/*========================
+الوضع الليلي
+========================*/
+
+const darkBtn=document.getElementById("darkBtn");
+
+if(localStorage.getItem("darkMode")==="true"){
+
+document.body.classList.add("dark");
+
+}
+
+darkBtn.addEventListener("click",()=>{
+
+document.body.classList.toggle("dark");
+
+localStorage.setItem(
+"darkMode",
+document.body.classList.contains("dark")
+);
+
+});
+
+/*========================
+تحديث عدد السلة عند فتح الصفحة
+========================*/
+
+updateCartCount();
+
+</script>
+
+</body>
+
+</html>
