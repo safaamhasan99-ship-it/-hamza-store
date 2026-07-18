@@ -93,9 +93,7 @@ placeholder="ابحث داخل القسم الرجالي...">
 <div id="productsGrid" class="products-grid">
 
 <div class="loading-products">
-
 جاري تحميل المنتجات...
-
 </div>
 
 </div>
@@ -112,12 +110,12 @@ getDocs
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const grid=document.getElementById("productsGrid");
-const loader=document.getElementById("loader");
+const grid = document.getElementById("productsGrid");
+const loader = document.getElementById("loader");
 
 async function loadProducts(){
 
-grid.innerHTML=`
+grid.innerHTML = `
 <div class="loading-products">
 جاري تحميل المنتجات...
 </div>
@@ -125,52 +123,32 @@ grid.innerHTML=`
 
 try{
 
-const snap=await getDocs(collection(db,"products"));
+const snap = await getDocs(collection(db,"products"));
 
-grid.innerHTML="";
+grid.innerHTML = "";
 
-let found=false;
+let found = false;
 
-snap.forEach(doc=>{
+  snap.forEach(doc=>{
 
-const p={
-id:doc.id,
+const p = {
+id: doc.id,
 ...doc.data()
 };
 
-const cat=(p.category||"").trim().toLowerCase();
+const cat = (p.category || "").trim().toLowerCase();
 
 if(
-cat!=="men" &&
-cat!=="رجالي" &&
-cat!=="القسم الرجالي"
+cat !== "men" &&
+cat !== "رجالي" &&
+cat !== "القسم الرجالي"
 ){
 return;
 }
 
-found=true;
+found = true;
 
-grid.innerHTML+=`
-
-<div class="product-card">
-
-<img
-src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}"
-alt="${p.name}">
-
-<div class="product-info">
-
-<div class="product-card">
-
-<div class="product-image">
-
-<img
-src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}"
-alt="${p.name}">
-
-</div>
-
-<div class="product-info">
+grid.innerHTML += `
 
 <div class="product-card">
 
@@ -190,77 +168,6 @@ ${p.name || ""}
 
 <div class="product-price">
 ${Number(p.price || 0).toLocaleString()} د.ع
-</div>
-
-<div class="product-actions">
-
-<button
-class="add-cart cart-add"
-data-id="${p.id}"
-data-name="${p.name}"
-data-price="${p.price}"
-data-image="${p.image}">
-
-<i class="fa-solid fa-cart-shopping"></i>
-إضافة للسلة
-
-</button>
-
-<a
-href="details.html?id=${p.id}"
-class="details-btn">
-
-عرض التفاصيل
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-if(!found){
-
-grid.innerHTML=`
-
-<div class="loading-products">
-
-لا توجد منتجات في القسم الرجالي
-
-</div>
-
-`;
-
-}
-
-loader.style.display="none";
-
-bindCartButtons();
-
-}catch(e){
-
-loader.style.display="none";
-
-console.error(e);
-
-grid.innerHTML=`
-
-<div class="loading-products">
-
-حدث خطأ أثناء تحميل المنتجات
-
-</div>
-
-`;
-
-}
-
-}
 
 function bindCartButtons(){
 
@@ -337,7 +244,8 @@ card.style.display=text.includes(keyword) ? "" : "none";
 });
 
 });
-  window.addEventListener("load",()=>{
+
+window.addEventListener("load",()=>{
 
 if(loader){
 
@@ -371,7 +279,7 @@ document.body.classList.contains("dark")
 });
 
 /*========================
-تحديث عدد السلة عند فتح الصفحة
+تحديث عدد السلة
 ========================*/
 
 updateCartCount();
