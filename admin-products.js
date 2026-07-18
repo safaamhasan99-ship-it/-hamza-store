@@ -39,7 +39,7 @@ const imageInput = document.getElementById("image");
 const offerInput = document.getElementById("offer");
 
 const saveBtn = document.getElementById("saveBtn");
-const productsList = document.getElementById("products");
+const productsList = document.getElementById("productsList");
 
 let editId = null;
 
