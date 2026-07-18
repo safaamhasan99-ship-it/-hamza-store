@@ -3,7 +3,7 @@
 Admin Guard
 ==================================*/
 
-import { auth } from "./firebase.js";
+import { auth } from "./js/firebase.js";
 
 import {
 onAuthStateChanged
