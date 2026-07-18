@@ -5,9 +5,8 @@ Part 1
 ==================================*/
 
 
-import { db } from "./js/firebase.js";
+alert("قبل الاستيراد");
 
-import {
   collection,
   addDoc,
   getDocs,
