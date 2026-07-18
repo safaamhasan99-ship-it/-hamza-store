@@ -1,6 +1,6 @@
 // admin-auth.js
 
-import { app } from "./firebase.js";
+import { app } from "./js/firebase.js";
 
 import {
 getAuth,
