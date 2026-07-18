@@ -2,743 +2,738 @@
 <html lang="ar" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>القسم الرجالي | مجمع حمزه الشطري</title>
+<meta charset="UTF-8">
 
-    <meta name="description" content="القسم الرجالي - مجمع حمزه الشطري">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" href="images/logo.png">
+<title>القسم الرجالي | مجمع حمزه الشطري</title>
 
-    <link rel="stylesheet" href="style.css">
+<meta name="theme-color" content="#111827">
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
-    <script type="module" src="js/firebase.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 
-<body data-category="قسم رجالي">
+<body>
 
-    <!-- Header -->
-    <header class="header">
+<div id="loader">
 
-        <a href="index.html" class="logo">
-            <img src="images/logo.png" alt="مجمع حمزه الشطري">
-        </a>
+<div class="loader-box">
 
-        <h1 class="page-title">
-            القسم الرجالي
-        </h1>
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
-        <div class="header-icons">
+<h2>مجمع حمزه الشطري</h2>
 
-            <a href="favorites.html" class="icon-btn">
-                <i class="fa-solid fa-heart"></i>
-            </a>
+<div class="loader-spinner"></div>
 
-            <a href="cart.html" class="icon-btn cart-icon">
+<p>جاري تحميل القسم...</p>
 
-                <i class="fa-solid fa-cart-shopping"></i>
+</div>
 
-                <span id="cartCount">
-                    0
-                </span>
+</div>
 
-            </a>
+<header class="header">
 
-            <button id="darkModeBtn" class="icon-btn">
+<div class="logo-box">
 
-                <i class="fa-solid fa-moon"></i>
+<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
-            </button>
+<div>
 
-        </div>
+<h1>مجمع حمزه الشطري</h1>
 
-    </header>
+<span>القسم الرجالي</span>
 
-    <!-- Search -->
+</div>
 
-    <section class="search-section">
+</div>
 
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="ابحث عن منتج..."
-            autocomplete="off">
+<div class="header-buttons">
 
-    </section>
+<a href="cart.html" class="cart-btn">
 
-    <!-- Products -->
+<i class="fa-solid fa-cart-shopping"></i>
 
-    <main class="products-page">
+<span id="cartCount">0</span>
 
-        <div
-            id="productsGrid"
-            class="products-grid">
+</a>
 
-            <div class="loading">
+<button id="darkBtn" class="dark-btn">
 
-                جاري تحميل المنتجات...
+<i class="fa-solid fa-moon"></i>
 
-            </div>
+</button>
 
-        </div>
+</div>
 
-    </main>
+</header>
 
-      <script type="module">
+<section class="search-box">
 
-        import {
-            db
-        } from "./js/firebase.js";
+<input
+id="searchInput"
+type="text"
+placeholder="ابحث داخل القسم الرجالي...">
 
-        import {
-            collection,
-            getDocs
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<i class="fa-solid fa-magnifying-glass"></i>
 
-        const grid = document.getElementById("productsGrid");
-        const searchInput = document.getElementById("searchInput");
+</section>
 
-        let products = [];
+<section class="products-home">
 
-        async function loadProducts() {
+<h2 class="title">
 
-            grid.innerHTML =
-                `<div class="loading">جاري تحميل المنتجات...</div>`;
+👔 القسم الرجالي
 
-            try {
+</h2>
 
-                const snapshot = await getDocs(
-                    collection(db, "products")
-                );
+<div id="productsGrid" class="products-grid">
 
-                products = [];
+<div class="loading-products">
 
-                snapshot.forEach(doc => {
+جاري تحميل المنتجات...
 
-                    const data = doc.data();
+</div>
 
-                    const category =
-                        (data.category || "").trim();
+</div>
 
-                    if (
-                        category === "قسم رجالي" ||
-                        category === "رجالي"
-                    ) {
+</section>
+<!-- واتساب ثابت -->
 
-                        products.push({
-                            id: doc.id,
-                            ...data
-                        });
+<a class="whatsapp"
+href="https://wa.me/9647813555538"
+target="_blank">
 
-                    }
+<i class="fa-brands fa-whatsapp"></i>
 
-                });
+</a>
 
-                renderProducts(products);
+<!-- القائمة السفلية -->
 
-            } catch (err) {
+<nav class="bottom-nav">
 
-                console.error(err);
+<a href="index.html">
 
-                grid.innerHTML = `
-                    <div class="empty-products">
-                        حدث خطأ أثناء تحميل المنتجات
-                    </div>
-                `;
+<i class="fa-solid fa-house"></i>
 
-            }
+<span>الرئيسية</span>
 
-        }
+</a>
 
-        function renderProducts(list) {
+<a href="products.html">
 
-            if (!list.length) {
+<i class="fa-solid fa-shop"></i>
 
-                grid.innerHTML = `
-                    <div class="empty-products">
-                        لا توجد منتجات في هذا القسم
-                    </div>
-                `;
+<span>المنتجات</span>
 
-                return;
-            }
+</a>
 
-            grid.innerHTML = "";
+<a href="cart.html">
 
-            list.forEach(product => {
+<i class="fa-solid fa-cart-shopping"></i>
 
-                createCard(product);
+<span>السلة</span>
 
-            });
+</a>
 
-        }
-    </script>
+<a href="favorites.html">
 
-  <script type="module">
+<i class="fa-solid fa-heart"></i>
 
-function createCard(product) {
+<span>المفضلة</span>
 
-    const card = document.createElement("div");
-    card.className = "product-card";
+</a>
 
-    const image =
-        product.image ||
-        product.img ||
-        "images/no-image.png";
+<a href="about.html">
 
-    const price =
-        Number(product.price || 0).toLocaleString();
+<i class="fa-solid fa-circle-info"></i>
 
-    card.innerHTML = `
+<span>من نحن</span>
 
-        <div class="product-image">
+</a>
 
-            <img
-                src="${image}"
-                alt="${product.name}"
-                loading="lazy"
-                onerror="this.src='images/no-image.png'">
+</nav>
 
-        </div>
+<!-- الفوتر -->
 
-        <div class="product-content">
+<footer class="footer">
 
-            <h3 class="product-name">
-                ${product.name}
-            </h3>
+<div class="footer-box">
 
-            <p class="product-price">
-                ${price} د.ع
-            </p>
+<img
+src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
+class="footer-logo">
 
-            <div class="product-buttons">
+<h3>مجمع حمزه الشطري</h3>
 
-                <button
-                    class="details-btn"
-                    data-id="${product.id}">
+<p>للملابس الجاهزة والجملة</p>
 
-                    <i class="fa-solid fa-eye"></i>
+<p>
 
-                    التفاصيل
+<i class="fa-solid fa-location-dot"></i>
 
-                </button>
+ذي قار - الشطرة
 
-                <button
-                    class="cart-btn"
-                    data-id="${product.id}">
+</p>
 
-                    <i class="fa-solid fa-cart-shopping"></i>
+<p>
 
-                    إضافة للسلة
+<i class="fa-solid fa-phone"></i>
 
-                </button>
+07813555538
 
-            </div>
+</p>
 
-        </div>
+<p>
 
-    `;
+<i class="fa-solid fa-truck"></i>
 
-    grid.appendChild(card);
+توصيل لجميع محافظات العراق
+
+</p>
+
+<p class="copy">
+
+© 2026 جميع الحقوق محفوظة
+
+</p>
+
+</div>
+
+</footer>
+<script type="module">
+
+import { db } from "./js/firebase.js";
+
+import {
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const grid = document.getElementById("productsGrid");
+
+const searchInput = document.getElementById("searchInput");
+
+let allProducts = [];
+
+async function loadMenProducts() {
+
+grid.innerHTML = `
+<div class="loading-products">
+جاري تحميل المنتجات...
+</div>
+`;
+
+try{
+
+const snap = await getDocs(collection(db,"products"));
+
+allProducts = [];
+    function renderProducts(list){
+
+if(!list.length){
+
+grid.innerHTML=`
+
+<div class="loading-products">
+
+لا توجد منتجات في القسم الرجالي
+
+</div>
+
+`;
+
+return;
 
 }
 
-</script>
+grid.innerHTML="";
 
-  <script type="module">
+list.forEach(product=>{
 
-function addToCart(product) {
+const image=
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+product.image||
+product.img||
+product.imageUrl||
+"images/no-image.png";
 
-    const index = cart.findIndex(item => item.id === product.id);
+const price=
+Number(product.price||0).toLocaleString();
 
-    if (index > -1) {
+grid.innerHTML+=`
 
-        cart[index].qty += 1;
+<div class="product-card">
 
-    } else {
+<div class="product-image">
 
-        cart.push({
-            id: product.id,
-            name: product.name,
-            price: Number(product.price || 0),
-            image: product.image || product.img || "images/no-image.png",
-            qty: 1
-        });
+<img
+src="${image}"
+alt="${product.name}"
+loading="lazy"
+onerror="this.src='images/no-image.png'">
 
-    }
+</div>
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+<div class="product-info">
 
-    updateCartCount();
+<h3 class="product-title">
 
-    alert("تمت إضافة المنتج إلى السلة");
+${product.name}
+
+</h3>
+
+<div class="product-price">
+
+${price} د.ع
+
+</div>
+
+<div class="product-actions">
+
+<button
+class="add-cart"
+data-id="${product.id}">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+إضافة للسلة
+
+</button>
+
+<a
+href="details.html?id=${product.id}"
+class="details-btn">
+
+عرض التفاصيل
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
 
 }
 
-function updateCartCount() {
+    <script type="module">
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+function updateCartCount(){
 
-    const count = cart.reduce((sum, item) => sum + item.qty, 0);
+const cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-    const badge = document.getElementById("cartCount");
+const total=cart.reduce((sum,item)=>sum+(item.qty||1),0);
 
-    if (badge) {
-
-        badge.textContent = count;
-
-    }
+document.getElementById("cartCount").textContent=total;
 
 }
 
-document.addEventListener("click", (e) => {
+function addToCart(product){
 
-    if (e.target.closest(".cart-btn")) {
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-        const id = e.target.closest(".cart-btn").dataset.id;
+const index=cart.findIndex(item=>item.id===product.id);
 
-        const product = products.find(p => p.id === id);
+if(index>-1){
 
-        if (product) {
+cart[index].qty+=1;
 
-            addToCart(product);
+}else{
 
-        }
+cart.push({
 
-    }
+id:product.id,
 
-    if (e.target.closest(".details-btn")) {
+name:product.name,
 
-        const id = e.target.closest(".details-btn").dataset.id;
+price:Number(product.price||0),
 
-        window.location.href = `details.html?id=${id}`;
+image:
+product.image||
+product.img||
+product.imageUrl||
+"images/no-image.png",
 
-    }
+qty:1
+
+});
+
+}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+updateCartCount();
+
+alert("تمت إضافة المنتج إلى السلة");
+
+}
+
+document.addEventListener("click",(e)=>{
+
+const btn=e.target.closest(".add-cart");
+
+if(!btn)return;
+
+const id=btn.dataset.id;
+
+const product=allProducts.find(p=>p.id===id);
+
+if(product){
+
+addToCart(product);
+
+}
 
 });
 
 updateCartCount();
 
-</script>
+    /*==================================
+البحث + الوضع الليلي + تشغيل الصفحة
+==================================*/
 
-  <script type="module">
+searchInput.addEventListener("input",()=>{
 
-/*=========================
-    البحث
-=========================*/
+const keyword=searchInput.value.trim().toLowerCase();
 
-searchInput.addEventListener("input", () => {
+if(!keyword){
 
-    const keyword = searchInput.value
-        .trim()
-        .toLowerCase();
+renderProducts(allProducts);
 
-    const filtered = products.filter(product => {
-
-        const name = (product.name || "").toLowerCase();
-        const description = (product.description || "").toLowerCase();
-
-        return (
-            name.includes(keyword) ||
-            description.includes(keyword)
-        );
-
-    });
-
-    renderProducts(filtered);
-
-});
-
-
-/*=========================
-    الوضع الليلي
-=========================*/
-
-const darkBtn = document.getElementById("darkModeBtn");
-
-if (localStorage.getItem("theme") === "dark") {
-
-    document.body.classList.add("dark-mode");
-
-    darkBtn.innerHTML =
-        '<i class="fa-solid fa-sun"></i>';
+return;
 
 }
 
-darkBtn.addEventListener("click", () => {
+const filtered=allProducts.filter(product=>{
 
-    document.body.classList.toggle("dark-mode");
+const name=(product.name||"").toLowerCase();
 
-    const dark =
-        document.body.classList.contains("dark-mode");
+const description=(product.description||"").toLowerCase();
 
-    localStorage.setItem(
-        "theme",
-        dark ? "dark" : "light"
-    );
+const colors=(product.colors||"").toLowerCase();
 
-    darkBtn.innerHTML = dark
-        ? '<i class="fa-solid fa-sun"></i>'
-        : '<i class="fa-solid fa-moon"></i>';
+return(
+
+name.includes(keyword)||
+
+description.includes(keyword)||
+
+colors.includes(keyword)
+
+);
 
 });
 
+renderProducts(filtered);
 
-/*=========================
-    تشغيل الصفحة
-=========================*/
+});
 
-loadProducts();
+const darkBtn=document.getElementById("darkBtn");
+
+if(localStorage.getItem("theme")==="dark"){
+
+document.body.classList.add("dark-mode");
+
+darkBtn.innerHTML='<i class="fa-solid fa-sun"></i>';
+
+}
+
+darkBtn.addEventListener("click",()=>{
+
+document.body.classList.toggle("dark-mode");
+
+const dark=document.body.classList.contains("dark-mode");
+
+localStorage.setItem("theme",dark?"dark":"light");
+
+darkBtn.innerHTML=dark
+?'<i class="fa-solid fa-sun"></i>'
+:'<i class="fa-solid fa-moon"></i>';
+
+});
+
+loadMenProducts();
 
 </script>
-<script type="module">
 
-/*=========================
-    تحسين الصور
-=========================*/
+    <script type="module">
 
-document.addEventListener("error", (e) => {
+/*==================================
+تحسين الصور
+==================================*/
 
-    if (
-        e.target.tagName === "IMG" &&
-        !e.target.dataset.failed
-    ) {
+document.addEventListener("error",(e)=>{
 
-        e.target.dataset.failed = "1";
-        e.target.src = "images/no-image.png";
+if(
 
-    }
+e.target.tagName==="IMG" &&
 
-}, true);
+!e.target.dataset.failed
+
+){
+
+e.target.dataset.failed="1";
+
+e.target.src="images/no-image.png";
+
+}
+
+},true);
 
 
-/*=========================
-    ترتيب المنتجات
-=========================*/
+/*==================================
+تحديث عداد السلة
+==================================*/
 
-products.sort((a, b) => {
+window.addEventListener("storage",()=>{
 
-    const aName = (a.name || "").toLowerCase();
-    const bName = (b.name || "").toLowerCase();
+updateCartCount();
 
-    return aName.localeCompare(bName, "ar");
+});
+
+window.addEventListener("focus",()=>{
+
+updateCartCount();
 
 });
 
 
-/*=========================
-    إعادة تحميل العداد
-=========================*/
+/*==================================
+زر الرجوع للأعلى
+==================================*/
 
-window.addEventListener("storage", () => {
+const topBtn=document.createElement("button");
 
-    updateCartCount();
+topBtn.className="scroll-top";
 
-});
-
-
-/*=========================
-    زر الرجوع للأعلى
-=========================*/
-
-const topBtn = document.createElement("button");
-
-topBtn.className = "scroll-top";
-
-topBtn.innerHTML =
-    '<i class="fa-solid fa-arrow-up"></i>';
+topBtn.innerHTML=`
+<i class="fa-solid fa-arrow-up"></i>
+`;
 
 document.body.appendChild(topBtn);
 
-window.addEventListener("scroll", () => {
+window.addEventListener("scroll",()=>{
 
-    topBtn.classList.toggle(
-        "show",
-        window.scrollY > 300
-    );
+if(window.scrollY>300){
+
+topBtn.classList.add("show");
+
+}else{
+
+topBtn.classList.remove("show");
+
+}
 
 });
 
-topBtn.addEventListener("click", () => {
+topBtn.addEventListener("click",()=>{
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+window.scrollTo({
 
-});
+top:0,
 
-</script>
-<script type="module">
-
-/*==================================
-    تحسين عرض المنتجات
-==================================*/
-
-function formatPrice(price) {
-
-    const value = Number(price || 0);
-
-    return value.toLocaleString("en-US") + " د.ع";
-
-}
-
-function getImage(product) {
-
-    return (
-        product.image ||
-        product.img ||
-        product.imageUrl ||
-        "images/no-image.png"
-    );
-
-}
-
-function getQuantity(product) {
-
-    return Number(product.quantity || 0);
-
-}
-
-function getSizes(product) {
-
-    return product.sizes || "";
-
-}
-
-
-/*==================================
-    تحديث البطاقات بعد التحميل
-==================================*/
-
-function refreshCards() {
-
-    document.querySelectorAll(".product-card").forEach(card => {
-
-        const img = card.querySelector("img");
-
-        if (img) {
-
-            img.loading = "lazy";
-            img.decoding = "async";
-
-        }
-
-    });
-
-}
-
-
-/*==================================
-    رسالة عند عدم وجود منتجات
-==================================*/
-
-function showEmptyMessage() {
-
-    grid.innerHTML = `
-
-        <div class="empty-products">
-
-            <i class="fa-solid fa-box-open"></i>
-
-            <h3>لا توجد منتجات حالياً</h3>
-
-            <p>سيتم إضافة منتجات جديدة قريباً.</p>
-
-        </div>
-
-    `;
-
-}
-
-</script>
-<script type="module">
-
-/*==================================
-    تحسين البحث
-==================================*/
-
-function filterProducts(keyword) {
-
-    keyword = keyword.trim().toLowerCase();
-
-    if (!keyword) {
-        renderProducts(products);
-        refreshCards();
-        return;
-    }
-
-    const result = products.filter(product => {
-
-        const name = (product.name || "").toLowerCase();
-        const desc = (product.description || "").toLowerCase();
-        const colors = (product.colors || "").toLowerCase();
-
-        return (
-            name.includes(keyword) ||
-            desc.includes(keyword) ||
-            colors.includes(keyword)
-        );
-
-    });
-
-    if (result.length === 0) {
-        showEmptyMessage();
-        return;
-    }
-
-    renderProducts(result);
-    refreshCards();
-
-}
-
-
-/*==================================
-    البحث المباشر
-==================================*/
-
-if (searchInput) {
-
-    searchInput.addEventListener("keyup", (e) => {
-
-        filterProducts(e.target.value);
-
-    });
-
-}
-
-
-/*==================================
-    تحديث الصفحة عند الرجوع
-==================================*/
-
-window.addEventListener("pageshow", () => {
-
-    updateCartCount();
+behavior:"smooth"
 
 });
-
-
-/*==================================
-    منع سحب الصور
-==================================*/
-
-document.addEventListener("dragstart", (e) => {
-
-    if (e.target.tagName === "IMG") {
-        e.preventDefault();
-    }
 
 });
 
 </script>
-<script type="module">
+
+    <script type="module">
 
 /*==================================
-    ترتيب المنتجات
+تحسين تحميل الصفحة
 ==================================*/
 
-const sortSelect = document.getElementById("sortProducts");
+window.addEventListener("load",()=>{
 
-if (sortSelect) {
+const loader=document.getElementById("loader");
 
-    sortSelect.addEventListener("change", () => {
+if(loader){
 
-        let list = [...products];
+loader.classList.add("hide");
 
-        switch (sortSelect.value) {
+setTimeout(()=>{
 
-            case "priceLow":
+loader.remove();
 
-                list.sort((a, b) =>
-                    Number(a.price || 0) - Number(b.price || 0)
-                );
+},400);
 
-                break;
+}
 
-            case "priceHigh":
+});
 
-                list.sort((a, b) =>
-                    Number(b.price || 0) - Number(a.price || 0)
-                );
 
-                break;
+/*==================================
+حفظ آخر بحث
+==================================*/
 
-            case "name":
+if(searchInput){
 
-                list.sort((a, b) =>
-                    (a.name || "").localeCompare(b.name || "", "ar")
-                );
+const lastSearch=localStorage.getItem("menSearch");
 
-                break;
+if(lastSearch){
 
-            default:
+searchInput.value=lastSearch;
 
-                break;
+searchInput.dispatchEvent(new Event("input"));
 
-        }
+}
 
-        renderProducts(list);
-        refreshCards();
+searchInput.addEventListener("input",()=>{
 
-    });
+localStorage.setItem(
+
+"menSearch",
+
+searchInput.value
+
+);
+
+});
 
 }
 
 
 /*==================================
-    تحديث عداد السلة
+منع سحب الصور
 ==================================*/
 
-window.addEventListener("focus", () => {
+document.addEventListener("dragstart",(e)=>{
 
-    updateCartCount();
+if(e.target.tagName==="IMG"){
+
+e.preventDefault();
+
+}
 
 });
 
 
 /*==================================
-    إخفاء رسالة التحميل
+تحسين تحميل الصور
 ==================================*/
 
-window.addEventListener("load", () => {
+document.querySelectorAll("img").forEach(img=>{
 
-    const loading = document.querySelector(".loading");
+img.loading="lazy";
 
-    if (loading) {
-
-        loading.remove();
-
-    }
+img.decoding="async";
 
 });
 
 </script>
-<script type="module">
+
+    <script type="module">
 
 /*==================================
-    تشغيل الصفحة
+تحسينات عامة
+==================================*/
+
+function refreshImages(){
+
+document.querySelectorAll(".product-card img").forEach(img=>{
+
+img.loading="lazy";
+
+img.decoding="async";
+
+img.onerror=function(){
+
+this.src="images/no-image.png";
+
+};
+
+});
+
+}
+
+/*==================================
+تحديث البطاقات بعد الرسم
+==================================*/
+
+const oldRender = renderProducts;
+
+renderProducts = function(list){
+
+oldRender(list);
+
+refreshImages();
+
+};
+
+/*==================================
+إعادة تحميل العداد عند العودة للصفحة
+==================================*/
+
+window.addEventListener("pageshow",()=>{
+
+updateCartCount();
+
+});
+
+/*==================================
+إخفاء شاشة التحميل إذا بقيت ظاهرة
+==================================*/
+
+setTimeout(()=>{
+
+const loader=document.getElementById("loader");
+
+if(loader){
+
+loader.style.opacity="0";
+
+loader.style.pointerEvents="none";
+
+setTimeout(()=>{
+
+loader.remove();
+
+},300);
+
+}
+
+},3000);
+
+</script>
+
+    <script type="module">
+
+/*==================================
+تشغيل الصفحة
 ==================================*/
 
 document.addEventListener("DOMContentLoaded", async () => {
 
     updateCartCount();
 
-    await loadProducts();
+    await loadMenProducts();
 
-    refreshCards();
+    if (typeof refreshImages === "function") {
+        refreshImages();
+    }
 
 });
 
 
 /*==================================
-    تحديث الصور بعد التحميل
+تحديث الصور بعد تحميل المنتجات
 ==================================*/
 
 window.addEventListener("load", () => {
@@ -746,6 +741,8 @@ window.addEventListener("load", () => {
     document.querySelectorAll(".product-card img").forEach(img => {
 
         img.loading = "lazy";
+
+        img.decoding = "async";
 
         img.onerror = () => {
 
@@ -759,34 +756,30 @@ window.addEventListener("load", () => {
 
 
 /*==================================
-    حفظ آخر بحث
+إخفاء شاشة التحميل نهائياً
 ==================================*/
 
-if (searchInput) {
+window.addEventListener("load", () => {
 
-    searchInput.addEventListener("input", () => {
+    const loader = document.getElementById("loader");
 
-        localStorage.setItem(
-            "menSearch",
-            searchInput.value
-        );
+    if (loader) {
 
-    });
+        loader.style.opacity = "0";
 
-    const lastSearch = localStorage.getItem("menSearch");
+        setTimeout(() => {
 
-    if (lastSearch) {
+            loader.remove();
 
-        searchInput.value = lastSearch;
-
-        filterProducts(lastSearch);
+        }, 300);
 
     }
 
-}
+});
 
 </script>
 
-</body>
+<script type="module" src="script.js"></script>
 
+</body>
 </html>
