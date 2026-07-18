@@ -333,11 +333,11 @@ url=url.replace("?dl=0","?raw=1");
 
 }
 
-/* روابط ImgBB */
+/* ImgBB */
 
-if(url.includes("ibb.co")){
+if(url.includes("ibb.co") && !url.includes("i.ibb.co")){
 
-url=url.replace("http://","https://");
+url = url.replace("https://ibb.co/", "https://i.ibb.co/");
 
 }
 
