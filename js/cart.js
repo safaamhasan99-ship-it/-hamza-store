@@ -1,39 +1,32 @@
 /*==================================
-Hamza Store V11
+Hamza Store V12
 Professional Cart JS
 ==================================*/
 
 import {
-
 getCart,
 saveCart,
 removeFromCart,
 formatPrice,
 showToast,
 updateCartCount
-
 }
-
 from "./utils.js";
 
 /*========================
 ELEMENTS
 ========================*/
 
-const cartItems =
-document.getElementById("cartItems");
+const cartItems=document.getElementById("cartItems");
+const totalPrice=document.getElementById("totalPrice");
+const itemsCount=document.getElementById("itemsCount");
+const checkoutBtn=document.getElementById("checkoutBtn");
 
-const totalPrice =
-document.getElementById("totalPrice");
+const customerName=document.getElementById("customerName");
+const customerPhone=document.getElementById("customerPhone");
+const customerAddress=document.getElementById("customerAddress");
 
-const itemsCount =
-document.getElementById("itemsCount");
-
-const checkoutBtn =
-document.getElementById("checkoutBtn");
-
-const loader =
-document.getElementById("loader");
+const loader=document.getElementById("loader");
 
 /*========================
 START
@@ -52,15 +45,16 @@ loader.style.display="none";
 }
 
 });
+
 /*========================
 RENDER CART
 ========================*/
 
 function renderCart(){
 
-if(!cartItems) return;
-
 const cart=getCart();
+
+if(!cartItems) return;
 
 cartItems.innerHTML="";
 
@@ -73,30 +67,19 @@ const template=document.getElementById("emptyCartTemplate");
 
 if(template){
 
-cartItems.appendChild(
-template.content.cloneNode(true)
-);
-
-}else{
-
-cartItems.innerHTML="<h3>السلة فارغة</h3>";
+cartItems.appendChild(template.content.cloneNode(true));
 
 }
 
-if(totalPrice)
-totalPrice.textContent="0 د.ع";
-
-if(itemsCount)
-itemsCount.textContent="0";
+if(totalPrice) totalPrice.textContent="0 د.ع";
+if(itemsCount) itemsCount.textContent="0";
 
 return;
 
 }
-
-cart.forEach(item=>{
+  cart.forEach(item=>{
 
 const qty=item.qty||1;
-
 const price=Number(item.price)||0;
 
 count+=qty;
@@ -104,25 +87,46 @@ total+=price*qty;
 
 cartItems.innerHTML+=`
 
-<div class="cart-item">
+<div class="cart-card">
+
+<div class="cart-image">
 
 <img
 src="${item.image}"
-alt="${item.name}">
+alt="${item.name}"
+loading="lazy">
 
-<div class="cart-info">
+</div>
+
+<div class="cart-details">
 
 <h3>${item.name}</h3>
 
-<p>${formatPrice(price)}</p>
+<div class="cart-price">
 
-<div class="qty-box">
+${formatPrice(price)}
 
-<button onclick="changeQty('${item.id}',1)">+</button>
+</div>
+
+<div class="cart-qty">
+
+<button
+class="qty-btn"
+onclick="changeQty('${item.id}',-1)">
+
+<i class="fa-solid fa-minus"></i>
+
+</button>
 
 <span>${qty}</span>
 
-<button onclick="changeQty('${item.id}',-1)">-</button>
+<button
+class="qty-btn"
+onclick="changeQty('${item.id}',1)">
+
+<i class="fa-solid fa-plus"></i>
+
+</button>
 
 </div>
 
@@ -132,7 +136,7 @@ alt="${item.name}">
 class="delete-btn"
 onclick="deleteItem('${item.id}')">
 
-🗑️
+<i class="fa-solid fa-trash"></i>
 
 </button>
 
@@ -154,7 +158,7 @@ window.changeQty=function(id,value){
 
 let cart=getCart();
 
-const item=cart.find(p=>p.id===id);
+const item=cart.find(x=>x.id===id);
 
 if(!item) return;
 
@@ -200,6 +204,40 @@ if(checkoutBtn){
 
 checkoutBtn.onclick=()=>{
 
+const name=customerName.value.trim();
+const phone=customerPhone.value.trim();
+const address=customerAddress.value.trim();
+
+if(!name){
+
+showToast("يرجى إدخال اسم الزبون");
+
+customerName.focus();
+
+return;
+
+}
+
+if(!phone){
+
+showToast("يرجى إدخال رقم الهاتف");
+
+customerPhone.focus();
+
+return;
+
+}
+
+if(!address){
+
+showToast("يرجى إدخال العنوان");
+
+customerAddress.focus();
+
+return;
+
+}
+
 const cart=getCart();
 
 if(cart.length===0){
@@ -212,7 +250,22 @@ return;
 
 let total=0;
 
-let message="🛒 طلب جديد من مجمع حمزه الشطري\n\n";
+let message=`🛍️ طلب جديد من مجمع حمزه الشطري
+
+━━━━━━━━━━━━━━
+
+👤 الاسم:
+${name}
+
+📞 الهاتف:
+${phone}
+
+📍 العنوان:
+${address}
+
+━━━━━━━━━━━━━━
+
+`;
 
 cart.forEach(item=>{
 
@@ -222,25 +275,30 @@ const sum=qty*price;
 
 total+=sum;
 
-message+=`📦 ${item.name}\n`;
-message+=`الكمية: ${qty}\n`;
-message+=`السعر: ${formatPrice(sum)}\n\n`;
+message+=`📦 ${item.name}
+الكمية : ${qty}
+السعر : ${formatPrice(sum)}
+
+`;
 
 });
 
-message+=`💰 الإجمالي: ${formatPrice(total)}`;
+message+=`━━━━━━━━━━━━━━
+
+💰 الإجمالي:
+${formatPrice(total)}
+
+شكراً لتسوقكم من
+مجمع حمزه الشطري ❤️`;
 
 window.open(
-
 "https://wa.me/9647813555538?text="+
 encodeURIComponent(message),
-
 "_blank"
-
 );
 
 };
 
 }
 
-console.log("Hamza Store Cart Ready ✅");
+console.log("Hamza Store V12 Ready ✅");
