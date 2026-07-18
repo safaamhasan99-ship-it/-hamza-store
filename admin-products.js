@@ -7,6 +7,8 @@ Part 1
 
 import { db } from "./js/firebase.js";
 
+alert("firebase تم");
+
 import {
   collection,
   addDoc,
@@ -17,7 +19,9 @@ import {
   deleteDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-alert("وصلنا");
+
+alert("firestore تم");
+
 /*========================
 ELEMENTS
 ========================*/
