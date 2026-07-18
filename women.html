@@ -218,7 +218,15 @@ snap.forEach(doc=>{
 
 const p=doc.data();
 
-if((p.category||"")!=="women") return;
+const category = (p.category || "").trim().toLowerCase();
+
+const validCategories = [
+  "women",
+  "نسائي",
+  "قسم النسائي"
+].map(c => c.toLowerCase());
+
+if (!validCategories.some(c => category.includes(c))) return;
 
 found=true;
 
