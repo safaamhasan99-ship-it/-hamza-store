@@ -3200,3 +3200,44 @@ opacity:1;
 END OF FILE
 Hamza Store V14 Clean CSS
 ==================================*/
+
+/* ===== ترتيب المنتجات بشكل متساوي ===== */
+
+.products-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+    align-items:stretch;
+}
+
+.product-card{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+}
+
+.product-image{
+    aspect-ratio:1/1;
+    height:auto;
+}
+
+.product-info{
+    display:flex;
+    flex-direction:column;
+    flex:1;
+}
+
+.product-title{
+    min-height:60px;
+    max-height:60px;
+    overflow:hidden;
+    line-height:1.5;
+}
+
+.product-price{
+    margin-top:auto;
+}
+
+.product-actions{
+    margin-top:12px;
+}
