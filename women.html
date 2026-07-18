@@ -230,46 +230,40 @@ if (!validCategories.some(c => category.includes(c))) return;
 
 found=true;
 
-grid.innerHTML+=`
-
+grid.innerHTML += `
 <div class="product-card">
 
-<img src="${p.image}">
+<div class="product-image">
+<img src="${p.image}" alt="${p.name}">
+</div>
 
 <div class="product-info">
 
-<h3>${p.name}</h3>
+<h3 class="product-title">
+${p.name}
+</h3>
 
-<p class="price">
-
+<div class="product-price">
 ${Number(p.price).toLocaleString()} د.ع
-
-</p>
+</div>
 
 <div class="product-actions">
 
-<button class="cart-add"
+<button class="add-cart"
 onclick="addToCart('${p.name}',${p.price},'${p.image}')">
-
 <i class="fa-solid fa-cart-shopping"></i>
-
-السلة
-
+إضافة للسلة
 </button>
 
-<button class="fav-add"
-onclick="addToFavorites('${p.name}',${p.price},'${p.image}')">
-
-<i class="fa-solid fa-heart"></i>
-
-</button>
+<a href="details.html?id=${doc.id}" class="details-btn">
+عرض التفاصيل
+</a>
 
 </div>
 
 </div>
 
 </div>
-
 `;
 
 });
