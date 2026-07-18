@@ -149,6 +149,52 @@ return;
 found = true;
 
 grid.innerHTML += `
+<div class="product-card">
+
+    <div class="product-image">
+        <img
+            src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}"
+            alt="${p.name}">
+    </div>
+
+    <div class="product-info">
+
+        <h3 class="product-title">
+            ${p.name || ""}
+        </h3>
+
+        <div class="product-price">
+            ${Number(p.price || 0).toLocaleString()} د.ع
+        </div>
+
+        <div class="product-actions">
+
+            <button
+                class="add-cart cart-add"
+                data-id="${p.id}"
+                data-name="${p.name}"
+                data-price="${p.price}"
+                data-image="${p.image}">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+                إضافة للسلة
+
+            </button>
+
+            <a
+                href="details.html?id=${p.id}"
+                class="details-btn">
+
+                عرض التفاصيل
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+`;
 
 <div class="product-card">
 
