@@ -153,26 +153,30 @@ onerror="this.src='./IMG_5661.jpeg'">
 
     <div class="product-info">
 
-        <h3 class="product-title">
-            ${product.name || 'بدون اسم'}
-        </h3>
+    <h3 class="product-title">
+        ${product.name || 'بدون اسم'}
+    </h3>
 
-        <div class="product-price">
-            ${formatPrice(product.price || 0)}
-        </div>
+    <div class="product-price">
+        ${formatPrice(product.price || 0)}
+    </div>
 
-        <div class="product-actions">
+    <div class="product-actions">
 
-            <button class="add-cart">
-                <i class="fa-solid fa-cart-shopping"></i>
-                إضافة للسلة
-            </button>
+        <button class="add-cart">
+            <i class="fa-solid fa-cart-shopping"></i>
+            إضافة للسلة
+        </button>
 
-            <a href="details.html?id=${product.id}" class="details-btn">
-                التفاصيل
-            </a>
+        <a href="details.html?id=${product.id}" class="details-btn">
+            عرض التفاصيل
+        </a>
 
-        </div>
+    </div>
+
+</div>
+
+
 
     </div>
 
