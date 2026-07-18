@@ -24,9 +24,7 @@ import {
 ELEMENTS
 ========================*/
 
-const params = new URLSearchParams(window.location.search);
-
-const productId = params.get("id");
+const productId = new URLSearchParams(window.location.search).get("id");
 
 let currentProduct = null;
 
@@ -50,69 +48,98 @@ const whatsappBtn = document.getElementById("whatsappBtn");
 const relatedContainer =
 document.getElementById("relatedProducts");
 
+const loader =
+document.getElementById("loader");
+
 /*========================
 START
 ========================*/
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", init);
+
+async function init(){
 
     updateCartCount();
 
-    if (!productId) {
+    if(!productId){
 
-        nameEl.textContent = "المنتج غير موجود";
+        hideLoader();
+
+        if(nameEl){
+
+            nameEl.textContent="المنتج غير موجود";
+
+        }
 
         return;
 
     }
 
-    await loadProduct();
+    try{
 
-    if (currentProduct) {
+        await loadProduct();
 
-        await loadRelated();
+        if(currentProduct){
+
+            await loadRelated();
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        if(nameEl){
+
+            nameEl.textContent="حدث خطأ أثناء تحميل المنتج";
+
+        }
 
     }
 
-});
+    hideLoader();
+
+}
+
+function hideLoader(){
+
+    if(!loader) return;
+
+    loader.classList.add("hidden");
+
+    setTimeout(()=>{
+
+        loader.remove();
+
+    },300);
+
+}
 
 /*========================
 LOAD PRODUCT
 ========================*/
 
-async function loadProduct() {
+async function loadProduct(){
 
-    try {
+    const ref = doc(db,"products",productId);
 
-        const ref = doc(db, "products", productId);
+    const snap = await getDoc(ref);
 
-        const snap = await getDoc(ref);
+    if(!snap.exists()){
 
-        if (!snap.exists()) {
-
-            nameEl.textContent = "المنتج غير موجود";
-
-            return;
-
-        }
-
-        currentProduct = {
-
-            id: snap.id,
-
-            ...snap.data()
-
-        };
-
-        renderProduct();
-
-    } catch (error) {
-
-        console.error(error);
-
-        nameEl.textContent = "حدث خطأ أثناء تحميل المنتج";
+        throw new Error("Product not found");
 
     }
+
+    currentProduct={
+
+        id:snap.id,
+
+        ...snap.data()
+
+    };
+
+    renderProduct();
 
 }
 
@@ -120,199 +147,197 @@ async function loadProduct() {
 RENDER PRODUCT
 ========================*/
 
-function renderProduct() {
+function renderProduct(){
 
-    if (!currentProduct) return;
+    if(!currentProduct) return;
 
-    image.src = safeImage(currentProduct.image);
+    image.src=safeImage(currentProduct.image);
 
-    image.alt = currentProduct.name || "";
+    image.alt=currentProduct.name || "";
 
-    nameEl.textContent = currentProduct.name || "";
+    nameEl.textContent=currentProduct.name || "";
 
-    categoryEl.textContent = currentProduct.category || "";
+    categoryEl.textContent=currentProduct.category || "";
 
-    priceEl.textContent = formatPrice(currentProduct.price || 0);
+    priceEl.textContent=formatPrice(currentProduct.price || 0);
 
-    descEl.textContent =
-        currentProduct.description ||
-        "لا يوجد وصف لهذا المنتج.";
+    descEl.textContent=
+    currentProduct.description ||
+    "لا يوجد وصف";
 
-    qtyEl.textContent =
-        currentProduct.quantity || 0;
+    qtyEl.textContent=
+    currentProduct.quantity || 0;
 
-    sizesEl.innerHTML = "";
+    sizesEl.innerHTML="";
 
-    colorsEl.innerHTML = "";
+    colorsEl.innerHTML="";
 
-    if (currentProduct.sizes) {
+/*========================
+SIZES
+========================*/
+
+    if(currentProduct.sizes){
 
         currentProduct.sizes
-            .toString()
-            .split(",")
-            .map(s => s.trim())
-            .filter(Boolean)
-            .forEach(size => {
+        .toString()
+        .split(",")
+        .map(x=>x.trim())
+        .filter(Boolean)
+        .forEach(size=>{
 
-                const span = document.createElement("span");
+            const span=document.createElement("span");
 
-                span.textContent = size;
+            span.textContent=size;
 
-                sizesEl.appendChild(span);
+            sizesEl.appendChild(span);
 
-            });
+        });
 
-    } else {
+    }else{
 
-        sizesEl.textContent = "غير محدد";
+        sizesEl.textContent="غير محدد";
 
     }
 
-    if (currentProduct.colors) {
+/*========================
+COLORS
+========================*/
+
+    if(currentProduct.colors){
 
         currentProduct.colors
-            .toString()
-            .split(",")
-            .map(c => c.trim())
-            .filter(Boolean)
-            .forEach(color => {
+        .toString()
+        .split(",")
+        .map(x=>x.trim())
+        .filter(Boolean)
+        .forEach(color=>{
 
-                const span = document.createElement("span");
+            const span=document.createElement("span");
 
-                span.textContent = color;
+            span.textContent=color;
 
-                colorsEl.appendChild(span);
+            colorsEl.appendChild(span);
 
-            });
+        });
 
-    } else {
+    }else{
 
-        colorsEl.textContent = "غير محدد";
+        colorsEl.textContent="غير محدد";
 
     }
 
-    if (
+/*========================
+OLD PRICE
+========================*/
+
+    if(
         currentProduct.oldPrice &&
-        Number(currentProduct.oldPrice) >
+        Number(currentProduct.oldPrice)>
         Number(currentProduct.price)
-    ) {
+    ){
 
-        oldPriceEl.textContent =
-            formatPrice(currentProduct.oldPrice);
+        oldPriceEl.textContent=
+        formatPrice(currentProduct.oldPrice);
 
-        const discount = Math.round(
+        const discount=Math.round(
 
-            (1 -
-            Number(currentProduct.price) /
-            Number(currentProduct.oldPrice)) * 100
+            (1-
+            Number(currentProduct.price)/
+            Number(currentProduct.oldPrice))*100
 
         );
 
-        discountBadge.style.display = "inline-flex";
+        discountBadge.style.display="inline-flex";
 
-        discountBadge.textContent =
-        `خصم ${discount}%`;
+        discountBadge.textContent=`خصم ${discount}%`;
 
-    } else {
+    }else{
 
-        oldPriceEl.textContent = "";
+        oldPriceEl.textContent="";
 
-        discountBadge.style.display = "none";
+        discountBadge.style.display="none";
 
     }
 
 }
+
 /*========================
 BUTTONS
 ========================*/
 
-addCartBtn.onclick = () => {
+addCartBtn?.addEventListener("click",()=>{
 
-    if (!currentProduct) return;
+    if(!currentProduct) return;
 
     addToCart(currentProduct);
 
     updateCartCount();
 
-};
+});
 
-favoriteBtn.onclick = () => {
+buyNowBtn?.addEventListener("click",()=>{
 
-    if (!currentProduct) return;
+    if(!currentProduct) return;
+
+    addToCart(currentProduct);
+
+    updateCartCount();
+
+    location.href="cart.html";
+
+});
+
+favoriteBtn?.addEventListener("click",()=>{
+
+    if(!currentProduct) return;
 
     toggleFavorite(currentProduct);
 
-};
+});
 
-buyNowBtn.onclick = () => {
+shareBtn?.addEventListener("click",async()=>{
 
-    if (!currentProduct) return;
+    if(!currentProduct) return;
 
-    addToCart(currentProduct);
+    const data={
 
-    updateCartCount();
+        title:currentProduct.name,
 
-    window.location.href = "cart.html";
+        text:currentProduct.description || "",
 
-};
-
-/*========================
-SHARE
-========================*/
-
-shareBtn.onclick = async () => {
-
-    if (!currentProduct) return;
-
-    const shareData = {
-
-        title: currentProduct.name,
-
-        text: currentProduct.description || "",
-
-        url: window.location.href
+        url:location.href
 
     };
 
-    if (navigator.share) {
+    if(navigator.share){
 
-        try {
+        try{
 
-            await navigator.share(shareData);
+            await navigator.share(data);
 
-        } catch (e) {
+        }catch(e){}
 
-            console.log(e);
+    }else{
 
-        }
+        try{
 
-    } else {
+            await navigator.clipboard.writeText(location.href);
 
-        try {
+            alert("تم نسخ الرابط");
 
-            await navigator.clipboard.writeText(window.location.href);
-
-            alert("تم نسخ رابط المنتج");
-
-        } catch (e) {
-
-            console.log(e);
-
-        }
+        }catch(e){}
 
     }
 
-};
+});
 
-/*========================
-WHATSAPP
-========================*/
+whatsappBtn?.addEventListener("click",(e)=>{
 
-function whatsappMessage() {
+    e.preventDefault();
 
-    if (!currentProduct) return "";
+    if(!currentProduct) return;
 
-    const msg = `مرحباً،
+    const message=`مرحباً،
 
 أرغب بطلب المنتج:
 
@@ -321,44 +346,33 @@ ${currentProduct.name}
 السعر:
 ${formatPrice(currentProduct.price)}
 
-رابط المنتج:
-${window.location.href}`;
-
-    return `https://wa.me/9647813555538?text=${encodeURIComponent(msg)}`;
-
-}
-
-whatsappBtn.onclick = (e) => {
-
-    e.preventDefault();
+الرابط:
+${location.href}`;
 
     window.open(
 
-        whatsappMessage(),
+`https://wa.me/9647813555538?text=${encodeURIComponent(message)}`,
 
-        "_blank"
+"_blank"
 
     );
 
-};
+});
 
-/*========================
-IMAGE ZOOM
-========================*/
+image?.addEventListener("click",()=>{
 
-image.onclick = () => {
-
-    if (!currentProduct) return;
+    if(!currentProduct) return;
 
     window.open(
 
-        safeImage(currentProduct.image),
+safeImage(currentProduct.image),
 
-        "_blank"
+"_blank"
 
     );
 
-};
+});
+
 /*========================
 LOAD RELATED PRODUCTS
 ========================*/
@@ -367,11 +381,11 @@ async function loadRelated() {
 
     if (!relatedContainer || !currentProduct) return;
 
+    relatedContainer.innerHTML = "";
+
     try {
 
         const snapshot = await getDocs(collection(db, "products"));
-
-        relatedContainer.innerHTML = "";
 
         let count = 0;
 
@@ -433,6 +447,7 @@ function createRelatedCard(product) {
     card.className = "product-card";
 
     card.innerHTML = `
+
         <div class="product-image">
 
             <img
@@ -445,18 +460,25 @@ function createRelatedCard(product) {
         <div class="product-info">
 
             <h3 class="product-title">
+
                 ${product.name}
+
             </h3>
 
             <div class="product-price">
+
                 ${formatPrice(product.price)}
+
             </div>
 
             <div class="product-actions">
 
                 <button class="add-cart">
+
                     <i class="fa-solid fa-cart-shopping"></i>
+
                     إضافة
+
                 </button>
 
                 <a
@@ -472,6 +494,7 @@ function createRelatedCard(product) {
             </div>
 
         </div>
+
     `;
 
     card.querySelector(".add-cart").onclick = () => {
@@ -485,3 +508,13 @@ function createRelatedCard(product) {
     return card;
 
 }
+
+/*========================
+END
+========================*/
+
+window.addEventListener("storage", () => {
+
+    updateCartCount();
+
+});
