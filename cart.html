@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>السلة | مجمع حمزه الشطري</title>
+<title>سلة التسوق | مجمع حمزه الشطري</title>
 
 <meta name="theme-color" content="#111827">
 
@@ -56,17 +56,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <section class="cart-page">
 
-<div class="section-head">
-
-<h2>
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-سلة التسوق
-
-</h2>
-
-</div>
+<div class="cart-container">
 
 <div id="cartItems" class="cart-items">
 
@@ -78,7 +68,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 
 <div class="summary-card">
 
-<h3>ملخص الطلب</h3>
+<h2>
+
+<i class="fa-solid fa-receipt"></i>
+
+ملخص الطلب
+
+</h2>
 
 <div class="summary-row">
 
@@ -101,6 +97,51 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 <span>التوصيل</span>
 
 <strong>حسب المحافظة</strong>
+
+</div>
+
+<hr>
+
+<h3>
+
+<i class="fa-solid fa-user"></i>
+
+بيانات الزبون
+
+</h3>
+
+<div class="customer-form">
+
+<div class="input-group">
+
+<label>الاسم الكامل</label>
+
+<input
+type="text"
+id="customerName"
+placeholder="اكتب الاسم الكامل">
+
+</div>
+
+<div class="input-group">
+
+<label>رقم الهاتف</label>
+
+<input
+type="tel"
+id="customerPhone"
+placeholder="07xxxxxxxxx">
+
+</div>
+
+<div class="input-group">
+
+<label>العنوان</label>
+
+<textarea
+id="customerAddress"
+rows="3"
+placeholder="المحافظة - القضاء - المنطقة - أقرب نقطة دالة"></textarea>
 
 </div>
 
@@ -127,6 +168,8 @@ class="continue-shopping">
 </div>
 
 </div>
+
+</div>
 <template id="emptyCartTemplate">
 
 <div class="empty-cart">
@@ -137,9 +180,9 @@ class="continue-shopping">
 
 <p>لم تقم بإضافة أي منتج بعد</p>
 
-<a
-href="products.html"
-class="hero-btn">
+<a href="products.html" class="hero-btn">
+
+<i class="fa-solid fa-store"></i>
 
 تصفح المنتجات
 
@@ -148,6 +191,8 @@ class="hero-btn">
 </div>
 
 </template>
+
+</div>
 
 </section>
 
@@ -162,15 +207,19 @@ class="hero-btn">
 </div>
 
 <p>
-
 بيع الملابس بالجملة لجميع محافظات العراق
+</p>
 
+<p>
+📍 ذي قار - الشطرة
+</p>
+
+<p>
+📞 07813555538
 </p>
 
 <p class="copyright">
-
-© 2026 جميع الحقوق محفوظة
-
+© 2026 جميع الحقوق محفوظة - مجمع حمزه الشطري
 </p>
 
 </footer>
@@ -211,7 +260,7 @@ class="hero-btn">
 
 <a href="about.html">
 
-<i class="fa-solid fa-user"></i>
+<i class="fa-solid fa-circle-info"></i>
 
 <span>من نحن</span>
 
@@ -233,10 +282,21 @@ SCRIPTS
 
 <script>
 window.addEventListener("load", () => {
-    const loader = document.getElementById("loader");
-    if (loader) {
-        loader.style.display = "none";
+
+    const loader=document.getElementById("loader");
+
+    if(loader){
+
+        loader.style.opacity="0";
+
+        setTimeout(()=>{
+
+            loader.style.display="none";
+
+        },300);
+
     }
+
 });
 </script>
 
