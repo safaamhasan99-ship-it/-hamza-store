@@ -3,7 +3,7 @@ Hamza Store V9
 Professional Details JS
 ==================================*/
 
-import { db } from "../firebase.js";
+import { db } from "./firebase.js";
 
 import {
 doc,
