@@ -1,214 +1,3 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>القسم الرجالي | مجمع حمزه الشطري</title>
-
-<meta name="theme-color" content="#111827">
-
-<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-<link rel="stylesheet" href="style.css">
-
-</head>
-
-<body>
-
-<div id="loader">
-
-<div class="loader-box">
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-<h2>مجمع حمزه الشطري</h2>
-
-<div class="loader-spinner"></div>
-
-<p>جاري تحميل القسم...</p>
-
-</div>
-
-</div>
-
-<header class="header">
-
-<div class="logo-box">
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-<div>
-
-<h1>مجمع حمزه الشطري</h1>
-
-<span>القسم الرجالي</span>
-
-</div>
-
-</div>
-
-<div class="header-buttons">
-
-<a href="cart.html" class="cart-btn">
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-<span id="cartCount">0</span>
-
-</a>
-
-<button id="darkBtn" class="dark-btn">
-
-<i class="fa-solid fa-moon"></i>
-
-</button>
-
-</div>
-
-</header>
-
-<section class="search-box">
-
-<input
-id="searchInput"
-type="text"
-placeholder="ابحث داخل القسم الرجالي...">
-
-<i class="fa-solid fa-magnifying-glass"></i>
-
-</section>
-
-<section class="products-home">
-
-<h2 class="title">
-
-👔 القسم الرجالي
-
-</h2>
-
-<div id="productsGrid" class="products-grid">
-
-<div class="loading-products">
-
-جاري تحميل المنتجات...
-
-</div>
-
-</div>
-
-</section>
-<!-- واتساب ثابت -->
-
-<a class="whatsapp"
-href="https://wa.me/9647813555538"
-target="_blank">
-
-<i class="fa-brands fa-whatsapp"></i>
-
-</a>
-
-<!-- القائمة السفلية -->
-
-<nav class="bottom-nav">
-
-<a href="index.html">
-
-<i class="fa-solid fa-house"></i>
-
-<span>الرئيسية</span>
-
-</a>
-
-<a href="products.html">
-
-<i class="fa-solid fa-shop"></i>
-
-<span>المنتجات</span>
-
-</a>
-
-<a href="cart.html">
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-<span>السلة</span>
-
-</a>
-
-<a href="favorites.html">
-
-<i class="fa-solid fa-heart"></i>
-
-<span>المفضلة</span>
-
-</a>
-
-<a href="about.html">
-
-<i class="fa-solid fa-circle-info"></i>
-
-<span>من نحن</span>
-
-</a>
-
-</nav>
-
-<!-- الفوتر -->
-
-<footer class="footer">
-
-<div class="footer-box">
-
-<img
-src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
-class="footer-logo">
-
-<h3>مجمع حمزه الشطري</h3>
-
-<p>للملابس الجاهزة والجملة</p>
-
-<p>
-
-<i class="fa-solid fa-location-dot"></i>
-
-ذي قار - الشطرة
-
-</p>
-
-<p>
-
-<i class="fa-solid fa-phone"></i>
-
-07813555538
-
-</p>
-
-<p>
-
-<i class="fa-solid fa-truck"></i>
-
-توصيل لجميع محافظات العراق
-
-</p>
-
-<p class="copy">
-
-© 2026 جميع الحقوق محفوظة
-
-</p>
-
-</div>
-
-</footer>
 <script type="module">
 
 import { db } from "./js/firebase.js";
@@ -216,18 +5,18 @@ import { db } from "./js/firebase.js";
 import {
 collection,
 getDocs
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const grid = document.getElementById("productsGrid");
-
 const searchInput = document.getElementById("searchInput");
+const darkBtn = document.getElementById("darkBtn");
+const cartCount = document.getElementById("cartCount");
 
 let allProducts = [];
 
-async function loadMenProducts() {
+async function loadMenProducts(){
 
-grid.innerHTML = `
+grid.innerHTML=`
 <div class="loading-products">
 جاري تحميل المنتجات...
 </div>
@@ -237,19 +26,57 @@ try{
 
 const snap = await getDocs(collection(db,"products"));
 
-allProducts = [];
+allProducts=[];
+
+snap.forEach(doc=>{
+
+const p=doc.data();
+
+const category=(p.category||"").trim().toLowerCase();
+
+const validCategories=[
+
+"men",
+"رجالي",
+"قسم رجالي",
+"قسم الرجالي"
+
+].map(c=>c.toLowerCase());
+
+if(!validCategories.some(c=>category.includes(c))) return;
+
+allProducts.push({
+
+id:doc.id,
+...p
+
+});
+
+});
+
+renderProducts(allProducts);
+
+}catch(err){
+
+console.error(err);
+
+grid.innerHTML=`
+<div class="loading-products">
+حدث خطأ أثناء تحميل المنتجات
+</div>
+`;
+
+}
+
+}
     function renderProducts(list){
 
 if(!list.length){
 
 grid.innerHTML=`
-
 <div class="loading-products">
-
 لا توجد منتجات في القسم الرجالي
-
 </div>
-
 `;
 
 return;
@@ -261,14 +88,12 @@ grid.innerHTML="";
 list.forEach(product=>{
 
 const image=
-
 product.image||
 product.img||
 product.imageUrl||
 "images/no-image.png";
 
-const price=
-Number(product.price||0).toLocaleString();
+const price=Number(product.price||0).toLocaleString();
 
 grid.innerHTML+=`
 
@@ -287,15 +112,11 @@ onerror="this.src='images/no-image.png'">
 <div class="product-info">
 
 <h3 class="product-title">
-
 ${product.name}
-
 </h3>
 
 <div class="product-price">
-
 ${price} د.ع
-
 </div>
 
 <div class="product-actions">
@@ -330,15 +151,17 @@ class="details-btn">
 
 }
 
-    <script type="module">
-
-function updateCartCount(){
+    function updateCartCount(){
 
 const cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-const total=cart.reduce((sum,item)=>sum+(item.qty||1),0);
+const total=cart.reduce((sum,item)=>sum+(item.qty||0),0);
 
-document.getElementById("cartCount").textContent=total;
+if(cartCount){
+
+cartCount.textContent=total;
+
+}
 
 }
 
@@ -362,11 +185,7 @@ name:product.name,
 
 price:Number(product.price||0),
 
-image:
-product.image||
-product.img||
-product.imageUrl||
-"images/no-image.png",
+image:product.image||product.img||product.imageUrl||"images/no-image.png",
 
 qty:1
 
@@ -400,12 +219,6 @@ addToCart(product);
 
 });
 
-updateCartCount();
-
-    /*==================================
-البحث + الوضع الليلي + تشغيل الصفحة
-==================================*/
-
 searchInput.addEventListener("input",()=>{
 
 const keyword=searchInput.value.trim().toLowerCase();
@@ -420,19 +233,13 @@ return;
 
 const filtered=allProducts.filter(product=>{
 
-const name=(product.name||"").toLowerCase();
-
-const description=(product.description||"").toLowerCase();
-
-const colors=(product.colors||"").toLowerCase();
-
 return(
 
-name.includes(keyword)||
+(product.name||"").toLowerCase().includes(keyword)||
 
-description.includes(keyword)||
+(product.description||"").toLowerCase().includes(keyword)||
 
-colors.includes(keyword)
+(product.colors||"").toLowerCase().includes(keyword)
 
 );
 
@@ -442,17 +249,23 @@ renderProducts(filtered);
 
 });
 
-const darkBtn=document.getElementById("darkBtn");
+    /*==================================
+الوضع الليلي
+==================================*/
 
 if(localStorage.getItem("theme")==="dark"){
 
 document.body.classList.add("dark-mode");
 
+if(darkBtn){
+
 darkBtn.innerHTML='<i class="fa-solid fa-sun"></i>';
 
 }
 
-darkBtn.addEventListener("click",()=>{
+}
+
+darkBtn?.addEventListener("click",()=>{
 
 document.body.classList.toggle("dark-mode");
 
@@ -466,11 +279,6 @@ darkBtn.innerHTML=dark
 
 });
 
-loadMenProducts();
-
-</script>
-
-    <script type="module">
 
 /*==================================
 تحسين الصور
@@ -478,15 +286,7 @@ loadMenProducts();
 
 document.addEventListener("error",(e)=>{
 
-if(
-
-e.target.tagName==="IMG" &&
-
-!e.target.dataset.failed
-
-){
-
-e.target.dataset.failed="1";
+if(e.target.tagName==="IMG"){
 
 e.target.src="images/no-image.png";
 
@@ -496,23 +296,41 @@ e.target.src="images/no-image.png";
 
 
 /*==================================
-تحديث عداد السلة
+تحديث العداد
 ==================================*/
 
-window.addEventListener("storage",()=>{
+window.addEventListener("focus",updateCartCount);
 
-updateCartCount();
-
-});
-
-window.addEventListener("focus",()=>{
-
-updateCartCount();
-
-});
+window.addEventListener("storage",updateCartCount);
 
 
 /*==================================
+تشغيل الصفحة
+==================================*/
+
+document.addEventListener("DOMContentLoaded",async()=>{
+
+updateCartCount();
+
+await loadMenProducts();
+
+const loader=document.getElementById("loader");
+
+if(loader){
+
+setTimeout(()=>{
+
+loader.style.opacity="0";
+
+setTimeout(()=>loader.remove(),300);
+
+},300);
+
+}
+
+});
+
+    /*==================================
 زر الرجوع للأعلى
 ==================================*/
 
@@ -520,9 +338,7 @@ const topBtn=document.createElement("button");
 
 topBtn.className="scroll-top";
 
-topBtn.innerHTML=`
-<i class="fa-solid fa-arrow-up"></i>
-`;
+topBtn.innerHTML='<i class="fa-solid fa-arrow-up"></i>';
 
 document.body.appendChild(topBtn);
 
@@ -552,38 +368,10 @@ behavior:"smooth"
 
 });
 
-</script>
-
-    <script type="module">
-
-/*==================================
-تحسين تحميل الصفحة
-==================================*/
-
-window.addEventListener("load",()=>{
-
-const loader=document.getElementById("loader");
-
-if(loader){
-
-loader.classList.add("hide");
-
-setTimeout(()=>{
-
-loader.remove();
-
-},400);
-
-}
-
-});
-
 
 /*==================================
 حفظ آخر بحث
 ==================================*/
-
-if(searchInput){
 
 const lastSearch=localStorage.getItem("menSearch");
 
@@ -591,7 +379,23 @@ if(lastSearch){
 
 searchInput.value=lastSearch;
 
-searchInput.dispatchEvent(new Event("input"));
+const filtered=allProducts.filter(product=>{
+
+const text=(
+(product.name||"")+
+(product.description||"")+
+(product.colors||"")
+).toLowerCase();
+
+return text.includes(lastSearch.toLowerCase());
+
+});
+
+if(filtered.length){
+
+renderProducts(filtered);
+
+}
 
 }
 
@@ -606,8 +410,6 @@ searchInput.value
 );
 
 });
-
-}
 
 
 /*==================================
@@ -624,28 +426,11 @@ e.preventDefault();
 
 });
 
-
-/*==================================
-تحسين تحميل الصور
+    /*==================================
+تحميل الصفحة
 ==================================*/
 
-document.querySelectorAll("img").forEach(img=>{
-
-img.loading="lazy";
-
-img.decoding="async";
-
-});
-
-</script>
-
-    <script type="module">
-
-/*==================================
-تحسينات عامة
-==================================*/
-
-function refreshImages(){
+window.addEventListener("load",()=>{
 
 document.querySelectorAll(".product-card img").forEach(img=>{
 
@@ -661,121 +446,16 @@ this.src="images/no-image.png";
 
 });
 
-}
-
-/*==================================
-تحديث البطاقات بعد الرسم
-==================================*/
-
-const oldRender = renderProducts;
-
-renderProducts = function(list){
-
-oldRender(list);
-
-refreshImages();
-
-};
-
-/*==================================
-إعادة تحميل العداد عند العودة للصفحة
-==================================*/
-
-window.addEventListener("pageshow",()=>{
-
-updateCartCount();
-
 });
 
-/*==================================
-إخفاء شاشة التحميل إذا بقيت ظاهرة
-==================================*/
-
-setTimeout(()=>{
-
-const loader=document.getElementById("loader");
-
-if(loader){
-
-loader.style.opacity="0";
-
-loader.style.pointerEvents="none";
-
-setTimeout(()=>{
-
-loader.remove();
-
-},300);
-
-}
-
-},3000);
-
-</script>
-
-    <script type="module">
 
 /*==================================
 تشغيل الصفحة
 ==================================*/
 
-document.addEventListener("DOMContentLoaded", async () => {
+loadMenProducts();
 
-    updateCartCount();
-
-    await loadMenProducts();
-
-    if (typeof refreshImages === "function") {
-        refreshImages();
-    }
-
-});
-
-
-/*==================================
-تحديث الصور بعد تحميل المنتجات
-==================================*/
-
-window.addEventListener("load", () => {
-
-    document.querySelectorAll(".product-card img").forEach(img => {
-
-        img.loading = "lazy";
-
-        img.decoding = "async";
-
-        img.onerror = () => {
-
-            img.src = "images/no-image.png";
-
-        };
-
-    });
-
-});
-
-
-/*==================================
-إخفاء شاشة التحميل نهائياً
-==================================*/
-
-window.addEventListener("load", () => {
-
-    const loader = document.getElementById("loader");
-
-    if (loader) {
-
-        loader.style.opacity = "0";
-
-        setTimeout(() => {
-
-            loader.remove();
-
-        }, 300);
-
-    }
-
-});
+updateCartCount();
 
 </script>
 
