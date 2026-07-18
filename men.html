@@ -93,7 +93,9 @@ placeholder="ابحث داخل القسم الرجالي...">
 <div id="productsGrid" class="products-grid">
 
 <div class="loading-products">
+
 جاري تحميل المنتجات...
+
 </div>
 
 </div>
@@ -112,23 +114,18 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const grid=document.getElementById("productsGrid");
 const loader=document.getElementById("loader");
-  async function loadMenProducts(){
+
+async function loadProducts(){
 
 grid.innerHTML=`
-
 <div class="loading-products">
-
 جاري تحميل المنتجات...
-
 </div>
-
 `;
 
 try{
 
 const snap=await getDocs(collection(db,"products"));
-
-console.log("عدد المنتجات:",snap.size);
 
 grid.innerHTML="";
 
@@ -141,149 +138,16 @@ id:doc.id,
 ...doc.data()
 };
 
-console.log("Category:",p.category);
+const cat=(p.category||"").trim().toLowerCase();
 
-// عرض جميع المنتجات مؤقتًا
-// if((p.category||"").trim().toLowerCase()!=="men") return;
+if(
+cat!=="men" &&
+cat!=="رجالي" &&
+cat!=="القسم الرجالي"
+){
+return;
+}
 
 found=true;
 
 grid.innerHTML+=`
-
-<div class="product-card">
-
-<img
-src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}"
-alt="${p.name}">
-
-<div class="product-info">
-
-<h3>${p.name}</h3>
-
-<p class="price">
-
-${Number(p.price||0).toLocaleString()} د.ع
-
-</p>
-
-<div class="product-actions">
-
-<a
-href="details.html?id=${p.id}"
-class="details-btn">
-
-التفاصيل
-
-</a>
-
-<button
-class="cart-add">
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-السلة
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-loader.style.display="none";
-
-if(!found){
-
-grid.innerHTML=`
-
-<div class="loading-products">
-
-لا توجد منتجات في القسم الرجالي
-
-</div>
-
-`;
-
-}
-
-}catch(e){
-
-loader.style.display="none";
-
-alert(e.message);
-
-console.error(e);
-
-grid.innerHTML=`
-
-<div class="loading-products">
-
-${e.message}
-
-</div>
-
-`;
-
-}
-
-}
-  /*========================
-تشغيل الصفحة
-========================*/
-
-loadMenProducts();
-
-/*========================
-البحث
-========================*/
-
-const searchInput=document.getElementById("searchInput");
-
-searchInput.addEventListener("input",()=>{
-
-const keyword=searchInput.value.trim().toLowerCase();
-
-document.querySelectorAll(".product-card").forEach(card=>{
-
-const text=card.innerText.toLowerCase();
-
-card.style.display=text.includes(keyword) ? "" : "none";
-
-});
-
-});
-
-/*========================
-إخفاء شاشة التحميل
-========================*/
-
-window.addEventListener("load",()=>{
-
-if(loader){
-
-loader.style.display="none";
-
-}
-
-});
-
-/*========================
-تحديث عدد السلة
-========================*/
-
-const cart=JSON.parse(localStorage.getItem("cart")||"[]");
-
-const count=cart.reduce((sum,item)=>sum+(item.qty||1),0);
-
-const cartCount=document.getElementById("cartCount");
-
-if(cartCount){
-
-cartCount.textContent=count;
-
-}
