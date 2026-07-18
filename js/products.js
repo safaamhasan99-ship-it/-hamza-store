@@ -1,5 +1,5 @@
 /*==================================
-Hamza Store V12
+Hamza Store V13
 Products JS
 ==================================*/
 
@@ -80,10 +80,8 @@ async function loadProducts() {
         snap.forEach(doc => {
 
             products.push({
-
                 id: doc.id,
                 ...doc.data()
-
             });
 
         });
@@ -113,43 +111,38 @@ async function loadProducts() {
         const loader = document.getElementById("loader");
 
         if (loader) {
-
             loader.classList.add("hidden");
-
         }
 
     }
 
 }
+
 /*========================
 CREATE PRODUCT CARD
 ========================*/
 
 function createCard(product){
 
-    const card=document.createElement("div");
+    const card = document.createElement("div");
 
-    card.className="product-card";
+    card.className = "product-card";
 
-    const fav=isFavorite(product.id);
+    const fav = isFavorite(product.id);
 
-    card.innerHTML=`
+    card.innerHTML = `
 
     <div class="product-image">
 
         <img
         src="${safeImage(product.image)}"
-        alt="${product.name||''}"
+        alt="${product.name || ''}"
         loading="lazy">
 
-        ${product.offer?
-        '<span class="product-badge">عرض</span>'
-        :''}
+        ${product.offer ? '<span class="product-badge">عرض</span>' : ''}
 
         <button class="favorite-btn">
-
-            <i class="fa-${fav?'solid':'regular'} fa-heart"></i>
-
+            <i class="fa-${fav ? 'solid' : 'regular'} fa-heart"></i>
         </button>
 
     </div>
@@ -157,33 +150,22 @@ function createCard(product){
     <div class="product-info">
 
         <h3 class="product-title">
-
-            ${product.name||'بدون اسم'}
-
+            ${product.name || 'بدون اسم'}
         </h3>
 
         <div class="product-price">
-
-            ${formatPrice(product.price||0)}
-
+            ${formatPrice(product.price || 0)}
         </div>
 
         <div class="product-actions">
 
             <button class="add-cart">
-
                 <i class="fa-solid fa-cart-shopping"></i>
-
                 إضافة للسلة
-
             </button>
 
-            <a
-            href="details.html?id=${product.id}"
-            class="details-btn">
-
+            <a href="details.html?id=${product.id}" class="details-btn">
                 التفاصيل
-
             </a>
 
         </div>
@@ -192,21 +174,18 @@ function createCard(product){
 
     `;
 
-    card.querySelector(".add-cart").onclick=()=>{
-
+    card.querySelector(".add-cart").onclick = () => {
         addToCart(product);
-
     };
 
-    card.querySelector(".favorite-btn").onclick=(e)=>{
+    card.querySelector(".favorite-btn").onclick = (e) => {
 
         e.preventDefault();
 
-        const active=toggleFavorite(product);
+        const active = toggleFavorite(product);
 
-        e.currentTarget.innerHTML=
-
-        `<i class="fa-${active?'solid':'regular'} fa-heart"></i>`;
+        e.currentTarget.innerHTML =
+        `<i class="fa-${active ? 'solid' : 'regular'} fa-heart"></i>`;
 
     };
 
@@ -222,34 +201,26 @@ function renderProducts(list){
 
     if(!productsContainer) return;
 
-    productsContainer.innerHTML="";
+    productsContainer.innerHTML = "";
 
     if(!list.length){
 
-        productsContainer.innerHTML=`
-
+        productsContainer.innerHTML = `
         <div class="empty-products">
-
             <i class="fa-solid fa-box-open"></i>
-
             <h3>لا توجد منتجات</h3>
-
             <p>لم يتم العثور على أي منتج.</p>
-
         </div>
-
         `;
 
         return;
 
     }
 
-    list.forEach(product=>{
+    list.forEach(product => {
 
         productsContainer.appendChild(
-
             createCard(product)
-
         );
 
     });
@@ -262,20 +233,33 @@ FILTER PRODUCTS
 
 function filterProducts(){
 
-    let list=[...products];
+    let list = [...products];
+
+    // فلترة حسب القسم الموجود في الصفحة
+    const pageCategory = document.body.dataset.category;
+
+    if(pageCategory){
+
+        list = list.filter(product =>
+
+            (product.category || "").trim() === pageCategory.trim()
+
+        );
+
+    }
 
     // البحث
     if(searchInput){
 
-        const keyword=searchInput.value
+        const keyword = searchInput.value
             .trim()
             .toLowerCase();
 
         if(keyword){
 
-            list=list.filter(product=>
+            list = list.filter(product =>
 
-                (product.name||"")
+                (product.name || "")
                 .toLowerCase()
                 .includes(keyword)
 
@@ -285,12 +269,12 @@ function filterProducts(){
 
     }
 
-    // القسم
+    // فلترة من القائمة المنسدلة
     if(categoryFilter && categoryFilter.value){
 
-        list=list.filter(product=>
+        list = list.filter(product =>
 
-            product.category===categoryFilter.value
+            (product.category || "").trim() === categoryFilter.value.trim()
 
         );
 
@@ -309,7 +293,7 @@ function filterProducts(){
 
                 );
 
-            break;
+                break;
 
             case "priceDesc":
 
@@ -319,7 +303,7 @@ function filterProducts(){
 
                 );
 
-            break;
+                break;
 
             case "name":
 
@@ -332,9 +316,7 @@ function filterProducts(){
 
                 );
 
-            break;
-
-            case "new":
+                break;
 
             default:
 
@@ -356,9 +338,9 @@ function renderBestProducts(){
 
     if(!bestProductsContainer) return;
 
-    bestProductsContainer.innerHTML="";
+    bestProductsContainer.innerHTML = "";
 
-    const best=[...products].slice(0,8);
+    const best = [...products].slice(0,8);
 
     best.forEach(product=>{
 
@@ -386,23 +368,29 @@ window.addEventListener("storage",()=>{
 PRELOAD PRODUCT IMAGES
 ========================*/
 
-products.forEach(product=>{
+function preloadImages(){
 
-    if(product.image){
+    products.forEach(product=>{
 
-        const img=new Image();
+        if(product.image){
 
-        img.src=safeImage(product.image);
+            const img = new Image();
 
-    }
+            img.src = safeImage(product.image);
 
-});
+        }
+
+    });
+
+}
+
+window.addEventListener("load", preloadImages);
 
 /*========================
 EXPORTS
 ========================*/
 
-export{
+export {
 
     loadProducts,
     filterProducts,
