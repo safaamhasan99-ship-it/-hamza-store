@@ -219,7 +219,9 @@ addToCart(product);
 
 });
 
-searchInput.addEventListener("input",()=>{
+if (searchInput) {
+  searchInput.addEventListener(...);
+}
 
 const keyword=searchInput.value.trim().toLowerCase();
 
