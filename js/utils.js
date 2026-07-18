@@ -357,8 +357,9 @@ return fallback;
 
 /* ترميز الرابط */
 
-url=encodeURI(url);
-url = url.split("?")[0];
+url = encodeURI(url);
+
+// لا تحذف Query Parameters لأنها قد تكون مطلوبة لبعض مزودي الصور
 return url;
 
 }catch{
