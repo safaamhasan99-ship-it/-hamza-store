@@ -1,5 +1,5 @@
 /*==================================
-Hamza Store V10
+Hamza Store V11
 Professional Utils JS
 ==================================*/
 
@@ -91,6 +91,9 @@ saveCart(cart);
 showToast("تم حذف المنتج من السلة");
 
 }
+
+
+
 /*========================
 CHANGE QTY
 ========================*/
@@ -247,8 +250,11 @@ item=>item.id===id
 );
 
 }
+
+
+
 /*========================
-SAFE IMAGE V10
+SAFE IMAGE V11
 ========================*/
 
 export function safeImage(url){
@@ -281,6 +287,19 @@ url=html[1];
 
 }
 
+/* إزالة المحارف المخفية */
+
+url=url
+.replace(/\u200B/g,"")
+.replace(/\u200C/g,"")
+.replace(/\u200D/g,"")
+.replace(/\uFEFF/g,"")
+.trim();
+
+/* إزالة أي نقطة أو مسافة في نهاية الرابط */
+
+url=url.replace(/[.\s]+$/,"");
+
 /* إزالة الفراغات */
 
 url=url.replace(/\s+/g,"");
@@ -292,8 +311,7 @@ if(url.startsWith("//")){
 url="https:"+url;
 
 }
-
-/* Google Drive */
+  /* Google Drive */
 
 if(url.includes("drive.google.com/file/d/")){
 
@@ -315,15 +333,15 @@ url=url.replace("?dl=0","?raw=1");
 
 }
 
-/* روابط ibb الخاطئة */
+/* روابط ImgBB */
 
-if(url.includes("ibb.co/") && !url.includes("i.ibb.co")){
+if(url.includes("ibb.co")){
 
-return fallback;
+url=url.replace("http://","https://");
 
 }
 
-/* السماح فقط بروابط مباشرة */
+/* السماح فقط بالروابط المباشرة */
 
 if(
 
@@ -337,6 +355,10 @@ return fallback;
 
 }
 
+/* ترميز الرابط */
+
+url=encodeURI(url);
+
 return url;
 
 }catch{
@@ -346,9 +368,6 @@ return fallback;
 }
 
 }
-
-
-
 /*========================
 PRELOAD IMAGE
 ========================*/
@@ -400,6 +419,8 @@ return "";
 }
 
 }
+
+
 
 /*========================
 TOAST
