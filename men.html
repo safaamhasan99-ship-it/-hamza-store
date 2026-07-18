@@ -160,13 +160,17 @@ alt="${p.name}">
 
 <div class="product-info">
 
-<h3>${p.name || ""}</h3>
+<div class="product-card">
 
-<p class="price">
+<div class="product-image">
 
-${Number(p.price || 0).toLocaleString()} د.ع
+<img
+src="${p.image || '5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png'}"
+alt="${p.name}">
 
-</p>
+</div>
+
+<div class="product-info">
 
 <div class="product-card">
 
