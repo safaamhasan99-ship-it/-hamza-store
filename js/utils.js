@@ -358,7 +358,7 @@ return fallback;
 /* ترميز الرابط */
 
 url=encodeURI(url);
-
+url = url.split("?")[0];
 return url;
 
 }catch{
