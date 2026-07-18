@@ -1,145 +1,200 @@
 /*==================================
-Hamza Store V8
+Hamza Store V11
 Favorites JS
 ==================================*/
 
 import {
-getFavorites,
-saveFavorites,
-addToCart,
-updateCartCount,
-formatPrice,
-safeImage
+    getFavorites,
+    saveFavorites,
+    addToCart,
+    updateCartCount,
+    formatPrice,
+    safeImage
 } from "./utils.js";
 
 const container = document.getElementById("favoritesContainer");
 
-let favorites = getFavorites();
+let favorites = [];
 
-document.addEventListener("DOMContentLoaded",()=>{
+/*========================
+INIT
+========================*/
 
-updateCartCount();
+document.addEventListener("DOMContentLoaded", () => {
 
-renderFavorites();
+    try {
+
+        favorites = getFavorites() || [];
+
+        updateCartCount();
+
+        renderFavorites();
+
+    } catch (error) {
+
+        console.error("Favorites Error:", error);
+
+        if (container) {
+            container.innerHTML = `
+            <div class="empty-cart">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <h2>حدث خطأ أثناء تحميل المفضلة</h2>
+                <p>حاول تحديث الصفحة.</p>
+            </div>`;
+        }
+
+    } finally {
+
+        hideLoader();
+
+    }
 
 });
-
 
 /*========================
 RENDER FAVORITES
 ========================*/
 
-function renderFavorites(){
+function renderFavorites() {
 
-if(!favorites.length){
+    if (!container) {
+        hideLoader();
+        return;
+    }
 
-const template=document.getElementById("emptyFavoritesTemplate");
+    if (!favorites || favorites.length === 0) {
 
-container.innerHTML=template.innerHTML;
+        const template = document.getElementById("emptyFavoritesTemplate");
 
-return;
+        if (template) {
+            container.innerHTML = template.innerHTML;
+        } else {
+            container.innerHTML = `
+            <div class="empty-cart">
+                <i class="fa-solid fa-heart-crack"></i>
+                <h2>لا توجد منتجات في المفضلة</h2>
+            </div>`;
+        }
+
+        hideLoader();
+        return;
+    }
+
+    container.innerHTML = "";
+
+    favorites.forEach(product => {
+
+        container.appendChild(createCard(product));
+
+    });
+
+    hideLoader();
 
 }
 
-container.innerHTML="";
-
-favorites.forEach(product=>{
-
-container.appendChild(createCard(product));
-
-});
-
-}
 /*========================
 CREATE CARD
 ========================*/
 
-function createCard(product){
+function createCard(product) {
 
-const card=document.createElement("div");
+    const card = document.createElement("div");
 
-card.className="product-card";
+    card.className = "product-card";
 
-card.innerHTML=`
+    card.innerHTML = `
 
-<div class="product-image">
+    <div class="product-image">
+        <img
+            src="${safeImage(product.image)}"
+            alt="${product.name}"
+            loading="lazy"
+            onerror="this.src='./IMG_5661.jpeg'">
+    </div>
 
-<img src="${safeImage(product.image)}"
-alt="${product.name}">
+    <div class="product-info">
 
-</div>
+        <h3 class="product-title">
+            ${product.name || ""}
+        </h3>
 
-<div class="product-info">
+        <div class="product-price">
+            ${formatPrice(product.price)}
+        </div>
 
-<h3 class="product-title">
+        <div class="product-actions">
 
-${product.name}
+            <button class="add-cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                إضافة للسلة
+            </button>
 
-</h3>
+            <a href="details.html?id=${product.id}"
+               class="details-btn">
+                التفاصيل
+            </a>
 
-<div class="product-price">
+        </div>
 
-${formatPrice(product.price)}
+        <button class="remove-favorite">
+            <i class="fa-solid fa-trash"></i>
+            إزالة من المفضلة
+        </button>
 
-</div>
+    </div>
 
-<div class="product-actions">
+    `;
 
-<button class="add-cart">
+    card.querySelector(".add-cart").addEventListener("click", () => {
 
-<i class="fa-solid fa-cart-shopping"></i>
+        addToCart(product);
 
-إضافة للسلة
+        updateCartCount();
 
-</button>
+    });
 
-<a
-href="details.html?id=${product.id}"
-class="details-btn">
+    card.querySelector(".remove-favorite").addEventListener("click", () => {
 
-التفاصيل
+        removeFavorite(product.id);
 
-</a>
+    });
 
-</div>
-
-<button class="remove-favorite">
-
-<i class="fa-solid fa-trash"></i>
-
-إزالة من المفضلة
-
-</button>
-
-</div>
-
-`;
-
-card.querySelector(".add-cart").onclick=()=>{
-
-addToCart(product);
-
-};
-
-card.querySelector(".remove-favorite").onclick=()=>{
-
-removeFavorite(product.id);
-
-};
-
-return card;
+    return card;
 
 }
+
 /*========================
 REMOVE FAVORITE
 ========================*/
 
-function removeFavorite(id){
+function removeFavorite(id) {
 
-favorites = favorites.filter(item=>item.id!==id);
+    favorites = favorites.filter(item => item.id !== id);
 
-saveFavorites(favorites);
+    saveFavorites(favorites);
 
-renderFavorites();
+    renderFavorites();
+
+}
+
+/*========================
+HIDE LOADER
+========================*/
+
+function hideLoader() {
+
+    const loader = document.getElementById("loader");
+
+    if (!loader) return;
+
+    loader.style.opacity = "0";
+
+    loader.style.pointerEvents = "none";
+
+    setTimeout(() => {
+
+        loader.style.display = "none";
+
+    }, 250);
 
 }
