@@ -4,309 +4,273 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 
 <title>قسم الجوارب | مجمع حمزه الشطري</title>
 
+<meta name="description" content="قسم الجوارب بالجملة - مجمع حمزه الشطري">
+<meta name="theme-color" content="#111827">
+
+<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-
 <link rel="stylesheet" href="style.css">
 
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 
 .msg{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
 text-align:center;
-padding:40px;
-font-size:22px;
-font-weight:bold;
+padding:50px 20px;
+font-size:20px;
+font-weight:700;
+color:#6b7280;
 grid-column:1/-1;
 }
 
+.msg i{
+font-size:55px;
+margin-bottom:15px;
+color:var(--primary);
+}
+
+.product-card{
+overflow:hidden;
+}
+
+.product-card img{
+width:100%;
+aspect-ratio:1/1;
+object-fit:cover;
+display:block;
+background:#f5f5f5;
+}
+
+.product-info{
+padding:15px;
+}
+
+.product-info h3{
+margin-bottom:8px;
+font-size:18px;
+}
+
+.price{
+font-size:20px;
+font-weight:800;
+color:var(--primary);
+margin:12px 0;
+}
+
+.meta{
+font-size:14px;
+color:#666;
+}
 
 .product-actions{
-
 display:flex;
 gap:10px;
-margin-top:10px;
-
+margin-top:15px;
 }
 
+.cart-btn{
+flex:1;
+}
 
 .fav-btn{
-
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-size:18px;
-width:45px;
-
+width:46px;
 }
 
-
 .details-btn{
-
 display:block;
-margin-top:10px;
-padding:10px;
+margin-top:12px;
+padding:12px;
 text-align:center;
-border-radius:10px;
 text-decoration:none;
-
+border-radius:10px;
+background:var(--primary);
+color:#fff;
+font-weight:bold;
 }
 
 </style>
 
-
 </head>
-
-
-
-<body>
-
-
+<body data-category="قسم الجوارب">
 
 <header class="header">
 
-
 <div class="brand">
 
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
+<img
+src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
+alt="مجمع حمزه الشطري">
 
 <div>
 
-<h1>
-مجمع حمزه الشطري
-</h1>
+<h1>مجمع حمزه الشطري</h1>
 
-
-<p>
-🧦 قسم الجوارب بالجملة
-</p>
-
+<p>🧦 قسم الجوارب بالجملة</p>
 
 </div>
 
-
 </div>
-
-
 
 <div class="header-icons">
 
-
-<a href="favorites.html">
+<a href="favorites.html" title="المفضلة">
 ❤️
 </a>
 
-
-
-<a href="cart.html">
-
+<a href="cart.html" title="السلة">
 🛒
-
 <span id="cartCount">0</span>
-
 </a>
 
-
-
-<button onclick="toggleDarkMode()">
+<button
+type="button"
+onclick="toggleDarkMode()"
+title="الوضع الليلي">
 
 🌙
 
 </button>
 
-
-
 </div>
-
 
 </header>
 
-
-
-
-
 <section class="products">
-
 
 <h2 class="title">
 
-🧦 الجوارب
+🧦 قسم الجوارب
 
 </h2>
 
-
-
-
-<div id="products" class="products-grid">
-
+<div
+id="products"
+class="products-grid">
 
 <div class="msg">
+
+<i class="fa-solid fa-spinner fa-spin"></i>
+
+<br><br>
 
 جاري تحميل المنتجات...
 
 </div>
 
-
 </div>
-
-
 
 </section>
 
-
-
-
-
 <nav class="bottom-nav">
 
-
 <a href="index.html">
-🏠 الرئيسية
-</a>
 
+🏠
+
+<span>الرئيسية</span>
+
+</a>
 
 <a href="favorites.html">
-❤️ المفضلة
-</a>
 
+❤️
+
+<span>المفضلة</span>
+
+</a>
 
 <a href="cart.html">
-🛒 السلة
-</a>
 
+🛒
+
+<span>السلة</span>
+
+</a>
 
 <a href="about.html">
-ℹ️ من نحن
+
+ℹ️
+
+<span>من نحن</span>
+
 </a>
 
-
 </nav>
-
-
-
-
 
 <script src="script.js"></script>
 
 <script src="cart.js"></script>
-
-
-
-
-
 <script type="module">
-
 
 import { db } from "./firebase.js";
 
-
 import {
-
 collection,
 getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-}
+const productsBox = document.getElementById("products");
 
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-
-const box=document.getElementById("products");
-
-
-
+const validCategories = [
+"قسم الجوارب",
+"جوارب",
+"socks"
+].map(c => c.toLowerCase());
 
 async function loadProducts(){
 
-
 try{
 
+const snapshot = await getDocs(collection(db,"products"));
 
-const snap=await getDocs(
+productsBox.innerHTML="";
 
-collection(db,"products")
+let count=0;
 
-);
-
-
-
-box.innerHTML="";
-
-
-let found=false;
-
-
-
-snap.forEach((doc)=>{
-
+snapshot.forEach((doc)=>{
 
 const p=doc.data();
 
+const category=(p.category || "")
+.trim()
+.toLowerCase();
 
+if(!validCategories.includes(category)) return;
 
-const category=(p.category || "").trim();
+count++;
 
+const image =
+p.image && p.image.trim()
+? p.image
+: "https://placehold.co/600x600?text=No+Image";
 
+productsBox.innerHTML += `
 
+<div class="product-card" data-id="${doc.id}">
 
-if(
-
-category==="قسم الجوارب" ||
-
-category==="جوارب" ||
-
-category==="socks"
-
-){
-
-
-
-found=true;
-
-
-
-box.innerHTML += `
-
-
-<div class="product-card">
-
-
-<img src="${p.image || 'https://via.placeholder.com/300x400'}">
-
-
+<img
+src="${image}"
+alt="${p.name || ''}"
+loading="lazy"
+onerror="this.src='https://placehold.co/600x600?text=No+Image'">
 
 <div class="product-info">
 
+<h3>${p.name || "بدون اسم"}</h3>
 
-<h3>
-
-${p.name || "بدون اسم"}
-
-</h3>
-
-
-
-<p>
-
-${p.description || ""}
-
-</p>
-
-
+<p>${p.description || ""}</p>
 
 <p class="price">
 
@@ -314,89 +278,73 @@ ${Number(p.price || 0).toLocaleString()} د.ع
 
 </p>
 
+${p.colors ? `
+<p class="meta">
+<b>الألوان:</b>
+${p.colors}
+</p>` : ""}
 
-
+${p.sizes ? `
+<p class="meta">
+<b>المقاسات:</b>
+${p.sizes}
+</p>` : ""}
 
 <div class="product-actions">
 
-
-<button class="cart-btn"
-
+<button
+class="cart-btn"
 onclick="addToCart(
-
-'${(p.name || '').replace(/'/g,"\\'")}',
-
+'${(p.name || "").replace(/'/g,"\\'")}',
 ${Number(p.price || 0)},
-
-'${p.image || ''}'
-
+'${image}'
 )">
 
 🛒 إضافة للسلة
 
 </button>
 
-
-
-
-<button class="fav-btn"
-
+<button
+class="fav-btn"
 onclick="addToFavorites(
-
-'${(p.name || '').replace(/'/g,"\\'")}',
-
+'${(p.name || "").replace(/'/g,"\\'")}',
 ${Number(p.price || 0)},
-
-'${p.image || ''}'
-
+'${image}'
 )">
 
 ❤️
 
 </button>
 
-
-
 </div>
 
-
-
-
-
-<a class="details-btn" href="details.html?id=${doc.id}">
+<a
+class="details-btn"
+href="details.html?id=${encodeURIComponent(doc.id)}">
 
 عرض التفاصيل
 
 </a>
 
-
-
 </div>
 
-
 </div>
-
 
 `;
-
-
-
-}
-
 
 });
 
+if(count===0){
 
-
-
-if(!found){
-
-
-box.innerHTML=`
+productsBox.innerHTML=`
 
 <div class="msg">
 
-لا توجد منتجات في قسم الجوارب
+<i class="fa-solid fa-box-open"></i>
+
+<br><br>
+
+لا توجد منتجات في قسم الجوارب حالياً
 
 </div>
 
@@ -404,20 +352,17 @@ box.innerHTML=`
 
 }
 
-
-
-}
-
-catch(error){
-
+}catch(error){
 
 console.error(error);
 
-
-
-box.innerHTML=`
+productsBox.innerHTML=`
 
 <div class="msg">
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+<br><br>
 
 حدث خطأ أثناء تحميل المنتجات
 
@@ -427,20 +372,11 @@ box.innerHTML=`
 
 }
 
-
-
 }
-
-
-
 
 loadProducts();
 
-
-
 </script>
-
-
 
 </body>
 
