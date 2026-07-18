@@ -4,18 +4,7 @@ Admin Products
 Part 1
 ==================================*/
 
-
 alert("قبل الاستيراد");
-
-  collection,
-  addDoc,
-  getDocs,
-  getDoc,
-  doc,
-  updateDoc,
-  deleteDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 alert("وصلنا");
 
