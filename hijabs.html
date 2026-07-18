@@ -272,7 +272,20 @@ snap.forEach((doc)=>{
 const p=doc.data();
 
 
-const category=(p.category || "").trim();
+const category = (p.category || "").trim().toLowerCase();
+
+const validCategories = [
+  "قسم الحجابات",
+  "قسم الحجابات والشالات",
+  "حجابات",
+  "الحجابات",
+  "شالات",
+  "حجابات وشالات",
+  "الحجابات والشالات",
+  "hijabs"
+].map(c => c.toLowerCase());
+
+if (!validCategories.some(c => category.includes(c))) return;
 
 
 
