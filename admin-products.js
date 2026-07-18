@@ -4,6 +4,7 @@ Admin Products
 Part 1
 ==================================*/
 
+
 import { db } from "./js/firebase.js";
 
 import {
@@ -16,7 +17,7 @@ import {
   deleteDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+alert("وصلنا");
 /*========================
 ELEMENTS
 ========================*/
