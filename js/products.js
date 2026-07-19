@@ -81,11 +81,7 @@ async function loadProducts() {
 
     const p = doc.data();
 
-    console.log(
-        doc.id,
-        p.name,
-        p.image
-    );
+    console.log(p);
 
     products.push({
         id: doc.id,
