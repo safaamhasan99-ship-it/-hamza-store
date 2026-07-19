@@ -15,7 +15,6 @@ addToCart,
 toggleFavorite,
 isFavorite,
 formatPrice,
-safeImage,
 updateCartCount
 } from "./utils.js";
 
@@ -129,67 +128,58 @@ console.log("رابط الصورة:", p.image);
 CREATE PRODUCT CARD
 ========================*/
 
-function createCard(product){
+function createCard(product) {
 
     const card = document.createElement("div");
-
     card.className = "product-card";
 
     const fav = isFavorite(product.id);
 
     card.innerHTML = `
+        <div class="product-image">
 
-    <div class="product-image">
-    
-<p style="font-size:10px;word-break:break-all">${product.image}</p>
+            <img
+                src="${product.image}"
+                alt="${product.name || ''}"
+                loading="lazy"
+                decoding="async"
+                referrerpolicy="no-referrer"
+                crossorigin="anonymous"
+                onerror="this.src='./IMG_5661.jpeg'"
+            >
 
- <img
-    src="${safeImage(product.image)}"
-    alt="${product.name || ''}"
-    loading="eager"
-    decoding="async"
-    referrerpolicy="no-referrer"
-    crossorigin="anonymous"
-    onerror="this.src='./IMG_5661.jpeg'"
->
+            ${product.offer ? '<span class="product-badge">عرض</span>' : ''}
 
-        ${product.offer ? '<span class="product-badge">عرض</span>' : ''}
+            <button class="favorite-btn">
+                <i class="fa-${fav ? 'solid' : 'regular'} fa-heart"></i>
+            </button>
 
-        <button class="favorite-btn">
-            <i class="fa-${fav ? 'solid' : 'regular'} fa-heart"></i>
-        </button>
+        </div>
 
-    </div>
+        <div class="product-info">
 
-    <div class="product-info">
+            <h3 class="product-title">
+                ${product.name || "بدون اسم"}
+            </h3>
 
-    <h3 class="product-title">
-        ${product.name || 'بدون اسم'}
-    </h3>
+            <div class="product-price">
+                ${formatPrice(product.price || 0)}
+            </div>
 
-    <div class="product-price">
-        ${formatPrice(product.price || 0)}
-    </div>
+            <div class="product-actions">
 
-    <div class="product-actions">
+                <button class="add-cart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    إضافة للسلة
+                </button>
 
-        <button class="add-cart">
-            <i class="fa-solid fa-cart-shopping"></i>
-            إضافة للسلة
-        </button>
+                <a href="details.html?id=${product.id}" class="details-btn">
+                    عرض التفاصيل
+                </a>
 
-        <a href="details.html?id=${product.id}" class="details-btn">
-            عرض التفاصيل
-        </a>
+            </div>
 
-    </div>
-
-</div>
-
-
-
-    </div>
-
+        </div>
     `;
 
     card.querySelector(".add-cart").onclick = () => {
@@ -203,13 +193,12 @@ function createCard(product){
         const active = toggleFavorite(product);
 
         e.currentTarget.innerHTML =
-        `<i class="fa-${active ? 'solid' : 'regular'} fa-heart"></i>`;
-
+            `<i class="fa-${active ? 'solid' : 'regular'} fa-heart"></i>`;
     };
 
     return card;
-
 }
+
 
 /*========================
 RENDER PRODUCTS
