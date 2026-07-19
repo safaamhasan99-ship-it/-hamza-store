@@ -146,7 +146,6 @@ grid.innerHTML = `
 <p>جاري تحميل المنتجات...</p>
 </div>
 `;
-
   try {
 
 const snap = await getDocs(collection(db, "products"));
@@ -156,8 +155,8 @@ allProducts = [];
 const validCategories = [
 "socks",
 "جوارب",
-"قسم جوارب",
 "قسم الجوارب",
+"قسم جوارب",
 "الجوارب"
 ].map(c => c.toLowerCase());
 
@@ -247,7 +246,6 @@ ${product.name || "بدون اسم"}
 <div class="product-price">
 ${price} د.ع
 </div>
-
 <div class="product-actions">
 
 <button
@@ -441,8 +439,7 @@ e.preventDefault();
 }
 
 });
-
-   /*==================================
+  /*==================================
 تحديث عداد السلة
 ==================================*/
 
@@ -480,9 +477,52 @@ setTimeout(() => {
 
 loader.remove();
 
-}, 
+}, 300);
 
-           /*==================================
+}, 300);
+
+}
+
+});
+
+/*==================================
+زر الرجوع للأعلى
+==================================*/
+
+const topBtn = document.createElement("button");
+
+topBtn.className = "scroll-top";
+
+topBtn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+
+document.body.appendChild(topBtn);
+
+window.addEventListener("scroll", () => {
+
+if (window.scrollY > 300) {
+
+topBtn.classList.add("show");
+
+} else {
+
+topBtn.classList.remove("show");
+
+}
+
+});
+
+topBtn.addEventListener("click", () => {
+
+window.scrollTo({
+
+top: 0,
+
+behavior: "smooth"
+
+});
+
+});
+  /*==================================
 تحميل الصور بعد اكتمال الصفحة
 ==================================*/
 
