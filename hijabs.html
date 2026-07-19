@@ -4,480 +4,612 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 
 <title>قسم الحجابات والشالات | مجمع حمزه الشطري</title>
 
+<meta name="theme-color" content="#111827">
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-
+<link rel="icon" href="favicon.ico">
 
 <link rel="stylesheet" href="style.css">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-
-<style>
-
-.msg{
-text-align:center;
-padding:40px;
-font-size:22px;
-font-weight:bold;
-grid-column:1/-1;
-}
-
-
-.product-actions{
-display:flex;
-gap:10px;
-margin-top:10px;
-}
-
-
-.fav-btn{
-
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-size:18px;
-width:45px;
-
-}
-
-
-.details-btn{
-
-display:block;
-margin-top:10px;
-padding:10px;
-text-align:center;
-border-radius:10px;
-text-decoration:none;
-
-}
-
-</style>
-
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
-
-
 <body>
 
+<!-- Loader -->
 
+<div id="loader" class="loader">
 
-<header class="header">
+<div class="spinner"></div>
 
-
-<div class="brand">
-
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-
-
-<div>
-
-<h1>
-مجمع حمزه الشطري
-</h1>
-
-
-<p>
-حجابات وشالات بالجملة
-</p>
-
+<p>جاري تحميل قسم الحجابات والشالات...</p>
 
 </div>
 
+<!-- Header -->
 
-</div>
+<header class="main-header">
 
+<div class="container">
 
+<a href="index.html" class="logo">
 
+<i class="fa-solid fa-store"></i>
 
-<div class="header-icons">
-
-
-<a href="favorites.html">
-
-❤️
+<span>مجمع حمزه الشطري</span>
 
 </a>
 
+<div class="header-actions">
 
+<button id="darkBtn" class="icon-btn">
 
-<a href="cart.html">
+<i class="fa-solid fa-moon"></i>
 
-🛒
+</button>
+
+<a href="cart.html" class="cart-btn">
+
+<i class="fa-solid fa-cart-shopping"></i>
 
 <span id="cartCount">0</span>
 
 </a>
 
-
-
-<button onclick="toggleDarkMode()">
-
-🌙
-
-</button>
-
-
-
 </div>
 
-
+</div>
 
 </header>
 
+<!-- عنوان الصفحة -->
 
+<section class="page-title">
 
+<div class="container">
 
+<h1>
 
-<section class="products">
+<i class="fa-solid fa-user-group"></i>
 
+قسم الحجابات والشالات
 
-<h2 class="title">
-
-🧕 حجابات وشالات
-
-</h2>
-
-
-
-<div id="products" class="products-grid">
-
-
-<div class="msg">
-
-جاري تحميل المنتجات...
-
-</div>
-
-
-</div>
-
-
-
-</section>
-
-
-
-
-
-<nav class="bottom-nav">
-
-
-<a href="index.html">
-
-🏠 الرئيسية
-
-</a>
-
-
-<a href="favorites.html">
-
-❤️ المفضلة
-
-</a>
-
-
-<a href="cart.html">
-
-🛒 السلة
-
-</a>
-
-
-<a href="about.html">
-
-ℹ️ من نحن
-
-</a>
-
-
-</nav>
-
-
-
-
-
-<script src="script.js"></script>
-
-<script src="cart.js"></script>
-
-
-
-
-
-<script type="module">
-
-
-  import { db } from "./js/firebase.js";
-
-
-import {
-
-collection,
-getDocs
-
-}
-
-from
-
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-
-
-
-const box=document.getElementById("products");
-
-
-
-
-
-async function loadProducts(){
-
-
-try{
-
-
-const snap=await getDocs(
-
-collection(db,"products")
-
-);
-
-
-
-box.innerHTML="";
-
-
-let found=false;
-
-
-
-
-
-snap.forEach((doc)=>{
-
-
-const p=doc.data();
-
-
-const category = (p.category || "").trim().toLowerCase();
-
-const validCategories = [
-  "قسم الحجابات",
-  "قسم الحجابات والشالات",
-  "حجابات",
-  "الحجابات",
-  "شالات",
-  "حجابات وشالات",
-  "الحجابات والشالات",
-  "hijabs"
-].map(c => c.toLowerCase());
-
-if (!validCategories.some(c => category.includes(c))) return;
-
-
-
-
-if(
-
-category==="قسم الحجابات" ||
-
-category==="حجابات" ||
-
-category==="شالات" ||
-
-category==="hijabs"
-
-){
-
-
-
-found=true;
-
-
-
-box.innerHTML += `
-
-
-
-<div class="product-card">
-
-
-<img src="${p.image || 'https://via.placeholder.com/300x400'}">
-
-
-
-<div class="product-info">
-
-
-
-<h3>
-
-${p.name || "بدون اسم"}
-
-</h3>
-
-
+</h1>
 
 <p>
 
-${p.description || ""}
+جميع موديلات الحجابات والشالات متوفرة بالجملة
 
 </p>
-
-
-
-
-<p class="price">
-
-${Number(p.price || 0).toLocaleString()} د.ع
-
-</p>
-
-
-
-
-<div class="product-actions">
-
-
-
-<button class="cart-btn"
-
-onclick="addToCart(
-
-'${(p.name || '').replace(/'/g,"\\'")}',
-
-${Number(p.price || 0)},
-
-'${p.image || ''}'
-
-)">
-
-🛒 إضافة للسلة
-
-</button>
-
-
-
-
-
-<button class="fav-btn"
-
-onclick="addToFavorites(
-
-'${(p.name || '').replace(/'/g,"\\'")}',
-
-${Number(p.price || 0)},
-
-'${p.image || ''}'
-
-)">
-
-❤️
-
-</button>
-
-
 
 </div>
 
+</section>
 
+<!-- البحث -->
 
+<section class="search-section">
 
+<div class="container">
 
-<a class="details-btn" href="details.html?id=${doc.id}">
+<input
+type="search"
+id="searchInput"
+placeholder="ابحث عن منتج..."
+autocomplete="off">
+
+</div>
+
+</section>
+
+<!-- المنتجات -->
+
+<main class="container">
+
+<div id="productsGrid" class="products-grid"></div>
+
+</main>
+
+<script type="module">
+
+import { db } from "./js/firebase.js";
+
+import {
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const grid = document.getElementById("productsGrid");
+const searchInput = document.getElementById("searchInput");
+const darkBtn = document.getElementById("darkBtn");
+const cartCount = document.getElementById("cartCount");
+
+let allProducts = [];
+
+async function loadHijabsProducts() {
+
+if (!grid) return;
+
+grid.innerHTML = `
+<div class="loading-products">
+<i class="fa-solid fa-spinner fa-spin"></i>
+<p>جاري تحميل المنتجات...</p>
+</div>
+`;
+  try {
+
+const snap = await getDocs(collection(db, "products"));
+
+allProducts = [];
+
+const validCategories = [
+"hijabs",
+"حجابات",
+"شالات",
+"حجابات وشالات",
+"قسم الحجابات والشالات",
+"القسم الحجابات والشالات"
+].map(c => c.toLowerCase());
+
+snap.forEach(doc => {
+
+const p = doc.data();
+
+const category = (p.category || "").trim().toLowerCase();
+
+if (!validCategories.includes(category)) {
+return;
+}
+
+allProducts.push({
+id: doc.id,
+...p
+});
+
+});
+
+console.log(allProducts);
+
+renderProducts(allProducts);
+
+} catch (err) {
+
+console.error(err);
+
+grid.innerHTML = `
+<div class="loading-products">
+حدث خطأ أثناء تحميل المنتجات
+</div>
+`;
+
+}
+
+}
+
+function renderProducts(list) {
+
+if (!grid) return;
+
+if (!list.length) {
+
+grid.innerHTML = `
+<div class="loading-products">
+لا توجد منتجات في قسم الحجابات والشالات
+</div>
+`;
+
+return;
+
+}
+
+grid.innerHTML = "";
+
+list.forEach(product => {
+
+const image =
+product.image ||
+product.img ||
+product.imageUrl ||
+"images/no-image.png";
+
+const price = Number(product.price || 0).toLocaleString();
+
+grid.innerHTML += `
+
+<div class="product-card">
+
+<div class="product-image">
+
+<img
+src="${image}"
+alt="${product.name}"
+loading="lazy"
+onerror="this.src='images/no-image.png'">
+
+</div>
+
+<div class="product-info">
+
+<h3 class="product-title">
+${product.name || "بدون اسم"}
+</h3>
+
+<div class="product-price">
+${price} د.ع
+</div>
+<div class="product-actions">
+
+<button
+class="add-cart"
+data-id="${product.id}">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+إضافة للسلة
+
+</button>
+
+<a
+href="details.html?id=${product.id}"
+class="details-btn">
 
 عرض التفاصيل
 
 </a>
 
-
-
+</div>
 
 </div>
 
-
 </div>
-
-
 
 `;
-
-
-
-}
-
 
 });
 
+}
 
+function updateCartCount() {
 
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+const total = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
 
-if(!found){
-
-
-box.innerHTML=`
-
-<div class="msg">
-
-لا توجد منتجات في قسم الحجابات والشالات
-
-</div>
-
-`;
+if (cartCount) {
+cartCount.textContent = total;
+}
 
 }
 
+function addToCart(product) {
 
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const index = cart.findIndex(item => item.id === product.id);
+
+if (index > -1) {
+
+cart[index].qty += 1;
+
+} else {
+
+cart.push({
+
+id: product.id,
+
+name: product.name,
+
+price: Number(product.price || 0),
+
+image:
+product.image ||
+product.img ||
+product.imageUrl ||
+"images/no-image.png",
+
+qty: 1
+
+});
 
 }
 
-catch(error){
+localStorage.setItem("cart", JSON.stringify(cart));
 
+updateCartCount();
 
-console.error(error);
-
-
-
-box.innerHTML=`
-
-<div class="msg">
-
-حدث خطأ أثناء تحميل المنتجات
-
-</div>
-
-`;
+alert("تمت إضافة المنتج إلى السلة");
 
 }
 
+document.addEventListener("click", (e) => {
 
+const btn = e.target.closest(".add-cart");
+
+if (!btn) return;
+
+const product = allProducts.find(p => p.id === btn.dataset.id);
+
+if (product) {
+
+addToCart(product);
 
 }
 
+});
 
+function filterProducts(keyword) {
 
+const text = keyword.trim().toLowerCase();
 
+if (!text) {
+renderProducts(allProducts);
+return;
+}
+  const filtered = allProducts.filter(product => {
 
-loadProducts();
+return (
+(product.name || "").toLowerCase().includes(text) ||
+(product.description || "").toLowerCase().includes(text) ||
+(product.colors || "").toLowerCase().includes(text)
+);
 
+});
 
+renderProducts(filtered);
+
+}
+
+if (searchInput) {
+
+const lastSearch = localStorage.getItem("hijabsSearch") || "";
+
+searchInput.value = lastSearch;
+
+searchInput.addEventListener("input", () => {
+
+localStorage.setItem("hijabsSearch", searchInput.value);
+
+filterProducts(searchInput.value);
+
+});
+
+}
+
+if (localStorage.getItem("theme") === "dark") {
+
+document.body.classList.add("dark-mode");
+
+if (darkBtn) {
+darkBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+}
+
+}
+
+if (darkBtn) {
+
+darkBtn.addEventListener("click", () => {
+
+document.body.classList.toggle("dark-mode");
+
+const dark = document.body.classList.contains("dark-mode");
+
+localStorage.setItem("theme", dark ? "dark" : "light");
+
+darkBtn.innerHTML = dark
+? '<i class="fa-solid fa-sun"></i>'
+: '<i class="fa-solid fa-moon"></i>';
+
+});
+
+}
+
+/*==================================
+تحسين الصور
+==================================*/
+
+document.addEventListener("error", (e) => {
+
+if (e.target.tagName === "IMG") {
+
+e.target.src = "images/no-image.png";
+
+}
+
+}, true);
+
+/*==================================
+منع سحب الصور
+==================================*/
+
+document.addEventListener("dragstart", (e) => {
+
+if (e.target.tagName === "IMG") {
+
+e.preventDefault();
+
+}
+
+});
+  /*==================================
+تحديث عداد السلة
+==================================*/
+
+window.addEventListener("focus", updateCartCount);
+
+window.addEventListener("storage", updateCartCount);
+
+/*==================================
+تشغيل الصفحة
+==================================*/
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+updateCartCount();
+
+await loadHijabsProducts();
+
+const lastSearch = localStorage.getItem("hijabsSearch");
+
+if (lastSearch && searchInput) {
+
+filterProducts(lastSearch);
+
+}
+
+const loader = document.getElementById("loader");
+
+if (loader) {
+
+setTimeout(() => {
+
+loader.style.opacity = "0";
+
+setTimeout(() => {
+
+loader.remove();
+
+}, 300);
+
+}, 300);
+
+}
+
+});
+
+/*==================================
+زر الرجوع للأعلى
+==================================*/
+
+const topBtn = document.createElement("button");
+
+topBtn.className = "scroll-top";
+
+topBtn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+
+document.body.appendChild(topBtn);
+
+window.addEventListener("scroll", () => {
+
+if (window.scrollY > 300) {
+
+topBtn.classList.add("show");
+
+} else {
+
+topBtn.classList.remove("show");
+
+}
+
+});
+
+topBtn.addEventListener("click", () => {
+
+window.scrollTo({
+
+top: 0,
+
+behavior: "smooth"
+
+});
+
+});
+  /*==================================
+تحميل الصور بعد اكتمال الصفحة
+==================================*/
+
+window.addEventListener("load", () => {
+
+document.querySelectorAll(".product-card img").forEach(img => {
+
+img.loading = "lazy";
+
+img.decoding = "async";
+
+img.onerror = function () {
+
+this.src = "images/no-image.png";
+
+};
+
+});
+
+});
+
+/*==================================
+تحديث المنتجات عند الرجوع للصفحة
+==================================*/
+
+window.addEventListener("pageshow", () => {
+
+updateCartCount();
+
+if (allProducts.length === 0) {
+
+loadHijabsProducts();
+
+}
+
+});
+
+/*==================================
+اختصارات لوحة المفاتيح
+==================================*/
+
+document.addEventListener("keydown", (e) => {
+
+if (e.key === "/" && searchInput) {
+
+e.preventDefault();
+
+searchInput.focus();
+
+}
+
+});
+
+/*==================================
+إغلاق السكربت
+==================================*/
 
 </script>
 
+<script type="module" src="script.js"></script>
+
+<!-- Footer -->
+
+<footer class="main-footer">
+
+<div class="container">
+
+<p>
+© 2026 مجمع حمزه الشطري - جميع الحقوق محفوظة
+</p>
+
+<div class="footer-links">
+
+<a href="index.html">الرئيسية</a>
+
+<a href="offers.html">العروض</a>
+
+<a href="about.html">من نحن</a>
+
+<a href="cart.html">السلة</a>
+
+</div>
+
+</div>
+
+</footer>
 
 </body>
 
