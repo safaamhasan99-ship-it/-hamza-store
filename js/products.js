@@ -77,14 +77,22 @@ async function loadProducts() {
 
         products = [];
 
-        snap.forEach(doc => {
+    snap.forEach(doc => {
 
-            products.push({
-                id: doc.id,
-                ...doc.data()
-            });
+    const p = doc.data();
 
-        });
+    console.log(
+        doc.id,
+        p.name,
+        p.image
+    );
+
+    products.push({
+        id: doc.id,
+        ...p
+    });
+
+});
 
         filterProducts();
 
