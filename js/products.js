@@ -135,7 +135,8 @@ function createCard(product){
     <div class="product-image">
 
         <img
-src="${safeImage(product.image)}"
+s
+src="${product.image}"
 alt="${product.name || ''}"
 loading="eager"
 decoding="async"
