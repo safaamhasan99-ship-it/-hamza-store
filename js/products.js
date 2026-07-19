@@ -15,6 +15,7 @@ addToCart,
 toggleFavorite,
 isFavorite,
 formatPrice,
+    safeImage,
 updateCartCount
 } from "./utils.js";
 
