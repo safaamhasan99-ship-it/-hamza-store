@@ -4,59 +4,59 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>القسم الولادي | مجمع حمزه الشطري</title>
 
 <meta name="theme-color" content="#111827">
 
-<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+<link rel="icon" href="favicon.ico">
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-<link rel="stylesheet" href="style.css">
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
 <body>
 
-<div id="loader">
+<!-- Loader -->
 
-<div class="loader-box">
+<div id="loader" class="loader">
 
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+<div class="spinner"></div>
 
-<h2>مجمع حمزه الشطري</h2>
-
-<div class="loader-spinner"></div>
-
-<p>جاري تحميل القسم...</p>
+<p>جاري تحميل القسم الولادي...</p>
 
 </div>
 
-</div>
+<!-- Header -->
 
-<header class="header">
+<header class="main-header">
 
-<div class="logo-box">
+<div class="container">
 
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+<a href="index.html" class="logo">
 
-<div>
+<i class="fa-solid fa-store"></i>
 
-<h1>مجمع حمزه الشطري</h1>
+<span>مجمع حمزه الشطري</span>
 
-<span>القسم الولادي</span>
+</a>
 
-</div>
+<div class="header-actions">
 
-</div>
+<button id="darkBtn" class="icon-btn">
 
-<div class="header-buttons">
+<i class="fa-solid fa-moon"></i>
+
+</button>
 
 <a href="cart.html" class="cart-btn">
 
@@ -66,148 +66,59 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </a>
 
-<button id="darkBtn" class="dark-btn">
-
-<i class="fa-solid fa-moon"></i>
-
-</button>
+</div>
 
 </div>
 
 </header>
 
-<section class="search-box">
+<!-- عنوان الصفحة -->
+
+<section class="page-title">
+
+<div class="container">
+
+<h1>
+
+<i class="fa-solid fa-child"></i>
+
+القسم الولادي
+
+</h1>
+
+<p>
+
+جميع الموديلات الولادية متوفرة بالجملة
+
+</p>
+
+</div>
+
+</section>
+
+<!-- البحث -->
+
+<section class="search-section">
+
+<div class="container">
 
 <input
+type="search"
 id="searchInput"
-type="text"
-placeholder="ابحث داخل القسم الولادي...">
-
-<i class="fa-solid fa-magnifying-glass"></i>
-
-</section>
-
-<section class="products-home">
-
-<h2 class="title">
-
-🧒 القسم الولادي
-
-</h2>
-
-<div id="productsGrid" class="products-grid">
-
-<div class="loading-products">
-
-جاري تحميل المنتجات...
-
-</div>
+placeholder="ابحث عن منتج..."
+autocomplete="off">
 
 </div>
 
 </section>
-<!-- زر واتساب -->
 
-<a class="whatsapp"
-href="https://wa.me/9647813555538"
-target="_blank">
+<!-- المنتجات -->
 
-<i class="fa-brands fa-whatsapp"></i>
+<main class="container">
 
-</a>
+<div id="productsGrid" class="products-grid"></div>
 
-<!-- القائمة السفلية -->
-
-<nav class="bottom-nav">
-
-<a href="index.html">
-
-<i class="fa-solid fa-house"></i>
-
-<span>الرئيسية</span>
-
-</a>
-
-<a href="products.html">
-
-<i class="fa-solid fa-shop"></i>
-
-<span>المنتجات</span>
-
-</a>
-
-<a href="cart.html">
-
-<i class="fa-solid fa-cart-shopping"></i>
-
-<span>السلة</span>
-
-</a>
-
-<a href="favorites.html">
-
-<i class="fa-solid fa-heart"></i>
-
-<span>المفضلة</span>
-
-</a>
-
-<a href="about.html">
-
-<i class="fa-solid fa-circle-info"></i>
-
-<span>من نحن</span>
-
-</a>
-
-</nav>
-
-<!-- الفوتر -->
-
-<footer class="footer">
-
-<div class="footer-box">
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
-class="footer-logo">
-
-<h3>مجمع حمزه الشطري</h3>
-
-<p>للملابس الجاهزة والجملة</p>
-
-<p>
-
-<i class="fa-solid fa-location-dot"></i>
-
-ذي قار - الشطرة
-
-</p>
-
-<p>
-
-<i class="fa-solid fa-phone"></i>
-
-07813555538
-
-</p>
-
-<p>
-
-<i class="fa-solid fa-truck"></i>
-
-توصيل لجميع محافظات العراق
-
-</p>
-
-<p class="copy">
-
-© 2026 جميع الحقوق محفوظة
-
-</p>
-
-</div>
-
-</footer>
+</main>
 
 <script type="module">
 
@@ -216,62 +127,145 @@ import { db } from "./js/firebase.js";
 import {
 collection,
 getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const grid = document.getElementById("productsGrid");
+const searchInput = document.getElementById("searchInput");
+const darkBtn = document.getElementById("darkBtn");
+const cartCount = document.getElementById("cartCount");
+
+let allProducts = [];
+
+async function loadBoysProducts() {
+
+if (!grid) return;
+
+grid.innerHTML = `
+<div class="loading-products">
+<i class="fa-solid fa-spinner fa-spin"></i>
+<p>جاري تحميل المنتجات...</p>
+</div>
+`;
+
+  try {
+
+const snap = await getDocs(collection(db, "products"));
+
+allProducts = [];
+
+const validCategories = [
+"boys",
+"ولادي",
+"قسم ولادي",
+"القسم الولادي",
+"قسم الولادي"
+].map(c => c.toLowerCase());
+
+snap.forEach(doc => {
+
+const p = doc.data();
+
+const category = (p.category || "").trim().toLowerCase();
+
+if (!validCategories.includes(category)) {
+return;
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-async function loadProducts(){
+allProducts.push({
+id: doc.id,
+...p
+});
 
-const grid=document.getElementById("productsGrid");
+});
 
-grid.innerHTML="";
+console.log(allProducts);
 
-const snap=await getDocs(collection(db,"products"));
+renderProducts(allProducts);
 
-let found=false;
+} catch (err) {
 
-snap.forEach(doc=>{
+console.error(err);
 
-const p=doc.data();
+grid.innerHTML = `
+<div class="loading-products">
+حدث خطأ أثناء تحميل المنتجات
+</div>
+`;
 
-if((p.category||"")!=="boys") return;
+}
 
-found=true;
+}
 
-grid.innerHTML+=`
+function renderProducts(list) {
+
+if (!grid) return;
+
+if (!list.length) {
+
+grid.innerHTML = `
+<div class="loading-products">
+لا توجد منتجات في القسم الولادي
+</div>
+`;
+
+return;
+
+}
+
+grid.innerHTML = "";
+
+list.forEach(product => {
+
+const image =
+product.image ||
+product.img ||
+product.imageUrl ||
+"images/no-image.png";
+
+const price = Number(product.price || 0).toLocaleString();
+
+grid.innerHTML += `
 
 <div class="product-card">
 
-<img src="${p.image}">
+<div class="product-image">
+
+<img
+src="${image}"
+alt="${product.name}"
+loading="lazy"
+onerror="this.src='images/no-image.png'">
+
+</div>
 
 <div class="product-info">
 
-<h3>${p.name}</h3>
+<h3 class="product-title">
+${product.name || "بدون اسم"}
+</h3>
 
-<p class="price">
-
-${Number(p.price).toLocaleString()} د.ع
-
-</p>
-
+<div class="product-price">
+${price} د.ع
+</div>
 <div class="product-actions">
 
-<button class="cart-add"
-
-onclick="addToCart('${p.name}',${p.price},'${p.image}')">
+<button
+class="add-cart"
+data-id="${product.id}">
 
 <i class="fa-solid fa-cart-shopping"></i>
 
-السلة
+إضافة للسلة
 
 </button>
 
-<button class="fav-add"
+<a
+href="details.html?id=${product.id}"
+class="details-btn">
 
-onclick="addToFavorites('${p.name}',${p.price},'${p.image}')">
+عرض التفاصيل
 
-<i class="fa-solid fa-heart"></i>
-
-</button>
+</a>
 
 </div>
 
@@ -283,27 +277,342 @@ onclick="addToFavorites('${p.name}',${p.price},'${p.image}')">
 
 });
 
-if(!found){
+}
 
-grid.innerHTML=`
+function updateCartCount() {
 
-<div class="loading-products">
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-لا توجد منتجات في القسم الولادي
+const total = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
 
-</div>
-
-`;
-
+if (cartCount) {
+cartCount.textContent = total;
 }
 
 }
 
-loadProducts();
+function addToCart(product) {
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const index = cart.findIndex(item => item.id === product.id);
+
+if (index > -1) {
+
+cart[index].qty += 1;
+
+} else {
+
+cart.push({
+
+id: product.id,
+
+name: product.name,
+
+price: Number(product.price || 0),
+
+image:
+product.image ||
+product.img ||
+product.imageUrl ||
+"images/no-image.png",
+
+qty: 1
+
+});
+
+}
+
+localStorage.setItem("cart", JSON.stringify(cart));
+
+updateCartCount();
+
+alert("تمت إضافة المنتج إلى السلة");
+
+}
+
+document.addEventListener("click", (e) => {
+
+const btn = e.target.closest(".add-cart");
+
+if (!btn) return;
+
+const product = allProducts.find(p => p.id === btn.dataset.id);
+
+if (product) {
+
+addToCart(product);
+
+}
+
+});
+
+function filterProducts(keyword) {
+
+const text = keyword.trim().toLowerCase();
+
+if (!text) {
+renderProducts(allProducts);
+return;
+}
+
+  const filtered = allProducts.filter(product => {
+
+return (
+(product.name || "").toLowerCase().includes(text) ||
+(product.description || "").toLowerCase().includes(text) ||
+(product.colors || "").toLowerCase().includes(text)
+);
+
+});
+
+renderProducts(filtered);
+
+}
+
+if (searchInput) {
+
+const lastSearch = localStorage.getItem("boysSearch") || "";
+
+searchInput.value = lastSearch;
+
+searchInput.addEventListener("input", () => {
+
+localStorage.setItem("boysSearch", searchInput.value);
+
+filterProducts(searchInput.value);
+
+});
+
+}
+
+if (localStorage.getItem("theme") === "dark") {
+
+document.body.classList.add("dark-mode");
+
+if (darkBtn) {
+darkBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+}
+
+}
+
+if (darkBtn) {
+
+darkBtn.addEventListener("click", () => {
+
+document.body.classList.toggle("dark-mode");
+
+const dark = document.body.classList.contains("dark-mode");
+
+localStorage.setItem("theme", dark ? "dark" : "light");
+
+darkBtn.innerHTML = dark
+? '<i class="fa-solid fa-sun"></i>'
+: '<i class="fa-solid fa-moon"></i>';
+
+});
+
+}
+
+/*==================================
+تحسين الصور
+==================================*/
+
+document.addEventListener("error", (e) => {
+
+if (e.target.tagName === "IMG") {
+
+e.target.src = "images/no-image.png";
+
+}
+
+}, true);
+
+/*==================================
+منع سحب الصور
+==================================*/
+
+document.addEventListener("dragstart", (e) => {
+
+if (e.target.tagName === "IMG") {
+
+e.preventDefault();
+
+}
+
+});
+
+   /*==================================
+تحديث عداد السلة
+==================================*/
+
+window.addEventListener("focus", updateCartCount);
+
+window.addEventListener("storage", updateCartCount);
+
+/*==================================
+تشغيل الصفحة
+==================================*/
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+updateCartCount();
+
+await loadBoysProducts();
+
+const lastSearch = localStorage.getItem("boysSearch");
+
+if (lastSearch && searchInput) {
+
+filterProducts(lastSearch);
+
+}
+
+const loader = document.getElementById("loader");
+
+if (loader) {
+
+setTimeout(() => {
+
+loader.style.opacity = "0";
+
+setTimeout(() => {
+
+loader.remove();
+
+}, 300);
+
+}, 300);
+
+}
+
+});
+
+/*==================================
+زر الرجوع للأعلى
+==================================*/
+
+const topBtn = document.createElement("button");
+
+topBtn.className = "scroll-top";
+
+topBtn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+
+document.body.appendChild(topBtn);
+
+window.addEventListener("scroll", () => {
+
+if (window.scrollY > 300) {
+
+topBtn.classList.add("show");
+
+} else {
+
+topBtn.classList.remove("show");
+
+}
+
+});
+
+topBtn.addEventListener("click", () => {
+
+window.scrollTo({
+
+top: 0,
+
+behavior: "smooth"
+
+});
+
+});
+
+  /*==================================
+تحميل الصور بعد اكتمال الصفحة
+==================================*/
+
+window.addEventListener("load", () => {
+
+document.querySelectorAll(".product-card img").forEach(img => {
+
+img.loading = "lazy";
+
+img.decoding = "async";
+
+img.onerror = function () {
+
+this.src = "images/no-image.png";
+
+};
+
+});
+
+});
+
+/*==================================
+تحديث المنتجات عند الرجوع للصفحة
+==================================*/
+
+window.addEventListener("pageshow", () => {
+
+updateCartCount();
+
+if (allProducts.length === 0) {
+
+loadBoysProducts();
+
+}
+
+});
+
+/*==================================
+اختصارات لوحة المفاتيح
+==================================*/
+
+document.addEventListener("keydown", (e) => {
+
+if (e.key === "/" && searchInput) {
+
+e.preventDefault();
+
+searchInput.focus();
+
+}
+
+});
+
+/*==================================
+إغلاق السكربت
+==================================*/
 
 </script>
 
 <script type="module" src="script.js"></script>
+
+<!-- Footer -->
+
+<footer class="main-footer">
+
+<div class="container">
+
+<p>
+© 2026 مجمع حمزه الشطري - جميع الحقوق محفوظة
+</p>
+
+<div class="footer-links">
+
+<a href="index.html">الرئيسية</a>
+
+<a href="offers.html">العروض</a>
+
+<a href="about.html">من نحن</a>
+
+<a href="cart.html">السلة</a>
+
+</div>
+
+</div>
+
+</footer>
 
 </body>
 
