@@ -145,7 +145,7 @@ loading="eager"
 decoding="async"
 referrerpolicy="no-referrer"
 crossorigin="anonymous"
-
+onerror="this.src='./IMG_5661.jpeg'"
 
         ${product.offer ? '<span class="product-badge">عرض</span>' : ''}
 
