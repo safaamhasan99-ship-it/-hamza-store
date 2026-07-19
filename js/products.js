@@ -140,6 +140,8 @@ function createCard(product){
     card.innerHTML = `
 
     <div class="product-image">
+    
+<p style="font-size:10px;word-break:break-all">${product.image}</p>
 
  <img
     src="${safeImage(product.image)}"
