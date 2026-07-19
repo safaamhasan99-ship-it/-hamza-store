@@ -140,7 +140,6 @@ function createCard(product){
 
         <img
 
-src="${safeImage(product.image)}"
 alt="${product.name || ''}"
 loading="eager"
 decoding="async"
