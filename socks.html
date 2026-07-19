@@ -8,210 +8,118 @@
 
 <title>قسم الجوارب | مجمع حمزه الشطري</title>
 
-<meta name="description" content="قسم الجوارب بالجملة - مجمع حمزه الشطري">
 <meta name="theme-color" content="#111827">
 
-<link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.ico">
 
 <link rel="stylesheet" href="style.css">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-
-.msg{
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-text-align:center;
-padding:50px 20px;
-font-size:20px;
-font-weight:700;
-color:#6b7280;
-grid-column:1/-1;
-}
-
-.msg i{
-font-size:55px;
-margin-bottom:15px;
-color:var(--primary);
-}
-
-.product-card{
-overflow:hidden;
-}
-
-.product-card img{
-width:100%;
-aspect-ratio:1/1;
-object-fit:cover;
-display:block;
-background:#f5f5f5;
-}
-
-.product-info{
-padding:15px;
-}
-
-.product-info h3{
-margin-bottom:8px;
-font-size:18px;
-}
-
-.price{
-font-size:20px;
-font-weight:800;
-color:var(--primary);
-margin:12px 0;
-}
-
-.meta{
-font-size:14px;
-color:#666;
-}
-
-.product-actions{
-display:flex;
-gap:10px;
-margin-top:15px;
-}
-
-.cart-btn{
-flex:1;
-}
-
-.fav-btn{
-width:46px;
-}
-
-.details-btn{
-display:block;
-margin-top:12px;
-padding:12px;
-text-align:center;
-text-decoration:none;
-border-radius:10px;
-background:var(--primary);
-color:#fff;
-font-weight:bold;
-}
-
-</style>
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
-<body data-category="قسم الجوارب">
 
-<header class="header">
+<body>
 
-<div class="brand">
+<!-- Loader -->
 
-<img
-src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
-alt="مجمع حمزه الشطري">
+<div id="loader" class="loader">
 
-<div>
+<div class="spinner"></div>
 
-<h1>مجمع حمزه الشطري</h1>
-
-<p>🧦 قسم الجوارب بالجملة</p>
+<p>جاري تحميل قسم الجوارب...</p>
 
 </div>
 
-</div>
+<!-- Header -->
 
-<div class="header-icons">
+<header class="main-header">
 
-<a href="favorites.html" title="المفضلة">
-❤️
+<div class="container">
+
+<a href="index.html" class="logo">
+
+<i class="fa-solid fa-store"></i>
+
+<span>مجمع حمزه الشطري</span>
+
 </a>
 
-<a href="cart.html" title="السلة">
-🛒
-<span id="cartCount">0</span>
-</a>
+<div class="header-actions">
 
-<button
-type="button"
-onclick="toggleDarkMode()"
-title="الوضع الليلي">
+<button id="darkBtn" class="icon-btn">
 
-🌙
+<i class="fa-solid fa-moon"></i>
 
 </button>
+
+<a href="cart.html" class="cart-btn">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span id="cartCount">0</span>
+
+</a>
+
+</div>
 
 </div>
 
 </header>
 
-<section class="products">
+<!-- عنوان الصفحة -->
 
-<h2 class="title">
+<section class="page-title">
 
-🧦 قسم الجوارب
+<div class="container">
 
-</h2>
+<h1>
 
-<div
-id="products"
-class="products-grid">
+<i class="fa-solid fa-socks"></i>
 
-<div class="msg">
+قسم الجوارب
 
-<i class="fa-solid fa-spinner fa-spin"></i>
+</h1>
 
-<br><br>
+<p>
 
-جاري تحميل المنتجات...
+جميع موديلات الجوارب متوفرة بالجملة
 
-</div>
+</p>
 
 </div>
 
 </section>
 
-<nav class="bottom-nav">
+<!-- البحث -->
 
-<a href="index.html">
+<section class="search-section">
 
-🏠
+<div class="container">
 
-<span>الرئيسية</span>
+<input
+type="search"
+id="searchInput"
+placeholder="ابحث عن منتج..."
+autocomplete="off">
 
-</a>
+</div>
 
-<a href="favorites.html">
+</section>
 
-❤️
+<!-- المنتجات -->
 
-<span>المفضلة</span>
+<main class="container">
 
-</a>
+<div id="productsGrid" class="products-grid"></div>
 
-<a href="cart.html">
+</main>
 
-🛒
-
-<span>السلة</span>
-
-</a>
-
-<a href="about.html">
-
-ℹ️
-
-<span>من نحن</span>
-
-</a>
-
-</nav>
-
-<script src="script.js"></script>
-
-<script src="cart.js"></script>
 <script type="module">
 
 import { db } from "./js/firebase.js";
@@ -221,106 +129,140 @@ collection,
 getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const productsBox = document.getElementById("products");
+const grid = document.getElementById("productsGrid");
+const searchInput = document.getElementById("searchInput");
+const darkBtn = document.getElementById("darkBtn");
+const cartCount = document.getElementById("cartCount");
+
+let allProducts = [];
+
+async function loadSocksProducts() {
+
+if (!grid) return;
+
+grid.innerHTML = `
+<div class="loading-products">
+<i class="fa-solid fa-spinner fa-spin"></i>
+<p>جاري تحميل المنتجات...</p>
+</div>
+`;
+
+  try {
+
+const snap = await getDocs(collection(db, "products"));
+
+allProducts = [];
 
 const validCategories = [
-"قسم الجوارب",
+"socks",
 "جوارب",
-"socks"
+"قسم جوارب",
+"قسم الجوارب",
+"الجوارب"
 ].map(c => c.toLowerCase());
 
-async function loadProducts(){
+snap.forEach(doc => {
 
-try{
+const p = doc.data();
 
-const snapshot = await getDocs(collection(db,"products"));
+const category = (p.category || "").trim().toLowerCase();
 
-productsBox.innerHTML="";
+if (!validCategories.includes(category)) {
+return;
+}
 
-let count=0;
+allProducts.push({
+id: doc.id,
+...p
+});
 
-snapshot.forEach((doc)=>{
+});
 
-const p=doc.data();
+console.log(allProducts);
 
-const category=(p.category || "")
-.trim()
-.toLowerCase();
+renderProducts(allProducts);
 
-if(!validCategories.includes(category)) return;
+} catch (err) {
 
-count++;
+console.error(err);
+
+grid.innerHTML = `
+<div class="loading-products">
+حدث خطأ أثناء تحميل المنتجات
+</div>
+`;
+
+}
+
+}
+
+function renderProducts(list) {
+
+if (!grid) return;
+
+if (!list.length) {
+
+grid.innerHTML = `
+<div class="loading-products">
+لا توجد منتجات في قسم الجوارب
+</div>
+`;
+
+return;
+
+}
+
+grid.innerHTML = "";
+
+list.forEach(product => {
 
 const image =
-p.image && p.image.trim()
-? p.image
-: "https://placehold.co/600x600?text=No+Image";
+product.image ||
+product.img ||
+product.imageUrl ||
+"images/no-image.png";
 
-productsBox.innerHTML += `
+const price = Number(product.price || 0).toLocaleString();
 
-<div class="product-card" data-id="${doc.id}">
+grid.innerHTML += `
+
+<div class="product-card">
+
+<div class="product-image">
 
 <img
 src="${image}"
-alt="${p.name || ''}"
+alt="${product.name}"
 loading="lazy"
-onerror="this.src='https://placehold.co/600x600?text=No+Image'">
+onerror="this.src='images/no-image.png'">
+
+</div>
 
 <div class="product-info">
 
-<h3>${p.name || "بدون اسم"}</h3>
+<h3 class="product-title">
+${product.name || "بدون اسم"}
+</h3>
 
-<p>${p.description || ""}</p>
-
-<p class="price">
-
-${Number(p.price || 0).toLocaleString()} د.ع
-
-</p>
-
-${p.colors ? `
-<p class="meta">
-<b>الألوان:</b>
-${p.colors}
-</p>` : ""}
-
-${p.sizes ? `
-<p class="meta">
-<b>المقاسات:</b>
-${p.sizes}
-</p>` : ""}
+<div class="product-price">
+${price} د.ع
+</div>
 
 <div class="product-actions">
 
 <button
-class="cart-btn"
-onclick="addToCart(
-'${(p.name || "").replace(/'/g,"\\'")}',
-${Number(p.price || 0)},
-'${image}'
-)">
+class="add-cart"
+data-id="${product.id}">
 
-🛒 إضافة للسلة
+<i class="fa-solid fa-cart-shopping"></i>
+
+إضافة للسلة
 
 </button>
-
-<button
-class="fav-btn"
-onclick="addToFavorites(
-'${(p.name || "").replace(/'/g,"\\'")}',
-${Number(p.price || 0)},
-'${image}'
-)">
-
-❤️
-
-</button>
-
-</div>
 
 <a
-class="details-btn"
-href="details.html?id=${encodeURIComponent(doc.id)}">
+href="details.html?id=${product.id}"
+class="details-btn">
 
 عرض التفاصيل
 
@@ -330,53 +272,303 @@ href="details.html?id=${encodeURIComponent(doc.id)}">
 
 </div>
 
+</div>
+
 `;
 
 });
 
-if(count===0){
-
-productsBox.innerHTML=`
-
-<div class="msg">
-
-<i class="fa-solid fa-box-open"></i>
-
-<br><br>
-
-لا توجد منتجات في قسم الجوارب حالياً
-
-</div>
-
-`;
-
 }
 
-}catch(error){
+function updateCartCount() {
 
-console.error(error);
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-productsBox.innerHTML=`
+const total = cart.reduce((sum, item) => sum + (item.qty || 0), 0);
 
-<div class="msg">
-
-<i class="fa-solid fa-triangle-exclamation"></i>
-
-<br><br>
-
-حدث خطأ أثناء تحميل المنتجات
-
-</div>
-
-`;
-
+if (cartCount) {
+cartCount.textContent = total;
 }
 
 }
 
-loadProducts();
+function addToCart(product) {
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const index = cart.findIndex(item => item.id === product.id);
+
+if (index > -1) {
+
+cart[index].qty += 1;
+
+} else {
+
+cart.push({
+
+id: product.id,
+
+name: product.name,
+
+price: Number(product.price || 0),
+
+image:
+product.image ||
+product.img ||
+product.imageUrl ||
+"images/no-image.png",
+
+qty: 1
+
+});
+
+}
+
+localStorage.setItem("cart", JSON.stringify(cart));
+
+updateCartCount();
+
+alert("تمت إضافة المنتج إلى السلة");
+
+}
+
+document.addEventListener("click", (e) => {
+
+const btn = e.target.closest(".add-cart");
+
+if (!btn) return;
+
+const product = allProducts.find(p => p.id === btn.dataset.id);
+
+if (product) {
+
+addToCart(product);
+
+}
+
+});
+
+function filterProducts(keyword) {
+
+const text = keyword.trim().toLowerCase();
+
+if (!text) {
+renderProducts(allProducts);
+return;
+}
+  const filtered = allProducts.filter(product => {
+
+return (
+(product.name || "").toLowerCase().includes(text) ||
+(product.description || "").toLowerCase().includes(text) ||
+(product.colors || "").toLowerCase().includes(text)
+);
+
+});
+
+renderProducts(filtered);
+
+}
+
+if (searchInput) {
+
+const lastSearch = localStorage.getItem("socksSearch") || "";
+
+searchInput.value = lastSearch;
+
+searchInput.addEventListener("input", () => {
+
+localStorage.setItem("socksSearch", searchInput.value);
+
+filterProducts(searchInput.value);
+
+});
+
+}
+
+if (localStorage.getItem("theme") === "dark") {
+
+document.body.classList.add("dark-mode");
+
+if (darkBtn) {
+darkBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+}
+
+}
+
+if (darkBtn) {
+
+darkBtn.addEventListener("click", () => {
+
+document.body.classList.toggle("dark-mode");
+
+const dark = document.body.classList.contains("dark-mode");
+
+localStorage.setItem("theme", dark ? "dark" : "light");
+
+darkBtn.innerHTML = dark
+? '<i class="fa-solid fa-sun"></i>'
+: '<i class="fa-solid fa-moon"></i>';
+
+});
+
+}
+
+/*==================================
+تحسين الصور
+==================================*/
+
+document.addEventListener("error", (e) => {
+
+if (e.target.tagName === "IMG") {
+
+e.target.src = "images/no-image.png";
+
+}
+
+}, true);
+
+/*==================================
+منع سحب الصور
+==================================*/
+
+document.addEventListener("dragstart", (e) => {
+
+if (e.target.tagName === "IMG") {
+
+e.preventDefault();
+
+}
+
+});
+
+   /*==================================
+تحديث عداد السلة
+==================================*/
+
+window.addEventListener("focus", updateCartCount);
+
+window.addEventListener("storage", updateCartCount);
+
+/*==================================
+تشغيل الصفحة
+==================================*/
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+updateCartCount();
+
+await loadSocksProducts();
+
+const lastSearch = localStorage.getItem("socksSearch");
+
+if (lastSearch && searchInput) {
+
+filterProducts(lastSearch);
+
+}
+
+const loader = document.getElementById("loader");
+
+if (loader) {
+
+setTimeout(() => {
+
+loader.style.opacity = "0";
+
+setTimeout(() => {
+
+loader.remove();
+
+}, 
+
+           /*==================================
+تحميل الصور بعد اكتمال الصفحة
+==================================*/
+
+window.addEventListener("load", () => {
+
+document.querySelectorAll(".product-card img").forEach(img => {
+
+img.loading = "lazy";
+
+img.decoding = "async";
+
+img.onerror = function () {
+
+this.src = "images/no-image.png";
+
+};
+
+});
+
+});
+
+/*==================================
+تحديث المنتجات عند الرجوع للصفحة
+==================================*/
+
+window.addEventListener("pageshow", () => {
+
+updateCartCount();
+
+if (allProducts.length === 0) {
+
+loadSocksProducts();
+
+}
+
+});
+
+/*==================================
+اختصارات لوحة المفاتيح
+==================================*/
+
+document.addEventListener("keydown", (e) => {
+
+if (e.key === "/" && searchInput) {
+
+e.preventDefault();
+
+searchInput.focus();
+
+}
+
+});
+
+/*==================================
+إغلاق السكربت
+==================================*/
 
 </script>
+
+<script type="module" src="script.js"></script>
+
+<!-- Footer -->
+
+<footer class="main-footer">
+
+<div class="container">
+
+<p>
+© 2026 مجمع حمزه الشطري - جميع الحقوق محفوظة
+</p>
+
+<div class="footer-links">
+
+<a href="index.html">الرئيسية</a>
+
+<a href="offers.html">العروض</a>
+
+<a href="about.html">من نحن</a>
+
+<a href="cart.html">السلة</a>
+
+</div>
+
+</div>
+
+</footer>
 
 </body>
 
