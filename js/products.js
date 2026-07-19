@@ -140,7 +140,7 @@ function createCard(product) {
         <div class="product-image">
 
             <img
-                src="${product.image}"
+                src="${safeImage(product.image)}"
                 alt="${product.name || ''}"
                 loading="lazy"
                 decoding="async"
