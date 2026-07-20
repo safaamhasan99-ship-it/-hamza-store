@@ -139,7 +139,11 @@ function createCard(product) {
     card.className = "product-card";
 
     const fav = isFavorite(product.id);
-
+console.log(
+    product.name,
+    product.image,
+    safeImage(product.image)
+);
     card.innerHTML = `
         <div class="product-image">
 
