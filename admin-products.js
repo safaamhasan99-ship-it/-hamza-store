@@ -1,12 +1,7 @@
 /*==================================
-Hamza Store V14
-Admin Products
-Part 1
-==================================*/
-
-/*==================================
-Hamza Store V14
-Admin Products
+Hamza Store V15
+Admin Products + Cloudflare R2 Upload
+Part 1/4
 ==================================*/
 
 import { db } from "./js/firebase.js";
@@ -21,8 +16,6 @@ import {
   deleteDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-alert("admin-products.js يعمل");
 
 /*========================
 ELEMENTS
@@ -47,7 +40,7 @@ let editId = null;
 MESSAGE
 ========================*/
 
-function showMessage(message, success = true){
+function showMessage(message, success = true) {
 
     const toast = document.createElement("div");
 
@@ -66,11 +59,41 @@ function showMessage(message, success = true){
 
     document.body.appendChild(toast);
 
-    setTimeout(()=>{
-
+    setTimeout(() => {
         toast.remove();
+    }, 2500);
 
-    },2500);
+}
+
+/*========================
+UPLOAD IMAGE TO R2
+========================*/
+
+async function uploadImage(file) {
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+
+    const response = await fetch(
+        "https://hamza-upload.safaahhh888.workers.dev/",
+        {
+            method: "POST",
+            body: formData
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("فشل الاتصال بخدمة رفع الصور");
+    }
+
+    const result = await response.json();
+
+    if (!result.success) {
+        throw new Error("تعذر رفع الصورة");
+    }
+
+    return result.url;
 
 }
 
@@ -87,29 +110,22 @@ function cleanImage(url){
     const match = url.match(/src=['"]([^'"]+)['"]/i);
 
     if(match){
-
         url = match[1];
-
     }
 
     if(url.startsWith("//")){
-
         url = "https:" + url;
-
     }
 
     return url;
 
 }
-
 /*========================
 LOAD PRODUCTS
 ========================*/
 
 async function loadProducts(){
 
-  alert("بدأ تحميل المنتجات");
-  
     if(!productsList) return;
 
     productsList.innerHTML = "<p>جاري تحميل المنتجات...</p>";
@@ -126,6 +142,7 @@ async function loadProducts(){
             <div class="product-box">
                 لا توجد منتجات
             </div>`;
+
             return;
 
         }
@@ -200,109 +217,116 @@ async function loadProducts(){
 SAVE PRODUCT
 ========================*/
 
-if(saveBtn){
+if (saveBtn) {
 
-saveBtn.addEventListener("click", async()=>{
+saveBtn.addEventListener("click", async () => {
 
-    const product={
+    try {
 
-        name:nameInput.value.trim(),
+        saveBtn.disabled = true;
+        saveBtn.textContent = "⏳ جاري الحفظ...";
 
-        price:Number(priceInput.value)||0,
+        let imageUrl = "";
 
-        category:categoryInput.value,
+        if (imageInput.files && imageInput.files.length > 0) {
 
-        sizes:sizesInput.value.trim(),
+            showMessage("جاري رفع الصورة...");
 
-        colors:colorsInput.value.trim(),
+            imageUrl = await uploadImage(imageInput.files[0]);
 
-        quantity:Number(quantityInput.value)||0,
+        } else {
 
-        description:descriptionInput.value.trim(),
+            imageUrl = cleanImage(imageInput.value);
 
-        image:cleanImage(imageInput.value),
+        }
 
-        offer:offerInput ? offerInput.checked : false
+        const product = {
 
-    };
+            name: nameInput.value.trim(),
 
-    if(product.name===""){
+            price: Number(priceInput.value) || 0,
 
-        showMessage("يرجى إدخال اسم المنتج",false);
+            category: categoryInput.value,
 
-        return;
+            sizes: sizesInput.value.trim(),
 
-    }
+            colors: colorsInput.value.trim(),
 
-    try{
+            quantity: Number(quantityInput.value) || 0,
 
-        if(editId){
+            description: descriptionInput.value.trim(),
+
+            image: imageUrl,
+
+            offer: offerInput ? offerInput.checked : false
+
+        };
+
+        if (!product.name) {
+
+            throw new Error("يرجى إدخال اسم المنتج");
+
+        }
+
+        if (editId) {
 
             await updateDoc(
-
-                doc(db,"products",editId),
-
+                doc(db, "products", editId),
                 product
-
             );
 
             showMessage("✅ تم تعديل المنتج");
 
-            editId=null;
+            editId = null;
 
-            saveBtn.textContent="💾 حفظ المنتج";
-
-        }else{
+        } else {
 
             await addDoc(
-
-                collection(db,"products"),
-
+                collection(db, "products"),
                 {
-
                     ...product,
-
-                    time:serverTimestamp()
-
+                    time: serverTimestamp()
                 }
-
             );
 
             showMessage("✅ تم حفظ المنتج");
 
         }
 
-        nameInput.value="";
-        priceInput.value="";
-        sizesInput.value="";
-        colorsInput.value="";
-        quantityInput.value="";
-        descriptionInput.value="";
-        imageInput.value="";
+        nameInput.value = "";
+        priceInput.value = "";
+        sizesInput.value = "";
+        colorsInput.value = "";
+        quantityInput.value = "";
+        descriptionInput.value = "";
+        imageInput.value = "";
 
-        if(offerInput){
-
-            offerInput.checked=false;
-
+        if (offerInput) {
+            offerInput.checked = false;
         }
 
-        categoryInput.selectedIndex=0;
+        categoryInput.selectedIndex = 0;
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = "💾 حفظ المنتج";
 
         await loadProducts();
 
-    }
-
-    catch(error){
+    } catch (error) {
 
         console.error(error);
 
-        showMessage(error.message,false);
+        saveBtn.disabled = false;
+        saveBtn.textContent = "💾 حفظ المنتج";
+
+        showMessage(error.message, false);
 
     }
 
 });
 
 }
+
 /*========================
 DELETE PRODUCT
 ========================*/
@@ -328,7 +352,6 @@ window.deleteProduct = async function(id){
     }
 
 };
-
 
 /*========================
 EDIT PRODUCT
@@ -359,12 +382,9 @@ window.editProduct = async function(id){
         colorsInput.value = p.colors || "";
         quantityInput.value = p.quantity || "";
         descriptionInput.value = p.description || "";
-        imageInput.value = p.image || "";
 
         if(offerInput){
-
             offerInput.checked = p.offer || false;
-
         }
 
         editId = id;
@@ -372,11 +392,8 @@ window.editProduct = async function(id){
         saveBtn.textContent = "💾 حفظ التعديلات";
 
         window.scrollTo({
-
             top:0,
-
             behavior:"smooth"
-
         });
 
     }catch(error){
@@ -389,7 +406,6 @@ window.editProduct = async function(id){
 
 };
 
-
 /*========================
 REFRESH
 ========================*/
@@ -400,12 +416,12 @@ window.refreshProducts = function(){
 
 };
 
-
 /*========================
 START
 ========================*/
 
-document.addEventListener("DOMContentLoaded", () => {
-    alert("admin-products.js يعمل");
+document.addEventListener("DOMContentLoaded",()=>{
+
     loadProducts();
+
 });
