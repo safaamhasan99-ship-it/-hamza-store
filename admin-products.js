@@ -71,7 +71,7 @@ UPLOAD IMAGE TO R2
 
 async function uploadImage(file) {
 
-alertconsole.log("Uploading:", file.name, file.size, file.type);
+console.log("Uploading:", file.name, file.size, file.type);
   
     const formData = new FormData();
 
