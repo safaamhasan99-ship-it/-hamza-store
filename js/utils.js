@@ -335,10 +335,10 @@ url=url.replace("?dl=0","?raw=1");
 
 /* ImgBB */
 
-if(url.includes("ibb.co") && !url.includes("i.ibb.co")){
+/* ImgBB */
 
-url = url.replace("https://ibb.co/", "https://i.ibb.co/");
-
+if (url.includes("https://ibb.co/")) {
+    return fallback;
 }
 
 /* السماح فقط بالروابط المباشرة */
