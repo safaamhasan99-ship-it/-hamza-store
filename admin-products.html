@@ -352,3 +352,111 @@ alert("module يعمل");
 </body>
 </html>
 
+
+
+<select id="category">
+
+<option value="men">👔 القسم الرجالي</option>
+
+<option value="women">👗 القسم النسائي</option>
+
+<option value="boys">🧒 القسم الولادي</option>
+
+<option value="girls">👧 القسم البناتي</option>
+
+<option value="pants">👖 البنطرونات</option>
+
+<option value="underwear">🩳 الداخليات</option>
+
+<option value="socks">🧦 الجوارب</option>
+
+<option value="hijabs">🧕 قسم الحجابات والشالات</option>
+
+</select>
+
+<input
+id="sizes"
+type="text"
+placeholder="القياسات">
+
+<input
+id="colors"
+type="text"
+placeholder="الألوان">
+
+<input
+id="quantity"
+type="number"
+placeholder="الكمية">
+
+<label style="font-weight:bold;display:block;margin-bottom:8px;">
+📷 اختر صورة المنتج
+</label>
+
+<input
+id="image"
+type="file"
+accept="image/*">
+
+<label style="display:flex;align-items:center;gap:10px;margin:15px 0;">
+
+<input
+id="offer"
+type="checkbox">
+
+<span>عرض خاص</span>
+
+</label>
+
+<button
+id="saveBtn"
+type="button">
+
+💾 حفظ المنتج
+
+</button>
+
+</div>
+
+<h2 class="title">
+
+📦 المنتجات المضافة
+
+</h2>
+
+<div style="text-align:center;margin-bottom:20px;">
+
+<button
+onclick="refreshProducts()"
+class="cart-btn">
+
+🔄 تحديث المنتجات
+
+</button>
+
+</div>
+
+<div
+id="productsList"
+class="products-grid">
+
+</div>
+
+</section>
+
+<footer style="
+text-align:center;
+padding:25px;
+color:#777;
+font-family:'Cairo',sans-serif;
+">
+
+مجمع حمزه الشطري © 2026
+
+</footer>
+
+<script type="module" src="./admin-products.js?v=17"></script>
+
+</body>
+
+</html>
