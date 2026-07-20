@@ -81,8 +81,12 @@ async function loadProducts() {
 
     const p = doc.data();
 
-        console.log("اسم المنتج:", p.name);
-console.log("رابط الصورة:", p.image);
+        console.table({
+  id: doc.id,
+  name: p.name,
+  image: p.image,
+  category: p.category
+});
         
     console.log(p);
 
