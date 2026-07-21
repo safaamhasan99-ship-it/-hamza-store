@@ -30,7 +30,7 @@ const ordersQuery = query(
     orderBy("createdAt", "desc")
 );
 
-const table = document.getElementById("ordersBody");
+const table = document.getElementById("ordersTable");
 
 const totalOrdersEl = document.getElementById("totalOrders");
 const newOrdersEl = document.getElementById("newOrders");
