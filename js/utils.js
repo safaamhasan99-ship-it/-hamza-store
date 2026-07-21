@@ -1,460 +1,542 @@
 /*==================================
-Hamza Store V11
-Professional Utils JS
+Hamza Store V18
+Professional Utils
 ==================================*/
-
 
 /*========================
 CART
 ========================*/
 
-export function getCart(){
+export function getCart() {
 
-try{
+    try {
 
-return JSON.parse(
+        return JSON.parse(
+            localStorage.getItem("cart") || "[]"
+        );
 
-localStorage.getItem("cart") || "[]"
+    } catch {
 
-);
+        return [];
 
-}catch{
-
-return [];
-
-}
+    }
 
 }
 
+export function saveCart(cart) {
 
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart || [])
+    );
 
-export function saveCart(cart){
+    updateCartCount();
 
-localStorage.setItem(
-
-"cart",
-
-JSON.stringify(cart)
-
-);
-
-updateCartCount();
-
-}
-
-
-
-export function addToCart(product){
-
-let cart=getCart();
-
-const index=cart.findIndex(
-
-item=>item.id===product.id
-
-);
-
-if(index>-1){
-
-cart[index].qty=(cart[index].qty||1)+1;
-
-}else{
-
-cart.push({
-
-...product,
-
-qty:1
-
-});
+    window.dispatchEvent(
+        new CustomEvent("cartUpdated")
+    );
 
 }
 
-saveCart(cart);
+export function addToCart(product) {
 
-showToast("تمت إضافة المنتج إلى السلة 🛒");
+    let cart = getCart();
+
+    const index = cart.findIndex(
+        item => item.id === product.id
+    );
+
+    if (index > -1) {
+
+        cart[index].qty =
+            Number(cart[index].qty || 1) + 1;
+
+    } else {
+
+        cart.push({
+
+            id: product.id,
+
+            name: product.name,
+
+            image: product.image,
+
+            price: Number(product.price) || 0,
+
+            size: product.size || "",
+
+            color: product.color || "",
+
+            qty: 1
+
+        });
+
+    }
+
+    saveCart(cart);
+
+    showToast("✅ تمت إضافة المنتج إلى السلة");
 
 }
 
+export function removeFromCart(id) {
 
+    const cart = getCart().filter(
+        item => item.id !== id
+    );
 
-export function removeFromCart(id){
+    saveCart(cart);
 
-const cart=getCart().filter(
-
-item=>item.id!==id
-
-);
-
-saveCart(cart);
-
-showToast("تم حذف المنتج من السلة");
+    showToast("🗑️ تم حذف المنتج من السلة");
 
 }
-
-
 
 /*========================
 CHANGE QTY
 ========================*/
 
-export function changeQty(id,value){
+export function changeQty(id, value) {
 
-const cart=getCart();
+    const cart = getCart();
 
-const item=cart.find(
+    const item = cart.find(
+        p => p.id === id
+    );
 
-p=>p.id===id
+    if (!item) return;
 
-);
+    item.qty = Number(item.qty || 1) + value;
 
-if(!item) return;
+    if (item.qty <= 0) {
 
-item.qty=(item.qty||1)+value;
+        removeFromCart(id);
 
-if(item.qty<=0){
+        return;
 
-removeFromCart(id);
+    }
 
-return;
-
-}
-
-saveCart(cart);
+    saveCart(cart);
 
 }
-
-
 
 /*========================
 CLEAR CART
 ========================*/
 
-export function clearCart(){
+export function clearCart() {
 
-localStorage.removeItem("cart");
+    localStorage.removeItem("cart");
 
-updateCartCount();
+    updateCartCount();
+
+    window.dispatchEvent(
+        new CustomEvent("cartUpdated")
+    );
 
 }
-
-
 
 /*========================
 CART COUNT
 ========================*/
 
-export function updateCartCount(){
+export function updateCartCount() {
 
-const badge=document.getElementById("cartCount");
+    const badge = document.getElementById("cartCount");
 
-if(!badge) return;
+    if (!badge) return;
 
-const total=getCart().reduce(
+    const total = getCart().reduce(
+        (sum, item) => sum + Number(item.qty || 1),
+        0
+    );
 
-(sum,item)=>sum+(item.qty||1),
+    badge.textContent = total;
 
-0
-
-);
-
-badge.textContent=total;
-
-badge.style.display=
-
-total>0 ? "flex" : "none";
+    badge.style.display =
+        total > 0 ? "flex" : "none";
 
 }
+
+/*========================
+LISTEN CART CHANGES
+========================*/
+
+window.addEventListener("storage", () => {
+
+    updateCartCount();
+
+});
+
+window.addEventListener("cartUpdated", () => {
+
+    updateCartCount();
+
+});
+
 /*========================
 FAVORITES
 ========================*/
 
-export function getFavorites(){
+export function getFavorites() {
 
-try{
+    try {
 
-return JSON.parse(
+        return JSON.parse(
+            localStorage.getItem("favorites") || "[]"
+        );
 
-localStorage.getItem("favorites") || "[]"
+    } catch {
 
-);
+        return [];
 
-}catch{
-
-return [];
-
-}
+    }
 
 }
 
+export function saveFavorites(list) {
 
+    localStorage.setItem(
+        "favorites",
+        JSON.stringify(list || [])
+    );
 
-export function saveFavorites(list){
-
-localStorage.setItem(
-
-"favorites",
-
-JSON.stringify(list)
-
-);
-
-}
-
-
-
-export function toggleFavorite(product){
-
-let list=getFavorites();
-
-const index=list.findIndex(
-
-item=>item.id===product.id
-
-);
-
-if(index>-1){
-
-list.splice(index,1);
-
-saveFavorites(list);
-
-showToast("تمت إزالة المنتج من المفضلة ❤️");
-
-return false;
+    window.dispatchEvent(
+        new CustomEvent("favoritesUpdated")
+    );
 
 }
 
-list.push(product);
+export function toggleFavorite(product) {
 
-saveFavorites(list);
+    let list = getFavorites();
 
-showToast("تمت إضافة المنتج إلى المفضلة ❤️");
+    const index = list.findIndex(
+        item => item.id === product.id
+    );
 
-return true;
+    if (index > -1) {
+
+        list.splice(index, 1);
+
+        saveFavorites(list);
+
+        showToast("💔 تمت إزالة المنتج من المفضلة");
+
+        return false;
+
+    }
+
+    list.push({
+
+        id: product.id,
+
+        name: product.name,
+
+        image: product.image,
+
+        price: Number(product.price) || 0
+
+    });
+
+    saveFavorites(list);
+
+    showToast("❤️ تمت إضافة المنتج إلى المفضلة");
+
+    return true;
 
 }
-
-
 
 /*========================
 CHECK FAVORITE
 ========================*/
 
-export function isFavorite(id){
+export function isFavorite(id) {
 
-return getFavorites().some(
-
-item=>item.id===id
-
-);
+    return getFavorites().some(
+        item => item.id === id
+    );
 
 }
-
-
 
 /*========================
-SAFE IMAGE V11
+CLEAR FAVORITES
 ========================*/
 
-export function safeImage(url){
+export function clearFavorites() {
 
-const fallback="./IMG_5661.jpeg";
+    localStorage.removeItem("favorites");
 
-try{
-
-if(url===null || url===undefined){
-
-return fallback;
+    window.dispatchEvent(
+        new CustomEvent("favoritesUpdated")
+    );
 
 }
 
-url=String(url).trim();
+/*========================
+SAFE IMAGE V18
+========================*/
 
-if(url===""){
+export function safeImage(url) {
 
-return fallback;
+    const fallback = "./IMG_5661.jpeg";
 
-}
+    try {
 
-/* إذا تم لصق كود HTML */
+        if (!url) return fallback;
 
-const html=url.match(/src=['"]([^'"]+)['"]/i);
+        url = String(url).trim();
 
-if(html){
+        if (url === "") return fallback;
 
-url=html[1];
+        // استخراج الرابط إذا تم لصق HTML
+        const html = url.match(/src=['"]([^'"]+)['"]/i);
 
-}
+        if (html) {
+            url = html[1];
+        }
 
-/* إزالة المحارف المخفية */
+        // إزالة المحارف المخفية
+        url = url
+            .replace(/\u200B/g, "")
+            .replace(/\u200C/g, "")
+            .replace(/\u200D/g, "")
+            .replace(/\uFEFF/g, "")
+            .trim();
 
-url=url
-.replace(/\u200B/g,"")
-.replace(/\u200C/g,"")
-.replace(/\u200D/g,"")
-.replace(/\uFEFF/g,"")
-.trim();
+        // إزالة الفراغات الزائدة
+        url = url.replace(/\s+/g, "");
 
-/* إزالة أي نقطة أو مسافة في نهاية الرابط */
+        // إزالة النقطة أو الفراغ بنهاية الرابط
+        url = url.replace(/[.\s]+$/, "");
 
-url=url.replace(/[.\s]+$/,"");
+        // تحويل // إلى https://
+        if (url.startsWith("//")) {
+            url = "https:" + url;
+        }
 
-/* إزالة الفراغات */
+        // Google Drive
+        if (url.includes("drive.google.com/file/d/")) {
 
-url=url.replace(/\s+/g,"");
+            const id = url.split("/d/")[1]?.split("/")[0];
 
-/* تحويل // إلى https */
+            if (id) {
+                url = `https://drive.google.com/uc?export=view&id=${id}`;
+            }
 
-if(url.startsWith("//")){
+        }
 
-url="https:"+url;
+        // Dropbox
+        if (url.includes("dropbox.com")) {
+            url = url.replace("?dl=0", "?raw=1");
+        }
 
-}
-  /* Google Drive */
+        // منع روابط صفحة ImgBB
+        if (
+            url.includes("https://ibb.co/") ||
+            url.includes("https://www.ibb.co/")
+        ) {
+            return fallback;
+        }
 
-if(url.includes("drive.google.com/file/d/")){
+        // السماح فقط بالرابط المباشر
+        if (
+            !url.startsWith("https://") &&
+            !url.startsWith("http://")
+        ) {
+            return fallback;
+        }
 
-const id=url.split("/d/")[1]?.split("/")[0];
+        // ترميز الرابط
+        return encodeURI(url);
 
-if(id){
+    } catch (error) {
 
-url=`https://drive.google.com/uc?export=view&id=${id}`;
+        console.error(error);
 
-}
+        return fallback;
 
-}
-
-/* Dropbox */
-
-if(url.includes("dropbox.com")){
-
-url=url.replace("?dl=0","?raw=1");
-
-}
-
-/* ImgBB */
-
-/* ImgBB */
-
-if (url.includes("https://ibb.co/")) {
-    return fallback;
-}
-
-/* السماح فقط بالروابط المباشرة */
-
-if(
-
-!url.startsWith("https://") &&
-
-!url.startsWith("http://")
-
-){
-
-return fallback;
-
-}
-
-/* ترميز الرابط */
-
-url = encodeURI(url);
-
-// لا تحذف Query Parameters لأنها قد تكون مطلوبة لبعض مزودي الصور
-return url;
-
-}catch{
-
-return fallback;
+    }
 
 }
 
-}
 /*========================
 PRELOAD IMAGE
 ========================*/
 
-export function preloadImage(url){
+export function preloadImage(url) {
 
-const img=new Image();
+    const img = new Image();
 
-img.src=safeImage(url);
+    img.src = safeImage(url);
 
 }
-
-
 
 /*========================
 PRICE
 ========================*/
 
-export function formatPrice(price){
+export function formatPrice(price) {
 
-const value=Number(price);
+    const value = Number(price);
 
-if(isNaN(value)){
+    if (isNaN(value)) {
+        return "0 د.ع";
+    }
 
-return "0 د.ع";
-
-}
-
-return value.toLocaleString("ar-IQ")+" د.ع";
+    return value.toLocaleString("ar-IQ") + " د.ع";
 
 }
 
+/*========================
+NUMBER
+========================*/
 
+export function formatNumber(number) {
+
+    const value = Number(number);
+
+    if (isNaN(value)) {
+        return "0";
+    }
+
+    return value.toLocaleString("ar-IQ");
+
+}
 
 /*========================
 DATE
 ========================*/
 
-export function formatDate(date){
+export function formatDate(date) {
 
-try{
+    try {
 
-return new Date(date).toLocaleDateString("ar-IQ");
+        if (!date) return "";
 
-}catch{
+        // Firestore Timestamp
+        if (date.seconds) {
 
-return "";
+            return new Date(
+                date.seconds * 1000
+            ).toLocaleString("ar-IQ");
+
+        }
+
+        return new Date(date).toLocaleString("ar-IQ");
+
+    } catch {
+
+        return "";
+
+    }
 
 }
 
+/*========================
+TIME
+========================*/
+
+export function formatTime(date) {
+
+    try {
+
+        if (!date) return "";
+
+        if (date.seconds) {
+
+            return new Date(
+                date.seconds * 1000
+            ).toLocaleTimeString("ar-IQ");
+
+        }
+
+        return new Date(date).toLocaleTimeString("ar-IQ");
+
+    } catch {
+
+        return "";
+
+    }
+
 }
-
-
 
 /*========================
 TOAST
 ========================*/
 
-let toastTimer;
+let toastTimer = null;
 
-export function showToast(message){
+export function showToast(message, type = "success") {
 
-let toast=document.getElementById("toast");
+    let toast = document.getElementById("toast");
 
-if(!toast){
+    if (!toast) {
 
-toast=document.createElement("div");
+        toast = document.createElement("div");
 
-toast.id="toast";
+        toast.id = "toast";
+        toast.className = "toast";
 
-toast.className="toast";
+        document.body.appendChild(toast);
 
-document.body.appendChild(toast);
+    }
+
+    toast.textContent = message;
+
+    toast.classList.remove(
+        "success",
+        "error",
+        "warning",
+        "show"
+    );
+
+    toast.classList.add(type);
+
+    requestAnimationFrame(() => {
+        toast.classList.add("show");
+    });
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2500);
 
 }
 
-toast.textContent=message;
+/*========================
+HELPERS
+========================*/
 
-toast.classList.add("show");
+export function isMobile() {
 
-clearTimeout(toastTimer);
-
-toastTimer=setTimeout(()=>{
-
-toast.classList.remove("show");
-
-},2500);
+    return /Android|iPhone|iPad|iPod|Mobile/i.test(
+        navigator.userAgent
+    );
 
 }
+
+export function scrollTopSmooth() {
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+export function generateId() {
+
+    return Date.now().toString(36) +
+        Math.random().toString(36).substring(2, 8);
+
+}
+
+/*==================================
+END OF FILE
+==================================*/
