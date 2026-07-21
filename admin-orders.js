@@ -250,13 +250,25 @@ onSnapshot(ordersQuery, (snapshot) => {
     totalSalesEl.textContent =
         formatPrice(totalSales);
 
-    if (lastCount !== 0 && totalOrders > lastCount) {
+   if (lastCount !== 0 && totalOrders > lastCount) {
 
-        notifySound?.play().catch(() => {});
+    if (notifySound) {
 
-        alert("🔔 تم استلام طلب جديد");
+        notifySound.pause();
+        notifySound.currentTime = 0;
+
+        notifySound.play()
+            .then(() => console.log("✅ تم تشغيل الصوت"))
+            .catch(err => console.error("❌ فشل تشغيل الصوت:", err));
 
     }
+
+    alert("🔔 تم استلام طلب جديد");
+}
+
+lastCount = totalOrders; 
+
+    
 
     lastCount = totalOrders;
 
