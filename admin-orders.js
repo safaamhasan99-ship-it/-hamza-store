@@ -3,7 +3,7 @@ Hamza Store V18
 Admin Orders Pro
 ==================================*/
 
-import { db } from "./firebase.js";
+import { auth } from "./js/firebase.js";
 
 import {
     collection,
