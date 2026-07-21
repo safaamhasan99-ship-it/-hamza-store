@@ -1,56 +1,73 @@
 /*==================================
-Hamza Store V18
-Admin Orders Pro
+Hamza Store V19 Professional
+Admin Orders
 ==================================*/
 
-import { db, auth } from "./js/firebase.js";
+import { db } from "./js/firebase.js";
 
 import {
-    collection,
-    query,
-    orderBy,
-    onSnapshot,
-    doc,
-    getDoc,
-    updateDoc,
-    deleteDoc
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+  doc,
+  updateDoc,
+  deleteDoc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /*=========================
-الإعدادات
+Firestore
 =========================*/
 
 const ordersRef = collection(db, "orders");
 
-onSnapshot(ordersRef, (snapshot) => {
-  console.log("عدد الطلبات:", snapshot.size);
-});
 const ordersQuery = query(
-    ordersRef,
-    orderBy("createdAt", "desc")
+  ordersRef,
+  orderBy("createdAt", "desc")
 );
 
-const table = document.getElementById("ordersTable");
+/*=========================
+Elements
+=========================*/
 
-const totalOrdersEl = document.getElementById("totalOrders");
-const newOrdersEl = document.getElementById("newOrders");
-const totalSalesEl = document.getElementById("totalSales");
+const table =
+document.getElementById("ordersTable");
 
-const notifySound = document.getElementById("notifySound");
+const totalOrdersEl =
+document.getElementById("totalOrders");
+
+const newOrdersEl =
+document.getElementById("newOrders");
+
+const totalSalesEl =
+document.getElementById("totalSales");
+
+const searchInput =
+document.getElementById("searchInput");
+
+const notifySound =
+document.getElementById("notifySound");
+
+/*=========================
+Variables
+=========================*/
 
 let lastCount = 0;
+
+console.log("✅ Admin Orders V19 Started");
 
 /*=========================
 تنسيق التاريخ
 =========================*/
 
-function formatDate(value) {
+function formatDate(value){
 
-    if (!value) return "-";
+    if(!value) return "-";
 
-    try {
+    try{
 
-        if (value.seconds) {
+        if(value.seconds){
 
             return new Date(
                 value.seconds * 1000
@@ -60,7 +77,7 @@ function formatDate(value) {
 
         return value;
 
-    } catch {
+    }catch{
 
         return "-";
 
@@ -72,33 +89,64 @@ function formatDate(value) {
 تنسيق السعر
 =========================*/
 
-function formatPrice(price) {
+function formatPrice(price){
 
-    return Number(price || 0).toLocaleString() + " د.ع";
+    return Number(price || 0).toLocaleString("ar-IQ") + " د.ع";
 
 }
 
 /*=========================
-تحميل الطلبات مباشرة
+حساب إجمالي الطلب
 =========================*/
 
-onSnapshot(
-    ordersQuery,
+function getOrderTotal(order){
 
-    (snapshot) => {
+    if(Number.isFinite(Number(order.total))){
+        return Number(order.total);
+    }
 
-        alert("عدد الطلبات: " + snapshot.size);
+    let total = 0;
 
-        table.innerHTML = "";
+    (order.items || []).forEach(item=>{
 
-        let totalOrders = 0;
+        total +=
+            Number(item.price || 0) *
+            Number(item.quantity || 1);
+
+    });
+
+    return total;
+
+}
+
+/*=========================
+حالة الطلب
+=========================*/
+
+function getOrderStatus(order){
+
+    return order.status || "جديد";
+
+}
+
+/*=========================
+تحميل الطلبات
+=========================*/
+
+onSnapshot(ordersQuery, (snapshot) => {
+
+    table.innerHTML = "";
+
+    let totalOrders = 0;
+    let newOrders = 0;
+    let totalSales = 0;
 
     if (snapshot.empty) {
 
         table.innerHTML = `
         <tr>
-            <td colspan="9" style="text-align:center;padding:25px;">
-                لا توجد طلبات
+            <td colspan="10">
+                لا توجد طلبات حالياً
             </td>
         </tr>`;
 
@@ -109,47 +157,44 @@ onSnapshot(
         return;
     }
 
-    snapshot.forEach((item, index) => {
+    snapshot.forEach((docSnap, index) => {
 
-        const order = item.data();
+        const order = docSnap.data();
 
         totalOrders++;
 
-        if (order.status === "جديد") {
+        const status = getOrderStatus(order);
+
+        if (status === "جديد") {
             newOrders++;
         }
 
-        totalSales += Number(order.total || 0);
+        const orderTotal = getOrderTotal(order);
+
+        totalSales += orderTotal;
 
         let productsHTML = "";
         let imagesHTML = "";
 
-        (order.items || []).forEach((product) => {
+        (order.items || []).forEach((item) => {
 
             productsHTML += `
-            <div style="margin-bottom:8px;">
-                <strong>${product.name}</strong><br>
-                الكمية: ${product.quantity || 1}
+            <div style="margin-bottom:8px">
+                <strong>${item.name || "-"}</strong><br>
+                الكمية : ${item.quantity || 1}
             </div>`;
 
             imagesHTML += `
             <img
-                src="${product.image}"
-                loading="lazy"
-                style="
-                    width:60px;
-                    height:60px;
-                    object-fit:cover;
-                    border-radius:8px;
-                    margin:2px;
-                    border:1px solid #ddd;
-                "
-                onerror="this.src='./images/no-image.png'"
-            >`;
+                src="${item.image || './images/no-image.png'}"
+                class="product-img"
+                onerror="this.src='./images/no-image.png'">
+            `;
 
         });
 
         table.innerHTML += `
+
         <tr>
 
             <td>${index + 1}</td>
@@ -162,70 +207,64 @@ onSnapshot(
 
             <td>${imagesHTML}</td>
 
-            <td>${formatPrice(order.total)}</td>
+            <td>${formatPrice(orderTotal)}</td>
 
             <td>${formatDate(order.createdAt)}</td>
 
-            <td>
-
-                <select onchange="changeStatus('${item.id}',this.value)">
-
-                    <option value="جديد" ${order.status==="جديد"?"selected":""}>جديد</option>
-
-                    <option value="قيد المراجعة" ${order.status==="قيد المراجعة"?"selected":""}>قيد المراجعة</option>
-
-                    <option value="جاري التجهيز" ${order.status==="جاري التجهيز"?"selected":""}>جاري التجهيز</option>
-
-                    <option value="تم الشحن" ${order.status==="تم الشحن"?"selected":""}>تم الشحن</option>
-
-                    <option value="مكتمل" ${order.status==="مكتمل"?"selected":""}>مكتمل</option>
-
-                    <option value="ملغي" ${order.status==="ملغي"?"selected":""}>ملغي</option>
-
-                </select>
-
-            </td>
+            <td>${status}</td>
 
             <td>
 
                 <button
                     class="whatsapp"
-                    onclick="openWhatsApp('${order.phone}')">
+                    onclick="openWhatsApp('${order.phone || ""}')">
                     واتساب
                 </button>
 
+            </td>
+
+            <td>
+
                 <button
                     class="review"
-                    onclick="showOrder('${item.id}')">
+                    onclick="showOrder('${docSnap.id}')">
                     عرض
                 </button>
 
                 <button
                     class="delete"
-                    onclick="removeOrder('${item.id}')">
+                    onclick="removeOrder('${docSnap.id}')">
                     حذف
                 </button>
 
             </td>
 
-        </tr>`;
+        </tr>
+
+        `;
+
     });
 
     totalOrdersEl.textContent = totalOrders;
     newOrdersEl.textContent = newOrders;
-    totalSalesEl.textContent = Number(totalSales).toLocaleString();
+    totalSalesEl.textContent =
+        formatPrice(totalSales);
 
     if (lastCount !== 0 && totalOrders > lastCount) {
 
-        if (notifySound) {
-            notifySound.play().catch(() => {});
-        }
+        notifySound?.play().catch(() => {});
 
         alert("🔔 تم استلام طلب جديد");
 
     }
 
     lastCount = totalOrders;
+
+}, (error) => {
+
+    console.error(error);
+
+    alert("خطأ في تحميل الطلبات:\n" + error.message);
 
 });
 
@@ -235,22 +274,22 @@ onSnapshot(
 
 window.changeStatus = async function (id, status) {
 
-    try {
+  try {
 
-        await updateDoc(
-            doc(db, "orders", id),
-            {
-                status: status
-            }
-        );
+    await updateDoc(
+      doc(db, "orders", id),
+      {
+        status: status
+      }
+    );
 
-    } catch (error) {
+  } catch (err) {
 
-        console.error(error);
+    console.error(err);
 
-        alert("تعذر تحديث حالة الطلب");
+    alert("❌ تعذر تحديث حالة الطلب");
 
-    }
+  }
 
 };
 
@@ -260,23 +299,23 @@ window.changeStatus = async function (id, status) {
 
 window.removeOrder = async function (id) {
 
-    if (!confirm("هل تريد حذف هذا الطلب نهائياً؟")) return;
+  if (!confirm("هل تريد حذف هذا الطلب؟")) return;
 
-    try {
+  try {
 
-        await deleteDoc(
-            doc(db, "orders", id)
-        );
+    await deleteDoc(
+      doc(db, "orders", id)
+    );
 
-        alert("✅ تم حذف الطلب");
+    alert("✅ تم حذف الطلب");
 
-    } catch (error) {
+  } catch (err) {
 
-        console.error(error);
+    console.error(err);
 
-        alert("تعذر حذف الطلب");
+    alert("❌ تعذر حذف الطلب");
 
-    }
+  }
 
 };
 
@@ -286,20 +325,26 @@ window.removeOrder = async function (id) {
 
 window.openWhatsApp = function (phone) {
 
-    let number = String(phone || "").replace(/\D/g, "");
+  let number = String(phone || "")
+    .replace(/\D/g, "");
 
-    if (number.startsWith("0")) {
-        number = "964" + number.substring(1);
-    }
+  if (number.startsWith("0")) {
+    number = "964" + number.substring(1);
+  }
 
-    if (!number.startsWith("964")) {
-        number = "964" + number;
-    }
+  if (number && !number.startsWith("964")) {
+    number = "964" + number;
+  }
 
-    window.open(
-        `https://wa.me/${number}`,
-        "_blank"
-    );
+  if (!number) {
+    alert("لا يوجد رقم هاتف");
+    return;
+  }
+
+  window.open(
+    `https://wa.me/${number}`,
+    "_blank"
+  );
 
 };
 
@@ -309,164 +354,121 @@ window.openWhatsApp = function (phone) {
 
 window.showOrder = async function (id) {
 
-    try {
+  try {
 
-        const orderDoc = await getDoc(
-            doc(db, "orders", id)
-        );
+    const snap = await getDoc(doc(db, "orders", id));
 
-        if (!orderDoc.exists()) {
+    if (!snap.exists()) {
+      alert("الطلب غير موجود");
+      return;
+    }
 
-            alert("الطلب غير موجود");
+    const order = snap.data();
 
-            return;
+    let products = "";
 
-        }
+    (order.items || []).forEach((item, index) => {
 
-        const order = orderDoc.data();
-
-        let details = "";
-
-        (order.items || []).forEach((item, index) => {
-
-            details += `
-
+      products += `
 ━━━━━━━━━━━━━━━━━━━━━━
 
-🛍 المنتج ${index + 1}
-
-الاسم : ${item.name}
+${index + 1}- ${item.name || "-"}
 
 الكمية : ${item.quantity || 1}
+
+السعر : ${formatPrice(item.price || 0)}
 
 المقاس : ${item.size || "-"}
 
 اللون : ${item.color || "-"}
 
-السعر : ${formatPrice(item.price)}
-
 `;
-
-        });
-
-        alert(`
-
-👤 العميل : ${order.name || "-"}
-
-📞 الهاتف : ${order.phone || "-"}
-
-🏙 المحافظة : ${order.city || "-"}
-
-📍 العنوان :
-
-${order.address || "-"}
-
-📝 الملاحظات :
-
-${order.notes || "لا توجد"}
-
-━━━━━━━━━━━━━━━━━━━━━━
-
-${details}
-
-━━━━━━━━━━━━━━━━━━━━━━
-
-💵 المجموع :
-
-${formatPrice(order.total)}
-
-📦 الحالة :
-
-${order.status || "جديد"}
-
-`);
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert("تعذر عرض تفاصيل الطلب");
-
-    }
-
-};
-
-/*=========================
-البحث في الطلبات
-=========================*/
-
-const searchInput = document.getElementById("searchInput");
-
-if (searchInput) {
-
-    searchInput.addEventListener("input", () => {
-
-        const value = searchInput.value.trim().toLowerCase();
-
-        document.querySelectorAll("#ordersBody tr").forEach((row) => {
-
-            const text = row.textContent.toLowerCase();
-
-            row.style.display = text.includes(value)
-                ? ""
-                : "none";
-
-        });
 
     });
 
+    alert(`
+
+رقم العميل:
+${order.phone || "-"}
+
+اسم العميل:
+${order.name || "-"}
+
+المحافظة:
+${order.city || "-"}
+
+العنوان:
+${order.address || "-"}
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+${products}
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+الإجمالي:
+
+${formatPrice(getOrderTotal(order))}
+
+الحالة:
+
+${getOrderStatus(order)}
+
+`);
+
+  } catch (err) {
+
+    console.error(err);
+
+    alert("تعذر فتح الطلب");
+
+  }
+
+};
+
+/*=========================
+البحث داخل الطلبات
+=========================*/
+
+if (searchInput) {
+
+  searchInput.addEventListener("input", function () {
+
+    const value = this.value
+      .trim()
+      .toLowerCase();
+
+    const rows = table.querySelectorAll("tr");
+
+    rows.forEach((row) => {
+
+      const text = row.textContent.toLowerCase();
+
+      row.style.display =
+        text.includes(value)
+          ? ""
+          : "none";
+
+    });
+
+  });
+
 }
 
-/*=========================
-تحديث الصفحة
-=========================*/
+/*==================================
+Hamza Store V19
+Finish
+==================================*/
 
-window.refreshOrders = function () {
+// جعل بعض الدوال متاحة من Console عند الحاجة
+window.formatPrice = formatPrice;
+window.formatDate = formatDate;
+window.getOrderTotal = getOrderTotal;
+window.getOrderStatus = getOrderStatus;
 
-    location.reload();
+// التأكد من عدم وجود أخطاء عند عدم وجود عنصر البحث
+if (!table) {
+  console.error("❌ لم يتم العثور على #ordersTable");
+}
 
-};
-
-/*=========================
-طباعة الطلب
-=========================*/
-
-window.printOrder = function () {
-
-    window.print();
-
-};
-
-/*=========================
-اختصارات لوحة المفاتيح
-=========================*/
-
-document.addEventListener("keydown", (e) => {
-
-    // Ctrl + F للبحث
-    if (e.ctrlKey && e.key.toLowerCase() === "f") {
-
-        e.preventDefault();
-
-        if (searchInput) {
-            searchInput.focus();
-        }
-
-    }
-
-    // F5 تحديث
-    if (e.key === "F5") {
-
-        e.preventDefault();
-
-        refreshOrders();
-
-    }
-
-});
-
-/*=========================
-جاهزية الصفحة
-=========================*/
-
-console.log("✅ Hamza Store Admin Orders V18 Ready");
+console.log("✅ Admin Orders V19 Loaded Successfully");
