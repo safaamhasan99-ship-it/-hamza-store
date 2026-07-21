@@ -6,9 +6,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>إدارة الطلبات | مجمع حمزة الشطري</title>
+<title>إدارة الطلبات | مجمع حمزه الشطري</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
@@ -20,108 +23,145 @@ font-family:'Cairo',sans-serif;
 }
 
 body{
-background:#f5f7fb;
-padding:20px;
+background:#f3f6fb;
+padding:15px;
+color:#222;
 }
 
 .container{
-max-width:1400px;
+max-width:1500px;
 margin:auto;
 }
 
 h1{
-background:#111;
+background:linear-gradient(135deg,#111827,#1f2937);
 color:#fff;
 padding:20px;
-border-radius:15px;
+border-radius:18px;
 text-align:center;
 margin-bottom:20px;
+font-size:30px;
+font-weight:800;
+box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 
 .stats{
-display:flex;
+display:grid;
+grid-template-columns:repeat(3,1fr);
 gap:15px;
-flex-wrap:wrap;
 margin-bottom:20px;
 }
 
 .card{
-flex:1;
-min-width:180px;
 background:#fff;
-padding:20px;
-border-radius:12px;
+border-radius:16px;
+padding:18px;
 text-align:center;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-4px);
 }
 
 .card h2{
-font-size:16px;
-color:#666;
+font-size:15px;
+color:#777;
 margin-bottom:10px;
 }
 
 .card span{
-font-size:28px;
-font-weight:bold;
-color:#111;
+font-size:30px;
+font-weight:800;
+color:#111827;
 }
 
 .search-box{
-display:flex;
-gap:10px;
 margin-bottom:20px;
 }
 
 .search-box input{
-flex:1;
-padding:12px;
+width:100%;
+padding:15px;
 border:1px solid #ddd;
-border-radius:10px;
+border-radius:12px;
 font-size:16px;
+outline:none;
+transition:.3s;
 }
 
-table{
+.search-box input:focus{
+border-color:#c79b3b;
+box-shadow:0 0 0 3px rgba(199,155,59,.15);
+}
+
+  table{
 width:100%;
 background:#fff;
 border-collapse:collapse;
-border-radius:15px;
+border-radius:18px;
 overflow:hidden;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+thead{
+background:#c79b3b;
+color:#fff;
 }
 
 th{
-background:#c79b3b;
-color:white;
-padding:15px;
+padding:16px;
+font-size:15px;
+font-weight:800;
+white-space:nowrap;
 }
 
 td{
-padding:12px;
+padding:14px;
 text-align:center;
 border-bottom:1px solid #eee;
 vertical-align:middle;
+font-size:15px;
+}
+
+tbody tr{
+transition:.25s;
+}
+
+tbody tr:hover{
+background:#faf7ef;
 }
 
 .product-img{
 width:70px;
 height:70px;
 object-fit:cover;
-border-radius:10px;
+border-radius:12px;
+border:1px solid #ddd;
 }
 
 select{
-padding:8px;
-border-radius:8px;
+padding:10px;
+border-radius:10px;
+border:1px solid #ddd;
+background:#fff;
+font-size:14px;
 }
 
 button{
-padding:8px 15px;
-border:0;
-border-radius:8px;
+padding:10px 16px;
+border:none;
+border-radius:10px;
 cursor:pointer;
-color:white;
-margin:2px;
+font-weight:700;
+font-size:14px;
+transition:.25s;
+color:#fff;
+}
+
+button:hover{
+transform:translateY(-2px);
 }
 
 .whatsapp{
@@ -136,23 +176,105 @@ background:#1976d2;
 background:#e53935;
 }
 
-@media(max-width:900px){
+  /*=========================
+Responsive Mobile
+=========================*/
+
+@media (max-width:900px){
 
 .container{
-overflow-x:auto;
+padding:0;
+}
+
+.stats{
+grid-template-columns:1fr;
+}
+
+.card span{
+font-size:26px;
+}
+
+.search-box input{
+font-size:15px;
 }
 
 table{
-min-width:1200px;
+display:block;
+overflow-x:auto;
+white-space:nowrap;
+border-radius:15px;
+}
+
+thead th{
+font-size:14px;
+padding:14px;
+}
+
+tbody td{
+font-size:14px;
+padding:12px;
+}
+
+.product-img{
+width:60px;
+height:60px;
+}
+
+button{
+padding:10px 14px;
+font-size:13px;
+}
+
+}
+
+@media (max-width:600px){
+
+body{
+padding:10px;
+}
+
+h1{
+font-size:24px;
+padding:16px;
+}
+
+.card{
+padding:15px;
+}
+
+.card h2{
+font-size:14px;
+}
+
+.card span{
+font-size:24px;
+}
+
+.product-img{
+width:55px;
+height:55px;
+}
+
+th,
+td{
+padding:10px;
+font-size:13px;
+}
+
+button{
+width:100%;
+margin:3px 0;
+}
+
+select{
+width:100%;
 }
 
 }
 
 </style>
 
-</head>
-
-<body>
+  <body>
 
 <div class="container">
 
@@ -178,28 +300,39 @@ min-width:1200px;
 </div>
 
 <div class="search-box">
+
 <input
-type="text"
 id="searchInput"
-placeholder="ابحث باسم الزبون أو رقم الهاتف...">
+type="text"
+placeholder="🔍 ابحث باسم الزبون أو رقم الهاتف">
+
 </div>
 
-<table>
+  <table>
 
 <thead>
 
 <tr>
 
-<th>رقم</th>
-<th>اسم الزبون</th>
+<th>#</th>
+
+<th>الزبون</th>
+
 <th>الهاتف</th>
+
 <th>المنتجات</th>
+
 <th>الصور</th>
+
 <th>المجموع</th>
+
 <th>التاريخ</th>
+
 <th>الحالة</th>
+
 <th>واتساب</th>
-<th>الإجراء</th>
+
+<th>الإجراءات</th>
 
 </tr>
 
@@ -209,8 +342,15 @@ placeholder="ابحث باسم الزبون أو رقم الهاتف...">
 
 <tr>
 
-<td colspan="10">
-لا توجد طلبات حالياً
+<td colspan="10" style="
+padding:30px;
+text-align:center;
+color:#777;
+font-weight:bold;
+">
+
+جاري تحميل الطلبات...
+
 </td>
 
 </tr>
@@ -222,11 +362,16 @@ placeholder="ابحث باسم الزبون أو رقم الهاتف...">
 </div>
 
 <audio id="notifySound">
-<source src="notification.mp3" type="audio/mpeg">
+
+<source
+src="notification.mp3"
+type="audio/mpeg">
+
 </audio>
 
-<script type="module" src="admin-guard.js"></script>
-<script type="module" src="admin-orders.js"></script>
+    <script type="module" src="./admin-guard.js"></script>
+
+<script type="module" src="./admin-orders.js?v=19"></script>
 
 </body>
 
