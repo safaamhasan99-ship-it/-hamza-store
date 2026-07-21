@@ -163,7 +163,8 @@ onSnapshot(ordersQuery, (snapshot) => {
 
                 playNotification();
 
-                alert("🔔 تم استلام طلب جديد");
+                console.log("🔔 تم استلام طلب جديد");
+playNotification();
 
             }
 
