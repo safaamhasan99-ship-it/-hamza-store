@@ -1,48 +1,62 @@
 /*==================================
-Hamza Store V12
+Hamza Store V13
 Professional Cart JS
 ==================================*/
 
 import {
-getCart,
-saveCart,
-removeFromCart,
-formatPrice,
-showToast,
-updateCartCount
-}
-from "./utils.js";
+  getCart,
+  saveCart,
+  removeFromCart,
+  formatPrice,
+  showToast,
+  updateCartCount
+} from "./utils.js";
+
+import { db } from "./firebase.js";
+
+import {
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/*========================
+FIREBASE
+========================*/
+
+const ordersRef = collection(db, "orders");
 
 /*========================
 ELEMENTS
 ========================*/
 
-const cartItems=document.getElementById("cartItems");
-const totalPrice=document.getElementById("totalPrice");
-const itemsCount=document.getElementById("itemsCount");
-const checkoutBtn=document.getElementById("checkoutBtn");
+const cartItems = document.getElementById("cartItems");
+const totalPrice = document.getElementById("totalPrice");
+const itemsCount = document.getElementById("itemsCount");
+const checkoutBtn = document.getElementById("checkoutBtn");
 
-const customerName=document.getElementById("customerName");
-const customerPhone=document.getElementById("customerPhone");
-const customerAddress=document.getElementById("customerAddress");
+const customerName = document.getElementById("customerName");
+const customerPhone = document.getElementById("customerPhone");
+const customerAddress = document.getElementById("customerAddress");
 
-const loader=document.getElementById("loader");
+const customerCity = document.getElementById("customerCity");
+const customerNotes = document.getElementById("customerNotes");
+
+const loader = document.getElementById("loader");
 
 /*========================
 START
 ========================*/
 
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
-updateCartCount();
+  updateCartCount();
 
-renderCart();
+  renderCart();
 
-if(loader){
-
-loader.style.display="none";
-
-}
+  if (loader) {
+    loader.style.display = "none";
+  }
 
 });
 
@@ -50,207 +64,238 @@ loader.style.display="none";
 RENDER CART
 ========================*/
 
-function renderCart(){
+function renderCart() {
 
-const cart=getCart();
+  const cart = getCart();
 
-if(!cartItems) return;
+  if (!cartItems) return;
 
-cartItems.innerHTML="";
+  cartItems.innerHTML = "";
 
-let total=0;
-let count=0;
+  let total = 0;
+  let count = 0;
 
-if(cart.length===0){
+  if (cart.length === 0) {
 
-const template=document.getElementById("emptyCartTemplate");
+    const template = document.getElementById("emptyCartTemplate");
 
-if(template){
+    if (template) {
+      cartItems.appendChild(template.content.cloneNode(true));
+    } else {
+      cartItems.innerHTML = `
+        <div class="empty-cart">
+          <h3>🛒 السلة فارغة</h3>
+          <p>لم تقم بإضافة أي منتج بعد.</p>
+        </div>
+      `;
+    }
 
-cartItems.appendChild(template.content.cloneNode(true));
+    if (totalPrice) {
+      totalPrice.textContent = formatPrice(0);
+    }
+
+    if (itemsCount) {
+      itemsCount.textContent = "0";
+    }
+
+    return;
+  }
+
+  cart.forEach(item => {
+
+    const qty = Number(item.qty) || 1;
+    const price = Number(item.price) || 0;
+    const subtotal = qty * price;
+
+    total += subtotal;
+    count += qty;
+
+    cartItems.innerHTML += `
+
+    <div class="cart-card">
+
+      <div class="cart-image">
+
+        <img
+          src="${item.image}"
+          alt="${item.name}"
+          loading="lazy"
+          onerror="this.src='images/no-image.png'">
+
+      </div>
+
+      <div class="cart-details">
+
+        <h3>${item.name}</h3>
+
+        ${item.size ? `<p>📏 ${item.size}</p>` : ""}
+
+        ${item.color ? `<p>🎨 ${item.color}</p>` : ""}
+
+        <div class="cart-price">
+          ${formatPrice(price)}
+        </div>
+
+        <div class="cart-subtotal">
+          المجموع: ${formatPrice(subtotal)}
+        </div>
+
+        <div class="cart-qty">
+
+          <button
+            class="qty-btn"
+            onclick="changeQty('${item.id}',-1)">
+
+            <i class="fa-solid fa-minus"></i>
+
+          </button>
+
+          <span>${qty}</span>
+
+          <button
+            class="qty-btn"
+            onclick="changeQty('${item.id}',1)">
+
+            <i class="fa-solid fa-plus"></i>
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <button
+        class="delete-btn"
+        onclick="deleteItem('${item.id}')">
+
+        <i class="fa-solid fa-trash"></i>
+
+      </button>
+
+    </div>
+
+    `;
+
+  });
+
+  if (itemsCount) {
+    itemsCount.textContent = count;
+  }
+
+  if (totalPrice) {
+    totalPrice.textContent = formatPrice(total);
+  }
 
 }
 
-if(totalPrice) totalPrice.textContent="0 د.ع";
-if(itemsCount) itemsCount.textContent="0";
-
-return;
-
-}
-  cart.forEach(item=>{
-
-const qty=item.qty||1;
-const price=Number(item.price)||0;
-
-count+=qty;
-total+=price*qty;
-
-cartItems.innerHTML+=`
-
-<div class="cart-card">
-
-<div class="cart-image">
-
-<img
-src="${item.image}"
-alt="${item.name}"
-loading="lazy">
-
-</div>
-
-<div class="cart-details">
-
-<h3>${item.name}</h3>
-
-<div class="cart-price">
-
-${formatPrice(price)}
-
-</div>
-
-<div class="cart-qty">
-
-<button
-class="qty-btn"
-onclick="changeQty('${item.id}',-1)">
-
-<i class="fa-solid fa-minus"></i>
-
-</button>
-
-<span>${qty}</span>
-
-<button
-class="qty-btn"
-onclick="changeQty('${item.id}',1)">
-
-<i class="fa-solid fa-plus"></i>
-
-</button>
-
-</div>
-
-</div>
-
-<button
-class="delete-btn"
-onclick="deleteItem('${item.id}')">
-
-<i class="fa-solid fa-trash"></i>
-
-</button>
-
-</div>
-
-`;
-
-});
-
-itemsCount.textContent=count;
-totalPrice.textContent=formatPrice(total);
-
-}
 /*========================
 GLOBAL FUNCTIONS
 ========================*/
 
-window.changeQty=function(id,value){
+window.changeQty = function(id, value) {
 
-let cart=getCart();
+  let cart = getCart();
 
-const item=cart.find(x=>x.id===id);
+  const item = cart.find(x => x.id === id);
 
-if(!item) return;
+  if (!item) return;
 
-item.qty=(item.qty||1)+value;
+  item.qty = (Number(item.qty) || 1) + value;
 
-if(item.qty<=0){
+  if (item.qty <= 0) {
 
-removeFromCart(id);
+    cart = cart.filter(x => x.id !== id);
 
-}else{
+  }
 
-saveCart(cart);
+  saveCart(cart);
+
+  updateCartCount();
+
+  renderCart();
+
+};
+
+window.deleteItem = function(id) {
+
+  if (!confirm("هل تريد حذف هذا المنتج من السلة؟")) return;
+
+  removeFromCart(id);
+
+  updateCartCount();
+
+  renderCart();
+
+  showToast("تم حذف المنتج من السلة");
+
+};
+
+/*========================
+حساب إجمالي الطلب
+========================*/
+
+function getCartTotal() {
+
+  const cart = getCart();
+
+  let total = 0;
+
+  cart.forEach(item => {
+
+    const qty = Number(item.qty) || 1;
+
+    const price = Number(item.price) || 0;
+
+    total += qty * price;
+
+  });
+
+  return total;
 
 }
-
-updateCartCount();
-
-renderCart();
-
-};
-
-
-
-window.deleteItem=function(id){
-
-removeFromCart(id);
-
-updateCartCount();
-
-renderCart();
-
-showToast("تم حذف المنتج من السلة");
-
-};
-
-
 
 /*========================
 CHECKOUT
 ========================*/
 
-if(checkoutBtn){
+if (checkoutBtn) {
 
-checkoutBtn.onclick=()=>{
+  checkoutBtn.onclick = async () => {
 
-const name=customerName.value.trim();
-const phone=customerPhone.value.trim();
-const address=customerAddress.value.trim();
+    const name = customerName.value.trim();
+    const phone = customerPhone.value.trim();
+    const address = customerAddress.value.trim();
+    const city = customerCity ? customerCity.value.trim() : "";
+    const notes = customerNotes ? customerNotes.value.trim() : "";
 
-if(!name){
+    if (!name) {
+      showToast("يرجى إدخال اسم الزبون");
+      customerName.focus();
+      return;
+    }
 
-showToast("يرجى إدخال اسم الزبون");
+    if (!phone) {
+      showToast("يرجى إدخال رقم الهاتف");
+      customerPhone.focus();
+      return;
+    }
 
-customerName.focus();
+    if (!address) {
+      showToast("يرجى إدخال العنوان");
+      customerAddress.focus();
+      return;
+    }
 
-return;
+    const cart = getCart();
 
-}
+    if (cart.length === 0) {
+      showToast("السلة فارغة");
+      return;
+    }
 
-if(!phone){
+    const total = getCartTotal();
 
-showToast("يرجى إدخال رقم الهاتف");
-
-customerPhone.focus();
-
-return;
-
-}
-
-if(!address){
-
-showToast("يرجى إدخال العنوان");
-
-customerAddress.focus();
-
-return;
-
-}
-
-const cart=getCart();
-
-if(cart.length===0){
-
-showToast("السلة فارغة");
-
-return;
-
-}
-
-let total=0;
-
-let message=`🛍️ طلب جديد من مجمع حمزه الشطري
+    let message = `🛍️ طلب جديد من مجمع حمزه الشطري
 
 ━━━━━━━━━━━━━━
 
@@ -260,30 +305,35 @@ ${name}
 📞 الهاتف:
 ${phone}
 
+🏙️ المحافظة:
+${city || "-"}
+
 📍 العنوان:
 ${address}
+
+📝 الملاحظات:
+${notes || "-"}
 
 ━━━━━━━━━━━━━━
 
 `;
 
-cart.forEach(item=>{
+    cart.forEach(item => {
 
-const qty=item.qty||1;
-const price=Number(item.price)||0;
-const sum=qty*price;
+      const qty = Number(item.qty) || 1;
+      const price = Number(item.price) || 0;
 
-total+=sum;
-
-message+=`📦 ${item.name}
-الكمية : ${qty}
-السعر : ${formatPrice(sum)}
+      message += `📦 ${item.name}
+📏 ${item.size || "-"}
+🎨 ${item.color || "-"}
+🔢 الكمية: ${qty}
+💰 السعر: ${formatPrice(price * qty)}
 
 `;
 
-});
+    });
 
-message+=`━━━━━━━━━━━━━━
+    message += `━━━━━━━━━━━━━━
 
 💰 الإجمالي:
 ${formatPrice(total)}
@@ -291,14 +341,56 @@ ${formatPrice(total)}
 شكراً لتسوقكم من
 مجمع حمزه الشطري ❤️`;
 
-window.open(
-"https://wa.me/9647813555538?text="+
-encodeURIComponent(message),
-"_blank"
-);
+    try {
 
-};
+      await addDoc(ordersRef, {
+        name,
+        phone,
+        address,
+        city,
+        notes,
+        items: cart,
+        total,
+        status: "جديد",
+        createdAt: new Date().toLocaleString("ar-IQ"),
+        createdServer: serverTimestamp()
+      });
+
+      saveCart([]);
+      updateCartCount();
+      renderCart();
+
+      customerName.value = "";
+      customerPhone.value = "";
+      customerAddress.value = "";
+
+      if (customerCity) customerCity.value = "";
+      if (customerNotes) customerNotes.value = "";
+
+      showToast("✅ تم إرسال الطلب بنجاح");
+
+      window.open(
+        "https://wa.me/9647813555538?text=" +
+        encodeURIComponent(message),
+        "_blank"
+      );
+
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 2000);
+
+    } catch (error) {
+
+      console.error(error);
+
+      showToast("حدث خطأ أثناء إرسال الطلب");
+
+    }
+
+  };
 
 }
 
-console.log("Hamza Store V12 Ready ✅");
+/*==================================
+END OF FILE
+==================================*/
