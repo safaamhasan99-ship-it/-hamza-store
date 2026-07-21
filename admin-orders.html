@@ -4,14 +4,11 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>إدارة الطلبات</title>
-
+<title>إدارة الطلبات | مجمع حمزة الشطري</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-
 
 <style>
 
@@ -22,196 +19,214 @@ box-sizing:border-box;
 font-family:'Cairo',sans-serif;
 }
 
-
 body{
-
 background:#f5f7fb;
 padding:20px;
-
 }
-
 
 .container{
-
-max-width:1200px;
+max-width:1400px;
 margin:auto;
-
 }
 
-
-
 h1{
-
 background:#111;
-color:white;
+color:#fff;
+padding:20px;
+border-radius:15px;
+text-align:center;
+margin-bottom:20px;
+}
+
+.stats{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.card{
+flex:1;
+min-width:180px;
+background:#fff;
 padding:20px;
 border-radius:12px;
 text-align:center;
-margin-bottom:25px;
-
+box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
 
+.card h2{
+font-size:16px;
+color:#666;
+margin-bottom:10px;
+}
 
+.card span{
+font-size:28px;
+font-weight:bold;
+color:#111;
+}
+
+.search-box{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.search-box input{
+flex:1;
+padding:12px;
+border:1px solid #ddd;
+border-radius:10px;
+font-size:16px;
+}
 
 table{
-
 width:100%;
-background:white;
+background:#fff;
 border-collapse:collapse;
 border-radius:15px;
 overflow:hidden;
-
+box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
 
-
-
 th{
-
 background:#c79b3b;
 color:white;
 padding:15px;
-
 }
-
-
 
 td{
-
-padding:15px;
+padding:12px;
 text-align:center;
 border-bottom:1px solid #eee;
-
+vertical-align:middle;
 }
 
-
+.product-img{
+width:70px;
+height:70px;
+object-fit:cover;
+border-radius:10px;
+}
 
 select{
-
 padding:8px;
 border-radius:8px;
-
 }
-
-
 
 button{
-
-background:#111;
-color:white;
+padding:8px 15px;
 border:0;
-padding:10px 20px;
 border-radius:8px;
 cursor:pointer;
-
+color:white;
+margin:2px;
 }
 
+.whatsapp{
+background:#25D366;
+}
 
+.review{
+background:#1976d2;
+}
 
 .delete{
-
 background:#e53935;
-
 }
 
-
-
-@media(max-width:700px){
+@media(max-width:900px){
 
 .container{
-
 overflow-x:auto;
-
 }
-
 
 table{
-
-min-width:800px;
-
+min-width:1200px;
 }
 
 }
-
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <div class="container">
 
+<h1>🛒 إدارة طلبات الزبائن</h1>
 
-<h1>
-إدارة طلبات الزبائن
-</h1>
+<div class="stats">
 
+<div class="card">
+<h2>الطلبات الجديدة</h2>
+<span id="newOrders">0</span>
+</div>
 
+<div class="card">
+<h2>إجمالي الطلبات</h2>
+<span id="totalOrders">0</span>
+</div>
+
+<div class="card">
+<h2>إجمالي المبيعات</h2>
+<span id="totalSales">0</span>
+</div>
+
+</div>
+
+<div class="search-box">
+<input
+type="text"
+id="searchInput"
+placeholder="ابحث باسم الزبون أو رقم الهاتف...">
+</div>
 
 <table>
-
 
 <thead>
 
 <tr>
 
-<th>
-رقم الطلب
-</th>
-
-
-<th>
-اسم الزبون
-</th>
-
-
-<th>
-الهاتف
-</th>
-
-
-<th>
-المجموع
-</th>
-
-
-<th>
-الحالة
-</th>
-
-
-<th>
-الإجراء
-</th>
-
+<th>رقم</th>
+<th>اسم الزبون</th>
+<th>الهاتف</th>
+<th>المنتجات</th>
+<th>الصور</th>
+<th>المجموع</th>
+<th>التاريخ</th>
+<th>الحالة</th>
+<th>واتساب</th>
+<th>الإجراء</th>
 
 </tr>
 
 </thead>
 
-
-
 <tbody id="ordersTable">
+
+<tr>
+
+<td colspan="10">
+لا توجد طلبات حالياً
+</td>
+
+</tr>
 
 </tbody>
 
-
-
 </table>
-
 
 </div>
 
-
-
+<audio id="notifySound">
+<source src="notification.mp3" type="audio/mpeg">
+</audio>
 
 <script type="module" src="admin-guard.js"></script>
-
 <script type="module" src="admin-orders.js"></script>
-
-
 
 </body>
 
