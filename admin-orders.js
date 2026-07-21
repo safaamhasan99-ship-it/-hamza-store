@@ -367,3 +367,146 @@ window.openWhatsApp = function (phone) {
     );
 
 };
+
+/*=========================
+عرض تفاصيل الطلب
+=========================*/
+
+window.showOrder = async function (id) {
+
+    try {
+
+        const snap = await getDoc(doc(db, "orders", id));
+
+        if (!snap.exists()) {
+            alert("الطلب غير موجود");
+            return;
+        }
+
+        const order = snap.data();
+
+        let products = "";
+
+        (order.items || []).forEach((item, index) => {
+
+            products += `
+━━━━━━━━━━━━━━━━━━━━━━
+
+${index + 1}- ${item.name || "-"}
+
+الكمية : ${item.quantity || 1}
+
+السعر : ${formatPrice(item.price || 0)}
+
+المقاس : ${item.size || "-"}
+
+اللون : ${item.color || "-"}
+
+`;
+
+        });
+
+        alert(`
+
+رقم العميل:
+${order.phone || "-"}
+
+اسم العميل:
+${order.name || "-"}
+
+المحافظة:
+${order.city || "-"}
+
+العنوان:
+${order.address || "-"}
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+${products}
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+الإجمالي:
+
+${formatPrice(getOrderTotal(order))}
+
+الحالة:
+
+${getOrderStatus(order)}
+
+`);
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert("❌ تعذر فتح الطلب");
+
+    }
+
+};
+
+/*=========================
+البحث داخل الطلبات
+=========================*/
+
+if (searchInput) {
+
+    searchInput.addEventListener("input", function () {
+
+        const value = this.value.trim().toLowerCase();
+
+        const rows = table.querySelectorAll("tr");
+
+        rows.forEach((row) => {
+
+            const text = row.textContent.toLowerCase();
+
+            row.style.display =
+                text.includes(value)
+                    ? ""
+                    : "none";
+
+        });
+
+    });
+
+}
+
+/*==================================
+Hamza Store V20
+Finish
+==================================*/
+
+// جعل بعض الدوال متاحة من Console
+window.formatPrice = formatPrice;
+window.formatDate = formatDate;
+window.getOrderTotal = getOrderTotal;
+window.getOrderStatus = getOrderStatus;
+
+// التحقق من وجود جدول الطلبات
+if (!table) {
+    console.error("❌ لم يتم العثور على #ordersTable");
+}
+
+// تفعيل الصوت بعد أول نقرة من المستخدم
+// (مهم لبعض المتصفحات مثل Chrome و Safari)
+document.addEventListener("click", () => {
+
+    try {
+
+        const audio = new Audio("./notification.mp3");
+        audio.volume = 0;
+        audio.play()
+            .then(() => {
+                audio.pause();
+                audio.currentTime = 0;
+                console.log("🔔 Notification Ready");
+            })
+            .catch(() => {});
+
+    } catch (e) {}
+
+}, { once: true });
+
+console.log("✅ Admin Orders V20 Loaded Successfully");
