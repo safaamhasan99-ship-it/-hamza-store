@@ -1,6 +1,6 @@
 /*==================================
-Hamza Store V13
-Professional Cart JS
+Hamza Store V18
+Professional Cart
 ==================================*/
 
 import {
@@ -27,6 +27,40 @@ FIREBASE
 const ordersRef = collection(db, "orders");
 
 /*========================
+ORDER SETTINGS
+========================*/
+
+let sendingOrder = false;
+
+function generateOrderNumber() {
+
+  return "HS-" + Date.now().toString().slice(-8);
+
+}
+
+function prepareItems(cart) {
+
+  return cart.map(item => ({
+
+    id: item.id || "",
+
+    name: item.name || "",
+
+    image: item.image || "",
+
+    price: Number(item.price) || 0,
+
+    quantity: Number(item.qty) || 1,
+
+    size: item.size || "",
+
+    color: item.color || ""
+
+  }));
+
+}
+
+/*========================
 ELEMENTS
 ========================*/
 
@@ -38,7 +72,6 @@ const checkoutBtn = document.getElementById("checkoutBtn");
 const customerName = document.getElementById("customerName");
 const customerPhone = document.getElementById("customerPhone");
 const customerAddress = document.getElementById("customerAddress");
-
 const customerCity = document.getElementById("customerCity");
 const customerNotes = document.getElementById("customerNotes");
 
@@ -50,13 +83,13 @@ START
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  updateCartCount();
+    updateCartCount();
 
-  renderCart();
+    renderCart();
 
-  if (loader) {
-    loader.style.display = "none";
-  }
+    if (loader) {
+        loader.style.display = "none";
+    }
 
 });
 
@@ -66,65 +99,72 @@ RENDER CART
 
 function renderCart() {
 
-  const cart = getCart();
+    const cart = getCart();
 
-  if (!cartItems) return;
+    if (!cartItems) return;
 
-  cartItems.innerHTML = "";
+    cartItems.innerHTML = "";
 
-  let total = 0;
-  let count = 0;
+    let total = 0;
+    let count = 0;
 
-  if (cart.length === 0) {
+    if (cart.length === 0) {
 
-    const template = document.getElementById("emptyCartTemplate");
+        const template = document.getElementById("emptyCartTemplate");
 
-    if (template) {
-      cartItems.appendChild(template.content.cloneNode(true));
-    } else {
-      cartItems.innerHTML = `
-        <div class="empty-cart">
-          <h3>🛒 السلة فارغة</h3>
-          <p>لم تقم بإضافة أي منتج بعد.</p>
-        </div>
-      `;
+        if (template) {
+
+            cartItems.appendChild(
+                template.content.cloneNode(true)
+            );
+
+        } else {
+
+            cartItems.innerHTML = `
+                <div class="empty-cart">
+                    <h3>🛒 السلة فارغة</h3>
+                    <p>لم تقم بإضافة أي منتج بعد.</p>
+                </div>
+            `;
+
+        }
+
+        if (totalPrice) {
+            totalPrice.textContent = formatPrice(0);
+        }
+
+        if (itemsCount) {
+            itemsCount.textContent = "0";
+        }
+
+        return;
+
     }
 
-    if (totalPrice) {
-      totalPrice.textContent = formatPrice(0);
-    }
+    cart.forEach(item => {
 
-    if (itemsCount) {
-      itemsCount.textContent = "0";
-    }
+        const qty = Number(item.qty) || 1;
+        const price = Number(item.price) || 0;
+        const subtotal = qty * price;
 
-    return;
-  }
+        total += subtotal;
+        count += qty;
 
-  cart.forEach(item => {
+        cartItems.innerHTML += `
 
-    const qty = Number(item.qty) || 1;
-    const price = Number(item.price) || 0;
-    const subtotal = qty * price;
+<div class="cart-card">
 
-    total += subtotal;
-    count += qty;
-
-    cartItems.innerHTML += `
-
-    <div class="cart-card">
-
-      <div class="cart-image">
+    <div class="cart-image">
 
         <img
-          src="${item.image}"
-          alt="${item.name}"
-          loading="lazy"
-          onerror="this.src='images/no-image.png'">
+            src="${item.image}"
+            alt="${item.name}"
+            loading="lazy"
+            onerror="this.src='images/no-image.png'">
 
-      </div>
+    </div>
 
-      <div class="cart-details">
+    <div class="cart-details">
 
         <h3>${item.name}</h3>
 
@@ -133,58 +173,54 @@ function renderCart() {
         ${item.color ? `<p>🎨 ${item.color}</p>` : ""}
 
         <div class="cart-price">
-          ${formatPrice(price)}
+            ${formatPrice(price)}
         </div>
 
         <div class="cart-subtotal">
-          المجموع: ${formatPrice(subtotal)}
+            المجموع: ${formatPrice(subtotal)}
         </div>
 
         <div class="cart-qty">
 
-          <button
-            class="qty-btn"
-            onclick="changeQty('${item.id}',-1)">
+            <button
+                class="qty-btn"
+                onclick="changeQty('${item.id}',-1)">
+                −
+            </button>
 
-            <i class="fa-solid fa-minus"></i>
+            <span>${qty}</span>
 
-          </button>
-
-          <span>${qty}</span>
-
-          <button
-            class="qty-btn"
-            onclick="changeQty('${item.id}',1)">
-
-            <i class="fa-solid fa-plus"></i>
-
-          </button>
+            <button
+                class="qty-btn"
+                onclick="changeQty('${item.id}',1)">
+                +
+            </button>
 
         </div>
 
-      </div>
+    </div>
 
-      <button
+    <button
         class="delete-btn"
         onclick="deleteItem('${item.id}')">
 
-        <i class="fa-solid fa-trash"></i>
+        🗑️
 
-      </button>
+    </button>
 
-    </div>
+</div>
 
-    `;
+`;
 
-  });
+    });
 
-  if (itemsCount) {
-    itemsCount.textContent = count;
-  }
+    if (itemsCount) {
+        itemsCount.textContent = count;
+    }
 
-  if (totalPrice) {
-    totalPrice.textContent = formatPrice(total);
-  }
+    if (totalPrice) {
+        totalPrice.textContent = formatPrice(total);
+    }
 
 }
 
@@ -192,41 +228,39 @@ function renderCart() {
 GLOBAL FUNCTIONS
 ========================*/
 
-window.changeQty = function(id, value) {
+window.changeQty = function (id, value) {
 
-  let cart = getCart();
+    let cart = getCart();
 
-  const item = cart.find(x => x.id === id);
+    const item = cart.find(x => x.id === id);
 
-  if (!item) return;
+    if (!item) return;
 
-  item.qty = (Number(item.qty) || 1) + value;
+    item.qty = (Number(item.qty) || 1) + value;
 
-  if (item.qty <= 0) {
+    if (item.qty <= 0) {
+        cart = cart.filter(x => x.id !== id);
+    }
 
-    cart = cart.filter(x => x.id !== id);
+    saveCart(cart);
 
-  }
+    updateCartCount();
 
-  saveCart(cart);
-
-  updateCartCount();
-
-  renderCart();
+    renderCart();
 
 };
 
-window.deleteItem = function(id) {
+window.deleteItem = function (id) {
 
-  if (!confirm("هل تريد حذف هذا المنتج من السلة؟")) return;
+    if (!confirm("هل تريد حذف هذا المنتج من السلة؟")) return;
 
-  removeFromCart(id);
+    removeFromCart(id);
 
-  updateCartCount();
+    updateCartCount();
 
-  renderCart();
+    renderCart();
 
-  showToast("تم حذف المنتج من السلة");
+    showToast("✅ تم حذف المنتج من السلة");
 
 };
 
@@ -236,21 +270,60 @@ window.deleteItem = function(id) {
 
 function getCartTotal() {
 
-  const cart = getCart();
+    const cart = getCart();
 
-  let total = 0;
+    let total = 0;
 
-  cart.forEach(item => {
+    cart.forEach(item => {
 
-    const qty = Number(item.qty) || 1;
+        const qty = Number(item.qty) || 1;
 
-    const price = Number(item.price) || 0;
+        const price = Number(item.price) || 0;
 
-    total += qty * price;
+        total += qty * price;
 
-  });
+    });
 
-  return total;
+    return total;
+
+}
+
+/*========================
+التحقق من البيانات
+========================*/
+
+function validateCheckout(name, phone, address, cart) {
+
+    if (!name) {
+        showToast("يرجى إدخال اسم الزبون");
+        customerName.focus();
+        return false;
+    }
+
+    if (!phone) {
+        showToast("يرجى إدخال رقم الهاتف");
+        customerPhone.focus();
+        return false;
+    }
+
+    if (!/^0\d{10}$/.test(phone)) {
+        showToast("رقم الهاتف غير صحيح");
+        customerPhone.focus();
+        return false;
+    }
+
+    if (!address) {
+        showToast("يرجى إدخال العنوان");
+        customerAddress.focus();
+        return false;
+    }
+
+    if (cart.length === 0) {
+        showToast("السلة فارغة");
+        return false;
+    }
+
+    return true;
 
 }
 
@@ -260,44 +333,68 @@ CHECKOUT
 
 if (checkoutBtn) {
 
-  checkoutBtn.onclick = async () => {
+    checkoutBtn.onclick = async () => {
 
-    const name = customerName.value.trim();
-    const phone = customerPhone.value.trim();
-    const address = customerAddress.value.trim();
-    const city = customerCity ? customerCity.value.trim() : "";
-    const notes = customerNotes ? customerNotes.value.trim() : "";
+        if (sendingOrder) return;
 
-    if (!name) {
-      showToast("يرجى إدخال اسم الزبون");
-      customerName.focus();
-      return;
-    }
+        sendingOrder = true;
 
-    if (!phone) {
-      showToast("يرجى إدخال رقم الهاتف");
-      customerPhone.focus();
-      return;
-    }
+        checkoutBtn.disabled = true;
+        checkoutBtn.textContent = "جاري إرسال الطلب...";
 
-    if (!address) {
-      showToast("يرجى إدخال العنوان");
-      customerAddress.focus();
-      return;
-    }
+        try {
 
-    const cart = getCart();
+            const name = customerName.value.trim();
+            const phone = customerPhone.value.trim();
+            const address = customerAddress.value.trim();
+            const city = customerCity ? customerCity.value.trim() : "";
+            const notes = customerNotes ? customerNotes.value.trim() : "";
 
-    if (cart.length === 0) {
-      showToast("السلة فارغة");
-      return;
-    }
+            const cart = getCart();
 
-    const total = getCartTotal();
+            if (!validateCheckout(name, phone, address, cart)) {
 
-    let message = `🛍️ طلب جديد من مجمع حمزه الشطري
+                sendingOrder = false;
+                checkoutBtn.disabled = false;
+                checkoutBtn.textContent = "إرسال الطلب";
+
+                return;
+            }
+
+            const total = getCartTotal();
+
+            const orderData = {
+
+                orderNumber: generateOrderNumber(),
+
+                name,
+
+                phone,
+
+                address,
+
+                city,
+
+                notes,
+
+                items: prepareItems(cart),
+
+                total,
+
+                status: "جديد",
+
+                createdAt: serverTimestamp()
+
+            };
+
+            await addDoc(ordersRef, orderData);
+
+                  let message = `🛍️ طلب جديد من مجمع حمزه الشطري
 
 ━━━━━━━━━━━━━━
+
+🆔 رقم الطلب:
+${orderData.orderNumber}
 
 👤 الاسم:
 ${name}
@@ -318,12 +415,12 @@ ${notes || "-"}
 
 `;
 
-    cart.forEach(item => {
+            cart.forEach(item => {
 
-      const qty = Number(item.qty) || 1;
-      const price = Number(item.price) || 0;
+                const qty = Number(item.qty) || 1;
+                const price = Number(item.price) || 0;
 
-      message += `📦 ${item.name}
+                message += `📦 ${item.name}
 📏 ${item.size || "-"}
 🎨 ${item.color || "-"}
 🔢 الكمية: ${qty}
@@ -331,9 +428,9 @@ ${notes || "-"}
 
 `;
 
-    });
+            });
 
-    message += `━━━━━━━━━━━━━━
+            message += `━━━━━━━━━━━━━━
 
 💰 الإجمالي:
 ${formatPrice(total)}
@@ -341,53 +438,53 @@ ${formatPrice(total)}
 شكراً لتسوقكم من
 مجمع حمزه الشطري ❤️`;
 
-    try {
+            saveCart([]);
 
-      await addDoc(ordersRef, {
-        name,
-        phone,
-        address,
-        city,
-        notes,
-        items: cart,
-        total,
-        status: "جديد",
-        createdAt: new Date().toLocaleString("ar-IQ"),
-        createdServer: serverTimestamp()
-      });
+            updateCartCount();
 
-      saveCart([]);
-      updateCartCount();
-      renderCart();
+            renderCart();
 
-      customerName.value = "";
-      customerPhone.value = "";
-      customerAddress.value = "";
+            customerName.value = "";
+            customerPhone.value = "";
+            customerAddress.value = "";
 
-      if (customerCity) customerCity.value = "";
-      if (customerNotes) customerNotes.value = "";
+            if (customerCity) customerCity.value = "";
+            if (customerNotes) customerNotes.value = "";
 
-      showToast("✅ تم إرسال الطلب بنجاح");
+            showToast("✅ تم إرسال الطلب بنجاح");
 
-      window.open(
-        "https://wa.me/9647813555538?text=" +
-        encodeURIComponent(message),
-        "_blank"
-      );
+            sendingOrder = false;
 
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 2000);
+            checkoutBtn.disabled = false;
+            checkoutBtn.textContent = "إرسال الطلب";
 
-    } catch (error) {
+            window.open(
+                "https://wa.me/9647813555538?text=" +
+                encodeURIComponent(message),
+                "_blank"
+            );
 
-      console.error(error);
+            setTimeout(() => {
 
-      showToast("حدث خطأ أثناء إرسال الطلب");
+                window.location.href = "index.html";
 
-    }
+            }, 1500);
 
-  };
+        } catch (error) {
+
+            console.error(error);
+
+            sendingOrder = false;
+
+            checkoutBtn.disabled = false;
+
+            checkoutBtn.textContent = "إرسال الطلب";
+
+            showToast("❌ حدث خطأ أثناء إرسال الطلب");
+
+        }
+
+    };
 
 }
 
