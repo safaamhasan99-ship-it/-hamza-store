@@ -23,8 +23,8 @@ Firestore
 const ordersRef = collection(db, "orders");
 
 const ordersQuery = query(
-  ordersRef,
-  orderBy("createdAt", "desc")
+    ordersRef,
+    orderBy("createdAt", "desc")
 );
 
 /*=========================
@@ -36,40 +36,74 @@ const totalOrdersEl = document.getElementById("totalOrders");
 const newOrdersEl = document.getElementById("newOrders");
 const totalSalesEl = document.getElementById("totalSales");
 const searchInput = document.getElementById("searchInput");
+const notifySound = document.getElementById("notifySound");
+
+/*=========================
+Audio Unlock
+=========================*/
+
+let initialized = false;
+let audioReady = false;
+
+async function unlockAudio() {
+
+    if (audioReady || !notifySound) return;
+
+    try {
+
+        notifySound.muted = true;
+
+        await notifySound.play();
+
+        notifySound.pause();
+        notifySound.currentTime = 0;
+        notifySound.muted = false;
+
+        audioReady = true;
+
+        console.log("✅ Audio Ready");
+
+    } catch (err) {
+
+        console.error("Audio Unlock Error:", err);
+
+    }
+
+}
+
+document.addEventListener("pointerdown", unlockAudio, {
+    once: true
+});
+
+document.addEventListener("keydown", unlockAudio, {
+    once: true
+});
 
 /*=========================
 Notification
 =========================*/
 
-let initialized = false;
-
 function playNotification() {
 
-    try {
-
-        const audio = new Audio("./notification.mp3");
-
-        audio.preload = "auto";
-        audio.volume = 1;
-        audio.currentTime = 0;
-
-        audio.play()
-            .then(() => {
-
-                console.log("🔔 Notification Played");
-
-            })
-            .catch((err) => {
-
-                console.error("❌ Notification Error", err);
-
-            });
-
-    } catch (err) {
-
-        console.error(err);
-
+    if (!audioReady || !notifySound) {
+        console.log("⚠️ Audio not ready");
+        return;
     }
+
+    notifySound.pause();
+    notifySound.currentTime = 0;
+
+    notifySound.play()
+        .then(() => {
+
+            console.log("🔔 Notification Played");
+
+        })
+        .catch((err) => {
+
+            console.error("Notification Error:", err);
+
+        });
 
 }
 
@@ -136,6 +170,10 @@ function getOrderTotal(order){
 
 }
 
+/*=========================
+Order Status
+=========================*/
+
 function getOrderStatus(order){
 
     return order.status || "جديد";
@@ -146,25 +184,23 @@ function getOrderStatus(order){
 Load Orders
 =========================*/
 
-onSnapshot(ordersQuery, (snapshot) => {
+onSnapshot(ordersQuery, (snapshot)=>{
 
-    table.innerHTML = "";
+    table.innerHTML="";
 
-    let totalOrders = 0;
-    let newOrders = 0;
-    let totalSales = 0;
+    let totalOrders=0;
+    let newOrders=0;
+    let totalSales=0;
 
-    /* إشعار الطلبات الجديدة */
-    if (initialized) {
+    if(initialized){
 
-        snapshot.docChanges().forEach((change) => {
+        snapshot.docChanges().forEach(change=>{
 
-            if (change.type === "added") {
+            if(change.type==="added"){
 
                 playNotification();
 
                 console.log("🔔 تم استلام طلب جديد");
-playNotification();
 
             }
 
@@ -172,26 +208,26 @@ playNotification();
 
     }
 
-    initialized = true;
+    initialized=true;
 
-    if (snapshot.empty) {
+    if(snapshot.empty){
 
-        table.innerHTML = `
+        table.innerHTML=`
         <tr>
             <td colspan="10">
-                لا توجد طلبات حالياً
+            لا توجد طلبات حالياً
             </td>
         </tr>`;
 
-        totalOrdersEl.textContent = "0";
-        newOrdersEl.textContent = "0";
-        totalSalesEl.textContent = "0";
+        totalOrdersEl.textContent="0";
+        newOrdersEl.textContent="0";
+        totalSalesEl.textContent="0";
 
         return;
 
     }
 
-    snapshot.forEach((docSnap, index) => {
+        snapshot.forEach((docSnap, index) => {
 
         const order = docSnap.data();
 
@@ -247,11 +283,13 @@ playNotification();
             <td>${status}</td>
 
             <td>
+
                 <button
                     class="whatsapp"
                     onclick="openWhatsApp('${order.phone || ""}')">
                     واتساب
                 </button>
+
             </td>
 
             <td>
@@ -328,7 +366,7 @@ window.removeOrder = async function (id) {
             doc(db, "orders", id)
         );
 
-        alert("✅ تم حذف الطلب");
+        console.log("✅ تم حذف الطلب");
 
     } catch (err) {
 
@@ -428,11 +466,9 @@ ${products}
 ━━━━━━━━━━━━━━━━━━━━━━
 
 الإجمالي:
-
 ${formatPrice(getOrderTotal(order))}
 
 الحالة:
-
 ${getOrderStatus(order)}
 
 `);
@@ -448,7 +484,7 @@ ${getOrderStatus(order)}
 };
 
 /*=========================
-البحث داخل الطلبات
+البحث
 =========================*/
 
 if (searchInput) {
@@ -457,14 +493,10 @@ if (searchInput) {
 
         const value = this.value.trim().toLowerCase();
 
-        const rows = table.querySelectorAll("tr");
-
-        rows.forEach((row) => {
-
-            const text = row.textContent.toLowerCase();
+        table.querySelectorAll("tr").forEach((row) => {
 
             row.style.display =
-                text.includes(value)
+                row.textContent.toLowerCase().includes(value)
                     ? ""
                     : "none";
 
@@ -474,40 +506,13 @@ if (searchInput) {
 
 }
 
-/*==================================
-Hamza Store V20
+/*=========================
 Finish
-==================================*/
+=========================*/
 
-// جعل بعض الدوال متاحة من Console
 window.formatPrice = formatPrice;
 window.formatDate = formatDate;
 window.getOrderTotal = getOrderTotal;
 window.getOrderStatus = getOrderStatus;
 
-// التحقق من وجود جدول الطلبات
-if (!table) {
-    console.error("❌ لم يتم العثور على #ordersTable");
-}
-
-// تفعيل الصوت بعد أول نقرة من المستخدم
-// (مهم لبعض المتصفحات مثل Chrome و Safari)
-document.addEventListener("click", () => {
-
-    try {
-
-        const audio = new Audio("./notification.mp3");
-        audio.volume = 0;
-        audio.play()
-            .then(() => {
-                audio.pause();
-                audio.currentTime = 0;
-                console.log("🔔 Notification Ready");
-            })
-            .catch(() => {});
-
-    } catch (e) {}
-
-}, { once: true });
-
-console.log("✅ Admin Orders V20 Loaded Successfully");
+console.log("✅ Hamza Store Admin Orders V20 Loaded");
