@@ -22,6 +22,9 @@ import {
 
 const ordersRef = collection(db, "orders");
 
+onSnapshot(ordersRef, (snapshot) => {
+  console.log("عدد الطلبات:", snapshot.size);
+});
 const ordersQuery = query(
     ordersRef,
     orderBy("createdAt", "desc")
