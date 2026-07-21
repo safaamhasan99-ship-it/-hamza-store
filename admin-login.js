@@ -5,6 +5,7 @@ import { auth } from "./js/firebase.js";
 import {
 signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 alert("admin-login.js loaded");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
