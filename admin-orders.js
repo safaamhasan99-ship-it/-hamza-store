@@ -1,173 +1,225 @@
-// admin-orders.js
+/*==================================
+Hamza Store V18
+Admin Orders Pro
+==================================*/
 
 import { db } from "./firebase.js";
 
 import {
-collection,
-doc,
-deleteDoc,
-updateDoc,
-onSnapshot
+    collection,
+    query,
+    orderBy,
+    onSnapshot,
+    doc,
+    getDoc,
+    updateDoc,
+    deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/*=========================
+الإعدادات
+=========================*/
 
 const ordersRef = collection(db, "orders");
 
+const ordersQuery = query(
+    ordersRef,
+    orderBy("createdAt", "desc")
+);
+
 const table = document.getElementById("ordersBody");
 
+const totalOrdersEl = document.getElementById("totalOrders");
+const newOrdersEl = document.getElementById("newOrders");
+const totalSalesEl = document.getElementById("totalSales");
+
+const notifySound = document.getElementById("notifySound");
+
 let lastCount = 0;
+
+/*=========================
+تنسيق التاريخ
+=========================*/
+
+function formatDate(value) {
+
+    if (!value) return "-";
+
+    try {
+
+        if (value.seconds) {
+
+            return new Date(
+                value.seconds * 1000
+            ).toLocaleString("ar-IQ");
+
+        }
+
+        return value;
+
+    } catch {
+
+        return "-";
+
+    }
+
+}
+
+/*=========================
+تنسيق السعر
+=========================*/
+
+function formatPrice(price) {
+
+    return Number(price || 0).toLocaleString() + " د.ع";
+
+}
 
 /*=========================
 تحميل الطلبات مباشرة
 =========================*/
 
-onSnapshot(ordersRef, (snapshot) => {
+onSnapshot(ordersQuery, (snapshot) => {
 
-table.innerHTML = "";
+    table.innerHTML = "";
 
-let totalOrders = 0;
-let newOrders = 0;
-let totalSales = 0;
+    let totalOrders = 0;
+    let newOrders = 0;
+    let totalSales = 0;
 
-/* سيكمل في الجزء الثاني */
+    if (snapshot.empty) {
 
-snapshot.forEach((item) => {
+        table.innerHTML = `
+        <tr>
+            <td colspan="9" style="text-align:center;padding:25px;">
+                لا توجد طلبات
+            </td>
+        </tr>`;
 
-const order = item.data();
+        totalOrdersEl.textContent = "0";
+        newOrdersEl.textContent = "0";
+        totalSalesEl.textContent = "0";
 
-totalOrders++;
+        return;
+    }
 
-if (order.status === "جديد") newOrders++;
+    snapshot.forEach((item, index) => {
 
-totalSales += Number(order.total || 0);
+        const order = item.data();
 
-let images = "";
-let names = "";
+        totalOrders++;
 
-(order.items || []).forEach((product) => {
+        if (order.status === "جديد") {
+            newOrders++;
+        }
 
-images += `
-<img
-src="${product.image}"
-style="
-width:60px;
-height:60px;
-object-fit:cover;
-border-radius:8px;
-margin:2px;
-">
-`;
+        totalSales += Number(order.total || 0);
 
-names += `
-<div>
-${product.name}
-<br>
-الكمية: ${product.quantity || 1}
-</div>
-`;
+        let productsHTML = "";
+        let imagesHTML = "";
 
-});
+        (order.items || []).forEach((product) => {
 
-table.innerHTML += `
-<tr>
+            productsHTML += `
+            <div style="margin-bottom:8px;">
+                <strong>${product.name}</strong><br>
+                الكمية: ${product.quantity || 1}
+            </div>`;
 
-<td>${totalOrders}</td>
+            imagesHTML += `
+            <img
+                src="${product.image}"
+                loading="lazy"
+                style="
+                    width:60px;
+                    height:60px;
+                    object-fit:cover;
+                    border-radius:8px;
+                    margin:2px;
+                    border:1px solid #ddd;
+                "
+                onerror="this.src='./images/no-image.png'"
+            >`;
 
-<td>${order.name}</td>
+        });
 
-<td>${order.phone}</td>
+        table.innerHTML += `
+        <tr>
 
-<td>${names}</td>
+            <td>${index + 1}</td>
 
-<td>${images}</td>
+            <td>${order.name || "-"}</td>
 
-<td>${Number(order.total).toLocaleString()} د.ع</td>
+            <td>${order.phone || "-"}</td>
 
-<td>
-${order.createdAt || "-"}
-</td>
+            <td>${productsHTML}</td>
 
-<td>
+            <td>${imagesHTML}</td>
 
-<select
-onchange="changeStatus('${item.id}',this.value)">
+            <td>${formatPrice(order.total)}</td>
 
-<option value="جديد" ${order.status==="جديد"?"selected":""}>
-جديد
-</option>
+            <td>${formatDate(order.createdAt)}</td>
 
-<option value="قيد المراجعة" ${order.status==="قيد المراجعة"?"selected":""}>
-قيد المراجعة
-</option>
+            <td>
 
-<option value="جاري التجهيز" ${order.status==="جاري التجهيز"?"selected":""}>
-جاري التجهيز
-</option>
+                <select onchange="changeStatus('${item.id}',this.value)">
 
-<option value="تم الشحن" ${order.status==="تم الشحن"?"selected":""}>
-تم الشحن
-</option>
+                    <option value="جديد" ${order.status==="جديد"?"selected":""}>جديد</option>
 
-<option value="مكتمل" ${order.status==="مكتمل"?"selected":""}>
-مكتمل
-</option>
+                    <option value="قيد المراجعة" ${order.status==="قيد المراجعة"?"selected":""}>قيد المراجعة</option>
 
-<option value="ملغي" ${order.status==="ملغي"?"selected":""}>
-ملغي
-</option>
+                    <option value="جاري التجهيز" ${order.status==="جاري التجهيز"?"selected":""}>جاري التجهيز</option>
 
-</select>
+                    <option value="تم الشحن" ${order.status==="تم الشحن"?"selected":""}>تم الشحن</option>
 
-</td>
+                    <option value="مكتمل" ${order.status==="مكتمل"?"selected":""}>مكتمل</option>
 
-<td>
+                    <option value="ملغي" ${order.status==="ملغي"?"selected":""}>ملغي</option>
 
-<button
-class="whatsapp"
-onclick="openWhatsApp('${order.phone}')">
-واتساب
-</button>
+                </select>
 
-<button
-class="review"
-onclick="showOrder('${item.id}')">
-عرض
-</button>
+            </td>
 
-<button
-class="delete"
-onclick="removeOrder('${item.id}')">
-حذف
-</button>
+            <td>
 
-</td>
+                <button
+                    class="whatsapp"
+                    onclick="openWhatsApp('${order.phone}')">
+                    واتساب
+                </button>
 
-</tr>
-`;
+                <button
+                    class="review"
+                    onclick="showOrder('${item.id}')">
+                    عرض
+                </button>
 
-});
+                <button
+                    class="delete"
+                    onclick="removeOrder('${item.id}')">
+                    حذف
+                </button>
 
-/* تحديث الإحصائيات */
+            </td>
 
-document.getElementById("totalOrders").textContent = totalOrders;
-document.getElementById("newOrders").textContent = newOrders;
-document.getElementById("totalSales").textContent =
-Number(totalSales).toLocaleString();
+        </tr>`;
+    });
 
-/* إشعار عند وصول طلب جديد */
+    totalOrdersEl.textContent = totalOrders;
+    newOrdersEl.textContent = newOrders;
+    totalSalesEl.textContent = Number(totalSales).toLocaleString();
 
-if(lastCount!==0 && totalOrders>lastCount){
+    if (lastCount !== 0 && totalOrders > lastCount) {
 
-const audio=document.getElementById("notifySound");
+        if (notifySound) {
+            notifySound.play().catch(() => {});
+        }
 
-if(audio){
-audio.play().catch(()=>{});
-}
+        alert("🔔 تم استلام طلب جديد");
 
-alert("🔔 وصل طلب جديد");
+    }
 
-}
-
-lastCount=totalOrders;
+    lastCount = totalOrders;
 
 });
 
@@ -175,23 +227,24 @@ lastCount=totalOrders;
 تغيير حالة الطلب
 =========================*/
 
-window.changeStatus = async function(id,status){
+window.changeStatus = async function (id, status) {
 
-try{
+    try {
 
-await updateDoc(
-doc(db,"orders",id),
-{
-status:status
-}
-);
+        await updateDoc(
+            doc(db, "orders", id),
+            {
+                status: status
+            }
+        );
 
-}catch(error){
+    } catch (error) {
 
-console.error(error);
-alert("تعذر تحديث حالة الطلب");
+        console.error(error);
 
-}
+        alert("تعذر تحديث حالة الطلب");
+
+    }
 
 };
 
@@ -199,22 +252,25 @@ alert("تعذر تحديث حالة الطلب");
 حذف الطلب
 =========================*/
 
-window.removeOrder = async function(id){
+window.removeOrder = async function (id) {
 
-if(!confirm("هل تريد حذف هذا الطلب؟")) return;
+    if (!confirm("هل تريد حذف هذا الطلب نهائياً؟")) return;
 
-try{
+    try {
 
-await deleteDoc(
-doc(db,"orders",id)
-);
+        await deleteDoc(
+            doc(db, "orders", id)
+        );
 
-}catch(error){
+        alert("✅ تم حذف الطلب");
 
-console.error(error);
-alert("تعذر حذف الطلب");
+    } catch (error) {
 
-}
+        console.error(error);
+
+        alert("تعذر حذف الطلب");
+
+    }
 
 };
 
@@ -222,18 +278,22 @@ alert("تعذر حذف الطلب");
 فتح واتساب
 =========================*/
 
-window.openWhatsApp=function(phone){
+window.openWhatsApp = function (phone) {
 
-let number=(phone||"").replace(/\D/g,"");
+    let number = String(phone || "").replace(/\D/g, "");
 
-if(number.startsWith("0")){
-number="964"+number.substring(1);
-}
+    if (number.startsWith("0")) {
+        number = "964" + number.substring(1);
+    }
 
-window.open(
-`https://wa.me/${number}`,
-"_blank"
-);
+    if (!number.startsWith("964")) {
+        number = "964" + number;
+    }
+
+    window.open(
+        `https://wa.me/${number}`,
+        "_blank"
+    );
 
 };
 
@@ -241,52 +301,55 @@ window.open(
 عرض تفاصيل الطلب
 =========================*/
 
-window.showOrder=function(id){
+window.showOrder = async function (id) {
 
-alert("سيتم في الجزء القادم عرض نافذة احترافية تحتوي على جميع تفاصيل الطلب وصور المنتجات.");
+    try {
 
-};
-/*=========================
-عرض تفاصيل الطلب
-=========================*/
+        const orderDoc = await getDoc(
+            doc(db, "orders", id)
+        );
 
-window.showOrder = async function(id){
+        if (!orderDoc.exists()) {
 
-    const snapshot = await getDocs(ordersRef);
+            alert("الطلب غير موجود");
 
-    snapshot.forEach((docItem)=>{
+            return;
 
-        if(docItem.id !== id) return;
+        }
 
-        const order = docItem.data();
+        const order = orderDoc.data();
 
-        let productsHTML = "";
+        let details = "";
 
-        (order.items || []).forEach((product)=>{
+        (order.items || []).forEach((item, index) => {
 
-            productsHTML += `
+            details += `
+
 ━━━━━━━━━━━━━━━━━━━━━━
 
-🛍️ ${product.name}
+🛍 المنتج ${index + 1}
 
-📏 المقاس : ${product.size || "-"}
+الاسم : ${item.name}
 
-🎨 اللون : ${product.color || "-"}
+الكمية : ${item.quantity || 1}
 
-🔢 الكمية : ${product.quantity || 1}
+المقاس : ${item.size || "-"}
 
-💰 السعر : ${Number(product.price || 0).toLocaleString()} د.ع
+اللون : ${item.color || "-"}
+
+السعر : ${formatPrice(item.price)}
 
 `;
+
         });
 
         alert(`
 
-👤 العميل : ${order.name}
+👤 العميل : ${order.name || "-"}
 
-📞 الهاتف : ${order.phone}
+📞 الهاتف : ${order.phone || "-"}
 
-🏙️ المحافظة : ${order.city || "-"}
+🏙 المحافظة : ${order.city || "-"}
 
 📍 العنوان :
 
@@ -298,40 +361,106 @@ ${order.notes || "لا توجد"}
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
-${productsHTML}
+${details}
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
 💵 المجموع :
 
-${Number(order.total || 0).toLocaleString()} د.ع
+${formatPrice(order.total)}
+
+📦 الحالة :
+
+${order.status || "جديد"}
 
 `);
 
-    });
+    } catch (error) {
+
+        console.error(error);
+
+        alert("تعذر عرض تفاصيل الطلب");
+
+    }
 
 };
 
 /*=========================
-البحث
+البحث في الطلبات
 =========================*/
 
-const search=document.getElementById("searchInput");
+const searchInput = document.getElementById("searchInput");
 
-if(search){
+if (searchInput) {
 
-search.addEventListener("input",()=>{
+    searchInput.addEventListener("input", () => {
 
-const value=search.value.toLowerCase();
+        const value = searchInput.value.trim().toLowerCase();
 
-document.querySelectorAll("#ordersBody tr").forEach(row=>{
+        document.querySelectorAll("#ordersBody tr").forEach((row) => {
 
-row.style.display=row.innerText.toLowerCase().includes(value)
-?""
-:"none";
+            const text = row.textContent.toLowerCase();
 
-});
+            row.style.display = text.includes(value)
+                ? ""
+                : "none";
 
-});
+        });
+
+    });
 
 }
+
+/*=========================
+تحديث الصفحة
+=========================*/
+
+window.refreshOrders = function () {
+
+    location.reload();
+
+};
+
+/*=========================
+طباعة الطلب
+=========================*/
+
+window.printOrder = function () {
+
+    window.print();
+
+};
+
+/*=========================
+اختصارات لوحة المفاتيح
+=========================*/
+
+document.addEventListener("keydown", (e) => {
+
+    // Ctrl + F للبحث
+    if (e.ctrlKey && e.key.toLowerCase() === "f") {
+
+        e.preventDefault();
+
+        if (searchInput) {
+            searchInput.focus();
+        }
+
+    }
+
+    // F5 تحديث
+    if (e.key === "F5") {
+
+        e.preventDefault();
+
+        refreshOrders();
+
+    }
+
+});
+
+/*=========================
+جاهزية الصفحة
+=========================*/
+
+console.log("✅ Hamza Store Admin Orders V18 Ready");
