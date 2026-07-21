@@ -171,7 +171,7 @@ const p = doc.data();
 
 const category = (p.category || "").trim().toLowerCase();
 
-if (category !== "men") {
+if (!validCategories.includes(category)) {
     return;
 }
 
