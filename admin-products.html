@@ -4,348 +4,194 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 
 <title>إدارة المنتجات | مجمع حمزه الشطري</title>
 
+<link rel="stylesheet" href="style.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
-
-<link rel="stylesheet" href="style.css">
-
-
-
 <style>
 
-.form-box{
-
-max-width:700px;
-
-margin:20px auto;
-
-background:#fff;
-
-padding:25px;
-
-border-radius:18px;
-
-box-shadow:0 10px 25px rgba(0,0,0,.08);
-
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
 }
 
+body{
+background:#f5f7fb;
+}
 
+header{
+background:#111827;
+color:#fff;
+padding:20px;
+text-align:center;
+}
+
+header h1{
+font-size:30px;
+margin-bottom:8px;
+}
+
+header p{
+color:#ddd;
+}
+
+.container{
+max-width:900px;
+margin:25px auto;
+padding:20px;
+}
+
+.title{
+text-align:center;
+font-size:28px;
+margin-bottom:20px;
+font-weight:800;
+}
+
+.form-box{
+background:#fff;
+padding:25px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
 
 .form-box input,
-
 .form-box textarea,
-
 .form-box select{
-
 width:100%;
-
 padding:14px;
-
 margin-bottom:15px;
-
 border:1px solid #ddd;
-
 border-radius:10px;
-
-font-family:'Cairo',sans-serif;
-
 font-size:15px;
-
 }
 
+.form-box textarea{
+resize:vertical;
+min-height:120px;
+}
 
-
-.form-box button{
-
+#saveBtn{
 width:100%;
-
 padding:15px;
-
 background:#c79b3b;
-
 color:#fff;
-
 border:none;
-
 border-radius:10px;
-
 font-size:18px;
-
 font-weight:bold;
-
 cursor:pointer;
-
+transition:.3s;
 }
 
+#saveBtn:hover{
+background:#ae832b;
+}
 
+.products-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+gap:20px;
+margin-top:30px;
+}
 
-.product-box{
-
-background:white;
-
-padding:15px;
-
+.admin-product-card{
+background:#fff;
 border-radius:15px;
-
-margin:15px;
-
-box-shadow:0 5px 15px #ddd;
-
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+padding:15px;
+text-align:center;
 }
 
+.admin-product-card img{
+width:100%;
+height:230px;
+object-fit:cover;
+border-radius:10px;
+margin-bottom:10px;
+}
 
+.admin-actions{
+display:flex;
+gap:10px;
+margin-top:15px;
+}
 
-.product-box button{
-
-margin:5px;
-
-padding:8px 15px;
-
+.edit-btn{
+flex:1;
+background:#1976d2;
+color:#fff;
 border:none;
-
+padding:10px;
 border-radius:8px;
-
 cursor:pointer;
-
 }
 
+.delete-btn{
+flex:1;
+background:#d32f2f;
+color:#fff;
+border:none;
+padding:10px;
+border-radius:8px;
+cursor:pointer;
+}
 
+.empty{
+text-align:center;
+padding:30px;
+color:#777;
+}
 
 </style>
 
-
 </head>
-
 
 <body>
 
-
-<header class="header">
-
-
-<div class="top-header">
-
-
-<div class="brand">
-
+<header>
 
 <h1>مجمع حمزه الشطري</h1>
 
-
 <p>لوحة إدارة المنتجات</p>
 
-
-</div>
-
-
-</div>
-
-
 </header>
-<section class="products">
 
+<div class="container">
 
 <h2 class="title">
 ➕ إضافة منتج جديد
 </h2>
 
+<form id="productForm" class="form-box">
 
-
-<div class="form-box">
-
-
-
-<input
+  <input
 id="name"
 type="text"
-placeholder="اسم المنتج">
-
-
+placeholder="اسم المنتج"
+required>
 
 <input
 id="price"
 type="number"
-placeholder="السعر">
-
-
+placeholder="السعر"
+required>
 
 <textarea
 id="description"
-rows="4"
 placeholder="وصف المنتج">
 </textarea>
 
+<select id="category" required>
 
-
-<select id="category">
-
-
-<option value="men">
-👔 القسم الرجالي
-</option>
-
-
-<option value="women">
-👗 القسم النسائي
-</option>
-
-
-<option value="boys">
-🧒 القسم الولادي
-</option>
-
-
-<option value="girls">
-👧 القسم البناتي
-</option>
-
-
-<option value="pants">
-👖 البنطرونات
-</option>
-
-
-<option value="underwear">
-🩳 الداخليات
-</option>
-
-
-<option value="socks">
-🧦 الجوراب
-</option>
-
-
-<option value="hijabs">
-🧕 قسم الحجابات والشالات
-</option>
-  
-</select>
-
-
-
-<input
-id="sizes"
-type="text"
-placeholder="القياسات">
-
-
-
-<input
-id="colors"
-type="text"
-placeholder="الألوان">
-
-
-
-<input
-id="quantity"
-type="number"
-placeholder="الكمية">
-
-
-
-<label for="image" style="display:block;font-weight:bold;margin-bottom:8px;">
-📷 اختر صورة المنتج
-</label>
-
-<input
-    id="image"
-    type="file"
-    accept="image/*"
-    style="
-        width:100%;
-        padding:14px;
-        margin-bottom:15px;
-        border:1px solid #ddd;
-        border-radius:10px;
-        font-family:'Cairo',sans-serif;
-        background:#fff;
-        cursor:pointer;
-    ">
-
-
-
-<label>
-
-<input
-id="offer"
-type="checkbox">
-
-عرض خاص
-
-</label>
-
-
-
-<br><br>
-
-
-
-<button
-id="saveBtn"
-type="button">
-
-💾 حفظ المنتج
-
-</button>
-
-
-
-</div>
-<h2 class="title">
-
-📦 المنتجات المضافة
-
-</h2>
-
-
-
-<div style="text-align:center;margin-bottom:20px;">
-
-
-<button
-onclick="refreshProducts()"
-class="cart-btn">
-
-🔄 تحديث المنتجات
-
-</button>
-
-
-</div>
-
-
-
-<div
-id="productsList"
-class="products-grid">
-
-
-</div>
-
-
-
-</section>
-
-
-
-
-<footer style="text-align:center;padding:25px;color:#777;">
-
-
-مجمع حمزه الشطري © 2026
-
-
-
-
-<select id="category">
+<option value="">اختر القسم</option>
 
 <option value="men">👔 القسم الرجالي</option>
 
@@ -378,16 +224,17 @@ placeholder="الألوان">
 <input
 id="quantity"
 type="number"
-placeholder="الكمية">
+placeholder="الكمية"
+value="1">
 
 <label style="font-weight:bold;display:block;margin-bottom:8px;">
-📷 اختر صورة المنتج
+📷 رابط صورة المنتج
 </label>
 
 <input
 id="image"
-type="file"
-accept="image/*">
+type="url"
+placeholder="https://example.com/image.jpg">
 
 <label style="display:flex;align-items:center;gap:10px;margin:15px 0;">
 
@@ -401,13 +248,15 @@ type="checkbox">
 
 <button
 id="saveBtn"
-type="button">
+type="submit">
 
 💾 حفظ المنتج
 
 </button>
 
-</div>
+</form>
+
+<hr style="margin:35px 0;">
 
 <h2 class="title">
 
@@ -415,11 +264,37 @@ type="button">
 
 </h2>
 
-<div style="text-align:center;margin-bottom:20px;">
+<input
+id="search"
+type="text"
+placeholder="🔍 البحث عن منتج">
+
+<div
+id="productsContainer"
+class="products-grid">
+
+<p class="empty">
+
+جاري تحميل المنتجات...
+
+</p>
+
+</div>
+
+  <div style="text-align:center;margin:25px 0;">
 
 <button
-onclick="refreshProducts()"
-class="cart-btn">
+type="button"
+onclick="loadProducts()"
+style="
+padding:12px 22px;
+background:#1976d2;
+color:#fff;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-size:16px;
+">
 
 🔄 تحديث المنتجات
 
@@ -427,26 +302,21 @@ class="cart-btn">
 
 </div>
 
-<div
-id="productsList"
-class="products-grid">
-
 </div>
 
-</section>
-
 <footer style="
-text-align:center;
+margin-top:50px;
 padding:25px;
+text-align:center;
 color:#777;
-font-family:'Cairo',sans-serif;
+font-size:15px;
 ">
 
 مجمع حمزه الشطري © 2026
 
 </footer>
 
-<script type="module" src="./admin-products.js?v=17"></script>
+<script type="module" src="./admin-products.js?v=18"></script>
 
 </body>
 
