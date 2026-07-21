@@ -1,429 +1,283 @@
 /*==================================
-Hamza Store V15
-Admin Products + Cloudflare R2 Upload
-Part 1/4
+Hamza Store V17
+Admin Products
 ==================================*/
 
-import { db } from "./js/firebase.js";
+import { db } from "./firebase.js";
 
 import {
-  collection,
-  addDoc,
-  getDocs,
-  getDoc,
-  doc,
-  updateDoc,
-  deleteDoc,
-  serverTimestamp
+    collection,
+    getDocs,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/*========================
-ELEMENTS
-========================*/
+const productsRef = collection(db, "products");
+
+const form = document.getElementById("productForm");
+const productsContainer = document.getElementById("productsContainer");
 
 const nameInput = document.getElementById("name");
 const priceInput = document.getElementById("price");
+const imageInput = document.getElementById("image");
 const categoryInput = document.getElementById("category");
-const sizesInput = document.getElementById("sizes");
 const colorsInput = document.getElementById("colors");
+const sizesInput = document.getElementById("sizes");
 const quantityInput = document.getElementById("quantity");
 const descriptionInput = document.getElementById("description");
-const imageInput = document.getElementById("image");
 const offerInput = document.getElementById("offer");
-
-const saveBtn = document.getElementById("saveBtn");
-const productsList = document.getElementById("productsList");
 
 let editId = null;
 
-/*========================
-MESSAGE
-========================*/
+function cleanImageUrl(url) {
 
-function showMessage(message, success = true) {
-
-    const toast = document.createElement("div");
-
-    toast.textContent = message;
-
-    toast.style.position = "fixed";
-    toast.style.left = "20px";
-    toast.style.bottom = "20px";
-    toast.style.padding = "14px 22px";
-    toast.style.borderRadius = "12px";
-    toast.style.background = success ? "#16a34a" : "#dc2626";
-    toast.style.color = "#fff";
-    toast.style.fontFamily = "Cairo";
-    toast.style.fontWeight = "700";
-    toast.style.zIndex = "999999";
-
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-        toast.remove();
-    }, 2500);
-
-}
-
-/*========================
-UPLOAD IMAGE TO R2
-========================*/
-
-async function uploadImage(file) {
-
-console.log("Uploading:", file.name, file.size, file.type);
-  
-    const formData = new FormData();
-
-    formData.append("file", file);
-
-    const response = await fetch(
-        "https://hamza-upload.safaahhh888.workers.dev/",
-        {
-            method: "POST",
-            body: formData
-        }
-    );
-
-    if (!response.ok) {
-        throw new Error("فشل الاتصال بخدمة رفع الصور");
-    }
-
-    const result = await response.json();
-
-    if (!result.success) {
-        throw new Error("تعذر رفع الصورة");
-    }
-
-    return result.url;
-
-}
-
-/*========================
-IMAGE
-========================*/
-
-function cleanImage(url){
-
-    if(!url) return "";
+    if (!url) return "";
 
     url = url.trim();
 
-    const match = url.match(/src=['"]([^'"]+)['"]/i);
-
-    if(match){
-        url = match[1];
+    if (url.includes('src="')) {
+        const match = url.match(/src="([^"]+)"/);
+        if (match) url = match[1];
     }
 
-    if(url.startsWith("//")){
+    if (url.startsWith("//")) {
         url = "https:" + url;
     }
 
     return url;
-
 }
-/*========================
-LOAD PRODUCTS
-========================*/
 
-async function loadProducts(){
+async function saveProduct() {
 
-    if(!productsList) return;
+    const product = {
+        name: nameInput.value.trim(),
+        price: Number(priceInput.value),
+        image: cleanImageUrl(imageInput.value),
+        category: categoryInput.value,
+        colors: colorsInput.value.trim(),
+        sizes: sizesInput.value.trim(),
+        quantity: Number(quantityInput.value),
+        description: descriptionInput.value.trim(),
+        offer: offerInput.checked,
+        updatedAt: serverTimestamp()
+    };
 
-    productsList.innerHTML = "<p>جاري تحميل المنتجات...</p>";
-
-    try{
-
-        const snap = await getDocs(collection(db,"products"));
-
-        productsList.innerHTML = "";
-
-        if(snap.empty){
-
-            productsList.innerHTML = `
-            <div class="product-box">
-                لا توجد منتجات
-            </div>`;
-
-            return;
-
-        }
-
-        snap.forEach(item=>{
-
-            const p = item.data();
-
-            const image = cleanImage(p.image || "");
-
-            productsList.innerHTML += `
-
-            <div class="product-box">
-
-                <img
-                    src="${image}"
-                    alt="${p.name || ""}"
-                    style="
-                        width:100%;
-                        height:220px;
-                        object-fit:cover;
-                        border-radius:12px;
-                        margin-bottom:10px;
-                    ">
-
-                <h3>${p.name || "بدون اسم"}</h3>
-
-                <p><strong>السعر:</strong> ${p.price || 0} د.ع</p>
-
-                <p><strong>القسم:</strong> ${p.category || ""}</p>
-
-                <p><strong>الكمية:</strong> ${p.quantity || ""}</p>
-
-                <div style="display:flex;gap:10px;margin-top:15px;">
-
-                    <button
-                        onclick="editProduct('${item.id}')"
-                        style="flex:1;background:#2563eb;color:#fff;">
-                        ✏️ تعديل
-                    </button>
-
-                    <button
-                        onclick="deleteProduct('${item.id}')"
-                        style="flex:1;background:#dc2626;color:#fff;">
-                        🗑 حذف
-                    </button>
-
-                </div>
-
-            </div>
-
-            `;
-
-        });
-
+    if (
+        !product.name ||
+        !product.price ||
+        !product.image ||
+        !product.category
+    ) {
+        alert("يرجى ملء جميع الحقول المطلوبة");
+        return;
     }
-
-    catch(error){
-
-        console.error(error);
-
-        productsList.innerHTML = `
-        <div class="product-box">
-            <b>حدث خطأ</b><br>
-            ${error.message}
-        </div>`;
-
-    }
-
-}
-/*========================
-SAVE PRODUCT
-========================*/
-
-if (saveBtn) {
-
-saveBtn.addEventListener("click", async () => {
 
     try {
 
-        saveBtn.disabled = true;
-        saveBtn.textContent = "⏳ جاري الحفظ...";
-
-        let imageUrl = "";
-
-        if (imageInput.files && imageInput.files.length > 0) {
-
-            showMessage("جاري رفع الصورة...");
-
-            imageUrl = await uploadImage(imageInput.files[0]);
-
-        } else {
-
-            imageUrl = cleanImage(imageInput.value);
-
-        }
-
-        const product = {
-
-            name: nameInput.value.trim(),
-
-            price: Number(priceInput.value) || 0,
-
-            category: categoryInput.value,
-
-            sizes: sizesInput.value.trim(),
-
-            colors: colorsInput.value.trim(),
-
-            quantity: Number(quantityInput.value) || 0,
-
-            description: descriptionInput.value.trim(),
-
-            image: imageUrl,
-
-            offer: offerInput ? offerInput.checked : false
-
-        };
-
-        if (!product.name) {
-
-            throw new Error("يرجى إدخال اسم المنتج");
-
-        }
-
         if (editId) {
 
-            await updateDoc(
-                doc(db, "products", editId),
-                product
-            );
+            await updateDoc(doc(db, "products", editId), product);
 
-            showMessage("✅ تم تعديل المنتج");
+            alert("✅ تم تعديل المنتج");
 
             editId = null;
 
         } else {
 
-            await addDoc(
-                collection(db, "products"),
-                {
-                    ...product,
-                    time: serverTimestamp()
-                }
-            );
+            product.createdAt = serverTimestamp();
 
-            showMessage("✅ تم حفظ المنتج");
+            await addDoc(productsRef, product);
+
+            alert("✅ تم إضافة المنتج");
 
         }
 
-        nameInput.value = "";
-        priceInput.value = "";
-        sizesInput.value = "";
-        colorsInput.value = "";
-        quantityInput.value = "";
-        descriptionInput.value = "";
-        imageInput.value = "";
+        form.reset();
 
-        if (offerInput) {
-            offerInput.checked = false;
-        }
+        loadProducts();
 
-        categoryInput.selectedIndex = 0;
+    } catch (err) {
 
-        saveBtn.disabled = false;
-        saveBtn.textContent = "💾 حفظ المنتج";
+        console.error(err);
 
-        await loadProducts();
-
-    } catch (error) {
-
-        console.error(error);
-
-        saveBtn.disabled = false;
-        saveBtn.textContent = "💾 حفظ المنتج";
-
-        showMessage(error.message, false);
+        alert("حدث خطأ أثناء الحفظ");
 
     }
+}
+
+form.addEventListener("submit", (e) => {
+
+    e.preventDefault();
+
+    saveProduct();
 
 });
+
+async function loadProducts() {
+
+    productsContainer.innerHTML = "<p>جاري تحميل المنتجات...</p>";
+
+    try {
+
+        const snapshot = await getDocs(productsRef);
+
+        if (snapshot.empty) {
+            productsContainer.innerHTML =
+                "<p class='empty'>لا توجد منتجات</p>";
+            return;
+        }
+
+        productsContainer.innerHTML = "";
+
+        snapshot.forEach((docSnap) => {
+
+            const p = docSnap.data();
+
+            const card = document.createElement("div");
+            card.className = "admin-product-card";
+
+            card.innerHTML = `
+                <img src="${p.image}" alt="${p.name}">
+                <h3>${p.name}</h3>
+                <p>السعر: ${p.price} د.ع</p>
+                <p>القسم: ${p.category}</p>
+                <p>الكمية: ${p.quantity}</p>
+
+                <div class="admin-actions">
+                    <button class="edit-btn">✏️ تعديل</button>
+                    <button class="delete-btn">🗑 حذف</button>
+                </div>
+            `;
+
+            // تعديل
+            card.querySelector(".edit-btn").onclick = () => {
+
+                editId = docSnap.id;
+
+                nameInput.value = p.name || "";
+                priceInput.value = p.price || "";
+                imageInput.value = p.image || "";
+                categoryInput.value = p.category || "";
+                colorsInput.value = p.colors || "";
+                sizesInput.value = p.sizes || "";
+                quantityInput.value = p.quantity || "";
+                descriptionInput.value = p.description || "";
+                offerInput.checked = p.offer || false;
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            };
+
+            // حذف
+            card.querySelector(".delete-btn").onclick = async () => {
+
+                if (!confirm(`هل تريد حذف "${p.name}" ؟`)) return;
+
+                try {
+
+                    await deleteDoc(doc(db, "products", docSnap.id));
+
+                    loadProducts();
+
+                } catch (err) {
+
+                    console.error(err);
+
+                    alert("فشل حذف المنتج");
+
+                }
+
+            };
+
+            productsContainer.appendChild(card);
+
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        productsContainer.innerHTML =
+            "<p>حدث خطأ أثناء تحميل المنتجات.</p>";
+
+    }
 
 }
 
-/*========================
-DELETE PRODUCT
-========================*/
+loadProducts();
 
-window.deleteProduct = async function(id){
+/*==================================
+Hamza Store V17
+Extra Features
+==================================*/
 
-    if(!confirm("هل تريد حذف المنتج؟")) return;
+// إعادة تحميل تلقائية كل 30 ثانية
+setInterval(() => {
+    loadProducts();
+}, 30000);
 
-    try{
+// منع الضغط المتكرر على زر الحفظ
+let saving = false;
 
-        await deleteDoc(doc(db,"products",id));
+async function saveProductSafe() {
 
-        showMessage("🗑 تم حذف المنتج");
+    if (saving) return;
 
-        await loadProducts();
+    saving = true;
 
-    }catch(error){
-
-        console.error(error);
-
-        showMessage(error.message,false);
-
+    try {
+        await saveProduct();
+    } finally {
+        saving = false;
     }
 
-};
+}
 
-/*========================
-EDIT PRODUCT
-========================*/
+// استبدال حدث الحفظ
+form.removeEventListener("submit", saveProduct);
 
-window.editProduct = async function(id){
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await saveProductSafe();
+});
 
-    try{
+// بحث فوري
+const searchInput = document.getElementById("search");
 
-        const ref = doc(db,"products",id);
+if (searchInput) {
 
-        const snap = await getDoc(ref);
+    searchInput.addEventListener("input", () => {
 
-        if(!snap.exists()){
+        const value = searchInput.value.toLowerCase();
 
-            showMessage("المنتج غير موجود",false);
+        document.querySelectorAll(".admin-product-card").forEach(card => {
 
-            return;
+            const text = card.textContent.toLowerCase();
 
-        }
+            card.style.display =
+                text.includes(value) ? "" : "none";
 
-        const p = snap.data();
-
-        nameInput.value = p.name || "";
-        priceInput.value = p.price || "";
-        categoryInput.value = p.category || "";
-        sizesInput.value = p.sizes || "";
-        colorsInput.value = p.colors || "";
-        quantityInput.value = p.quantity || "";
-        descriptionInput.value = p.description || "";
-
-        if(offerInput){
-            offerInput.checked = p.offer || false;
-        }
-
-        editId = id;
-
-        saveBtn.textContent = "💾 حفظ التعديلات";
-
-        window.scrollTo({
-            top:0,
-            behavior:"smooth"
         });
 
-    }catch(error){
+    });
 
-        console.error(error);
+}
 
-        showMessage(error.message,false);
+// تحسين تحميل الصور
+document.addEventListener("error", (e) => {
+
+    if (e.target.tagName === "IMG") {
+
+        e.target.src = "./images/no-image.png";
 
     }
 
-};
+}, true);
 
-/*========================
-REFRESH
-========================*/
-
-window.refreshProducts = function(){
-
-    loadProducts();
-
-};
-
-/*========================
-START
-========================*/
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-    loadProducts();
-
-});
+console.log("Hamza Store Admin V17 Ready");
