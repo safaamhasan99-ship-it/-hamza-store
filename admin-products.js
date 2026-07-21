@@ -1,6 +1,7 @@
 /*==================================
-Hamza Store V18 Professional
-Admin Products + Cloudflare R2
+Hamza Store V19 Professional
+Admin Products
+Cloudflare R2 + Firestore
 ==================================*/
 
 import { db } from "./js/firebase.js";
@@ -26,17 +27,15 @@ const UPLOAD_API =
 Firestore
 =========================*/
 
-const productsRef = collection(db, "products");
+const productsRef =
+collection(db, "products");
 
 /*=========================
 Elements
 =========================*/
 
-const saveBtn =
-document.getElementById("saveBtn");
-
-const productsList =
-document.getElementById("productsList");
+const form =
+document.getElementById("productForm");
 
 const nameInput =
 document.getElementById("name");
@@ -65,6 +64,15 @@ document.getElementById("image");
 const offerInput =
 document.getElementById("offer");
 
+const saveBtn =
+document.getElementById("saveBtn");
+
+const searchInput =
+document.getElementById("search");
+
+const productsContainer =
+document.getElementById("productsContainer");
+
 /*=========================
 Variables
 =========================*/
@@ -73,13 +81,17 @@ let editId = null;
 
 let saving = false;
 
+let currentImage = "";
+
+console.log("✅ Admin Products V19 Started");
+
 /*=========================
 رفع الصورة إلى Cloudflare
 =========================*/
 
 async function uploadImage(file) {
 
-  if (!file) return "";
+  if (!file) return currentImage;
 
   const formData = new FormData();
   formData.append("file", file);
@@ -92,13 +104,13 @@ async function uploadImage(file) {
     });
 
     if (!response.ok) {
-      throw new Error("Upload Failed");
+      throw new Error("فشل الاتصال بخادم رفع الصور");
     }
 
     const result = await response.json();
 
-    if (!result.success) {
-      throw new Error(result.message || "Upload Error");
+    if (!result.success || !result.url) {
+      throw new Error(result.message || "فشل رفع الصورة");
     }
 
     return result.url;
@@ -107,7 +119,7 @@ async function uploadImage(file) {
 
     console.error(err);
 
-    alert("❌ فشل رفع الصورة");
+    alert("❌ " + err.message);
 
     return "";
 
@@ -134,7 +146,40 @@ function cleanImageUrl(url) {
 }
 
 /*=========================
-حفظ المنتج
+تفريغ النموذج
+=========================*/
+
+function clearForm() {
+
+  form.reset();
+
+  editId = null;
+
+  currentImage = "";
+
+  if (imageInput) {
+    imageInput.value = "";
+  }
+
+  saveBtn.textContent = "💾 حفظ المنتج";
+
+}
+
+/*=========================
+التمرير للأعلى
+=========================*/
+
+function scrollTopPage() {
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+/*=========================
+حفظ المنتج (إضافة / تعديل)
 =========================*/
 
 async function saveProduct() {
@@ -148,14 +193,14 @@ async function saveProduct() {
 
   try {
 
-    let imageUrl = "";
+    let imageUrl = currentImage;
 
-    if (imageInput.files.length > 0) {
+    if (imageInput.files && imageInput.files.length > 0) {
 
       imageUrl = await uploadImage(imageInput.files[0]);
 
       if (!imageUrl) {
-        throw new Error("Image Upload Failed");
+        throw new Error("تعذر رفع الصورة");
       }
 
     }
@@ -166,17 +211,17 @@ async function saveProduct() {
 
       price: Number(priceInput.value),
 
-      image: cleanImageUrl(imageUrl),
+      description: descriptionInput.value.trim(),
 
       category: categoryInput.value,
 
-      colors: colorsInput.value.trim(),
-
       sizes: sizesInput.value.trim(),
+
+      colors: colorsInput.value.trim(),
 
       quantity: Number(quantityInput.value),
 
-      description: descriptionInput.value.trim(),
+      image: cleanImageUrl(imageUrl),
 
       offer: offerInput.checked,
 
@@ -187,14 +232,10 @@ async function saveProduct() {
     if (
       !product.name ||
       !product.price ||
-      !product.image ||
-      !product.category
+      !product.category ||
+      !product.image
     ) {
-
-      alert("يرجى إدخال جميع البيانات المطلوبة");
-
-      return;
-
+      throw new Error("يرجى إدخال جميع البيانات المطلوبة");
     }
 
     if (editId) {
@@ -206,19 +247,17 @@ async function saveProduct() {
 
       alert("✅ تم تعديل المنتج");
 
-      editId = null;
-
     } else {
 
       product.createdAt = serverTimestamp();
 
       await addDoc(productsRef, product);
 
-      alert("✅ تم حفظ المنتج");
+      alert("✅ تم إضافة المنتج");
 
     }
 
-    document.getElementById("productForm").reset();
+    clearForm();
 
     await loadProducts();
 
@@ -241,13 +280,25 @@ async function saveProduct() {
 }
 
 /*=========================
+إرسال النموذج
+=========================*/
+
+form.addEventListener("submit", async (e) => {
+
+  e.preventDefault();
+
+  await saveProduct();
+
+});
+
+/*=========================
 تحميل المنتجات
 =========================*/
 
 async function loadProducts() {
 
-  productsList.innerHTML =
-  "<p class='empty'>جاري تحميل المنتجات...</p>";
+  productsContainer.innerHTML =
+    "<p class='empty'>جاري تحميل المنتجات...</p>";
 
   try {
 
@@ -255,14 +306,14 @@ async function loadProducts() {
 
     if (snapshot.empty) {
 
-      productsList.innerHTML =
-      "<p class='empty'>لا توجد منتجات</p>";
+      productsContainer.innerHTML =
+        "<p class='empty'>لا توجد منتجات</p>";
 
       return;
 
     }
 
-    productsList.innerHTML = "";
+    productsContainer.innerHTML = "";
 
     snapshot.forEach((docSnap) => {
 
@@ -272,83 +323,74 @@ async function loadProducts() {
 
       card.className = "admin-product-card";
 
+      card.dataset.id = docSnap.id;
+
       card.innerHTML = `
 
-<img src="${p.image}" alt="${p.name}">
+        <img src="${p.image}" alt="${p.name}">
 
-<h3>${p.name}</h3>
+        <h3>${p.name}</h3>
 
-<p><b>السعر:</b> ${p.price} د.ع</p>
+        <p><b>السعر:</b> ${p.price} د.ع</p>
 
-<p><b>القسم:</b> ${p.category}</p>
+        <p><b>القسم:</b> ${p.category}</p>
 
-<p><b>الكمية:</b> ${p.quantity}</p>
+        <p><b>الكمية:</b> ${p.quantity}</p>
 
-<div class="admin-actions">
+        <div class="admin-actions">
 
-<button class="edit-btn">
+          <button class="edit-btn">
+            ✏️ تعديل
+          </button>
 
-✏️ تعديل
+          <button class="delete-btn">
+            🗑 حذف
+          </button>
 
-</button>
+        </div>
 
-<button class="delete-btn">
+      `;
 
-🗑 حذف
-
-</button>
-
-</div>
-
-`;
-
-      /*==================
+      /*=========================
       تعديل
-      ==================*/
+      =========================*/
 
       card.querySelector(".edit-btn").onclick = () => {
 
         editId = docSnap.id;
 
+        currentImage = p.image || "";
+
         nameInput.value = p.name || "";
 
         priceInput.value = p.price || "";
 
-        descriptionInput.value =
-        p.description || "";
+        descriptionInput.value = p.description || "";
 
-        categoryInput.value =
-        p.category || "";
+        categoryInput.value = p.category || "";
 
-        sizesInput.value =
-        p.sizes || "";
+        sizesInput.value = p.sizes || "";
 
-        colorsInput.value =
-        p.colors || "";
+        colorsInput.value = p.colors || "";
 
-        quantityInput.value =
-        p.quantity || "";
+        quantityInput.value = p.quantity || "";
 
-        offerInput.checked =
-        p.offer || false;
+        offerInput.checked = p.offer || false;
 
-        window.scrollTo({
+        saveBtn.textContent = "💾 حفظ التعديل";
 
-          top:0,
-
-          behavior:"smooth"
-
-        });
+        scrollTopPage();
 
       };
 
-                           /*==================
-      حذف المنتج
-      ==================*/
+      /*=========================
+      حذف
+      =========================*/
 
       card.querySelector(".delete-btn").onclick = async () => {
 
-        if (!confirm(`هل تريد حذف "${p.name}" ؟`)) return;
+        if (!confirm(`هل تريد حذف "${p.name}" ؟`))
+          return;
 
         try {
 
@@ -370,7 +412,7 @@ async function loadProducts() {
 
       };
 
-      productsList.appendChild(card);
+      productsContainer.appendChild(card);
 
     });
 
@@ -378,73 +420,88 @@ async function loadProducts() {
 
     console.error(err);
 
-    productsList.innerHTML = `
-      <p class="empty">
-      حدث خطأ أثناء تحميل المنتجات
-      </p>
-    `;
+    productsContainer.innerHTML =
+      "<p class='empty'>حدث خطأ أثناء تحميل المنتجات</p>";
 
   }
 
 }
 
 /*=========================
-حفظ المنتج
+البحث الفوري
 =========================*/
-
-saveBtn.addEventListener("click", async () => {
-
-  await saveProduct();
-
-});
-
-/*=========================
-بحث فوري
-=========================*/
-
-const searchInput =
-document.getElementById("search");
 
 if (searchInput) {
 
   searchInput.addEventListener("input", () => {
 
-    const value =
-    searchInput.value.toLowerCase();
+    const keyword = searchInput.value
+      .trim()
+      .toLowerCase();
 
     document
-    .querySelectorAll(".admin-product-card")
-    .forEach(card => {
+      .querySelectorAll(".admin-product-card")
+      .forEach(card => {
 
-      const text =
-      card.textContent.toLowerCase();
+        const text = card.textContent.toLowerCase();
 
-      card.style.display =
-      text.includes(value)
-      ? ""
-      : "none";
+        card.style.display =
+          text.includes(keyword)
+            ? ""
+            : "none";
 
-    });
+      });
 
   });
 
 }
 
 /*=========================
-تحديث يدوي
+تحديث المنتجات يدوياً
 =========================*/
 
-window.refreshProducts = async () => {
-
-  await loadProducts();
-
-};
+window.loadProducts = loadProducts;
 
 /*=========================
 تحميل أول مرة
 =========================*/
 
-await loadProducts();
+document.addEventListener("DOMContentLoaded", async () => {
+
+  await loadProducts();
+
+});
+
+/*=========================
+منع الضغط المتكرر
+=========================*/
+
+saveBtn.addEventListener("dblclick", (e) => {
+
+  e.preventDefault();
+
+});
+
+/*=========================
+اختصار Ctrl + S
+=========================*/
+
+document.addEventListener("keydown", (e) => {
+
+  if (
+    e.ctrlKey &&
+    e.key.toLowerCase() === "s"
+  ) {
+
+    e.preventDefault();
+
+    form.requestSubmit();
+
+  }
+
+});
+
+console.log("✅ Search & Startup Ready");
 
 /*=========================
 معالجة أخطاء الصور
@@ -461,86 +518,204 @@ document.addEventListener("error", (e) => {
 }, true);
 
 /*=========================
-اختصارات لوحة المفاتيح
+تحميل كسول للصور
+=========================*/
+
+function optimizeImages() {
+
+  document
+    .querySelectorAll(".admin-product-card img")
+    .forEach(img => {
+
+      img.loading = "lazy";
+      img.decoding = "async";
+
+    });
+
+}
+
+/*=========================
+مراقبة تحديث المنتجات
+=========================*/
+
+const observer = new MutationObserver(() => {
+
+  optimizeImages();
+
+});
+
+observer.observe(productsContainer, {
+  childList: true,
+  subtree: true
+});
+
+/*=========================
+رسائل التشغيل
+=========================*/
+
+console.log("🖼️ Image Optimization Ready");
+
+console.log("🔥 Firebase Connected");
+
+console.log("🚀 Admin Products Ready");
+
+/*=========================
+إلغاء وضع التعديل
+=========================*/
+
+function cancelEdit() {
+
+  editId = null;
+
+  currentImage = "";
+
+  form.reset();
+
+  if (imageInput) {
+    imageInput.value = "";
+  }
+
+  saveBtn.textContent = "💾 حفظ المنتج";
+
+}
+
+/*=========================
+تنظيف النموذج بعد الحفظ
+=========================*/
+
+function resetAfterSave() {
+
+  cancelEdit();
+
+  nameInput.focus();
+
+}
+
+/*=========================
+زر ESC لإلغاء التعديل
 =========================*/
 
 document.addEventListener("keydown", (e) => {
 
-  if (
-    e.ctrlKey &&
-    e.key.toLowerCase() === "s"
-  ) {
+  if (e.key === "Escape" && editId) {
 
-    e.preventDefault();
+    if (confirm("إلغاء تعديل المنتج؟")) {
 
-    saveProduct();
+      cancelEdit();
+
+    }
 
   }
 
 });
 
 /*=========================
-منع النقر المزدوج
+معالجة الصور المفقودة
 =========================*/
 
-saveBtn.addEventListener("dblclick", (e) => {
+productsContainer.addEventListener("error", (e) => {
 
-  e.preventDefault();
+  if (e.target.tagName === "IMG") {
 
-});
+    e.target.src = "./images/no-image.png";
+
+  }
+
+}, true);
 
 /*=========================
-رسالة التشغيل
+تحديث حالة الزر
 =========================*/
 
-console.log(
-  "✅ Hamza Store Admin V18 Ready"
-);
+function updateSaveButton(edit = false) {
 
-/*=========================
-تهيئة الحقول بعد الحفظ
-=========================*/
-
-function clearForm() {
-
-  editId = null;
-
-  document.getElementById("productForm").reset();
-
-  imageInput.value = "";
+  saveBtn.textContent = edit
+    ? "💾 حفظ التعديل"
+    : "💾 حفظ المنتج";
 
 }
 
+console.log("✅ Edit Mode Ready");
+
+/*==================================
+Hamza Store V19
+Final Initialization
+==================================*/
+
 /*=========================
-إعادة تهيئة بعد النجاح
+إعادة تحميل المنتجات بعد الحفظ
 =========================*/
 
-const originalSaveProduct = saveProduct;
+const oldSaveProduct = saveProduct;
 
 saveProduct = async function () {
 
-  await originalSaveProduct();
+  await oldSaveProduct();
 
-  clearForm();
+  resetAfterSave();
+
+  await loadProducts();
 
 };
 
 /*=========================
-التأكد من اتصال Firebase
+التركيز على أول حقل
 =========================*/
 
-try {
+window.addEventListener("load", () => {
 
-  console.log("🔥 Firebase Connected");
+  nameInput.focus();
 
-} catch (err) {
-
-  console.error("Firebase Error:", err);
-
-}
+});
 
 /*=========================
-انتهاء تحميل لوحة الإدارة
+فحص العناصر الأساسية
 =========================*/
 
-console.log("🚀 Admin Products Ready");
+const requiredElements = [
+  form,
+  nameInput,
+  priceInput,
+  categoryInput,
+  saveBtn,
+  productsContainer
+];
+
+requiredElements.forEach((el) => {
+
+  if (!el) {
+    console.error("❌ عنصر مفقود في الصفحة");
+  }
+
+});
+
+/*=========================
+تشغيل أول مرة
+=========================*/
+
+(async () => {
+
+  try {
+
+    await loadProducts();
+
+    console.log("✅ تم تحميل المنتجات");
+
+  } catch (err) {
+
+    console.error(err);
+
+    alert("❌ تعذر تحميل المنتجات");
+
+  }
+
+})();
+
+/*=========================
+الإصدار
+=========================*/
+
+console.log("🏪 Hamza Store V19");
+console.log("☁️ Cloudflare R2 Ready");
+console.log("🔥 Firestore Ready");
+console.log("✅ Admin Products Loaded Successfully");
