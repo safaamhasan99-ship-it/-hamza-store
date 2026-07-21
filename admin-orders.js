@@ -82,13 +82,16 @@ function formatPrice(price) {
 تحميل الطلبات مباشرة
 =========================*/
 
-onSnapshot(ordersQuery, (snapshot) => {
+onSnapshot(
+    ordersQuery,
 
-    table.innerHTML = "";
+    (snapshot) => {
 
-    let totalOrders = 0;
-    let newOrders = 0;
-    let totalSales = 0;
+        alert("عدد الطلبات: " + snapshot.size);
+
+        table.innerHTML = "";
+
+        let totalOrders = 0;
 
     if (snapshot.empty) {
 
