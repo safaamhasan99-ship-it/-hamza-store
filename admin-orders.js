@@ -250,27 +250,29 @@ onSnapshot(ordersQuery, (snapshot) => {
     totalSalesEl.textContent =
         formatPrice(totalSales);
 
-   if (lastCount !== 0 && totalOrders > lastCount) {
+ snapshot.docChanges().forEach((change) => {
 
-    if (notifySound) {
+    if (change.type === "added") {
 
-        notifySound.pause();
-        notifySound.currentTime = 0;
+        if (lastCount > 0) {
 
-        notifySound.play()
-            .then(() => console.log("✅ تم تشغيل الصوت"))
-            .catch(err => console.error("❌ فشل تشغيل الصوت:", err));
+            if (notifySound) {
+                notifySound.pause();
+                notifySound.currentTime = 0;
+
+                notifySound.play().catch((err) => {
+                    console.error("❌ فشل تشغيل الصوت:", err);
+                });
+            }
+
+            alert("🔔 تم استلام طلب جديد");
+        }
 
     }
 
-    alert("🔔 تم استلام طلب جديد");
-}
+});
 
-lastCount = totalOrders; 
-
-    
-
-    lastCount = totalOrders;
+lastCount = snapshot.size;  
 
 }, (error) => {
 
