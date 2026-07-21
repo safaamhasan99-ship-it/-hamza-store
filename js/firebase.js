@@ -1,13 +1,13 @@
 /*==================================
-Hamza Store V16
+Hamza Store V17
 Firebase Config
 ==================================*/
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-import { getFirestore }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcaOIwNodH5IESCShyYQkpHBFiywzIi-4",
@@ -21,6 +21,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+// Firestore
 export const db = getFirestore(app);
 
+// Firebase Authentication
+export const auth = getAuth(app);
+
+// Export App
 export default app;
