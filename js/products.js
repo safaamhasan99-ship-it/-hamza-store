@@ -148,14 +148,12 @@ console.log(
         <div class="product-image">
 
             <img
-                src="${safeImage(product.image)}"
-                alt="${product.name || ''}"
-                loading="lazy"
-                decoding="async"
-                referrerpolicy="no-referrer"
-                crossorigin="anonymous"
-                onerror="this.src='./IMG_5661.jpeg'"
-            >
+    src="${safeImage(product.image)}"
+    alt="${product.name || ''}"
+    loading="lazy"
+    decoding="async"
+    onerror="this.src='./IMG_5661.jpeg'"
+>
 
             ${product.offer ? '<span class="product-badge">عرض</span>' : ''}
 
