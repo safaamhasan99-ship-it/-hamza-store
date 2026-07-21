@@ -260,9 +260,14 @@ onSnapshot(ordersQuery, (snapshot) => {
                 notifySound.pause();
                 notifySound.currentTime = 0;
 
-                notifySound.play().catch((err) => {
-                    console.error("❌ فشل تشغيل الصوت:", err);
-                });
+               notifySound.load();
+
+setTimeout(() => {
+    notifySound.currentTime = 0;
+    notifySound.play().catch((err) => {
+        console.error(err);
+    });
+}, 300); 
             }
 
             alert("🔔 تم استلام طلب جديد");
