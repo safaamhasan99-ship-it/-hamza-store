@@ -284,15 +284,37 @@ function filterProducts(){
     }
 
     // فلترة من القائمة المنسدلة
-    if(categoryFilter && categoryFilter.value){
 
-        list = list.filter(product =>
+    if (categoryFilter && categoryFilter.value) {
 
-            (product.category || "").trim() === categoryFilter.value.trim()
+    const selected = categoryFilter.value.trim().toLowerCase();
 
-        );
+    list = list.filter(product => {
 
-    }
+        const cat = (product.category || "").trim().toLowerCase();
+
+        switch (selected) {
+
+            case "men":
+                return ["men", "رجالي", "الرجال", "قسم رجالي", "القسم الرجالي"].includes(cat);
+
+            case "women":
+                return ["women", "نسائي", "النسائي", "قسم نسائي", "القسم النسائي"].includes(cat);
+
+            case "girls":
+                return ["girls", "بناتي", "البناتي", "قسم بناتي", "القسم البناتي"].includes(cat);
+
+            case "boys":
+                return ["boys", "ولادي", "الولادي", "قسم ولادي", "القسم الولادي"].includes(cat);
+
+            default:
+                return cat === selected;
+
+        }
+
+    });
+
+}
 
     // الترتيب
     if(sortProducts){
