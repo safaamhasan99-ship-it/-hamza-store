@@ -171,7 +171,18 @@ const p = doc.data();
 
 const category = (p.category || "").trim().toLowerCase();
 
-if (category !== "men") {
+// اعرض فقط المنتجات التي تنتمي للقسم الرجالي
+if (!validCategories.includes(category)) {
+    return;
+}
+
+// استبعد أي منتج بناتي تم حفظه بالخطأ
+const name = (p.name || "").toLowerCase();
+
+if (
+    name.includes("بناتي") ||
+    name.includes("صدرية")
+) {
     return;
 }
 
