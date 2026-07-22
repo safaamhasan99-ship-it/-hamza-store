@@ -165,6 +165,8 @@ snap.forEach(doc => {
 
 const p = doc.data();
 
+console.log(doc.id, p.name, p.category);
+  
 const category = (p.category || "").trim().toLowerCase();
 
 if (!validCategories.includes(category)) {
