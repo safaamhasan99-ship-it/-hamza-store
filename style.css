@@ -3251,7 +3251,7 @@ Hamza Store V14 Clean CSS
     justify-content:center;
 
     overflow:hidden;
-    background:#fff;
+    background:transparent;
     border-radius:18px;
     flex-shrink:0;
 }
