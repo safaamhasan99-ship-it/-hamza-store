@@ -30,42 +30,39 @@ DARK MODE
 
 function initDarkMode(){
 
-const mode = localStorage.getItem("theme");
+    // تطبيق الوضع الليلي المحفوظ
+    const mode = localStorage.getItem("theme");
 
-if(mode === "dark"){
-    document.body.classList.add("dark");
-}
+    if(mode === "dark"){
+        document.body.classList.add("dark");
+    }
 
-const btn = document.getElementById("darkBtn");
+    // إذا لم يوجد زر، نكتفي بتطبيق الوضع الليلي
+    const btn = document.getElementById("darkBtn");
 
-if(!btn) return;
+    if(!btn) return;
 
-const mode=localStorage.getItem("theme");
+    // تحديث أيقونة الزر
+    btn.innerHTML = document.body.classList.contains("dark")
+        ? '<i class="fa-solid fa-sun"></i>'
+        : '<i class="fa-solid fa-moon"></i>';
 
-if(mode==="dark"){
+    // تبديل الوضع الليلي
+    btn.onclick = ()=>{
 
-document.body.classList.add("dark");
+        document.body.classList.toggle("dark");
 
-btn.innerHTML='<i class="fa-solid fa-sun"></i>';
+        const dark = document.body.classList.contains("dark");
 
-}
+        localStorage.setItem("theme", dark ? "dark" : "light");
 
-btn.onclick=()=>{
+        btn.innerHTML = dark
+            ? '<i class="fa-solid fa-sun"></i>'
+            : '<i class="fa-solid fa-moon"></i>';
 
-document.body.classList.toggle("dark");
-
-const dark=document.body.classList.contains("dark");
-
-localStorage.setItem("theme",dark?"dark":"light");
-
-btn.innerHTML=dark
-?'<i class="fa-solid fa-sun"></i>'
-:'<i class="fa-solid fa-moon"></i>';
-
-};
+    };
 
 }
-
 
 
 /*========================
