@@ -30,7 +30,13 @@ DARK MODE
 
 function initDarkMode(){
 
-const btn=document.getElementById("darkBtn");
+const mode = localStorage.getItem("theme");
+
+if(mode === "dark"){
+    document.body.classList.add("dark");
+}
+
+const btn = document.getElementById("darkBtn");
 
 if(!btn) return;
 
