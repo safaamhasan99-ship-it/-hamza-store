@@ -3242,11 +3242,10 @@ Hamza Store V14 Clean CSS
     margin-top:12px;
 }
 
-/* تكبير صورة المنتج في السلة بشكل مستطيل */
 .cart-image{
-    width:260px !important;
-    height:170px !important;
-    min-width:260px !important;
+    width:220px !important;
+    height:220px !important;
+    min-width:200px !important;
 
     display:flex;
     align-items:center;
