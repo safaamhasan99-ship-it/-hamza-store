@@ -1092,8 +1092,7 @@ height:250px;
 
 overflow:hidden;
 
-background:#fff;
-
+background: linear-gradient(135deg, #F4D03F, #C9A227);
 }
 
 .product-image img{
