@@ -3242,10 +3242,19 @@ Hamza Store V14 Clean CSS
     margin-top:12px;
 }
 
-/* تكبير صورة المنتج في السلة */
+/* تكبير صورة المنتج في السلة بشكل مستطيل */
 .cart-image{
-    width:220px !important;
-    height:220px !important;
+    width:260px !important;
+    height:170px !important;
+    min-width:260px !important;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+    background:#fff;
+    border-radius:18px;
     flex-shrink:0;
 }
 
@@ -3253,5 +3262,5 @@ Hamza Store V14 Clean CSS
     width:100% !important;
     height:100% !important;
     object-fit:cover;
-    border-radius:16px;
+    border-radius:18px;
 }
