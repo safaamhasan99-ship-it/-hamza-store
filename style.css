@@ -3244,8 +3244,8 @@ Hamza Store V14 Clean CSS
 
 /* تكبير صورة المنتج في السلة */
 .cart-image{
-    width:170px !important;
-    height:170px !important;
+    width:220px !important;
+    height:220px !important;
     flex-shrink:0;
 }
 
