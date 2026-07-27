@@ -1,6 +1,6 @@
-{"name": "مجمع حمزه الشطري",
-"short_name": "مجمع حمزه الشطري",
-  "n
+{
+  "name": "مجمع حمزه الشطري",
+  "short_name": "مجمع حمزه الشطري",
   "description": "بيع الملابس بالجملة لجميع محافظات العراق",
   "start_url": "./",
   "scope": "./",
@@ -8,16 +8,20 @@
   "background_color": "#111827",
   "theme_color": "#111827",
   "orientation": "portrait",
+  "lang": "ar",
+  "dir": "rtl",
   "icons": [
     {
       "src": "./947160ED-DE3C-4813-BC2C-015F5EF9FBED.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "./947160ED-DE3C-4813-BC2C-015F5EF9FBED.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
