@@ -12,7 +12,8 @@
 content="مجمع حمزه الشطري - أحدث موديلات الملابس بالجملة">
 
 <meta name="theme-color" content="#111827">
-
+<link rel="manifest" href="manifest.json">
+    
 <link rel="icon" type="image/png" href="./947160ED-DE3C-4813-BC2C-015F5EF9FBED.png">
 <link rel="apple-touch-icon" href="./947160ED-DE3C-4813-BC2C-015F5EF9FBED.png">
     
@@ -640,5 +641,13 @@ SCRIPTS
 <script type="module" src="./js/main.js"></script>
 <script type="module" src="./js/products.js"></script>
 
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js");
+  });
+}
+</script>
+    
 </body>
 </html>
