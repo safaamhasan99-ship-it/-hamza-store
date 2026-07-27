@@ -1,0 +1,23 @@
+{
+  "name": "مجمع حمزه الشطري",
+  "short_name": "حمزه ستور",
+  "description": "بيع الملابس بالجملة لجميع محافظات العراق",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#111827",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./947160ED-DE3C-4813-BC2C-015F5EF9FBED.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./947160ED-DE3C-4813-BC2C-015F5EF9FBED.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
