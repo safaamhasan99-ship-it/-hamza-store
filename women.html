@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>القسم النسائي | مجمع حمزه الشطري</title>
@@ -13,32 +12,31 @@
 
 <link rel="icon" href="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
 
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-<link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-<div id="loader">
+<!-- Loader -->
 
-<div class="loader-box">
+<div id="loader" class="loader">
 
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+<div class="spinner"></div>
 
-<h2>مجمع حمزه الشطري</h2>
-
-<div class="loader-spinner"></div>
-
-<p>جاري تحميل القسم...</p>
+<p>جاري تحميل القسم النسائي...</p>
 
 </div>
 
-</div>
+<!-- Header -->
 
 <header class="main-header">
     <div class="container header-container">
@@ -49,7 +47,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
         <a href="index.html" class="logo">
             <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
-                 alt="Logo"
+                 alt="مجمع حمزه الشطري"
                  style="width:40px;height:40px;border-radius:50%;">
             <span>مجمع حمزه الشطري</span>
         </a>
@@ -70,24 +68,49 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     </div>
 </header>
 
-<section class="search-box">
+<!-- عنوان الصفحة -->
 
-<input
-id="searchInput"
-type="text"
-placeholder="ابحث داخل القسم النسائي...">
+<section class="page-title">
 
-<i class="fa-solid fa-magnifying-glass"></i>
+<div class="container">
+
+<h1>
+
+<i class="fa-solid fa-person-dress"></i>
+
+القسم النسائي
+
+</h1>
+
+<p>
+
+جميع موديلات القسم النسائي متوفرة بالجملة
+
+</p>
+
+</div>
 
 </section>
 
-<section class="products-home">
+<!-- البحث -->
 
-<h2 class="title">
+<section class="search-section">
 
-👗 القسم النسائي
+<div class="container">
 
-</h2>
+<input
+type="search"
+id="searchInput"
+placeholder="ابحث عن منتج..."
+autocomplete="off">
+
+</div>
+
+</section>
+
+<!-- المنتجات -->
+
+<main class="container">
 
 <div id="productsGrid" class="products-grid">
 
@@ -99,95 +122,7 @@ placeholder="ابحث داخل القسم النسائي...">
 
 </div>
 
-</section>
-<!-- واتساب ثابت -->
-
-<a class="whatsapp"
-href="https://wa.me/9647813555538"
-target="_blank">
-
-<i class="fa-brands fa-whatsapp"></i>
-
-</a>
-
-<!-- القائمة السفلية -->
-
-<nav class="bottom-nav">
-
-<a href="index.html">
-<i class="fa-solid fa-house"></i>
-<span>الرئيسية</span>
-</a>
-
-<a href="products.html">
-<i class="fa-solid fa-shop"></i>
-<span>المنتجات</span>
-</a>
-
-<a href="cart.html">
-<i class="fa-solid fa-cart-shopping"></i>
-<span>السلة</span>
-</a>
-
-<a href="favorites.html">
-<i class="fa-solid fa-heart"></i>
-<span>المفضلة</span>
-</a>
-
-<a href="about.html">
-<i class="fa-solid fa-circle-info"></i>
-<span>من نحن</span>
-</a>
-
-</nav>
-
-<!-- الفوتر -->
-
-<footer class="footer">
-
-<div class="footer-box">
-
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png"
-class="footer-logo">
-
-<h3>مجمع حمزه الشطري</h3>
-
-<p>للملابس الجاهزة والجملة</p>
-
-<p>
-
-<i class="fa-solid fa-location-dot"></i>
-
-ذي قار - الشطرة
-
-</p>
-
-<p>
-
-<i class="fa-solid fa-phone"></i>
-
-07813555538
-
-</p>
-
-<p>
-
-<i class="fa-solid fa-truck"></i>
-
-توصيل لجميع محافظات العراق
-
-</p>
-
-<p class="copy">
-
-© 2026 جميع الحقوق محفوظة
-
-</p>
-
-</div>
-
-</footer>
-
+</main>
 <script type="module">
 
 import { db } from "./js/firebase.js";
@@ -195,62 +130,120 @@ import { db } from "./js/firebase.js";
 import {
 collection,
 getDocs
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const grid = document.getElementById("productsGrid");
+const searchInput = document.getElementById("searchInput");
+const darkBtn = document.getElementById("darkBtn");
+const cartCount = document.getElementById("cartCount");
+
+let allProducts = [];
 
 async function loadWomenProducts(){
 
-const grid=document.getElementById("productsGrid");
-
-grid.innerHTML="";
+grid.innerHTML=`
+<div class="loading-products">
+<i class="fa-solid fa-spinner fa-spin"></i>
+<p>جاري تحميل المنتجات...</p>
+</div>`;
 
 const snap=await getDocs(collection(db,"products"));
 
-let found=false;
+allProducts=[];
+
+const validCategories=[
+"women",
+"نسائي",
+"قسم النسائي",
+"القسم النسائي"
+].map(c=>c.toLowerCase());
 
 snap.forEach(doc=>{
 
 const p=doc.data();
 
-const category = (p.category || "").trim().toLowerCase();
+const category=(p.category||"").trim().toLowerCase();
 
-const validCategories = [
-  "women",
-  "نسائي",
-  "قسم النسائي"
-].map(c => c.toLowerCase());
+if(!validCategories.some(c=>category.includes(c))) return;
 
-if (!validCategories.some(c => category.includes(c))) return;
+allProducts.push({
+id:doc.id,
+...p
+});
 
-found=true;
+});
 
-grid.innerHTML += `
+renderProducts(allProducts);
+
+}
+
+function renderProducts(list){
+
+if(!list.length){
+
+grid.innerHTML=`
+<div class="loading-products">
+لا توجد منتجات في القسم النسائي
+</div>`;
+return;
+
+}
+
+grid.innerHTML="";
+
+list.forEach(product=>{
+
+const image=
+product.image||
+product.img||
+product.imageUrl||
+"images/no-image.png";
+
+grid.innerHTML+=`
+
 <div class="product-card">
 
 <div class="product-image">
-<img src="${p.image}" alt="${p.name}">
+
+<img src="${image}"
+alt="${product.name}"
+loading="lazy"
+onerror="this.src='images/no-image.png'">
+
 </div>
 
 <div class="product-info">
 
 <h3 class="product-title">
-${p.name}
+
+${product.name||"بدون اسم"}
+
 </h3>
 
 <div class="product-price">
-${Number(p.price).toLocaleString()} د.ع
+
+${Number(product.price||0).toLocaleString()} د.ع
+
 </div>
 
 <div class="product-actions">
 
-<button class="add-cart"
-onclick="addToCart('${p.name}',${p.price},'${p.image}')">
+<button
+class="add-cart"
+data-id="${product.id}">
+
 <i class="fa-solid fa-cart-shopping"></i>
+
 إضافة للسلة
+
 </button>
 
-<a href="details.html?id=${doc.id}" class="details-btn">
+<a
+href="details.html?id=${product.id}"
+class="details-btn">
+
 عرض التفاصيل
+
 </a>
 
 </div>
@@ -258,31 +251,160 @@ onclick="addToCart('${p.name}',${p.price},'${p.image}')">
 </div>
 
 </div>
+
 `;
 
 });
 
-if(!found){
+}
+    function updateCartCount(){
 
-grid.innerHTML=`
+const cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-<div class="loading-products">
+const total=cart.reduce((sum,item)=>sum+(item.qty||0),0);
 
-لا توجد منتجات في القسم النسائي
-
-</div>
-
-`;
-
+if(cartCount){
+cartCount.textContent=total;
 }
 
 }
 
-loadWomenProducts();
+function addToCart(product){
+
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+
+const index=cart.findIndex(item=>item.id===product.id);
+
+if(index>-1){
+
+cart[index].qty+=1;
+
+}else{
+
+cart.push({
+id:product.id,
+name:product.name,
+price:Number(product.price||0),
+image:product.image||product.img||product.imageUrl||"images/no-image.png",
+qty:1
+});
+
+}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+updateCartCount();
+
+alert("تمت إضافة المنتج إلى السلة");
+
+}
+
+document.addEventListener("click",(e)=>{
+
+const btn=e.target.closest(".add-cart");
+
+if(!btn) return;
+
+const product=allProducts.find(p=>p.id===btn.dataset.id);
+
+if(product){
+
+addToCart(product);
+
+}
+
+});
+
+searchInput.addEventListener("input",()=>{
+
+const text=searchInput.value.trim().toLowerCase();
+
+const filtered=allProducts.filter(product=>
+
+(product.name||"").toLowerCase().includes(text)||
+(product.description||"").toLowerCase().includes(text)||
+(product.colors||"").toLowerCase().includes(text)
+
+);
+
+renderProducts(text?filtered:allProducts);
+
+});
+
+if(localStorage.getItem("theme")==="dark"){
+
+document.body.classList.add("dark-mode");
+
+darkBtn.innerHTML='<i class="fa-solid fa-sun"></i>';
+
+}
+
+darkBtn.addEventListener("click",()=>{
+
+document.body.classList.toggle("dark-mode");
+
+const dark=document.body.classList.contains("dark-mode");
+
+localStorage.setItem("theme",dark?"dark":"light");
+
+darkBtn.innerHTML=dark
+?'<i class="fa-solid fa-sun"></i>'
+:'<i class="fa-solid fa-moon"></i>';
+
+});
+
+window.addEventListener("focus",updateCartCount);
+window.addEventListener("storage",updateCartCount);
+
+document.addEventListener("DOMContentLoaded",async()=>{
+
+updateCartCount();
+
+await loadWomenProducts();
+
+const loader=document.getElementById("loader");
+
+if(loader){
+
+setTimeout(()=>{
+
+loader.style.opacity="0";
+
+setTimeout(()=>loader.remove(),300);
+
+},300);
+
+}
+
+});
 
 </script>
 
-<script type="module" src="script.js"></script>
+<footer class="main-footer">
+
+<div class="container">
+
+<p>
+
+© 2026 مجمع حمزه الشطري - جميع الحقوق محفوظة
+
+</p>
+
+<div class="footer-links">
+
+<a href="index.html">الرئيسية</a>
+
+<a href="offers.html">العروض</a>
+
+<a href="about.html">من نحن</a>
+
+<a href="cart.html">السلة</a>
+
+</div>
+
+</div>
+
+</footer>
 
 </body>
 
