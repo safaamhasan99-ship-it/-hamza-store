@@ -39,26 +39,32 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 <!-- Header -->
 
 <header class="main-header">
+    <div class="container header-container">
 
-<div class="container">
+        <button class="back-header-btn" onclick="history.back()">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
 
-<a href="index.html" class="logo">
+        <a href="index.html" class="logo">
+            <i class="fa-solid fa-store"></i>
+            <span>مجمع حمزه الشطري</span>
+        </a>
 
-<i class="fa-solid fa-store"></i>
+        <div class="header-actions">
 
-<span>مجمع حمزه الشطري</span>
+            <button id="darkBtn" class="icon-btn">
+                <i class="fa-solid fa-moon"></i>
+            </button>
 
-</a>
+            <a href="cart.html" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="cartCount">0</span>
+            </a>
 
-<div class="header-actions">
+        </div>
 
-<button id="darkBtn" class="icon-btn">
-
-<i class="fa-solid fa-moon"></i>
-
-</button>
-
-<a href="cart.html" class="cart-btn">
+    </div>
+</header>
 
 <i class="fa-solid fa-cart-shopping"></i>
 
