@@ -40,27 +40,33 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </div>
 
-<header class="header">
+<header class="main-header">
+    <div class="container header-container">
 
-<div class="logo-box">
+        <button class="back-header-btn" onclick="history.back()">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
 
-<img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png">
+        <a href="index.html" class="logo">
+            <img src="5FBF3B90-553B-424D-A9B1-1BE2F7F9362B.png" alt="Logo" style="width:40px;height:40px;border-radius:50%;">
+            <span>مجمع حمزه الشطري</span>
+        </a>
 
-<div>
+        <div class="header-actions">
 
-<h1>مجمع حمزه الشطري</h1>
+            <button id="darkBtn" class="icon-btn">
+                <i class="fa-solid fa-moon"></i>
+            </button>
 
-<span>القسم النسائي</span>
+            <a href="cart.html" class="cart-btn">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="cartCount">0</span>
+            </a>
 
-</div>
+        </div>
 
-</div>
-
-<div class="header-buttons">
-
-<a href="cart.html" class="cart-btn">
-
-<i class="fa-solid fa-cart-shopping"></i>
+    </div>
+</header>
 
 <span id="cartCount">0</span>
 
