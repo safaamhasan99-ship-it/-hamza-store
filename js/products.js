@@ -241,11 +241,7 @@ list.forEach(product => {
 
     }
 
-    productsContainer.appendChild(card);
-
-});
-
-}
+    
 
 /*========================
 FILTER PRODUCTS
