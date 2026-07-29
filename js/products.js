@@ -231,13 +231,24 @@ function renderProducts(list){
 
     }
 
-    list.forEach(product => {
+list.forEach(product => {
 
-        productsContainer.appendChild(
-            createCard(product)
-        );
+    const card = createCard(product);
 
-    });
+    // إخفاء الصورة في قسم أحدث المنتجات فقط
+    if (productsContainer.id === "latestProducts") {
+
+        const image = card.querySelector(".product-image");
+
+        if (image) {
+            image.remove();
+        }
+
+    }
+
+    productsContainer.appendChild(card);
+
+});
 
 }
 
