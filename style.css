@@ -3324,3 +3324,21 @@ Header جديد
 .dark-mode .main-header{
     background: var(--card);
 }
+
+/* إخفاء صور أحدث المنتجات في الصفحة الرئيسية فقط */
+
+#latestProducts .product-image,
+#latestProducts .product-card img{
+    display: none !important;
+}
+
+/* تقليل ارتفاع الكارت بعد حذف الصورة */
+#latestProducts .product-card{
+    padding-top:15px;
+    min-height:auto;
+}
+
+/* رفع اسم المنتج للأعلى */
+#latestProducts .product-info{
+    padding-top:0;
+}
