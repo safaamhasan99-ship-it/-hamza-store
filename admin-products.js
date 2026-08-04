@@ -649,17 +649,6 @@ Final Initialization
 إعادة تحميل المنتجات بعد الحفظ
 =========================*/
 
-const oldSaveProduct = saveProduct;
-
-saveProduct = async function () {
-
-  await oldSaveProduct();
-
-  resetAfterSave();
-
-  await loadProducts();
-
-};
 
 /*=========================
 التركيز على أول حقل
