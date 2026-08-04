@@ -265,7 +265,10 @@ async function saveProduct() {
 
     console.error(err);
 
-    alert("❌ " + err.message);
+    alert(
+  "Code: " + err.code +
+  "\nMessage: " + err.message
+);
 
   } finally {
 
