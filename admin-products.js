@@ -240,22 +240,30 @@ async function saveProduct() {
 
     if (editId) {
 
-      await updateDoc(
-        doc(db, "products", editId),
-        product
-      );
+  console.log("قبل updateDoc");
 
-      alert("✅ تم تعديل المنتج");
+  await updateDoc(
+    doc(db, "products", editId),
+    product
+  );
 
-    } else {
+  console.log("بعد updateDoc");
 
-      product.createdAt = serverTimestamp();
+  alert("✅ تم تعديل المنتج");
 
-      await addDoc(productsRef, product);
+} else {
 
-      alert("✅ تم إضافة المنتج");
+  product.createdAt = serverTimestamp();
 
-    }
+  console.log("قبل addDoc");
+
+  await addDoc(productsRef, product);
+
+  console.log("بعد addDoc");
+
+  alert("✅ تم إضافة المنتج");
+
+}
 
     clearForm();
 
