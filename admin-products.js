@@ -99,15 +99,22 @@ async function uploadImage(file) {
   try {
 
     const response = await fetch(UPLOAD_API, {
-      method: "POST",
-      body: formData
-    });
+  method: "POST",
+  mode: "cors",
+  body: formData
+});
 
-    if (!response.ok) {
-      throw new Error("فشل الاتصال بخادم رفع الصور");
-    }
+console.log("Status:", response.status);
+console.log("OK:", response.ok);
 
-    const result = await response.json();
+const text = await response.text();
+console.log("Response:", text);
+
+if (!response.ok) {
+  throw new Error(text);
+}
+
+const result = JSON.parse(text);
 
     if (!result.success || !result.url) {
       throw new Error(result.message || "فشل رفع الصورة");
