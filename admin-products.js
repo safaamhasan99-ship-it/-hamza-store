@@ -3,7 +3,7 @@ Hamza Store V19 Professional
 Admin Products
 Cloudflare R2 + Firestore
 ==================================*/
-import { db, auth } from "./js/firebase.js";
+import { db } from "./js/firebase.js";
 
 import {
   collection,
@@ -198,11 +198,7 @@ async function saveProduct() {
   saveBtn.textContent = "⏳ جاري الحفظ...";
 
   try {
-alert(
-  auth.currentUser
-    ? "User: " + auth.currentUser.email
-    : "NO USER"
-);
+
     let imageUrl = currentImage;
 
     if (imageInput.files && imageInput.files.length > 0) {
