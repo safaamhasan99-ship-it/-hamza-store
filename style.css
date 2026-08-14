@@ -3343,52 +3343,84 @@ Header جديد
     padding-top:0;
 }
 
-/*========================
-DETAILS BACK BUTTON
-========================*/
+/*==================================
+DETAILS BACK BUTTON - BIG
+==================================*/
 
 #detailsBackBtn{
-    position:fixed;
-    top:245px;
-    right:15px;
-    z-index:99999;
+    position:fixed !important;
+    top:245px !important;
+    right:15px !important;
+    z-index:999999 !important;
 
-    display:flex;
-    align-items:center;
-    gap:8px;
+    width:auto !important;
+    min-width:105px !important;
+    height:48px !important;
 
-    padding:10px 16px;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:10px !important;
 
-    border:none;
-    border-radius:14px;
+    padding:0 18px !important;
+    margin:0 !important;
 
-    background:#111827;
-    color:#ffffff;
+    background:#111827 !important;
+    color:#ffffff !important;
 
-    font-size:16px;
-    font-weight:700;
+    border:0 !important;
+    border-radius:14px !important;
 
-    cursor:pointer;
+    font-family:inherit !important;
+    font-size:18px !important;
+    font-weight:800 !important;
 
-    box-shadow:0 4px 12px rgba(0,0,0,.20);
+    line-height:1 !important;
+    text-decoration:none !important;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.25) !important;
+
+    cursor:pointer !important;
+}
+
+#detailsBackBtn span{
+    display:inline-block !important;
+    color:#ffffff !important;
+    font-size:18px !important;
+    font-weight:800 !important;
 }
 
 #detailsBackBtn i{
-    font-size:17px;
+    display:inline-block !important;
+    color:#ffffff !important;
+    font-size:20px !important;
 }
 
 #detailsBackBtn:active{
-    transform:scale(.95);
+    transform:scale(.95) !important;
 }
 
 @media(max-width:600px){
 
     #detailsBackBtn{
-        top:245px;
-        right:12px;
-        padding:10px 15px;
-        font-size:15px;
-        border-radius:13px;
+        top:245px !important;
+        right:12px !important;
+
+        min-width:110px !important;
+        height:50px !important;
+
+        padding:0 18px !important;
+
+        font-size:18px !important;
+        border-radius:15px !important;
+    }
+
+    #detailsBackBtn span{
+        font-size:18px !important;
+    }
+
+    #detailsBackBtn i{
+        font-size:21px !important;
     }
 
 }
