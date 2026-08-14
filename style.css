@@ -3342,3 +3342,53 @@ Header جديد
 #latestProducts .product-info{
     padding-top:0;
 }
+
+/*========================
+DETAILS BACK BUTTON
+========================*/
+
+#detailsBackBtn{
+    position:fixed;
+    top:245px;
+    right:15px;
+    z-index:99999;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:10px 16px;
+
+    border:none;
+    border-radius:14px;
+
+    background:#111827;
+    color:#ffffff;
+
+    font-size:16px;
+    font-weight:700;
+
+    cursor:pointer;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.20);
+}
+
+#detailsBackBtn i{
+    font-size:17px;
+}
+
+#detailsBackBtn:active{
+    transform:scale(.95);
+}
+
+@media(max-width:600px){
+
+    #detailsBackBtn{
+        top:245px;
+        right:12px;
+        padding:10px 15px;
+        font-size:15px;
+        border-radius:13px;
+    }
+
+}
