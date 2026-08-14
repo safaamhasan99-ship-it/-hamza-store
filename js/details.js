@@ -50,6 +50,42 @@ document.getElementById("relatedProducts");
 
 const loader =
 document.getElementById("loader");
+/*========================
+BACK BUTTON
+========================*/
+
+function createBackButton(){
+
+    if(document.getElementById("detailsBackBtn")) return;
+
+    const btn=document.createElement("button");
+
+    btn.id="detailsBackBtn";
+
+    btn.type="button";
+
+    btn.innerHTML=`
+        <i class="fa-solid fa-arrow-right"></i>
+        <span>رجوع</span>
+    `;
+
+    btn.onclick=()=>{
+
+        if(window.history.length > 1){
+
+            window.history.back();
+
+        }else{
+
+            window.location.href="index.html";
+
+        }
+
+    };
+
+    document.body.prepend(btn);
+
+}
 
 /*========================
 START
@@ -58,7 +94,7 @@ START
 document.addEventListener("DOMContentLoaded", init);
 
 async function init(){
-
+createBackButton();
     updateCartCount();
 
     if(!productId){
